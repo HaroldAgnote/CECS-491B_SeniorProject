@@ -40,6 +40,33 @@ public class GameManager : MonoBehaviour
         units[col, row] = newUnit;
     }
 
+    public List<Vector2Int> MovesForUnit(GameObject unitObject) {
+        Unit unit = unitObject.GetComponent<Unit>();
+        var gridPoint = GridForUnit(unitObject);
+        var moveLocations = unit.GetMoveLocations(gridPoint);
+        return moveLocations;
+    }
+
+    public Vector2Int GridForUnit(GameObject unit) {
+        for (int row = 0; row < boardScript.rows; row++) {
+            for (int col = 0; col < boardScript.columns; col++) {
+                if (units[row, col] == unit) {
+                    return new Vector2Int(row, col);
+                }
+            }
+        }
+
+        return new Vector2Int(-1, -1);
+    }
+
+    public GameObject UnitAtGrid(Vector3 gridpoint) {
+        try {
+            return units[(int) gridpoint.x, (int) gridpoint.y];
+        } catch {
+            return null;
+        }
+    }
+
     // Update is called once per frame
     void Update() {
     }

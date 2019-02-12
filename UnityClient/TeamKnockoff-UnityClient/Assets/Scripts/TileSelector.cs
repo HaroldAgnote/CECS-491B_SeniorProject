@@ -25,15 +25,11 @@ public class TileSelector : MonoBehaviour
 
             tileHighlight.SetActive(true);
             tileHighlight.transform.position = point;
-            /*
             if (Input.GetMouseButtonDown(0)) {
-                GameObject selectedPiece = GameManager.instance.PieceAtGrid(gridPoint);
-                if (GameManager.instance.DoesPieceBelongToCurrentPlayer(selectedPiece)) {
-                    GameManager.instance.SelectPiece(selectedPiece);
-                    // Reference Point 1: add ExitState call here later
-                    ExitState(selectedPiece);
-                }
-            }*/
+                GameObject selectedPiece = GameManager.instance.UnitAtGrid(point);
+                // Reference Point 1: add ExitState call here later
+                ExitState(selectedPiece);
+            }
         } else {
             tileHighlight.SetActive(false);
         }
@@ -43,10 +39,10 @@ public class TileSelector : MonoBehaviour
         enabled = true;
     }
 
-    private void ExitState(GameObject movingPiece) {
+    private void ExitState(GameObject movingUnit) {
         this.enabled = false;
         tileHighlight.SetActive(false);
         MoveSelector move = GetComponent<MoveSelector>();
-        // move.EnterState(movingPiece);
+        move.EnterState(movingUnit);
     }
 }

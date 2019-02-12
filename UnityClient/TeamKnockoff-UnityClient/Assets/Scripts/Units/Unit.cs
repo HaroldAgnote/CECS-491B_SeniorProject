@@ -12,6 +12,8 @@ public abstract class Unit : MonoBehaviour
 
     public string Name { get; set; }
 
-    public abstract List<Vector2Int> MoveLocations(Vector2Int gridPoint);
-    public abstract List<Vector2Int> AttackLocations(Vector2Int gridPoint);
+    public List<Vector2Int> MoveLocations { get; set; }
+
+    public abstract List<Vector2Int> GetMoveLocations(Vector2Int gridPoint);
+    public abstract List<Vector2Int> GetAttackLocations(Vector2Int gridPoint);
 }
