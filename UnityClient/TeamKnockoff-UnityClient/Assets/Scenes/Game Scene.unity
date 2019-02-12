@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e9fce560d470a4499d7c7d693cd7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileHighlightPrefab: {fileID: 285483458665471256, guid: bd3c588b675df5843a2678c7250444f9,
+  tileHighlightPrefab: {fileID: 285483458665471256, guid: 21b55aec27d9dff41a4c908050845ef5,
     type: 3}
 --- !u!114 &1099256418
 MonoBehaviour:
