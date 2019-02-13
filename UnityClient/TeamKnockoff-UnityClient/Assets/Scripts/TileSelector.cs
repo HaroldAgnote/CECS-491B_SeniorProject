@@ -30,7 +30,10 @@ public class TileSelector : MonoBehaviour
                 GameObject selectedPiece = GameManager.instance.UnitAtGrid(point);
                 // Reference Point 1: add ExitState call here later
                 if (selectedPiece != null) {
-                    ExitState(selectedPiece);
+                    // Select a unit only if it belongs to the player and it hasn't moved
+                    if (GameManager.instance.DoesUnitBelongToCurrentPlayer(selectedPiece) && !GameManager.instance.UnitHasMoved(selectedPiece)) {
+                        ExitState(selectedPiece);
+                    }
                 }
             }
         } else {

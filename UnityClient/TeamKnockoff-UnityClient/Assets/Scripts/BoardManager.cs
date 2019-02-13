@@ -43,6 +43,8 @@ public class BoardManager : MonoBehaviour
 
             }
         }
+
+        // After all tiles have been created, go through entire board to set neighbors
         for (int x = 0; x < columns; x++) {
             for (int y = 0; y < rows; y++) {
                 var currentTile = GameManager.instance.tiles[x, y];
@@ -75,13 +77,8 @@ public class BoardManager : MonoBehaviour
 
     public void MoveUnit(GameObject unit, Vector2Int gridPoint) {
         var newPos = new Vector3(gridPoint.x, gridPoint.y, 0f);
+
+        // TODO: Animate smoother movement
         unit.transform.position = newPos;
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

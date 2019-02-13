@@ -7,10 +7,17 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public BoardManager boardScript;
 
-    public GameObject sampleUnit;
+    public GameObject sampleUnitOne;
+    public GameObject sampleUnitTwo;
 
     public GameObject[,] units;
     public Tile[,] tiles;
+
+    Player playerOne;
+    Player playerTwo;
+
+    Player currentPlayer;
+    Player otherPlayer;
 
     private void Awake() {
         //Check if instance already exists
@@ -28,17 +35,41 @@ public class GameManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
+        // Initialize unit and tile 2D Arrays
         units = new GameObject[boardScript.columns, boardScript.rows];
         tiles = new Tile[boardScript.columns, boardScript.rows];
+        
+        // Initialize Players
+        playerOne = new Player("Player One");
+        playerTwo = new Player("Player Two");
+
+        // Set Current Player to Player One
+        currentPlayer = playerOne;
+        otherPlayer = playerTwo;
+
         InitialSetup();
     }
 
     void InitialSetup() {
-        AddUnit(sampleUnit, 10, 10);
+        // TODO: Figure out how to import Units and add them using the inspector
+        //       rather than hard coding them in
+
+        // Add Sample Units
+        AddUnit(sampleUnitOne, playerOne, 10, 10);
+        AddUnit(sampleUnitOne, playerOne, 11, 10);
+        AddUnit(sampleUnitOne, playerOne, 12, 10);
+
+        AddUnit(sampleUnitTwo, playerTwo, 16, 16);
+        AddUnit(sampleUnitTwo, playerTwo, 17, 16);
+        AddUnit(sampleUnitTwo, playerTwo, 16, 18);
+
+        // Start Current Player's Turn
+        currentPlayer.StartTurn();
     }
 
-    void AddUnit(GameObject unitPrefab, int col, int row) {
+    void AddUnit(GameObject unitPrefab, Player player, int col, int row) {
         GameObject newUnit = boardScript.AddUnit(unitPrefab, col, row);
+        player.AddUnit(newUnit);
         units[col, row] = newUnit;
     }
 
@@ -80,10 +111,26 @@ public class GameManager : MonoBehaviour
         units[startGridPoint.x, startGridPoint.y] = null;
         units[gridPoint.x, gridPoint.y] = unit;
         boardScript.MoveUnit(unit, gridPoint);
+        currentPlayer.MarkUnitAsMoved(unit);
     }
 
+    public bool UnitHasMoved(GameObject unit) {
+        return currentPlayer.CheckUnitHasMoved(unit);
+    }
 
-    // Update is called once per frame
-    void Update() {
+    public bool DoesUnitBelongToCurrentPlayer(GameObject unit) {
+        return currentPlayer.units.Contains(unit);
+    }
+
+    public bool CheckIfCurrentPlayerHasNoMoves() {
+        return !currentPlayer.hasMoved.Contains(false);
+    }
+
+    public void NextPlayer() {
+        Player tempPlayer = currentPlayer;
+        currentPlayer = otherPlayer;
+        otherPlayer = tempPlayer;
+
+        currentPlayer.StartTurn();
     }
 }

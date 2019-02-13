@@ -36,6 +36,8 @@ public class MoveSelector : MonoBehaviour {
                     ExitState();
                 } else {
                     Vector2Int movedPoint = new Vector2Int((int)point.x, (int)point.y);
+
+                    // TODO: Need to manage moving versus attacking
                     GameManager.instance.Move(movingUnit, movedPoint);
                     ExitState();
                 }
@@ -69,6 +71,9 @@ public class MoveSelector : MonoBehaviour {
             highlight = Instantiate(moveLocationPrefab, point, Quaternion.identity, gameObject.transform);
             locationHighlights.Add(highlight);
         }
+
+        // TODO: Need to get attackLocations and highlight them
+
     }
 
     private void ExitState() {
@@ -76,7 +81,14 @@ public class MoveSelector : MonoBehaviour {
         TileSelector selector = GetComponent<TileSelector>();
         tileHighlight.SetActive(false);
         movingUnit = null;
+
+        // If Player has no more moves, change turns
+        if (GameManager.instance.CheckIfCurrentPlayerHasNoMoves()) {
+            GameManager.instance.NextPlayer();
+        }
         selector.EnterState();
+
+        // Destroy all highlighters
         foreach (GameObject highlight in locationHighlights) {
             Destroy(highlight);
         }
