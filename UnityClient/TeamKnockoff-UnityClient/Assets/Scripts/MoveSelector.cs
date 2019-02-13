@@ -31,10 +31,14 @@ public class MoveSelector : MonoBehaviour {
             tileHighlight.SetActive(true);
             tileHighlight.transform.position = point;
             if (Input.GetMouseButtonDown(0)) {
-
                 // TODO: Implement movement here
-                
-                ExitState();
+                if (!moveLocations.Contains(new Vector2Int((int) point.x, (int) point.y))) {
+                    ExitState();
+                } else {
+                    Vector2Int movedPoint = new Vector2Int((int)point.x, (int)point.y);
+                    GameManager.instance.Move(movingUnit, movedPoint);
+                    ExitState();
+                }
             }
         } else {
             tileHighlight.SetActive(false);
@@ -58,10 +62,6 @@ public class MoveSelector : MonoBehaviour {
 
         moveLocations = GameManager.instance.MovesForUnit(movingUnit);
         locationHighlights = new List<GameObject>();
-
-        if (moveLocations.Count == 0) {
-            CancelMove();
-        }
 
         foreach (Vector2Int loc in moveLocations) {
             GameObject highlight;

@@ -13,7 +13,8 @@ public class BoardManager : MonoBehaviour
 
     private Transform boardHolder;
 
-    private void Awake() {
+    // Start is called before the first frame update
+    private void Start() {
         //Instantiate Board and set boardHolder to its transform.
         boardHolder = gameObject.transform;
         boardHolder.position.Set(0, 0, 0);
@@ -25,7 +26,13 @@ public class BoardManager : MonoBehaviour
             for (int y = 0; y < rows; y++) {
                 GameObject toInstantiate = floor;
 
+                // TODO: Need to instantiate correct Tile
+                var newTile = new GrassTile(x, y);
+
+                GameManager.instance.AddTile(newTile);
+
                 Vector3 newPos = new Vector3(x, y, 0f);
+
                 boardPositions.Add(newPos);
 
                 //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
@@ -36,6 +43,28 @@ public class BoardManager : MonoBehaviour
 
             }
         }
+        for (int x = 0; x < columns; x++) {
+            for (int y = 0; y < rows; y++) {
+                var currentTile = GameManager.instance.tiles[x, y];
+                AddNeighbors(currentTile, x, y);
+            }
+        }
+    }
+
+    public void AddNeighbors(Tile newTile, int x, int y) {
+        try {
+            GameManager.instance.tiles[x - 1, y].Neighbors.Add(newTile);
+        } catch { }
+        try {
+            GameManager.instance.tiles[x + 1, y].Neighbors.Add(newTile);
+        } catch { }
+
+        try {
+            GameManager.instance.tiles[x, y - 1].Neighbors.Add(newTile);
+        } catch { }
+        try {
+            GameManager.instance.tiles[x, y + 1].Neighbors.Add(newTile);
+        } catch { }
     }
 
     public GameObject AddUnit(GameObject unitPrefab, int col, int row) {
@@ -44,10 +73,11 @@ public class BoardManager : MonoBehaviour
         return newUnit;
     }
 
-    // Start is called before the first frame update
-    void Start() {
-        
+    public void MoveUnit(GameObject unit, Vector2Int gridPoint) {
+        var newPos = new Vector3(gridPoint.x, gridPoint.y, 0f);
+        unit.transform.position = newPos;
     }
+
 
     // Update is called once per frame
     void Update()

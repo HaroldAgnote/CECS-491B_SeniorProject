@@ -243,6 +243,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dec7bc31e4b60d449a3eb9a06fec9e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveLocationPrefab: {fileID: 285483458665471256, guid: bd3c588b675df5843a2678c7250444f9,
+    type: 3}
+  tileHighlightPrefab: {fileID: 285483458665471256, guid: 21b55aec27d9dff41a4c908050845ef5,
+    type: 3}
+  attackLocationPrefab: {fileID: 285483458665471256, guid: 73725ccf363e8904fb611cf211a932cc,
+    type: 3}
 --- !u!114 &1099256417
 MonoBehaviour:
   m_ObjectHideFlags: 0

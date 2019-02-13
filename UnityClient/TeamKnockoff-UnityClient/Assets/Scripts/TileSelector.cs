@@ -25,10 +25,13 @@ public class TileSelector : MonoBehaviour
 
             tileHighlight.SetActive(true);
             tileHighlight.transform.position = point;
+
             if (Input.GetMouseButtonDown(0)) {
                 GameObject selectedPiece = GameManager.instance.UnitAtGrid(point);
                 // Reference Point 1: add ExitState call here later
-                ExitState(selectedPiece);
+                if (selectedPiece != null) {
+                    ExitState(selectedPiece);
+                }
             }
         } else {
             tileHighlight.SetActive(false);
