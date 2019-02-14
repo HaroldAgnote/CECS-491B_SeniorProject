@@ -84,6 +84,13 @@ public class GameManager : MonoBehaviour
         return moveLocations;
     }
 
+    public List<Vector2Int> AttacksForUnit(GameObject unitObject) {
+        Unit unit = unitObject.GetComponent<Unit>();
+        var gridPoint = GridForUnit(unitObject);
+        var attackLocations = unit.GetAttackLocations(gridPoint);
+        return attackLocations;
+    }
+
     public Vector2Int GridForUnit(GameObject unit) {
         for (int col = 0; col < boardScript.columns; col++) {
             for (int row = 0; row < boardScript.rows; row++) {

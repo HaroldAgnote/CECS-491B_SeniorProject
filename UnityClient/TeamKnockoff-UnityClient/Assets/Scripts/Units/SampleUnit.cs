@@ -11,7 +11,7 @@ namespace Assets.Scripts.Units {
             Name = "Sample Unit";
             HealthPoints = 100;
             MoveRange = 5;
-            AttackRange = 1;
+            MainWeapon = new Weapon();
         }
 
     }

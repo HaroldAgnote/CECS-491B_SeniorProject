@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,9 @@ public class MoveSelector : MonoBehaviour {
     private GameObject tileHighlight;
     private GameObject movingUnit;
     private List<Vector2Int> moveLocations;
-    private List<GameObject> locationHighlights;
+    private List<Vector2Int> attackLocations;
+    private List<GameObject> moveLocationHighlights;
+    private List<GameObject> attackLocationHighlights;
 
     void Start() {
         this.enabled = false;
@@ -50,7 +53,7 @@ public class MoveSelector : MonoBehaviour {
     private void CancelMove() {
         this.enabled = false;
 
-        foreach (GameObject highlight in locationHighlights) {
+        foreach (GameObject highlight in moveLocationHighlights) {
             Destroy(highlight);
         }
 
@@ -63,17 +66,28 @@ public class MoveSelector : MonoBehaviour {
         this.enabled = true;
 
         moveLocations = GameManager.instance.MovesForUnit(movingUnit);
-        locationHighlights = new List<GameObject>();
+        moveLocationHighlights = new List<GameObject>();
 
         foreach (Vector2Int loc in moveLocations) {
             GameObject highlight;
             var point = new Vector3Int(loc.x, loc.y, 0);
             highlight = Instantiate(moveLocationPrefab, point, Quaternion.identity, gameObject.transform);
-            locationHighlights.Add(highlight);
+            moveLocationHighlights.Add(highlight);
         }
 
         // TODO: Need to get attackLocations and highlight them
+        attackLocations = GameManager.instance.AttacksForUnit(movingUnit);
+        attackLocationHighlights = new List<GameObject>();
 
+        // TODO: Don't filter out locations where there is a unit
+        var filteredAttackLocations = attackLocations.Where(x => !moveLocations.Contains(x));
+
+        foreach (Vector2Int loc in filteredAttackLocations) {
+            GameObject highlight;
+            var point = new Vector3Int(loc.x, loc.y, 0);
+            highlight = Instantiate(attackLocationPrefab, point, Quaternion.identity, gameObject.transform);
+            attackLocationHighlights.Add(highlight);
+        }
     }
 
     private void ExitState() {
@@ -89,7 +103,11 @@ public class MoveSelector : MonoBehaviour {
         selector.EnterState();
 
         // Destroy all highlighters
-        foreach (GameObject highlight in locationHighlights) {
+        foreach (GameObject highlight in moveLocationHighlights) {
+            Destroy(highlight);
+        }
+
+        foreach (GameObject highlight in attackLocationHighlights) {
             Destroy(highlight);
         }
     }
