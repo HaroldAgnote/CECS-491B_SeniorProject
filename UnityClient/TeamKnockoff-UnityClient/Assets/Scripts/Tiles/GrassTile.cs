@@ -6,10 +6,7 @@ public class GrassTile : Tile
 {
     const int GRASS_TILE_MOVE_COST = 1;
 
-    public GrassTile(int xPos, int yPos) {
-        XPosition = xPos;
-        YPosition = yPos;
+    public GrassTile(int xPos, int yPos) : base(xPos, yPos) {
         MoveCost = GRASS_TILE_MOVE_COST;
-        Neighbors = new List<Tile>();
     }
 }

@@ -11,8 +11,19 @@ namespace Assets.Scripts.Units {
             Name = "Sample Unit";
             HealthPoints = 100;
             MoveRange = 5;
+            Mover = new SampleUnitMover();
             MainWeapon = new Weapon();
         }
+    }
 
+    public class SampleUnitMover : IMover {
+        public SampleUnitMover() { }
+
+        public bool CanMove(Tile tile) {
+            if (tile.TileType != Tile.BoardTileType.Boundary) {
+                return true;
+            }
+            return false;
+        }
     }
 }

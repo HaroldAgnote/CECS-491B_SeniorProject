@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Units;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -55,13 +56,13 @@ public class GameManager : MonoBehaviour
         //       rather than hard coding them in
 
         // Add Sample Units
-        AddUnit(sampleUnitOne, playerOne, 10, 10);
-        AddUnit(sampleUnitOne, playerOne, 11, 10);
-        AddUnit(sampleUnitOne, playerOne, 12, 10);
+        AddUnit(sampleUnitOne, playerOne, 10, 20);
+        AddUnit(sampleUnitOne, playerOne, 11, 20);
+        AddUnit(sampleUnitOne, playerOne, 12, 20);
 
-        AddUnit(sampleUnitTwo, playerTwo, 16, 16);
-        AddUnit(sampleUnitTwo, playerTwo, 17, 16);
-        AddUnit(sampleUnitTwo, playerTwo, 16, 18);
+        AddUnit(sampleUnitTwo, playerTwo, 16, 48);
+        AddUnit(sampleUnitTwo, playerTwo, 17, 48);
+        AddUnit(sampleUnitTwo, playerTwo, 18, 48);
 
         // Start Current Player's Turn
         currentPlayer.StartTurn();

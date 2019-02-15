@@ -276,6 +276,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 5792941911847296195, guid: 3a6eeaec03cdf2648a817cf225edd5f3, type: 3}
+  wall: {fileID: 5792941911847296195, guid: 62babed4d408e934abd124988f633c49, type: 3}
+  swamp: {fileID: 5792941911847296195, guid: 60806c0c6e32d5a47b2a6393e693a7dc, type: 3}
   rows: 64
   columns: 64
 --- !u!4 &1099256419

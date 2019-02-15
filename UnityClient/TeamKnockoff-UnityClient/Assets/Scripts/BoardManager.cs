@@ -5,6 +5,9 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     public GameObject floor;
+    public GameObject wall;
+    public GameObject swamp;
+
     public int rows = 8;
     public int columns = 8;
 
@@ -27,20 +30,49 @@ public class BoardManager : MonoBehaviour
                 GameObject toInstantiate = floor;
 
                 // TODO: Need to instantiate correct Tile
-                var newTile = new GrassTile(x, y);
+                if (x != 17 && (x >= 15 && x <= 20) && ( y >= 30 && y <= 40)) {
+                    var newTile = new Tile(x, y, Tile.BoardTileType.Boundary);
 
-                GameManager.instance.AddTile(newTile);
+                    GameManager.instance.AddTile(newTile);
 
-                Vector3 newPos = new Vector3(x, y, 0f);
+                    Vector3 newPos = new Vector3(x, y, 0f);
 
-                boardPositions.Add(newPos);
+                    boardPositions.Add(newPos);
 
-                //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
-                GameObject instance = Instantiate(floor, newPos, Quaternion.identity) as GameObject;
+                    //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
+                    GameObject instance = Instantiate(wall, newPos, Quaternion.identity) as GameObject;
 
-                //Set the parent of our newly instantiated object instance to boardHolder, this is just organizational to avoid cluttering hierarchy.
-                instance.transform.SetParent(boardHolder);
+                    //Set the parent of our newly instantiated object instance to boardHolder, this is just organizational to avoid cluttering hierarchy.
+                    instance.transform.SetParent(boardHolder);
+                } else if (x > 10 && x < 20 && y > 10 && y < 20) {
+                    var newTile = new Tile(x, y, 3, Tile.BoardTileType.Normal);
 
+                    GameManager.instance.AddTile(newTile);
+
+                    Vector3 newPos = new Vector3(x, y, 0f);
+
+                    boardPositions.Add(newPos);
+
+                    //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
+                    GameObject instance = Instantiate(swamp, newPos, Quaternion.identity) as GameObject;
+
+                    //Set the parent of our newly instantiated object instance to boardHolder, this is just organizational to avoid cluttering hierarchy.
+                    instance.transform.SetParent(boardHolder);
+                } else {
+                    var newTile = new Tile(x, y);
+
+                    GameManager.instance.AddTile(newTile);
+
+                    Vector3 newPos = new Vector3(x, y, 0f);
+
+                    boardPositions.Add(newPos);
+
+                    //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
+                    GameObject instance = Instantiate(floor, newPos, Quaternion.identity) as GameObject;
+
+                    //Set the parent of our newly instantiated object instance to boardHolder, this is just organizational to avoid cluttering hierarchy.
+                    instance.transform.SetParent(boardHolder);
+                }
             }
         }
 
