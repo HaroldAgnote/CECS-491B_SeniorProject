@@ -44,6 +44,9 @@ TagManager:
   - name: Floor
     uniqueID: 113253671
     locked: 0
+  - name: Land Units
+    uniqueID: 1860401071
+    locked: 0
   - name: Obstacles
     uniqueID: 1234120995
     locked: 0
@@ -52,7 +55,4 @@ TagManager:
     locked: 0
   - name: Highlighters
     uniqueID: 1062918091
-    locked: 0
-  - name: Units
-    uniqueID: 1860401071
     locked: 0

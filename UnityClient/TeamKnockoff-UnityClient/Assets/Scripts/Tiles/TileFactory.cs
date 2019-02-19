@@ -26,10 +26,9 @@ public class TileFactory : MonoBehaviour
     public Tile CreateTile(TileData tileData, Transform parent) {
         var tilePos = new Vector3(tileData.Column, tileData.Row, 0f);
 
-        Tile newTile = null;
+        Tile newTile = new Tile(tileData.Column, tileData.Row);
 
         if (tileData.FloorData.Length > 0) {
-            newTile = new Tile(tileData.Column, tileData.Row);
             GameObject instance = Instantiate(normalTilePrefab, tilePos, Quaternion.identity, parent) as GameObject;
 
             sprites = GetSprites(tileData.FloorData);

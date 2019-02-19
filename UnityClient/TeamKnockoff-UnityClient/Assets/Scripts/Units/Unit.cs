@@ -32,7 +32,7 @@ namespace Assets.Scripts.Units {
                 var moveLocations = new List<Vector2Int>();
                 int rows = GameManager.instance.boardScript.rows;
                 int columns = GameManager.instance.boardScript.columns;
-                int[,] distance = new int[rows, columns];
+                int[,] distance = new int[columns, rows];
                 for (int col = 0; col < columns; col++) {
                     for (int row = 0; row < rows; row++) {
                         distance[col, row] = Int32.MaxValue;
@@ -75,7 +75,7 @@ namespace Assets.Scripts.Units {
                 var moveLocations = new List<Vector2Int>();
                 int rows = GameManager.instance.boardScript.rows;
                 int columns = GameManager.instance.boardScript.columns;
-                int[,] distance = new int[rows, columns];
+                int[,] distance = new int[columns, rows];
                 for (int col = 0; col < columns; col++) {
                     for (int row = 0; row < rows; row++) {
                         distance[col, row] = Int32.MaxValue;
