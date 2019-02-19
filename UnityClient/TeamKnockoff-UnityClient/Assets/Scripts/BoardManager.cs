@@ -29,6 +29,16 @@ public class BoardManager : MonoBehaviour
             for (int y = 0; y < rows; y++) {
                 GameObject toInstantiate = floor;
 
+                var newTileObject = new GameObject("New Tile");
+                newTileObject.AddComponent<SpriteRenderer>(); 
+                newTileObject.AddComponent<BoxCollider2D>();
+
+                var newTileSpriteRenderer = newTileObject.GetComponent<SpriteRenderer>();
+                // TODO: Figure out how to set correct sprite  
+                // newTileSpriteRenderer.sprite = 
+
+                newTileSpriteRenderer.sortingLayerName = "Floor";
+
                 // TODO: Need to instantiate correct Tile
                 if (x != 17 && (x >= 15 && x <= 20) && ( y >= 30 && y <= 40)) {
                     var newTile = new Tile(x, y, Tile.BoardTileType.Boundary);

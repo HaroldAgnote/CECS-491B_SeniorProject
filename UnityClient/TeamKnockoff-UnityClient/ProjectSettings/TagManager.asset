@@ -44,6 +44,12 @@ TagManager:
   - name: Floor
     uniqueID: 113253671
     locked: 0
+  - name: Obstacles
+    uniqueID: 1234120995
+    locked: 0
+  - name: Walls
+    uniqueID: 2757591289
+    locked: 0
   - name: Highlighters
     uniqueID: 1062918091
     locked: 0
