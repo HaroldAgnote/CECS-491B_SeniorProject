@@ -30,6 +30,7 @@ public class MapGenerator : MonoBehaviour
             Debug.Log("Bounds match!");
         } else {
             Debug.Log("Bounds do not match!");
+            return;
         }
 
         string path = $"Assets/Maps/{mapName}.txt";
@@ -53,13 +54,15 @@ public class MapGenerator : MonoBehaviour
                     WallData = wallTile ? wallTile.name : "",
                 };
 
-                if (floorTile == null) { 
+                if (floorTile == null && wallTile == null) { 
                     Debug.Log("col:" + x + " row:" + y + " tile: (null)");
                     rowOffset++;
                     y--;
                     continue;
                 } else {
-                    Debug.Log("col:" + x + " row:" + y + " floor tile:" + floorTile.name);
+                    if (floorTile != null) {
+                        Debug.Log("col:" + x + " row:" + y + " floor tile:" + floorTile.name);
+                    }
                     if (obstacleTile != null) {
                         Debug.Log("col:" + x + " row:" + y + " obstacle tile:" + obstacleTile.name);
                     }

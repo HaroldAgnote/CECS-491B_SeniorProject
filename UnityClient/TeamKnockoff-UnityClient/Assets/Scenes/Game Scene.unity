@@ -211,6 +211,56 @@ MonoBehaviour:
   speed: 5
   minMaxXPosition: {x: 0, y: 8}
   minMaxYPosition: {x: 0, y: 8}
+--- !u!1 &859168760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 859168761}
+  - component: {fileID: 859168762}
+  m_Layer: 0
+  m_Name: TileFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &859168761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859168760}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.3994274, y: -0.4871612, z: -0.06009428}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &859168762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859168760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 025a3a93b4c9ff4418c3f65125a2d630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalTilePrefab: {fileID: 1656947760461106869, guid: ea238a2f157b8d24d93a3530d1ce4ec4,
+    type: 3}
+  obstacleTilePrefab: {fileID: 3234384491356526080, guid: 8168e28d95132174f80bb3a28d1aab4e,
+    type: 3}
+  wallTilePrefab: {fileID: 3954138702692462317, guid: e21f0cb57507ac744b52f3e1a8a4af2a,
+    type: 3}
+  swampTexture: {fileID: 2800000, guid: 7e7cb2579d30ad944a6d59234aaf210c, type: 3}
 --- !u!1 &1099256415
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,11 +325,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c256428a5613e8f429d9825545aa2f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 5792941911847296195, guid: 3a6eeaec03cdf2648a817cf225edd5f3, type: 3}
-  wall: {fileID: 5792941911847296195, guid: 62babed4d408e934abd124988f633c49, type: 3}
-  swamp: {fileID: 5792941911847296195, guid: 60806c0c6e32d5a47b2a6393e693a7dc, type: 3}
-  rows: 64
   columns: 64
+  rows: 64
+  tileFactory: {fileID: 859168762}
+  mapData: {fileID: 4900000, guid: af1ab0eabb862904699ccd3d3e44cb96, type: 3}
 --- !u!4 &1099256419
 Transform:
   m_ObjectHideFlags: 0
@@ -370,7 +419,7 @@ PrefabInstance:
     - target: {fileID: 7271799550891913855, guid: b4c9ec1d2788da34da913398e7998353,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7271799550891913855, guid: b4c9ec1d2788da34da913398e7998353,
         type: 3}

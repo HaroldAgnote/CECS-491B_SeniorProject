@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public GameObject floor;
-    public GameObject wall;
-    public GameObject swamp;
+    public int columns;
+    public int rows;
 
-    public int rows = 8;
-    public int columns = 8;
+    public TileFactory tileFactory;
 
-    [HideInInspector]
-    List<Vector3> boardPositions;
+    public TextAsset mapData;
 
     private Transform boardHolder;
 
@@ -21,8 +18,18 @@ public class BoardManager : MonoBehaviour
         //Instantiate Board and set boardHolder to its transform.
         boardHolder = gameObject.transform;
         boardHolder.position.Set(0, 0, 0);
-        boardPositions = new List<Vector3>();
 
+        var tileData = JsonUtility.FromJson<TileDataWrapper>(mapData.text);
+
+        columns = tileData.Columns;
+        rows = tileData.Rows;
+
+        foreach(var tile in tileData.tileData) {
+            var newTile = tileFactory.CreateTile(tile, boardHolder);
+            GameManager.instance.AddTile(newTile);
+        }
+
+        /*
         //Loop along x axis, starting from -1 (to fill corner) with floor or outerwall edge tiles.
         for (int x = 0; x < columns; x++) {
             //Loop along y axis, starting from -1 to place floor or outerwall tiles.
@@ -85,6 +92,7 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
+        */
 
         // After all tiles have been created, go through entire board to set neighbors
         for (int x = 0; x < columns; x++) {
