@@ -306,7 +306,7 @@ MonoBehaviour:
     type: 3}
   wallTilePrefab: {fileID: 3954138702692462317, guid: e21f0cb57507ac744b52f3e1a8a4af2a,
     type: 3}
-  swampTexture: {fileID: 2800000, guid: 7e7cb2579d30ad944a6d59234aaf210c, type: 3}
+  swampTexture: {fileID: 2800000, guid: aad73f4c2056ec445a465cf772ee842d, type: 3}
 --- !u!1 &1099256415
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   rows: 64
   tileFactory: {fileID: 859168762}
   unitFactory: {fileID: 209633688}
-  mapData: {fileID: 4900000, guid: a970459e8088e994d9c621588581ec38, type: 3}
+  mapData: {fileID: 4900000, guid: 027b883a72e7922499a802d262235e16, type: 3}
 --- !u!4 &1099256419
 Transform:
   m_ObjectHideFlags: 0
@@ -506,6 +506,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6827402922400584704, guid: f05b3cf792481aa4ea861d199037cd06,
         type: 3}
-    m_RemovedComponents:
-    - {fileID: 7271799550891913853, guid: b4c9ec1d2788da34da913398e7998353, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4c9ec1d2788da34da913398e7998353, type: 3}
