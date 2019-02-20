@@ -2393,8 +2393,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "LandUnits_1"
         },
         {
             "Column": 8,
@@ -2969,8 +2969,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "LandUnits_1"
         },
         {
             "Column": 10,
@@ -3275,8 +3275,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "LandUnits_2"
         },
         {
             "Column": 11,
@@ -3554,8 +3554,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "LandUnits_1"
         },
         {
             "Column": 12,
@@ -3725,8 +3725,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 12,
@@ -3833,8 +3833,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "LandUnits_1"
         },
         {
             "Column": 13,
@@ -3995,8 +3995,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 13,
@@ -4004,8 +4004,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 13,
@@ -4283,8 +4283,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 14,
@@ -4562,8 +4562,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 15,
@@ -4580,8 +4580,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 15,
@@ -4697,8 +4697,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "LandUnits_1"
         },
         {
             "Column": 16,
@@ -4850,8 +4850,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_2"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 16,

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Units;
 using UnityEngine;
 
@@ -7,9 +8,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public BoardManager boardScript;
-
-    public GameObject sampleUnitOne;
-    public GameObject sampleUnitTwo;
 
     public GameObject[,] units;
     public Tile[,] tiles;
