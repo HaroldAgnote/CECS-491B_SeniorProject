@@ -3500,8 +3500,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "LandUnits_2"
         },
         {
             "Column": 12,
@@ -4076,8 +4076,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "LandUnits_2"
         },
         {
             "Column": 14,
@@ -4850,8 +4850,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "LandUnits_2"
         },
         {
             "Column": 16,
