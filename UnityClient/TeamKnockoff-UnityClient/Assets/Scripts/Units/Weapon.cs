@@ -5,13 +5,16 @@ using UnityEngine;
 public class Weapon
 {
     public string Name { get; set; }
-    public int Might;
-    public int Range;
-    public int Hit;
-    public int CritRate;
+    public int Might { get; set; }
+    public int Range { get; set; }
+    public int Hit { get; set; }
+    public int CritRate { get; set; }
 
-    public Weapon() {
+    public Weapon(int m, int r, int h, int c) {
         // TODO: Change how this is initialized
-        Range = 1;
+        Might = m;
+        Range = r;
+        Hit = h;
+        CritRate = c;
     }
 }

@@ -42,6 +42,11 @@ public class MoveSelector : MonoBehaviour {
 
                     // TODO: Need to manage moving versus attacking
                     GameManager.instance.Move(movingUnit, movedPoint);
+                    //maybe make GameManager.instance.Attack();
+                    //what should I pass in? That's my take on that.
+                    //make Dmg Calc class that returns number
+                    //within Attack() call in the Dmg Calc. Pass in Atkr and Defr
+                    //reason for Dmg Calc class, this allows a preview (in FE).
                     ExitState();
                 }
             }
