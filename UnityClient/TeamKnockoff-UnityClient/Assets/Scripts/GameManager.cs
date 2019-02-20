@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Units;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,14 +9,11 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public BoardManager boardScript;
 
-    public GameObject sampleUnitOne;
-    public GameObject sampleUnitTwo;
-
     public GameObject[,] units;
     public Tile[,] tiles;
 
-    Player playerOne;
-    Player playerTwo;
+    public Player playerOne;
+    public Player playerTwo;
 
     Player currentPlayer;
     Player otherPlayer;
@@ -54,21 +53,11 @@ public class GameManager : MonoBehaviour
         // TODO: Figure out how to import Units and add them using the inspector
         //       rather than hard coding them in
 
-        // Add Sample Units
-        AddUnit(sampleUnitOne, playerOne, 10, 10);
-        AddUnit(sampleUnitOne, playerOne, 11, 10);
-        AddUnit(sampleUnitOne, playerOne, 12, 10);
-
-        AddUnit(sampleUnitTwo, playerTwo, 16, 16);
-        AddUnit(sampleUnitTwo, playerTwo, 17, 16);
-        AddUnit(sampleUnitTwo, playerTwo, 16, 18);
-
         // Start Current Player's Turn
         currentPlayer.StartTurn();
     }
 
-    void AddUnit(GameObject unitPrefab, Player player, int col, int row) {
-        GameObject newUnit = boardScript.AddUnit(unitPrefab, col, row);
+    public void AddUnit(GameObject newUnit, Player player, int col, int row) {
         player.AddUnit(newUnit);
         units[col, row] = newUnit;
     }

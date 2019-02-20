@@ -9,9 +9,14 @@ public class MenuLoader : MonoBehaviour
     const int SINGLEPLAYER_MENU_INDEX = 1;
     const int CAMPAIGN_MENU_INDEX = 2;
     const int MULTIPLAYER_MENU_INDEX = 3;
+    const int GAME_INDEX = 4;
 
     public void GoToMenu(int menuIndex) {
         SceneManager.LoadScene(menuIndex);
+    }
+
+    public void GoToGame() {
+        GoToMenu(GAME_INDEX);
     }
 
     public void GoToMainMenu() {
