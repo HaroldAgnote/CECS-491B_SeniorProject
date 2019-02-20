@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     public GameObject[,] units;
     public Tile[,] tiles;
 
-    Player playerOne;
-    Player playerTwo;
+    public Player playerOne;
+    public Player playerTwo;
 
     Player currentPlayer;
     Player otherPlayer;
@@ -55,16 +55,11 @@ public class GameManager : MonoBehaviour
         // TODO: Figure out how to import Units and add them using the inspector
         //       rather than hard coding them in
 
-        // Add Sample Units
-        AddUnit(sampleUnitOne, playerOne, 10, 10);
-        AddUnit(sampleUnitTwo, playerTwo, 12, 12);
-
         // Start Current Player's Turn
         currentPlayer.StartTurn();
     }
 
-    void AddUnit(GameObject unitPrefab, Player player, int col, int row) {
-        GameObject newUnit = boardScript.AddUnit(unitPrefab, col, row);
+    public void AddUnit(GameObject newUnit, Player player, int col, int row) {
         player.AddUnit(newUnit);
         units[col, row] = newUnit;
     }

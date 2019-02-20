@@ -11,8 +11,9 @@ public class Tile
 
         // TODO: Need to split obstacle tiles to more categories (e.g. trees, water, etc)
         Obstacle, // Tiles with some object, but can be traversed by some units
-        Damage, // Deal 10 dmg at the beginning of each turn
-        Fortify, // Heal at the beginning of each turn and increase evasion rate
+
+        Damage, // Deal dmg at the beginning of each turn
+        Fortify, // Heal HP at the beginning of each turn and increase evasion rate
         Boundary // Impassable tiles
     }
 

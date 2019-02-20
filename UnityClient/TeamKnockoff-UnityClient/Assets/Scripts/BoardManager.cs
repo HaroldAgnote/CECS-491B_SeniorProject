@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Units;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class BoardManager : MonoBehaviour
     public int rows;
 
     public TileFactory tileFactory;
+    public UnitFactory unitFactory;
 
     public TextAsset mapData;
 
@@ -27,6 +29,17 @@ public class BoardManager : MonoBehaviour
         foreach(var tile in tileData.tileData) {
             var newTile = tileFactory.CreateTile(tile, boardHolder);
             GameManager.instance.AddTile(newTile);
+
+            if (tile.Player != 0) {
+                var newUnit = unitFactory.CreateUnit(tile);
+
+                // TODO: Revise this to accomodate for more players
+                if (tile.Player == 1) {
+                    GameManager.instance.AddUnit(newUnit, GameManager.instance.playerOne, tile.Column, tile.Row);
+                } else if (tile.Player == 2) {
+                    GameManager.instance.AddUnit(newUnit, GameManager.instance.playerTwo, tile.Column, tile.Row);
+                }
+            }
         }
 
         // After all tiles have been created, go through entire board to set neighbors
@@ -52,12 +65,6 @@ public class BoardManager : MonoBehaviour
         try {
             GameManager.instance.tiles[x, y + 1].Neighbors.Add(newTile);
         } catch { }
-    }
-
-    public GameObject AddUnit(GameObject unitPrefab, int col, int row) {
-        Vector3 gridPoint = new Vector3(col, row, 0f);
-        GameObject newUnit = Instantiate(unitPrefab, gridPoint, Quaternion.identity) as GameObject;
-        return newUnit;
     }
 
     public void MoveUnit(GameObject unit, Vector2Int gridPoint) {

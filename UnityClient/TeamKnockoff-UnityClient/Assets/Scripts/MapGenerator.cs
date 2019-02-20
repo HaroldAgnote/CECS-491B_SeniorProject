@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
@@ -12,6 +13,8 @@ public class MapGenerator : MonoBehaviour
     public Tilemap floor;
     public Tilemap obstacle;
     public Tilemap wall;
+
+    public List<Tilemap> playerTilemaps;
 
     // Start is called before the first frame update
     void Start()
@@ -26,14 +29,16 @@ public class MapGenerator : MonoBehaviour
         var wallTiles = wall.GetTilesBlock(wallBounds);
 
         Debug.Log($"floorBounds: {floorBounds}, obstacleBounds: {obstacleBounds}, wallBounds: {wallBounds}");
-        if (floorBounds == obstacleBounds && obstacleBounds == wallBounds) {
+        if (floorBounds == obstacleBounds && obstacleBounds == wallBounds && playerTilemaps.TrueForAll(x => x.cellBounds == floorBounds)) {
             Debug.Log("Bounds match!");
         } else {
             Debug.Log("Bounds do not match!");
             return;
         }
 
-        string path = $"Assets/Maps/{mapName}.txt";
+        var allPlayerTiles = playerTilemaps.Select(x => x.GetTilesBlock(floorBounds)).ToList();
+
+        string path = $"Assets/Resources/Maps/{mapName}.txt";
         var writer = new StreamWriter(path, false);
 
         var tileData = new List<TileData>();
@@ -45,6 +50,14 @@ public class MapGenerator : MonoBehaviour
                 TileBase floorTile = floorTiles[x + y * floorBounds.size.x];
                 TileBase obstacleTile = obstacleTiles[x + y * obstacleBounds.size.x];
                 TileBase wallTile = wallTiles[x + y * wallBounds.size.x];
+                TileBase playerTile = null;
+                int player = 0;
+
+                var foundTileBase = allPlayerTiles.SingleOrDefault(tileBase => tileBase[x + y * floorBounds.size.x] != null);
+                if (foundTileBase != null) {
+                    playerTile = foundTileBase[x + y * wallBounds.size.x];
+                    player = allPlayerTiles.IndexOf(foundTileBase) + 1;
+                }
 
                 var newTileData = new TileData() {
                     Column = x,
@@ -52,6 +65,8 @@ public class MapGenerator : MonoBehaviour
                     FloorData = floorTile ? floorTile.name : "",
                     ObstacleData = obstacleTile ? obstacleTile.name : "",
                     WallData = wallTile ? wallTile.name : "",
+                    Player = player,
+                    UnitData = playerTile ? playerTile.name : "",
                 };
 
                 if (floorTile == null && wallTile == null) { 

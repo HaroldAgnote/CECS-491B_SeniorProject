@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TileFactory : MonoBehaviour
 {
-    const string RESOURCE_PATH = "Textures/";
+    const string RESOURCE_PATH = "Textures/Tiles/";
 
     public GameObject normalTilePrefab;
     public GameObject obstacleTilePrefab;
