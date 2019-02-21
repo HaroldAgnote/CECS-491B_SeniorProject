@@ -21,12 +21,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/Multiplayer Menu.unity
     guid: 5889cc944a1573040bba94e21a6b0cba
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Scenes/Game Scenes/Game Scene.unity
     guid: e38cea2a1e9aff2448ecf20ff78d7b97
+=======
+    path: Assets/Scenes/Game Scene.unity
+    guid: 3a99a18e34aad764494371dc2b6b7016
   - enabled: 1
-    path: Assets/Scenes/Menus/Practice Menu.unity
+    path: Assets/Scenes/Practice Menu.unity
     guid: 80e7b2bc273b4b64d82dc5daeae427ed
   - enabled: 1
-    path: Assets/Scenes/Menus/Settings Menu.unity
+    path: Assets/Scenes/Settings Menu.unity
     guid: 53b66fc7c64db584fba86109a197f990
+>>>>>>> origin/complex_move_logic
   m_configObjects: {}
