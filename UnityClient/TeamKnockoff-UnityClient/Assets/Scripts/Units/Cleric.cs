@@ -19,7 +19,7 @@ namespace Assets.Scripts.Units {
         const int INITIAL_SKILL = 1;
 
         const int INITIAL_LUCK = 1;
-        const int MOVEMENT_RANGE = 5;
+        const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Cleric";
 

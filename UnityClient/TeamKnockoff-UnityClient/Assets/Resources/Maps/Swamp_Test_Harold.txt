@@ -2051,8 +2051,8 @@
             "FloorData": "Swamp_Tiles_51",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 1,
-            "UnitData": "LandUnits_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 7,
@@ -2060,8 +2060,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 1,
-            "UnitData": "LandUnits_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 7,
@@ -2349,7 +2349,7 @@
             "ObstacleData": "",
             "WallData": "",
             "Player": 1,
-            "UnitData": "LandUnits_0"
+            "UnitData": "PegasusKnights_0"
         },
         {
             "Column": 8,
@@ -2357,8 +2357,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Cavaliers_0"
         },
         {
             "Column": 8,
@@ -2393,8 +2393,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 8,
@@ -2627,8 +2627,8 @@
             "FloorData": "Swamp_Tiles_51",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 1,
-            "UnitData": "LandUnits_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 9,
@@ -2636,8 +2636,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Mages_0"
         },
         {
             "Column": 9,
@@ -2753,8 +2753,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "PegasusKnights_1"
         },
         {
             "Column": 9,
@@ -2915,8 +2915,8 @@
             "FloorData": "Swamp_Tiles_51",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 1,
-            "UnitData": "LandUnits_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 10,
@@ -2924,8 +2924,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 1,
-            "UnitData": "LandUnits_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 10,
@@ -2933,8 +2933,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Thieves_0"
         },
         {
             "Column": 10,
@@ -2969,8 +2969,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 10,
@@ -3041,8 +3041,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "PegasusKnights_1"
         },
         {
             "Column": 10,
@@ -3050,8 +3050,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Archers_1"
         },
         {
             "Column": 10,
@@ -3203,8 +3203,8 @@
             "FloorData": "Swamp_Tiles_51",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Clerics_0"
         },
         {
             "Column": 11,
@@ -3212,8 +3212,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Archers_0"
         },
         {
             "Column": 11,
@@ -3275,8 +3275,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_2"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 11,
@@ -3311,8 +3311,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Thieves_1"
         },
         {
             "Column": 11,
@@ -3338,8 +3338,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Archers_1"
         },
         {
             "Column": 11,
@@ -3501,7 +3501,7 @@
             "ObstacleData": "",
             "WallData": "",
             "Player": 1,
-            "UnitData": "LandUnits_2"
+            "UnitData": "Archers_0"
         },
         {
             "Column": 12,
@@ -3509,8 +3509,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Knights_0"
         },
         {
             "Column": 12,
@@ -3554,8 +3554,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 12,
@@ -3599,8 +3599,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Thieves_1"
         },
         {
             "Column": 12,
@@ -3617,8 +3617,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Knights_1"
         },
         {
             "Column": 12,
@@ -3626,8 +3626,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Archers_1"
         },
         {
             "Column": 12,
@@ -3635,8 +3635,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Clerics_1"
         },
         {
             "Column": 12,
@@ -3788,8 +3788,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Archers_0"
         },
         {
             "Column": 13,
@@ -3797,8 +3797,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Knights_0"
         },
         {
             "Column": 13,
@@ -3833,8 +3833,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 13,
@@ -3887,8 +3887,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Thieves_1"
         },
         {
             "Column": 13,
@@ -3914,8 +3914,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Mages_1"
         },
         {
             "Column": 13,
@@ -3923,8 +3923,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Clerics_1"
         },
         {
             "Column": 13,
@@ -4067,8 +4067,8 @@
             "FloorData": "Swamp_Tiles_51",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Clerics_0"
         },
         {
             "Column": 14,
@@ -4076,8 +4076,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 1,
-            "UnitData": "LandUnits_2"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 14,
@@ -4085,8 +4085,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Thieves_0"
         },
         {
             "Column": 14,
@@ -4175,8 +4175,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Thieves_1"
         },
         {
             "Column": 14,
@@ -4202,8 +4202,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Mages_1"
         },
         {
             "Column": 14,
@@ -4472,8 +4472,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Cavaliers_1"
         },
         {
             "Column": 15,
@@ -4481,8 +4481,8 @@
             "FloorData": "Swamp_Tiles_56",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Cavaliers_1"
         },
         {
             "Column": 15,
@@ -4652,8 +4652,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Mages_0"
         },
         {
             "Column": 16,
@@ -4697,8 +4697,8 @@
             "FloorData": "Swamp_Tiles_74",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 2,
-            "UnitData": "LandUnits_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 16,
@@ -4940,8 +4940,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "PegasusKnights_0"
         },
         {
             "Column": 17,
@@ -4949,8 +4949,8 @@
             "FloorData": "Swamp_Tiles_42",
             "ObstacleData": "",
             "WallData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "Cavaliers_0"
         },
         {
             "Column": 17,

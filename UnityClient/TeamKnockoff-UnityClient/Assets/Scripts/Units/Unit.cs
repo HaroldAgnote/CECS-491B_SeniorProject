@@ -105,6 +105,9 @@ namespace Assets.Scripts.Units {
                 }
             }
 
+            // Temporary
+            MainWeapon = new Weapon();
+
             distance[gridPoint.x, gridPoint.y] = 0;
             var tileQueue = new Queue<Tile>();
             var rootTile = GameManager.instance.tiles[gridPoint.x, gridPoint.y];

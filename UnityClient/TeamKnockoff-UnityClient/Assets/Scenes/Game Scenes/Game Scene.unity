@@ -146,13 +146,13 @@ MonoBehaviour:
   flyingUnitPrefab: {fileID: 6827402922400584704, guid: f05b3cf792481aa4ea861d199037cd06,
     type: 3}
   landUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
-  thiefUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
-  archerUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
-  mageUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
-  clericUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
-  knightUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
-  cavalierUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
-  pegasusKnightUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6,
+  thiefUnitTexture: {fileID: 2800000, guid: a907b4ec076c7dc428c97d807ddfc1fb, type: 3}
+  archerUnitTexture: {fileID: 2800000, guid: f3bbbf3410e06204ca4e2ee4dbc46b04, type: 3}
+  mageUnitTexture: {fileID: 2800000, guid: 88b5f11067a361b4f88a067de325dc57, type: 3}
+  clericUnitTexture: {fileID: 2800000, guid: 7aab6263584d56c47a8c0993b4d4b0ab, type: 3}
+  knightUnitTexture: {fileID: 2800000, guid: 23f69b2e23c68e244880925d8cacced6, type: 3}
+  cavalierUnitTexture: {fileID: 2800000, guid: 9c96f243b8c171e43a494873436bc037, type: 3}
+  pegasusKnightUnitTexture: {fileID: 2800000, guid: ecc67bd9a78812e46ba237a53d2caa90,
     type: 3}
 --- !u!4 &209633689
 Transform:
