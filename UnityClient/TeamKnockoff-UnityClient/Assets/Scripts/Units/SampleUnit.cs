@@ -22,6 +22,8 @@ namespace Assets.Scripts.Units {
             MaxHealthPoints = 100;
             MoveRange = 5;
             MainWeapon = new Weapon();
+            Mover = new SampleUnitMover();
+            MainWeapon = new Weapon(5, 1, 100, 0);
         }
 
         public override bool CanMove(Tile tile) {

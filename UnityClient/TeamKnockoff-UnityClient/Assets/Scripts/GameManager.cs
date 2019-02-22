@@ -129,4 +129,20 @@ public class GameManager : MonoBehaviour
 
         currentPlayer.StartTurn();
     }
+
+    public void Attack(GameObject unit, Vector2Int gridPoint)
+    {
+        Unit attacker = unit.GetComponent<Unit>();
+        Unit defender = UnitAtGrid(new Vector3(gridPoint.x, gridPoint.y, 0f)).GetComponent<Unit>();
+        Debug.Log("atk.Weapon: " + attacker.MainWeapon.Might);
+        Debug.Log("attacker Str: " + attacker.Strength);
+        Debug.Log("Defender HP: " + defender.HealthPoints);
+        Debug.Log("Defender Def: " + defender.Defense);
+        defender.HealthPoints -= DamageCalculator.GetDamage(attacker, defender);
+        currentPlayer.MarkUnitAsMoved(unit);
+        Debug.Log("Defender HP: " + defender.HealthPoints);
+
+        //print more stuff to make sure
+        //destroy unit when dead
+    }
 }
