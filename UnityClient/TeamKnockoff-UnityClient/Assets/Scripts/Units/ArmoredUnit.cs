@@ -1,17 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Units {
-    public class SampleUnit : Unit, IMover {
-        public SampleUnit() {
-            Name = "Sample Unit";
-            MaxHealthPoints = 100;
-            MoveRange = 5;
-            MainWeapon = new Weapon();
+    public abstract class ArmoredUnit : Unit {
+
+        const string UNIT_TYPE = "Armored";
+
+        public ArmoredUnit() {
+            Type = ArmoredUnit.UNIT_TYPE;
         }
 
         public override bool CanMove(Tile tile) {
@@ -26,7 +24,7 @@ namespace Assets.Scripts.Units {
                 case Tile.BoardTileType.Deep:
                     return false;
                 case Tile.BoardTileType.Mountain:
-                    return true;
+                    return false;
                 case Tile.BoardTileType.Obstacle:
                     return false;
                 case Tile.BoardTileType.Damage:
@@ -41,7 +39,21 @@ namespace Assets.Scripts.Units {
         }
 
         public override int MoveCost(Tile tile) {
-            return 1;
+            var tileType = tile.TileType;
+            switch (tileType) {
+                case Tile.BoardTileType.Normal:
+                    return 1;
+                case Tile.BoardTileType.Tree:
+                    return 2;
+                case Tile.BoardTileType.Shallow:
+                    return 2;
+                case Tile.BoardTileType.Damage:
+                    return 1;
+                case Tile.BoardTileType.Fortify:
+                    return 1;
+                default:
+                    return Int32.MaxValue;
+            }
         }
     }
 }

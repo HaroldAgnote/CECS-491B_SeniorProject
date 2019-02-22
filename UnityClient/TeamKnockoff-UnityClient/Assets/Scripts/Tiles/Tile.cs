@@ -9,8 +9,24 @@ public class Tile
     public enum BoardTileType {
         Normal, // Normal Tiles
 
-        // TODO: Need to split obstacle tiles to more categories (e.g. trees, water, etc)
-        Obstacle, // Tiles with some object, but can be traversed by some units
+        // Trees affect movement cost of infantry units and armored units
+        // Trees cannot be traversed by cavalry units
+        // Trees do not affect flying units
+        Tree,
+
+        // Shallow water tiles affect movement cost of infantry units and armored units
+        // 
+        Shallow,
+
+        // Deep water tiles are ONLY traversed by flying units
+        Deep,
+
+        // Mountain tiles affect movement cost of infantry units
+        // Mountain tiles cannot be traversed by armored and cavalry units
+        Mountain,
+
+        // Obstacles are only traversed by flying units
+        Obstacle,
 
         Damage, // Deal dmg at the beginning of each turn
         Fortify, // Heal HP at the beginning of each turn and increase evasion rate
