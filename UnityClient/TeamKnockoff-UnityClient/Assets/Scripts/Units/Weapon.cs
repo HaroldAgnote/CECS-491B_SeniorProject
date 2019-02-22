@@ -13,6 +13,8 @@ public class Weapon
     public Weapon() {
         // TODO: Change how weapons are initialized
         Range = 1;
+    }
+
     public Weapon(int m, int r, int h, int c) {
         // TODO: Change how this is initialized
         Might = m;
