@@ -35,9 +35,14 @@ public class MoveSelector : MonoBehaviour {
             tileHighlight.transform.position = point;
             if (Input.GetMouseButtonDown(0)) {
                 // TODO: Implement movement here
-                if (!moveLocations.Contains(new Vector2Int((int) point.x, (int) point.y))) {
-                    ExitState();
-                } else {
+                if (!moveLocations.Contains(new Vector2Int((int) point.x, (int) point.y)) && 
+                    !attackLocations.Contains(new Vector2Int((int)point.x, (int)point.y))) {
+                    CancelMove();
+                    //ExitState();
+                }
+
+                else if (moveLocations.Contains(new Vector2Int((int)point.x, (int)point.y)))
+                {
                     Vector2Int movedPoint = new Vector2Int((int)point.x, (int)point.y);
 
                     // TODO: Need to manage moving versus attacking
@@ -49,6 +54,12 @@ public class MoveSelector : MonoBehaviour {
                     //reason for Dmg Calc class, this allows a preview (in FE).
                     ExitState();
                 }
+
+                else if (attackLocations.Contains(new Vector2Int((int)point.x, (int)point.y))) {
+                    Vector2Int movedPoint = new Vector2Int((int)point.x, (int)point.y);
+                    GameManager.instance.Attack(movingUnit, movedPoint);
+                }
+
             }
         } else {
             tileHighlight.SetActive(false);
@@ -58,7 +69,13 @@ public class MoveSelector : MonoBehaviour {
     private void CancelMove() {
         this.enabled = false;
 
-        foreach (GameObject highlight in moveLocationHighlights) {
+        foreach (GameObject highlight in moveLocationHighlights)
+        {
+            Destroy(highlight);
+        }
+
+        foreach (GameObject highlight in attackLocationHighlights)
+        {
             Destroy(highlight);
         }
 

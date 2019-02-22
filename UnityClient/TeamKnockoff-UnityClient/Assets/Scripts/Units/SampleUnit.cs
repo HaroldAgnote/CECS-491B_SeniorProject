@@ -12,7 +12,7 @@ namespace Assets.Scripts.Units {
             HealthPoints = 100;
             MoveRange = 5;
             Mover = new SampleUnitMover();
-            MainWeapon = new Weapon();
+            MainWeapon = new Weapon(5, 1, 100, 0);
         }
     }
 
