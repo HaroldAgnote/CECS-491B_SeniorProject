@@ -25,27 +25,40 @@ namespace Assets.Scripts.Units {
 
         // TODO: Create constants for growth rate
 
-        public Mage() {
+        public static GameObject CreateMage(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos) {
+            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
+            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+
+            newUnit.AddComponent<Mage>();
+
+            var unit = newUnit.GetComponent<Mage>();
+
             // Set Max Health Points and initial stats here
-            MaxHealthPoints = Mage.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints;
+            unit.MaxHealthPoints = Mage.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints;
 
-            Level = Mage.INITIAL_LEVEL;
-            ExperiencePoints = Mage.INITIAL_EXPERIENCE_POINTS;
+            unit.Level = Mage.INITIAL_LEVEL;
+            unit.ExperiencePoints = Mage.INITIAL_EXPERIENCE_POINTS;
 
-            Strength = Mage.INITIAL_STRENGTH;
-            Magic = Mage.INITIAL_MAGIC;
+            unit.Strength = Mage.INITIAL_STRENGTH;
+            unit.Magic = Mage.INITIAL_MAGIC;
 
-            Defense = Mage.INITIAL_DEFENSE;
-            Resistance = Mage.INITIAL_RESISTANCE;
+            unit.Defense = Mage.INITIAL_DEFENSE;
+            unit.Resistance = Mage.INITIAL_RESISTANCE;
 
-            Speed = Mage.INITIAL_SPEED;
-            Skill = Mage.INITIAL_SKILL;
+            unit.Speed = Mage.INITIAL_SPEED;
+            unit.Skill = Mage.INITIAL_SKILL;
 
-            Luck = Mage.INITIAL_LUCK;
-            MoveRange = Mage.MOVEMENT_RANGE;
+            unit.Luck = Mage.INITIAL_LUCK;
+            unit.MoveRange = Mage.MOVEMENT_RANGE;
 
-            Class = Mage.CLASS_NAME;
+            unit.Name = Mage.CLASS_NAME;
+            unit.Class = Mage.CLASS_NAME;
+
+            return newUnit;
+        }
+
+        public Mage() {
         }
     }
 }

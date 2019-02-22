@@ -143,7 +143,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   landUnitPrefab: {fileID: 6827402922400584704, guid: 964377b0d9eb9834987e3709faf0b4d8,
     type: 3}
+  flyingUnitPrefab: {fileID: 6827402922400584704, guid: f05b3cf792481aa4ea861d199037cd06,
+    type: 3}
   landUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
+  thiefUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
+  archerUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
+  mageUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
+  clericUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
+  knightUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
+  cavalierUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
+  pegasusKnightUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6,
+    type: 3}
 --- !u!4 &209633689
 Transform:
   m_ObjectHideFlags: 0

@@ -25,27 +25,40 @@ namespace Assets.Scripts.Units {
 
         // TODO: Create constants for growth rate
 
-        public PegasusKnight() {
+        public static GameObject CreatePegasusKnight(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos) {
+            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
+            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+
+            newUnit.AddComponent<PegasusKnight>();
+
+            var unit = newUnit.GetComponent<PegasusKnight>();
+
             // Set Max Health Points and initial stats here
-            MaxHealthPoints = PegasusKnight.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints;
+            unit.MaxHealthPoints = PegasusKnight.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints;
 
-            Level = PegasusKnight.INITIAL_LEVEL;
-            ExperiencePoints = PegasusKnight.INITIAL_EXPERIENCE_POINTS;
+            unit.Level = PegasusKnight.INITIAL_LEVEL;
+            unit.ExperiencePoints = PegasusKnight.INITIAL_EXPERIENCE_POINTS;
 
-            Strength = PegasusKnight.INITIAL_STRENGTH;
-            Magic = PegasusKnight.INITIAL_MAGIC;
+            unit.Strength = PegasusKnight.INITIAL_STRENGTH;
+            unit.Magic = PegasusKnight.INITIAL_MAGIC;
 
-            Defense = PegasusKnight.INITIAL_DEFENSE;
-            Resistance = PegasusKnight.INITIAL_RESISTANCE;
+            unit.Defense = PegasusKnight.INITIAL_DEFENSE;
+            unit.Resistance = PegasusKnight.INITIAL_RESISTANCE;
 
-            Speed = PegasusKnight.INITIAL_SPEED;
-            Skill = PegasusKnight.INITIAL_SKILL;
+            unit.Speed = PegasusKnight.INITIAL_SPEED;
+            unit.Skill = PegasusKnight.INITIAL_SKILL;
 
-            Luck = PegasusKnight.INITIAL_LUCK;
-            MoveRange = PegasusKnight.MOVEMENT_RANGE;
+            unit.Luck = PegasusKnight.INITIAL_LUCK;
+            unit.MoveRange = PegasusKnight.MOVEMENT_RANGE;
 
-            Class = PegasusKnight.CLASS_NAME;
+            unit.Name = PegasusKnight.CLASS_NAME;
+            unit.Class = PegasusKnight.CLASS_NAME;
+
+            return newUnit;
+        }
+
+        public PegasusKnight() {
         }
     }
 }

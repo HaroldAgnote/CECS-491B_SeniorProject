@@ -26,27 +26,44 @@ namespace Assets.Scripts.Units {
 
         // TODO: Set up constants for Growth Rate
 
-        public Thief() {
+        public static GameObject CreateThief(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos) {
+            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
+            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+
+            newUnit.AddComponent<Thief>();
+
+            var unit = newUnit.GetComponent<Thief>();
+
             // Set Max Health Points and initial stats here
-            MaxHealthPoints = Thief.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints;
+            unit.MaxHealthPoints = Thief.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints;
 
-            Level = Thief.INITIAL_LEVEL;
-            ExperiencePoints = Thief.INITIAL_EXPERIENCE_POINTS;
+            unit.Level = Thief.INITIAL_LEVEL;
+            unit.ExperiencePoints = Thief.INITIAL_EXPERIENCE_POINTS;
 
-            Strength = Thief.INITIAL_STRENGTH;
-            Magic = Thief.INITIAL_MAGIC;
+            unit.Strength = Thief.INITIAL_STRENGTH;
+            unit.Magic = Thief.INITIAL_MAGIC;
 
-            Defense = Thief.INITIAL_DEFENSE;
-            Resistance = Thief.INITIAL_RESISTANCE;
+            unit.Defense = Thief.INITIAL_DEFENSE;
+            unit.Resistance = Thief.INITIAL_RESISTANCE;
 
-            Speed = Thief.INITIAL_SPEED;
-            Skill = Thief.INITIAL_SKILL;
+            unit.Speed = Thief.INITIAL_SPEED;
+            unit.Skill = Thief.INITIAL_SKILL;
 
-            Luck = Thief.INITIAL_LUCK;
-            MoveRange = Thief.MOVEMENT_RANGE;
+            unit.Luck = Thief.INITIAL_LUCK;
+            unit.MoveRange = Thief.MOVEMENT_RANGE;
 
-            Class = Thief.CLASS_NAME;
+            unit.Name = Thief.CLASS_NAME;
+            unit.Class = Thief.CLASS_NAME;
+
+            return newUnit;
+        }
+
+        public Thief() {
+        }
+
+        public Thief(string name) {
+            Name = name;
         }
     }
 }

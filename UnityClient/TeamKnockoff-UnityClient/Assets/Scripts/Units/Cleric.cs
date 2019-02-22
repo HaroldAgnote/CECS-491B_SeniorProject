@@ -25,27 +25,40 @@ namespace Assets.Scripts.Units {
 
         // TODO: Create constants for growth rate
 
-        public Cleric() {
+        public static GameObject CreateCleric(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos) {
+            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
+            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+
+            newUnit.AddComponent<Cleric>();
+
+            var unit = newUnit.GetComponent<Cleric>();
+
             // Set Max Health Points and initial stats here
-            MaxHealthPoints = Cleric.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints;
+            unit.MaxHealthPoints = Cleric.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints;
 
-            Level = Cleric.INITIAL_LEVEL;
-            ExperiencePoints = Cleric.INITIAL_EXPERIENCE_POINTS;
+            unit.Level = Cleric.INITIAL_LEVEL;
+            unit.ExperiencePoints = Cleric.INITIAL_EXPERIENCE_POINTS;
 
-            Strength = Cleric.INITIAL_STRENGTH;
-            Magic = Cleric.INITIAL_MAGIC;
+            unit.Strength = Cleric.INITIAL_STRENGTH;
+            unit.Magic = Cleric.INITIAL_MAGIC;
 
-            Defense = Cleric.INITIAL_DEFENSE;
-            Resistance = Cleric.INITIAL_RESISTANCE;
+            unit.Defense = Cleric.INITIAL_DEFENSE;
+            unit.Resistance = Cleric.INITIAL_RESISTANCE;
 
-            Speed = Cleric.INITIAL_SPEED;
-            Skill = Cleric.INITIAL_SKILL;
+            unit.Speed = Cleric.INITIAL_SPEED;
+            unit.Skill = Cleric.INITIAL_SKILL;
 
-            Luck = Cleric.INITIAL_LUCK;
-            MoveRange = Cleric.MOVEMENT_RANGE;
+            unit.Luck = Cleric.INITIAL_LUCK;
+            unit.MoveRange = Cleric.MOVEMENT_RANGE;
 
-            Class = Cleric.CLASS_NAME;
+            unit.Name = Cleric.CLASS_NAME;
+            unit.Class = Cleric.CLASS_NAME;
+
+            return newUnit;
+        }
+
+        public Cleric() {
         }
     }
 }

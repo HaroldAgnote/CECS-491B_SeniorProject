@@ -25,27 +25,40 @@ namespace Assets.Scripts.Units {
 
         // TODO: Set up constants for growth rate
 
-        public Archer() {
+        public static GameObject CreateArcher(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos) {
+            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
+            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+
+            newUnit.AddComponent<Archer>();
+
+            var unit = newUnit.GetComponent<Archer>();
+
             // Set Max Health Points and initial stats here
-            MaxHealthPoints = Archer.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints;
+            unit.MaxHealthPoints = Archer.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints;
 
-            Level = Archer.INITIAL_LEVEL;
-            ExperiencePoints = Archer.INITIAL_EXPERIENCE_POINTS;
+            unit.Level = Archer.INITIAL_LEVEL;
+            unit.ExperiencePoints = Archer.INITIAL_EXPERIENCE_POINTS;
 
-            Strength = Archer.INITIAL_STRENGTH;
-            Magic = Archer.INITIAL_MAGIC;
+            unit.Strength = Archer.INITIAL_STRENGTH;
+            unit.Magic = Archer.INITIAL_MAGIC;
 
-            Defense = Archer.INITIAL_DEFENSE;
-            Resistance = Archer.INITIAL_RESISTANCE;
+            unit.Defense = Archer.INITIAL_DEFENSE;
+            unit.Resistance = Archer.INITIAL_RESISTANCE;
 
-            Speed = Archer.INITIAL_SPEED;
-            Skill = Archer.INITIAL_SKILL;
+            unit.Speed = Archer.INITIAL_SPEED;
+            unit.Skill = Archer.INITIAL_SKILL;
 
-            Luck = Archer.INITIAL_LUCK;
-            MoveRange = Archer.MOVEMENT_RANGE;
+            unit.Luck = Archer.INITIAL_LUCK;
+            unit.MoveRange = Archer.MOVEMENT_RANGE;
 
-            Class = Archer.CLASS_NAME;
+            unit.Name = Archer.CLASS_NAME;
+            unit.Class = Archer.CLASS_NAME;
+
+            return newUnit;
+        }
+
+        public Archer() {
         }
     }
 }

@@ -7,6 +7,16 @@ using UnityEngine;
 
 namespace Assets.Scripts.Units {
     public class SampleUnit : Unit, IMover {
+
+        public static GameObject CreateSampleUnit(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos) {
+            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
+            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+
+            newUnit.AddComponent<SampleUnit>();
+
+            return newUnit;
+        }
+
         public SampleUnit() {
             Name = "Sample Unit";
             MaxHealthPoints = 100;

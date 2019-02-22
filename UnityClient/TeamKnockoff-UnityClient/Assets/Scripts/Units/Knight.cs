@@ -25,25 +25,40 @@ namespace Assets.Scripts.Units {
 
         // TODO: Create constants for growth rate
 
-        public Knight() {
+        public static GameObject CreateKnight(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos) {
+            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
+            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+
+            newUnit.AddComponent<Knight>();
+
+            var unit = newUnit.GetComponent<Knight>();
+
             // Set Max Health Points and initial stats here
-            MaxHealthPoints = Knight.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints;
+            unit.MaxHealthPoints = Knight.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints;
 
-            Level = Knight.INITIAL_LEVEL;
-            ExperiencePoints = Knight.INITIAL_EXPERIENCE_POINTS;
+            unit.Level = Knight.INITIAL_LEVEL;
+            unit.ExperiencePoints = Knight.INITIAL_EXPERIENCE_POINTS;
 
-            Strength = Knight.INITIAL_STRENGTH;
-            Magic = Knight.INITIAL_MAGIC;
+            unit.Strength = Knight.INITIAL_STRENGTH;
+            unit.Magic = Knight.INITIAL_MAGIC;
 
-            Defense = Knight.INITIAL_DEFENSE;
-            Resistance = Knight.INITIAL_RESISTANCE;
+            unit.Defense = Knight.INITIAL_DEFENSE;
+            unit.Resistance = Knight.INITIAL_RESISTANCE;
 
-            Speed = Knight.INITIAL_SPEED;
-            Skill = Knight.INITIAL_SKILL;
+            unit.Speed = Knight.INITIAL_SPEED;
+            unit.Skill = Knight.INITIAL_SKILL;
 
-            Luck = Knight.INITIAL_LUCK;
-            MoveRange = Knight.MOVEMENT_RANGE;
+            unit.Luck = Knight.INITIAL_LUCK;
+            unit.MoveRange = Knight.MOVEMENT_RANGE;
+
+            unit.Name = Knight.CLASS_NAME;
+            unit.Class = Knight.CLASS_NAME;
+
+            return newUnit;
+        }
+
+        public Knight() {
         }
     }
 }

@@ -35,7 +35,6 @@ public class Tile
 
     public int XPosition { get; set; }
     public int YPosition { get; set; }
-    public int MoveCost { get; set; }
 
     public BoardTileType TileType { get; set; }
     public List<Tile> Neighbors { get; set; }
@@ -45,7 +44,6 @@ public class Tile
         YPosition = yPos;
         Neighbors = new List<Tile>();
         TileType = BoardTileType.Normal;
-        MoveCost = DEFAULT_MOVE_COST;
     }
 
     public Tile(int xPos, int yPos, BoardTileType tileType) {
@@ -53,14 +51,5 @@ public class Tile
         YPosition = yPos;
         TileType = tileType;
         Neighbors = new List<Tile>();
-        MoveCost = DEFAULT_MOVE_COST;
-    }
-
-    public Tile(int xPos, int yPos, int moveCost, BoardTileType tileType) {
-        XPosition = xPos;
-        YPosition = yPos;
-        TileType = tileType;
-        Neighbors = new List<Tile>();
-        MoveCost = moveCost;
     }
 }

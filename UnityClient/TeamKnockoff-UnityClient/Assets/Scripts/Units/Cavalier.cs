@@ -25,27 +25,40 @@ namespace Assets.Scripts.Units {
 
         // TODO: Add growth rate constants
 
-        public Cavalier() {
+        public static GameObject CreateCavalier(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos) {
+            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
+            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+
+            newUnit.AddComponent<Cavalier>();
+
+            var unit = newUnit.GetComponent<Cavalier>();
+
             // Set Max Health Points and initial stats here
-            MaxHealthPoints = Cavalier.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints;
+            unit.MaxHealthPoints = Cavalier.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints;
 
-            Level = Cavalier.INITIAL_LEVEL;
-            ExperiencePoints = Cavalier.INITIAL_EXPERIENCE_POINTS;
+            unit.Level = Cavalier.INITIAL_LEVEL;
+            unit.ExperiencePoints = Cavalier.INITIAL_EXPERIENCE_POINTS;
 
-            Strength = Cavalier.INITIAL_STRENGTH;
-            Magic = Cavalier.INITIAL_MAGIC;
+            unit.Strength = Cavalier.INITIAL_STRENGTH;
+            unit.Magic = Cavalier.INITIAL_MAGIC;
 
-            Defense = Cavalier.INITIAL_DEFENSE;
-            Resistance = Cavalier.INITIAL_RESISTANCE;
+            unit.Defense = Cavalier.INITIAL_DEFENSE;
+            unit.Resistance = Cavalier.INITIAL_RESISTANCE;
 
-            Speed = Cavalier.INITIAL_SPEED;
-            Skill = Cavalier.INITIAL_SKILL;
+            unit.Speed = Cavalier.INITIAL_SPEED;
+            unit.Skill = Cavalier.INITIAL_SKILL;
 
-            Luck = Cavalier.INITIAL_LUCK;
-            MoveRange = Cavalier.MOVEMENT_RANGE;
+            unit.Luck = Cavalier.INITIAL_LUCK;
+            unit.MoveRange = Cavalier.MOVEMENT_RANGE;
 
-            Class = Cavalier.CLASS_NAME;
+            unit.Name = Cavalier.CLASS_NAME;
+            unit.Class = Cavalier.CLASS_NAME;
+
+            return newUnit;
+        }
+
+        public Cavalier() {
         }
     }
 }

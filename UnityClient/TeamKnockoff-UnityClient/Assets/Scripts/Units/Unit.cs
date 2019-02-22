@@ -130,7 +130,7 @@ namespace Assets.Scripts.Units {
                 // Otherwise, move to this tile and check the neighboring tiles.
                 foreach (var neighbor in current.Neighbors) {
                     if (distance[neighbor.XPosition, neighbor.YPosition] > (MoveRange + MainWeapon.Range)) {
-                        int movementCost = neighbor.MoveCost;
+                        int movementCost = MoveCost(neighbor);
                         distance[neighbor.XPosition, neighbor.YPosition] = movementCost + distance[current.XPosition, current.YPosition];
 
                         if (distance[neighbor.XPosition, neighbor.YPosition] <= (MoveRange + MainWeapon.Range)) {
