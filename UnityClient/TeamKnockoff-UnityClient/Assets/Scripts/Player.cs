@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+using Assets.Scripts.Units;
 
 public class Player 
 {
@@ -34,6 +37,12 @@ public class Player
     public void MarkUnitAsMoved(GameObject unit) {
         int index = units.FindIndex(x => x == unit);
         hasMoved[index] = true;
+    }
+
+    public bool HasAliveUnit() {
+        var result = units.Select(obj => obj.GetComponent<Unit>()).Any(unit => unit.HealthPoints > 0);
+
+        return result;
     }
     
 }

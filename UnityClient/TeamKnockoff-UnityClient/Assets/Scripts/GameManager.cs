@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     Player currentPlayer;
     Player otherPlayer;
 
+    public int turns;
+
     private void Awake() {
         //Check if instance already exists
         if (instance == null) {
@@ -37,7 +39,9 @@ public class GameManager : MonoBehaviour
         // Initialize unit and tile 2D Arrays
         units = new GameObject[boardScript.columns, boardScript.rows];
         tiles = new Tile[boardScript.columns, boardScript.rows];
-        
+
+        turns = 1;
+
         // Initialize Players
         playerOne = new Player("Player One");
         playerTwo = new Player("Player Two");
@@ -126,6 +130,7 @@ public class GameManager : MonoBehaviour
         Player tempPlayer = currentPlayer;
         currentPlayer = otherPlayer;
         otherPlayer = tempPlayer;
+        turns++;
 
         currentPlayer.StartTurn();
     }
