@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
         units = new GameObject[boardScript.columns, boardScript.rows];
         tiles = new Tile[boardScript.columns, boardScript.rows];
 
-        turns = 1;
+        // Starting at 2 so numbers will divide evenly
+        turns = 2;
 
         // Initialize Players
         playerOne = new Player("Player One");
@@ -54,11 +55,13 @@ public class GameManager : MonoBehaviour
     }
 
     void InitialSetup() {
-        // TODO: Figure out how to import Units and add them using the inspector
-        //       rather than hard coding them in
-
         // Start Current Player's Turn
+        DisplayTurn();
         currentPlayer.StartTurn();
+    }
+
+    void DisplayTurn() {
+        Debug.Log($"Player: {currentPlayer.name} - Turn {(int) turns / 2}");
     }
 
     public void AddUnit(GameObject newUnit, Player player, int col, int row) {
@@ -110,6 +113,7 @@ public class GameManager : MonoBehaviour
         Vector2Int startGridPoint = GridForUnit(unit);
         units[startGridPoint.x, startGridPoint.y] = null;
         units[gridPoint.x, gridPoint.y] = unit;
+        Debug.Log($"Moving unit to {gridPoint}");
         boardScript.MoveUnit(unit, gridPoint);
         currentPlayer.MarkUnitAsMoved(unit);
     }
@@ -126,12 +130,27 @@ public class GameManager : MonoBehaviour
         return !currentPlayer.hasMoved.Contains(false);
     }
 
+    public void CheckGameState() {
+        if (!currentPlayer.HasAliveUnit() || !otherPlayer.HasAliveUnit()) {
+            Debug.Log("Game has ended!");
+            if (!currentPlayer.HasAliveUnit()) {
+                Debug.Log($"The winner is: {otherPlayer.name}");
+            } else if (!otherPlayer.HasAliveUnit()) {
+                Debug.Log($"The winner is: {currentPlayer.name}");
+            } else {
+                // Will this ever happen? o_0?
+                Debug.Log("It's a draw");
+            }
+        }
+    }
+
     public void NextPlayer() {
         Player tempPlayer = currentPlayer;
         currentPlayer = otherPlayer;
         otherPlayer = tempPlayer;
         turns++;
 
+        DisplayTurn();
         currentPlayer.StartTurn();
     }
 
