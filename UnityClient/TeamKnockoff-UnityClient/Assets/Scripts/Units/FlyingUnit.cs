@@ -27,10 +27,6 @@ namespace Assets.Scripts.Units {
                     return true;
                 case Tile.BoardTileType.Obstacle:
                     return true;
-                case Tile.BoardTileType.Damage:
-                    return true;
-                case Tile.BoardTileType.Fortify:
-                    return true;
                 case Tile.BoardTileType.Boundary:
                     return false;
                 default:
@@ -53,10 +49,6 @@ namespace Assets.Scripts.Units {
                     return 2;
                 case Tile.BoardTileType.Obstacle:
                     return 2;
-                case Tile.BoardTileType.Damage:
-                    return 1;
-                case Tile.BoardTileType.Fortify:
-                    return 1;
                 case Tile.BoardTileType.Boundary:
                     return Int32.MaxValue;
                 default:

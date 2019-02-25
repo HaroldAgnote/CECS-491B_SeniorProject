@@ -39,10 +39,6 @@ namespace Assets.Scripts.Units {
                     return true;
                 case Tile.BoardTileType.Obstacle:
                     return false;
-                case Tile.BoardTileType.Damage:
-                    return true;
-                case Tile.BoardTileType.Fortify:
-                    return true;
                 case Tile.BoardTileType.Boundary:
                     return false;
                 default:

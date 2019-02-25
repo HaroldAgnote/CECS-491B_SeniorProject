@@ -6,6 +6,28 @@ public class Tile
 {
     public const int DEFAULT_MOVE_COST = 1;
 
+    // Tree - Normal
+    // Swamp_Tree_0
+
+    // Shallow - Damage
+    // Swamp_Shallow_Damage_0
+
+    public static Dictionary<string, BoardTileType> TILE_TYPES = new Dictionary<string, BoardTileType>() {
+        { "Normal" , BoardTileType.Normal },
+        { "Tree" , BoardTileType.Tree },
+        { "Shallow" , BoardTileType.Shallow },
+        { "Deep" , BoardTileType.Deep },
+        { "Mountain" , BoardTileType.Mountain },
+        { "Obstacle" , BoardTileType.Obstacle },
+        { "Boundary" , BoardTileType.Boundary },
+    };
+    
+    public static Dictionary<string, BoardTileEffect> TILE_EFFECTS = new Dictionary<string, BoardTileEffect>() {
+        { "Normal" , BoardTileEffect.Normal },
+        { "Damage" , BoardTileEffect.Damage },
+        { "Fortify" , BoardTileEffect.Fortify },
+    };
+
     public enum BoardTileType {
         Normal, // Normal Tiles
 
@@ -28,15 +50,22 @@ public class Tile
         // Obstacles are only traversed by flying units
         Obstacle,
 
-        Damage, // Deal dmg at the beginning of each turn
-        Fortify, // Heal HP at the beginning of each turn and increase evasion rate
         Boundary // Impassable tiles
+    }
+
+    public enum BoardTileEffect {
+        Normal, // This tile has no effect
+
+        Damage, // Deal dmg at the beginning of each turn
+
+        Fortify, // Heal HP at the beginning of each turn and increase evasion rate
     }
 
     public int XPosition { get; set; }
     public int YPosition { get; set; }
 
     public BoardTileType TileType { get; set; }
+    public BoardTileEffect TileEffect { get; set; }
     public List<Tile> Neighbors { get; set; }
 
     public Tile(int xPos, int yPos) {
