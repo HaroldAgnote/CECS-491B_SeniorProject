@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Units;
 using UnityEngine;
+using Assets.Scripts;
 
 public class GameManager : MonoBehaviour
 {
@@ -136,12 +137,19 @@ public class GameManager : MonoBehaviour
         Unit defender = UnitAtGrid(new Vector3(gridPoint.x, gridPoint.y, 0f)).GetComponent<Unit>();
         Debug.Log("atk.Weapon: " + attacker.MainWeapon.Might);
         Debug.Log("attacker Str: " + attacker.Strength);
-        Debug.Log("Defender HP: " + defender.HealthPoints);
+        Debug.Log("Attacker HP: " + attacker.HealthPoints);
         Debug.Log("Defender Def: " + defender.Defense);
         defender.HealthPoints -= DamageCalculator.GetDamage(attacker, defender);
         currentPlayer.MarkUnitAsMoved(unit);
         Debug.Log("Defender HP: " + defender.HealthPoints);
 
+        if(defender.HealthPoints <= 0)
+        {
+            //the unit is still kinda there, but not really.
+            //maybe obliterate the tile
+            Destroy(defender.gameObject);
+            Destroy(defender);
+        }
         //print more stuff to make sure
         //destroy unit when dead
     }
