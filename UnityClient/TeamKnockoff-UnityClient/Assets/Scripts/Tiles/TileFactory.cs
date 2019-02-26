@@ -16,10 +16,6 @@ public class TileFactory : MonoBehaviour
     public GameObject wallTilePrefab;
 
     public Texture2D swampTexture;
-    private Sprite[] swampSprites;
-    private string swampResourcePath;
-
-    private Sprite[] sprites;
 
     private Dictionary<string, TileFactoryWrapper> tileMapper;
 
