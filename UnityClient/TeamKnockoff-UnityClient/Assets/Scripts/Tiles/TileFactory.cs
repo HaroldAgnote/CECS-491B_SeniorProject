@@ -64,6 +64,7 @@ public class TileFactory : MonoBehaviour
     public void SetUpTile(GameObject tilePrefab, Vector3 tilePos, Tile newTile, string tileStringData, Transform parent) {
         GameObject instance = Instantiate(tilePrefab, tilePos, Quaternion.identity, parent) as GameObject;
 
+        Debug.Log($"Instantiating tile: {tileStringData}");
         var tileSprite = instance.GetComponent<SpriteRenderer>();
 
         var theme = GetTheme(tileStringData);
@@ -77,7 +78,7 @@ public class TileFactory : MonoBehaviour
 
         var index = GetTileSpriteIndex(tileStringData);
 
-        tileSprite.sprite = tileFactory.TileSprites[index];
+        tileSprite.sprite = tileFactory.TileSprites.Where(s => s.name == tileStringData).SingleOrDefault();
     }
 
     public string GetTheme(string tileStringData) {
@@ -112,7 +113,7 @@ public class TileFactory : MonoBehaviour
 
         var split_string = tileStringData.Split(DELIMITER);
 
-        if (split_string.Length == 3) {
+        if (split_string.Length == 2 || split_string.Length == 3) {
             // Example - Swamp_Tree_0
             return NORMAL_TILE_EFFECT;
         } else if (split_string.Length == 4) {

@@ -385,7 +385,7 @@ MonoBehaviour:
   rows: 64
   tileFactory: {fileID: 859168762}
   unitFactory: {fileID: 209633688}
-  mapData: {fileID: 4900000, guid: 512be51b521341b479fa4779042f76c7, type: 3}
+  mapData: {fileID: 4900000, guid: af1ab0eabb862904699ccd3d3e44cb96, type: 3}
 --- !u!4 &1099256419
 Transform:
   m_ObjectHideFlags: 0

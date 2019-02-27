@@ -10,6 +10,7 @@ using UnityEngine.Tilemaps;
 public class MapGenerator : MonoBehaviour
 {
     public string mapName;
+    public Tilemap background;
     public Tilemap floor;
     public Tilemap obstacle;
     public Tilemap wall;
@@ -19,24 +20,18 @@ public class MapGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var floorBounds = floor.cellBounds;
-        var floorTiles = floor.GetTilesBlock(floorBounds);
+        var backgroundBounds = background.cellBounds;
+        var backgroundTiles = background.GetTilesBlock(backgroundBounds);
+
+        var floorTiles = floor.GetTilesBlock(backgroundBounds);
 
         var obstacleBounds = obstacle.cellBounds;
-        var obstacleTiles = obstacle.GetTilesBlock(obstacleBounds);
+        var obstacleTiles = obstacle.GetTilesBlock(backgroundBounds);
 
         var wallBounds = wall.cellBounds;
-        var wallTiles = wall.GetTilesBlock(wallBounds);
+        var wallTiles = wall.GetTilesBlock(backgroundBounds);
 
-        Debug.Log($"floorBounds: {floorBounds}, obstacleBounds: {obstacleBounds}, wallBounds: {wallBounds}");
-        if (floorBounds == obstacleBounds && obstacleBounds == wallBounds && playerTilemaps.TrueForAll(x => x.cellBounds == floorBounds)) {
-            Debug.Log("Bounds match!");
-        } else {
-            Debug.Log("Bounds do not match!");
-            return;
-        }
-
-        var allPlayerTiles = playerTilemaps.Select(x => x.GetTilesBlock(floorBounds)).ToList();
+        var allPlayerTiles = playerTilemaps.Select(x => x.GetTilesBlock(backgroundBounds)).ToList();
 
         string path = $"Assets/Resources/Maps/{mapName}.txt";
         var writer = new StreamWriter(path, false);
@@ -45,17 +40,18 @@ public class MapGenerator : MonoBehaviour
         int rows = 0;
         int columns = 0;
         int rowOffset = 0;
-        for (int x = 0; x < floorBounds.size.x; x++) {
-            for (int y = 0 + rowOffset; y < floorBounds.size.y; y++) {
-                TileBase floorTile = floorTiles[x + y * floorBounds.size.x];
-                TileBase obstacleTile = obstacleTiles[x + y * obstacleBounds.size.x];
-                TileBase wallTile = wallTiles[x + y * wallBounds.size.x];
+        for (int x = 0; x < backgroundBounds.size.x; x++) {
+            for (int y = 0 + rowOffset; y < backgroundBounds.size.y; y++) {
+                TileBase backgroundTile = backgroundTiles[x + y * backgroundBounds.size.x];
+                TileBase floorTile = floorTiles[x + y * backgroundBounds.size.x];
+                TileBase obstacleTile = obstacleTiles[x + y * backgroundBounds.size.x];
+                TileBase wallTile = wallTiles[x + y * backgroundBounds.size.x];
                 TileBase playerTile = null;
                 int player = 0;
 
-                var foundTileBase = allPlayerTiles.SingleOrDefault(tileBase => tileBase[x + y * floorBounds.size.x] != null);
+                var foundTileBase = allPlayerTiles.SingleOrDefault(tileBase => tileBase[x + y * backgroundBounds.size.x] != null);
                 if (foundTileBase != null) {
-                    playerTile = foundTileBase[x + y * wallBounds.size.x];
+                    playerTile = foundTileBase[x + y * backgroundBounds.size.x];
                     player = allPlayerTiles.IndexOf(foundTileBase) + 1;
                 }
 
@@ -69,21 +65,14 @@ public class MapGenerator : MonoBehaviour
                     UnitData = playerTile ? playerTile.name : "",
                 };
 
-                if (floorTile == null && wallTile == null) { 
-                    Debug.Log("col:" + x + " row:" + y + " tile: (null)");
-                    rowOffset++;
-                    y--;
-                    continue;
-                } else {
-                    if (floorTile != null) {
-                        Debug.Log("col:" + x + " row:" + y + " floor tile:" + floorTile.name);
-                    }
-                    if (obstacleTile != null) {
-                        Debug.Log("col:" + x + " row:" + y + " obstacle tile:" + obstacleTile.name);
-                    }
-                    if (wallTile != null) {
-                        Debug.Log("col:" + x + " row:" + y + " wall tile:" + wallTile.name);
-                    }
+                if (floorTile != null) {
+                    Debug.Log("col:" + x + " row:" + y + " floor tile:" + floorTile.name);
+                }
+                if (obstacleTile != null) {
+                    Debug.Log("col:" + x + " row:" + y + " obstacle tile:" + obstacleTile.name);
+                }
+                if (wallTile != null) {
+                    Debug.Log("col:" + x + " row:" + y + " wall tile:" + wallTile.name);
                 }
 
                 tileData.Add(newTileData);
