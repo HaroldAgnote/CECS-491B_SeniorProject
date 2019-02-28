@@ -70,7 +70,7 @@ namespace Assets.Scripts.Units {
                 // TODO: Need to find a way to prevent unit moving through tiles where 
                 // there's an enemy.
                 var unitAtPoint = GameManager.instance.UnitAtGrid(new Vector3(current.XPosition, current.YPosition, 0f));
-                if (unitAtPoint != null && !GameManager.instance.DoesUnitBelongToCurrentPlayer(unitAtPoint)) {
+                if (unitAtPoint != null && !GameManager.instance.DoesUnitBelongToCurrentPlayer(unitAtPoint)&& GameManager.instance.EnemyUnitIsAlive(unitAtPoint) ) {
                     continue;
                 }
 
@@ -95,61 +95,30 @@ namespace Assets.Scripts.Units {
         }
 
         public List<Vector2Int> GetAttackLocations(Vector2Int gridPoint) {
-            var attackLocations = new List<Vector2Int>();
-            int rows = GameManager.instance.boardScript.rows;
-            int columns = GameManager.instance.boardScript.columns;
-            int[,] distance = new int[columns, rows];
-            for (int col = 0; col < columns; col++) {
-                for (int row = 0; row < rows; row++) {
-                    distance[col, row] = Int32.MaxValue;
-                }
-            }
+            var attackLocations = GetMoveLocations(gridPoint);
 
             // Temporary
-            MainWeapon = new Weapon(5, 1, 100, 0);
+            MainWeapon = new Weapon(50, 2, 100, 1, DamageCalculator.DamageType.Physical);
 
-            distance[gridPoint.x, gridPoint.y] = 0;
-            var tileQueue = new Queue<Tile>();
-            var rootTile = GameManager.instance.tiles[gridPoint.x, gridPoint.y];
-            tileQueue.Enqueue(rootTile);
+            for (int i = 0; i < MainWeapon.Range; i++) {
+                var tempAttackLocs = new List<Vector2Int>();
+                foreach (var moveLoc in attackLocations) {
+                    var moveLocNeighbors = GameManager.instance.tiles[moveLoc.x, moveLoc.y]
+                        .Neighbors
+                        .Select(tile => new Vector2Int(tile.XPosition, tile.YPosition))
+                        .Where(pos => !attackLocations.Contains(pos));
 
-            // TODO: Change maximum attack range according to whatever skills the unit has
-            while (tileQueue.Count > 0) {
-                Tile current = tileQueue.Dequeue();
-                // If unit can't move to this tile, check the next tile in the queue.
-                if (!CanMove(current)) {
-                    continue;
+                    tempAttackLocs.AddRange(moveLocNeighbors); 
                 }
-
-                // TODO: Need to find a way to prevent unit moving through tiles where 
-                // there's an enemy.
-                var unitAtPoint = GameManager.instance.UnitAtGrid(new Vector3(current.XPosition, current.YPosition, 0f));
-                
-                if (unitAtPoint != null && !GameManager.instance.DoesUnitBelongToCurrentPlayer(unitAtPoint)) {
-                    attackLocations.Add(new Vector2Int(current.XPosition, current.YPosition));
-                    continue;
-                }
-
-                // Otherwise, move to this tile and check the neighboring tiles.
-                foreach (var neighbor in current.Neighbors) {
-                    if (distance[neighbor.XPosition, neighbor.YPosition] > (MoveRange + MainWeapon.Range)) {
-                        int movementCost = MoveCost(neighbor);
-                        distance[neighbor.XPosition, neighbor.YPosition] = movementCost + distance[current.XPosition, current.YPosition];
-
-                        if (distance[neighbor.XPosition, neighbor.YPosition] <= (MoveRange + MainWeapon.Range)) {
-                            tileQueue.Enqueue(neighbor);
-                        }
-                    }
-                }
-                if (distance[current.XPosition, current.YPosition] > 0 && distance[current.XPosition, current.YPosition] <= (MoveRange + MainWeapon.Range)) {
-                    attackLocations.Add(new Vector2Int(current.XPosition, current.YPosition));
-                }
+                attackLocations.AddRange(tempAttackLocs);
             }
 
-            attackLocations = attackLocations .Where(x => 
+            attackLocations = attackLocations.Where(x => 
                                 !GameManager.instance.DoesUnitBelongToCurrentPlayer(
                                 GameManager.instance.UnitAtGrid(new Vector3(x.x, x.y, 0f))))
                                 .ToList();
+
+
             return attackLocations;
         }
     }
