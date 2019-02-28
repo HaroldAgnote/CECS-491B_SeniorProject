@@ -18,13 +18,11 @@ namespace Assets.Scripts.Units {
             switch (tileType) {
                 case Tile.BoardTileType.Normal:
                     return true;
-                case Tile.BoardTileType.Tree:
+                case Tile.BoardTileType.Rough:
                     return false;
-                case Tile.BoardTileType.Shallow:
+                case Tile.BoardTileType.Wall:
                     return false;
-                case Tile.BoardTileType.Deep:
-                    return false;
-                case Tile.BoardTileType.Mountain:
+                case Tile.BoardTileType.Slope:
                     return false;
                 case Tile.BoardTileType.Obstacle:
                     return false;

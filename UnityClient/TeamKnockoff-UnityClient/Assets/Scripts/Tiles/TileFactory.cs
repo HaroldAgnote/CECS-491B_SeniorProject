@@ -89,7 +89,7 @@ public class TileFactory : MonoBehaviour
     }
 
     public string GetTileType(string tileStringData) {
-        const int TILE_TYPE_INDEX = 1;
+        const int TILE_TYPE_INDEX = 2;
         const string NORMAL_TILE_TYPE = "Normal";
         var split_string = tileStringData.Split(DELIMITER);
 
@@ -97,8 +97,8 @@ public class TileFactory : MonoBehaviour
             // Example - Swamp_0
             return NORMAL_TILE_TYPE;
         } else if (split_string.Length > 2) {
-            // Example - Swamp_Normal_0
-            // Example - Swamp_Shallow_Damage_0
+            // Example - Swamp_0_Normal
+            // Example - Swamp_0_Shallow_Damage
             string tileType = split_string[TILE_TYPE_INDEX];
             return tileType;
         } else {
@@ -108,16 +108,17 @@ public class TileFactory : MonoBehaviour
     }
 
     public string GetTileEffect(string tileStringData) {
-        const int TILE_EFFECT_INDEX = 2;
+        const int TILE_EFFECT_INDEX = 3;
         const string NORMAL_TILE_EFFECT = "Normal";
 
         var split_string = tileStringData.Split(DELIMITER);
 
         if (split_string.Length == 2 || split_string.Length == 3) {
-            // Example - Swamp_Tree_0
+            // Example - Swamp_0
+            // Example - Swamp_0_Tree
             return NORMAL_TILE_EFFECT;
         } else if (split_string.Length == 4) {
-            // Example - Swamp_Normal_Fortify_0
+            // Example - Swamp_0_Normal_Fortify
             string tileEffect = split_string[TILE_EFFECT_INDEX];
             return tileEffect;
         } else {

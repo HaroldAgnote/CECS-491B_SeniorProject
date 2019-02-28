@@ -4,20 +4,11 @@ using UnityEngine;
 
 public class Tile 
 {
-    public const int DEFAULT_MOVE_COST = 1;
-
-    // Tree - Normal
-    // Swamp_Tree_0
-
-    // Shallow - Damage
-    // Swamp_Shallow_Damage_0
-
     public static Dictionary<string, BoardTileType> TILE_TYPES = new Dictionary<string, BoardTileType>() {
         { "Normal" , BoardTileType.Normal },
-        { "Tree" , BoardTileType.Tree },
-        { "Shallow" , BoardTileType.Shallow },
-        { "Deep" , BoardTileType.Deep },
-        { "Mountain" , BoardTileType.Mountain },
+        { "Wall" , BoardTileType.Wall },
+        { "Rough" , BoardTileType.Rough },
+        { "Slope" , BoardTileType.Slope },
         { "Obstacle" , BoardTileType.Obstacle },
         { "Boundary" , BoardTileType.Boundary },
     };
@@ -29,36 +20,44 @@ public class Tile
     };
 
     public enum BoardTileType {
-        Normal, // Normal Tiles
 
-        // Trees affect movement cost of infantry units and armored units
-        // Trees cannot be traversed by cavalry units
-        // Trees do not affect flying units
-        Tree,
+        // Normal Tiles
+        Normal, 
 
-        // Shallow water tiles affect movement cost of infantry units and armored units
-        // 
-        Shallow,
+        // Walls can only be traversed by flying units
+        // Examples: Deep water, trees, etc.)
+        Wall,
 
-        // Deep water tiles are ONLY traversed by flying units
-        Deep,
+        // Rough tiles slow down land units
+        // Rough tiles do not affect flying units
+        // Examples: Sand, shallow water, swamps
+        Rough,
 
-        // Mountain tiles affect movement cost of infantry units
-        // Mountain tiles cannot be traversed by armored and cavalry units
-        Mountain,
+        // Slope tiles affect movement cost of infantry units and flying units
+        // Slope tiles cannot be traversed by armored and cavalry units
+        // Examples: Mountains
+        Slope,
 
-        // Obstacles are only traversed by flying units
+        // Obstacles slow down flying units
+        // Obstacles do not affect land units
+        // Examples: The top of trees
         Obstacle,
 
-        Boundary // Impassable tiles
+        // Impassable tiles
+        // This will usually sit on the out of bounds area of the map.
+        // But you can also place boundary tiles within the map when needed.
+        Boundary 
     }
 
     public enum BoardTileEffect {
-        Normal, // This tile has no effect
+        // This tile has no effect
+        Normal,
 
-        Damage, // Deal dmg at the beginning of each turn
+        // Deal dmg at the beginning of each turn
+        Damage,
 
-        Fortify, // Heal HP at the beginning of each turn and increase evasion rate
+        // Heal HP at the beginning of each turn and increase evasion rate
+        Fortify,
     }
 
     public int XPosition { get; set; }

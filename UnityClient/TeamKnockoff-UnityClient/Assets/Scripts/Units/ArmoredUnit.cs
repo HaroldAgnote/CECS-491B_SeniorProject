@@ -17,13 +17,11 @@ namespace Assets.Scripts.Units {
             switch (tileType) {
                 case Tile.BoardTileType.Normal:
                     return true;
-                case Tile.BoardTileType.Tree:
+                case Tile.BoardTileType.Rough:
                     return true;
-                case Tile.BoardTileType.Shallow:
-                    return true;
-                case Tile.BoardTileType.Deep:
+                case Tile.BoardTileType.Wall:
                     return false;
-                case Tile.BoardTileType.Mountain:
+                case Tile.BoardTileType.Slope:
                     return false;
                 case Tile.BoardTileType.Obstacle:
                     return false;
@@ -39,9 +37,7 @@ namespace Assets.Scripts.Units {
             switch (tileType) {
                 case Tile.BoardTileType.Normal:
                     return 1;
-                case Tile.BoardTileType.Tree:
-                    return 2;
-                case Tile.BoardTileType.Shallow:
+                case Tile.BoardTileType.Rough:
                     return 2;
                 default:
                     return Int32.MaxValue;

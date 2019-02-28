@@ -17,13 +17,11 @@ namespace Assets.Scripts.Units {
             switch (tileType) {
                 case Tile.BoardTileType.Normal:
                     return true;
-                case Tile.BoardTileType.Tree:
+                case Tile.BoardTileType.Rough:
                     return true;
-                case Tile.BoardTileType.Shallow:
+                case Tile.BoardTileType.Wall:
                     return true;
-                case Tile.BoardTileType.Deep:
-                    return true;
-                case Tile.BoardTileType.Mountain:
+                case Tile.BoardTileType.Slope:
                     return true;
                 case Tile.BoardTileType.Obstacle:
                     return true;
@@ -39,13 +37,11 @@ namespace Assets.Scripts.Units {
             switch (tileType) {
                 case Tile.BoardTileType.Normal:
                     return 1;
-                case Tile.BoardTileType.Tree:
+                case Tile.BoardTileType.Wall:
                     return 1;
-                case Tile.BoardTileType.Shallow:
+                case Tile.BoardTileType.Rough:
                     return 1;
-                case Tile.BoardTileType.Deep:
-                    return 1;
-                case Tile.BoardTileType.Mountain:
+                case Tile.BoardTileType.Slope:
                     return 2;
                 case Tile.BoardTileType.Obstacle:
                     return 2;
