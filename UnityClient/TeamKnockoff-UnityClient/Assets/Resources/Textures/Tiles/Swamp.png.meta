@@ -168,62 +168,185 @@ TextureImporter:
     21300326: Swamp_Boundary_Normal_52
     21300328: Swamp_Boundary_Normal_53
     21300330: Swamp_Boundary_Normal_54
-    21300332: Swamp_55
+    21300332: Swamp_55_Wall
     21300334: Swamp_Shallow_Normal_56
-    21300336: Swamp_57
+    21300336: Swamp_57_Rough
     21300338: Swamp_58
     21300340: Swamp_59
     21300342: Swamp_60
     21300344: Swamp_Boundary_Normal_61
     21300346: Swamp_Boundary_Normal_62
-    21300348: Swamp_63
-    21300350: Swamp_64
+    21300348: Swamp_63_Wall
+    21300350: Swamp_64_Wall
     21300352: Swamp_Shallow_Normal_65
     21300354: Swamp_Shallow_Normal_66
-    21300356: Swamp_67
-    21300358: Swamp_68
+    21300356: Swamp_67_Rough
+    21300358: Swamp_68_Rough
     21300360: Swamp_69
     21300362: Swamp_Boundary_Normal_70
-    21300364: Swamp_71
-    21300366: Swamp_72
+    21300364: Swamp_71_Boundary
+    21300366: Swamp_72_Boundary
     21300368: Swamp_Shallow_Normal_73
     21300370: Swamp_Shallow_Normal_74
     21300372: Swamp_75
-    21300374: Swamp_76
-    21300376: Swamp_77
+    21300374: Swamp_76_Rough
+    21300376: Swamp_77_Rough
     21300378: Swamp_78
     21300380: Swamp_79
     21300382: Swamp_80
     21300384: Swamp_81
-    21300386: Swamp_82
+    21300386: Swamp_82_Boundary
     21300388: Swamp_83
     21300390: Swamp_Boundary_84
     21300392: Swamp_Tree_85
-    21300394: Swamp_86
+    21300394: Swamp_86_Rough
     21300396: Swamp_Boundary_Normal_87
-    21300398: Swamp_88
+    21300398: Swamp_88_Obstacle
     21300400: Swamp_89
-    21300402: Swamp_90
+    21300402: Swamp_90_Boundary
     21300404: Swamp_Boundary_91
     21300406: Swamp_Tree_92
     21300408: Swamp_Boundary_93
-    21300410: Swamp_94
+    21300410: Swamp_94_Wall
     21300412: Swamp_Boundary_Normal_95
     21300414: Swamp_Boundary_Normal_96
     21300416: Swamp_97
-    21300418: Swamp_98
+    21300418: Swamp_98_Boundary
     21300420: Swamp_Boundary_99
     21300422: Swamp_Boundary_100
     21300424: Swamp_Boundary_101
-    21300426: Swamp_102
+    21300426: Swamp_102_Wall
     21300428: Swamp_Boundary_Normal_103
     21300430: Swamp_Boundary_Normal_104
     21300432: Swamp_Boundary_Normal_105
     21300434: Swamp_106
-    21300436: Swamp_107
-    21300438: Swamp_108
-    21300440: Swamp_109
+    21300436: Swamp_107_Boundary
+    21300438: Swamp_108_Boundary
+    21300440: Swamp_109_Boundary
     21300442: Swamp_110
+    21300444: Swamp_22_Wall
+    21300446: Swamp_23_Wall
+    21300448: Swamp_24_Rough
+    21300450: Swamp_25_Rough
+    21300452: Swamp_26_Rough
+    21300454: Swamp_27_Rough
+    21300456: Swamp_28_Rough
+    21300458: Swamp_29_Rough
+    21300460: Swamp_30_Wall
+    21300462: Swamp_31_Rough
+    21300464: Swamp_32_Rough
+    21300466: Swamp_33_Rough
+    21300468: Swamp_34_Rough
+    21300470: Swamp_35_Rough
+    21300472: Swamp_36_Rough
+    21300474: Swamp_37_Rough
+    21300476: Swamp_38_Boundary
+    21300478: Swamp_39_Boundary
+    21300480: Swamp_40_Boundary
+    21300482: Swamp_41_Boundary
+    21300484: Swamp_42_Boundary
+    21300486: Swamp_43_Boundary
+    21300488: Swamp_44_Obstacle
+    21300490: Swamp_45_Obstacle
+    21300492: Swamp_46_Obstacle
+    21300494: Swamp_52_Boundary
+    21300496: Swamp_53_Wall
+    21300498: Swamp_54
+    21300500: Swamp_56
+    21300502: Swamp_61_Boundary
+    21300504: Swamp_62_Boundary
+    21300506: Swamp_65
+    21300508: Swamp_66
+    21300510: Swamp_70_Boundary
+    21300512: Swamp_87_Obstacle
+    21300514: Swamp_91
+    21300516: Swamp_92
+    21300518: Swamp_93
+    21300520: Swamp_99_Boundary
+    21300522: Swamp_100_Boundary
+    21300524: Swamp_101
+    21300526: Swamp_103_Wall
+    21300528: Swamp_104_Wall
+    21300530: Swamp_105
+    21300532: Swamp_111
+    21300534: Swamp_112
+    21300536: Swamp_113
+    21300538: Swamp_114
+    21300540: Swamp_115
+    21300542: Swamp_116
+    21300544: Swamp_119
+    21300546: Swamp_120
+    21300548: Swamp_121
+    21300550: Swamp_122
+    21300552: Swamp_123
+    21300554: Swamp_124
+    21300556: Swamp_125
+    21300558: Swamp_126
+    21300560: Swamp_127
+    21300562: Swamp_129
+    21300564: Swamp_130
+    21300566: Swamp_131
+    21300568: Swamp_132
+    21300570: Swamp_133
+    21300572: Swamp_134
+    21300574: Swamp_135
+    21300576: Swamp_136
+    21300578: Swamp_137
+    21300580: Swamp_139
+    21300582: Swamp_140
+    21300584: Swamp_141
+    21300586: Swamp_142
+    21300588: Swamp_143
+    21300590: Swamp_144
+    21300592: Swamp_145
+    21300594: Swamp_146
+    21300596: Swamp_147
+    21300598: Swamp_150
+    21300600: Swamp_151
+    21300602: Swamp_152
+    21300604: Swamp_153
+    21300606: Swamp_154
+    21300608: Swamp_155
+    21300610: Swamp_156
+    21300612: Swamp_157
+    21300614: Swamp_158
+    21300616: Swamp_161
+    21300618: Swamp_162
+    21300620: Swamp_163
+    21300622: Swamp_164
+    21300624: Swamp_165
+    21300626: Swamp_166
+    21300628: Swamp_167
+    21300630: Swamp_168
+    21300632: Swamp_169
+    21300634: Swamp_0_Rough
+    21300636: Swamp_1_Rough
+    21300638: Swamp_2_Rough
+    21300640: Swamp_3_Rough
+    21300642: Swamp_4_Rough
+    21300644: Swamp_5_Rough
+    21300646: Swamp_6_Rough
+    21300648: Swamp_7_Rough
+    21300650: Swamp_8_Rough
+    21300652: Swamp_9_Wall
+    21300654: Swamp_10_Rough
+    21300656: Swamp_11_Rough
+    21300658: Swamp_12_Rough
+    21300660: Swamp_13_Rough
+    21300662: Swamp_14_Rough
+    21300664: Swamp_15_Rough
+    21300666: Swamp_16_Wall
+    21300668: Swamp_17_Wall
+    21300670: Swamp_18_Rough
+    21300672: Swamp_19_Rough
+    21300674: Swamp_20_Rough
+    21300676: Swamp_21_Rough
+    21300678: Swamp_73_Boundary
+    21300680: Swamp_74_Boundary
+    21300682: Swamp_84
+    21300684: Swamp_85
+    21300686: Swamp_95_Wall
+    21300688: Swamp_96_Wall
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -267,7 +390,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -350,13 +473,93 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_0
+      name: Swamp_0_Rough
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56e2abd25084afe46b8b073e6e4f8a9e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_1_Rough
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f307e18055eb8248934a83b802418d2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_2_Rough
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e17d94cfd7bd24f4cb8a7514f1fe747f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_3_Rough
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 166b03759141771459388c6393a86f37
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_4_Rough
       rect:
         serializedVersion: 2
         x: 64
-        y: 960
-        width: 64
-        height: 64
+        y: 224
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -364,19 +567,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2aa5399578c06384d87ff1f18c87355c
+      spriteID: d532a5708a848c647bea663aac8922f1
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_1
+      name: Swamp_5_Rough
       rect:
         serializedVersion: 2
-        x: 128
-        y: 960
-        width: 64
-        height: 64
+        x: 80
+        y: 224
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -384,19 +587,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52e8d4ec6210c054595f79f008453001
+      spriteID: 0fe77ccc97a388a408be3760e0722e8f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_2
+      name: Swamp_6_Rough
       rect:
         serializedVersion: 2
-        x: 192
-        y: 960
-        width: 64
-        height: 64
+        x: 96
+        y: 224
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -404,19 +607,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 13271f43ba19170478c2e5af75b6d223
+      spriteID: 8804a7929b955f244bd575e03c43f374
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_3
+      name: Swamp_7_Rough
       rect:
         serializedVersion: 2
-        x: 256
-        y: 960
-        width: 64
-        height: 64
+        x: 112
+        y: 224
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -424,19 +627,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56a04e8805d983647bce1beffb7a651e
+      spriteID: 30aec937bd199d741a6827ae0b40713b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_4
+      name: Swamp_8_Rough
       rect:
         serializedVersion: 2
-        x: 320
-        y: 960
-        width: 64
-        height: 64
+        x: 0
+        y: 208
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -444,19 +647,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29128c7a9e3844d48af2a0b24e2fe815
+      spriteID: 2f75552b87cacff43846ac7881b9b899
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_5
+      name: Swamp_9_Wall
       rect:
         serializedVersion: 2
-        x: 384
-        y: 960
-        width: 64
-        height: 64
+        x: 16
+        y: 208
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -464,19 +667,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b747d45c5bfe62143962b6a1b79f1fa3
+      spriteID: 18eedf6a82e3d4a4fa647d976ec3e689
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Tree_6
+      name: Swamp_10_Rough
       rect:
         serializedVersion: 2
-        x: 450
-        y: 960
-        width: 64
-        height: 64
+        x: 32
+        y: 208
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -484,19 +687,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c2d22f337ee36242b745ecfcdf60c99
+      spriteID: 982d220829524b54cb8c859205d772bd
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Tree_Normal_7
+      name: Swamp_11_Rough
       rect:
         serializedVersion: 2
-        x: 510
-        y: 962
-        width: 64
-        height: 64
+        x: 48
+        y: 208
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -504,39 +707,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1921ee501b3e54642a84d4e16830f91c
+      spriteID: 90feefecbbb2ba54d9a611b931c80ef6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Tree_Normal_8
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 958
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 47b6f6b4e7b116440af08471a8373c9a
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_9
+      name: Swamp_12_Rough
       rect:
         serializedVersion: 2
         x: 64
-        y: 896
-        width: 64
-        height: 64
+        y: 208
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -544,19 +727,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52fe6b13c80b97944af408c032cbfc31
+      spriteID: e4d899aa8543b4444834125d06b7fffa
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Deep_Normal_10
+      name: Swamp_13_Rough
       rect:
         serializedVersion: 2
-        x: 128
-        y: 896
-        width: 64
-        height: 64
+        x: 80
+        y: 208
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -564,19 +747,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3096ce66f65fa3d4c9f8869f5c2df375
+      spriteID: 0a4d25dfb4ff28d4582bc8d3a181ea3d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_11
+      name: Swamp_14_Rough
       rect:
         serializedVersion: 2
-        x: 192
-        y: 896
-        width: 64
-        height: 64
+        x: 0
+        y: 192
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -584,19 +767,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 887c4fb117006ff449e5d82cfcca8023
+      spriteID: 6c81d5c89f25b344cbb1b893d1186968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_12
+      name: Swamp_15_Rough
       rect:
         serializedVersion: 2
-        x: 256
-        y: 896
-        width: 64
-        height: 64
+        x: 16
+        y: 192
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -604,19 +787,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6bf31a1138d3e3e48ac79850189cc103
+      spriteID: 75e3e4f7d6675454b892d301816b334c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_13
+      name: Swamp_16_Wall
       rect:
         serializedVersion: 2
-        x: 320
-        y: 896
-        width: 64
-        height: 64
+        x: 32
+        y: 192
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -624,19 +807,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3bf9af693b66b244991bc69cd287428c
+      spriteID: 02f492d5d3cc13641b6ab454622f7247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_14
+      name: Swamp_17_Wall
       rect:
         serializedVersion: 2
-        x: 384
-        y: 896
-        width: 64
-        height: 64
+        x: 48
+        y: 192
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -644,79 +827,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e75beb5114515b142a7699ad246a71dc
+      spriteID: 80b93edebeae97a4e9ac3df08078994c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_15
-      rect:
-        serializedVersion: 2
-        x: 450
-        y: 896
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d52980e2285cd8249af24e465a76a0f9
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Normal_16
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 896
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 35094aa9b772c764d8d5c6ffe1121aee
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_17
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 898
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 39059cd33f49fca4eb68459c927109c2
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_18
+      name: Swamp_18_Rough
       rect:
         serializedVersion: 2
         x: 64
-        y: 832
-        width: 64
-        height: 64
+        y: 192
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -724,19 +847,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b06c1b24c1ff6f409d9e08ee8275757
+      spriteID: 9e5999e08ff8c354297dc7b1189f2579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_19
+      name: Swamp_19_Rough
       rect:
         serializedVersion: 2
-        x: 128
-        y: 832
-        width: 64
-        height: 64
+        x: 80
+        y: 192
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -744,19 +867,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d898c25029ecea840bf2e0bb2e606da5
+      spriteID: 9fd49411d1535894e92402f7542fc0b2
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Deep_Normal_20
+      name: Swamp_20_Rough
       rect:
         serializedVersion: 2
-        x: 192
-        y: 832
-        width: 64
-        height: 64
+        x: 0
+        y: 176
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -764,19 +887,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09913c6b24d53c4479a5ca3285777528
+      spriteID: 5a21872dee7659949b3cd1bf630908a6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Deep_Normal_21
+      name: Swamp_21_Rough
       rect:
         serializedVersion: 2
-        x: 256
-        y: 832
-        width: 64
-        height: 64
+        x: 16
+        y: 176
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -784,19 +907,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fe6f5ccf7292ca43b917a9103dd0376
+      spriteID: 40e55131dcb9e4347b8efa4c8b6a06b9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_22
+      name: Swamp_22_Wall
       rect:
         serializedVersion: 2
-        x: 320
-        y: 832
-        width: 64
-        height: 64
+        x: 32
+        y: 176
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -804,19 +927,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 143a0041ffd30234b9adf6ed9784460d
+      spriteID: 8f673fc37a94dee4fb96aeb7040218b7
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_23
+      name: Swamp_23_Wall
       rect:
         serializedVersion: 2
-        x: 384
-        y: 832
-        width: 64
-        height: 64
+        x: 48
+        y: 176
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -824,59 +947,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6578fef6c179c94a91b232bbde4904b
+      spriteID: 1295b0d56f7e6264b8055fab185cb3be
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Tree_24
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 834
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 74a7fc9aba21d054bbf27b071a8de207
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_25
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 832
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ec36b9f258be6c341bd358b5e444de01
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_26
+      name: Swamp_24_Rough
       rect:
         serializedVersion: 2
         x: 64
-        y: 768
-        width: 64
-        height: 64
+        y: 176
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -884,19 +967,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ae542f812bba892418cace7562a01b93
+      spriteID: 7a2e3101b63cfc34f8df1cc225d55169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_27
+      name: Swamp_25_Rough
       rect:
         serializedVersion: 2
-        x: 128
-        y: 768
-        width: 64
-        height: 64
+        x: 80
+        y: 176
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -904,19 +987,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c65c63799111afc49b710bd4a803f474
+      spriteID: ee9503baf811a76488e9c56686c20277
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Deep_Normal_28
+      name: Swamp_26_Rough
       rect:
         serializedVersion: 2
-        x: 192
-        y: 768
-        width: 64
-        height: 64
+        x: 0
+        y: 160
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -924,19 +1007,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bed2fb5fb602c147b27d066e7f86621
+      spriteID: 63cd317a0a7cea240b812426ea7b17d4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Deep_Normal_29
+      name: Swamp_27_Rough
       rect:
         serializedVersion: 2
-        x: 256
-        y: 768
-        width: 64
-        height: 64
+        x: 16
+        y: 160
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -944,19 +1027,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df9ea2a9f8bb863439ab656f6361dccc
+      spriteID: dc603c1fc2eb59e48b3335c526f55b97
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_30
+      name: Swamp_28_Rough
       rect:
         serializedVersion: 2
-        x: 320
-        y: 768
-        width: 64
-        height: 64
+        x: 32
+        y: 160
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -964,19 +1047,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6810958cdf565a242b095ab03b0475f1
+      spriteID: fefbcedf9bae1fb4a983c18d10cf9f56
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_31
+      name: Swamp_29_Rough
       rect:
         serializedVersion: 2
-        x: 384
-        y: 768
-        width: 64
-        height: 64
+        x: 48
+        y: 160
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -984,79 +1067,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49f046c4186f88e40afdfab6fd750b92
+      spriteID: bf03c8c9ad018204896cf3581dc6bce0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_32
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 768
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bb582fe5e11b88b47b7da8d4fff4ed55
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_33
-      rect:
-        serializedVersion: 2
-        x: 510
-        y: 768
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e68ace1f59500f74e96e6918f9bba27f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_34
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 768
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.49999905, y: 0.5282774}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19ed9fce9565c67448c4296a8e3e75eb
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_35
+      name: Swamp_30_Wall
       rect:
         serializedVersion: 2
         x: 64
-        y: 704
-        width: 64
-        height: 64
+        y: 160
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1064,19 +1087,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aaaf41908066eae44b83a47991ca3477
+      spriteID: 47e6530e3eb82674696a46936e580668
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_36
+      name: Swamp_31_Rough
       rect:
         serializedVersion: 2
-        x: 128
-        y: 704
-        width: 64
-        height: 64
+        x: 80
+        y: 160
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1084,19 +1107,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8a8b8d93354a6b4a844d24b684fc41f
+      spriteID: 99f52c29bef98a242b8bed1737fd426e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_37
+      name: Swamp_32_Rough
       rect:
         serializedVersion: 2
-        x: 192
-        y: 704
-        width: 64
-        height: 64
+        x: 0
+        y: 144
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1104,19 +1127,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a82878d65f21744690d3be7a7b0f121
+      spriteID: 08645c3a2a312ba4793206c748ce2b46
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_38
+      name: Swamp_33_Rough
       rect:
         serializedVersion: 2
-        x: 256
-        y: 704
-        width: 64
-        height: 64
+        x: 16
+        y: 144
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1124,19 +1147,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 79ed3e66f5f100840b21b25b34f1db2e
+      spriteID: 18ac8011bbb768a4099b3ad406fd3609
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Deep_Normal_39
+      name: Swamp_34_Rough
       rect:
         serializedVersion: 2
-        x: 320
-        y: 704
-        width: 64
-        height: 64
+        x: 32
+        y: 144
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1144,19 +1167,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 54f9447bbcbeeba4d958c803b64c107c
+      spriteID: 2d541d975dd58814cb4fbe325447c574
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_40
+      name: Swamp_35_Rough
       rect:
         serializedVersion: 2
-        x: 384
-        y: 704
-        width: 64
-        height: 64
+        x: 48
+        y: 144
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1164,19 +1187,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b940311294f45a44bbfdea0828a4c20
+      spriteID: 4a8b3510fb2d58742be290cde46a75d3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_41
+      name: Swamp_36_Rough
       rect:
         serializedVersion: 2
         x: 64
-        y: 640
-        width: 64
-        height: 64
+        y: 144
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1184,19 +1207,199 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6264f1ba9ca9df4fb0de7cca786d86e
+      spriteID: e547eeb29f501784cb1206f78b004e57
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_42
+      name: Swamp_37_Rough
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39d2c5c57fe398e40abeae38c051b4d0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_38_Boundary
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2df2af8766bad774ba33f02c8cebf78b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_39_Boundary
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 199272cad9073fc42b2ff11aa2aca308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_40_Boundary
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 473289853e7d17049a1d9e3176a0457c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_41_Boundary
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1afe6ed824e47e40bed2a6e1c96c468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_42_Boundary
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bccfb3660e96334ea270f9c372f0eb2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_43_Boundary
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d903ecf8e66441b4ead72c0ad79ca151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_44_Obstacle
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c63ed0bf2e4b424419303c4408de09ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_45_Obstacle
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f20e326898d665b4cbe27e4d10617bd8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_46_Obstacle
       rect:
         serializedVersion: 2
         x: 128
-        y: 640
-        width: 64
-        height: 64
+        y: 128
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1204,87 +1407,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d78c7e75c9270bb48b740aeba681567e
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_43
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 640
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 250fd096c03392047af615925d5f37ec
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_44
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 640
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9abf9dd1dd950ab40ad19c01f611d2fb
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_45
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 640
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 323b8893213ebde43b30daa8c3260870
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_46
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 640
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d18a7f2369e55fa47920e8d88ca63fa4
+      spriteID: a8e809af84c2e0c4fb4e108a5b138957
       vertices: []
       indices: 
       edges: []
@@ -1293,10 +1416,10 @@ TextureImporter:
       name: Swamp_47
       rect:
         serializedVersion: 2
-        x: 64
-        y: 512
-        width: 64
-        height: 64
+        x: 0
+        y: 112
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1304,7 +1427,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06be20e8adc2a8249a457cdd51b9fbc9
+      spriteID: 8953c6ba8b17d934f861a31a4aaeabe9
       vertices: []
       indices: 
       edges: []
@@ -1313,10 +1436,10 @@ TextureImporter:
       name: Swamp_48
       rect:
         serializedVersion: 2
-        x: 128
-        y: 512
-        width: 64
-        height: 64
+        x: 16
+        y: 112
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1324,7 +1447,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4d97f48d303a214d912550e3519fe1d
+      spriteID: 894b091382509d549b1fe18f90882a50
       vertices: []
       indices: 
       edges: []
@@ -1333,10 +1456,10 @@ TextureImporter:
       name: Swamp_49
       rect:
         serializedVersion: 2
-        x: 192
-        y: 512
-        width: 64
-        height: 64
+        x: 32
+        y: 112
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1344,7 +1467,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e418db7533dbca44b3ae12766e673fb
+      spriteID: a653eebfca34d82488c773718d4b051d
       vertices: []
       indices: 
       edges: []
@@ -1353,10 +1476,10 @@ TextureImporter:
       name: Swamp_50
       rect:
         serializedVersion: 2
-        x: 256
-        y: 512
-        width: 64
-        height: 64
+        x: 48
+        y: 112
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1364,7 +1487,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11ae8a4c7a3a99f40b858c4a8f8f417b
+      spriteID: 3961c2debeeb1374e912853e9217d0d8
       vertices: []
       indices: 
       edges: []
@@ -1373,90 +1496,10 @@ TextureImporter:
       name: Swamp_51
       rect:
         serializedVersion: 2
-        x: 320
-        y: 512
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4fcf7e536df2bd44c8d530f21ca579cf
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_52
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 512
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 14c157d5e541230419eb88a3950c4a4a
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_53
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 512
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 44acb8198bcc9bc4a921ddb5b13fac4e
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_54
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 512
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e139392cbe003f54a8a480a6292d1b8f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_55
-      rect:
-        serializedVersion: 2
         x: 64
-        y: 448
-        width: 64
-        height: 64
+        y: 112
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1464,19 +1507,79 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db7bac19f3a5372479ec4f6e3af79254
+      spriteID: fbff4f27384a7394897d3de86f208ae3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_56
+      name: Swamp_52_Boundary
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c0d8fbf15ccf71409b01be438be0fb8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_53_Wall
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa7c2ebc0f67dfd4683f0671345ff1b9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_54
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c11ae7fc8beec3f4485986c5f9fbc082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_55_Wall
       rect:
         serializedVersion: 2
         x: 128
-        y: 448
-        width: 64
-        height: 64
+        y: 112
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1484,19 +1587,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f016b4309f3aaf4ba71a1cdb118b233
+      spriteID: 2ce918c915b9e214f94108df4fa6d189
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_57
+      name: Swamp_56
       rect:
         serializedVersion: 2
-        x: 192
-        y: 448
-        width: 64
-        height: 64
+        x: 0
+        y: 96
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1504,7 +1607,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f48563a8682e9a4f93e8af4ab852790
+      spriteID: a33ead01300c44d4585c7c34281a4833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_57_Rough
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 627280940e09dc949be5c9e3a998d702
       vertices: []
       indices: 
       edges: []
@@ -1513,10 +1636,10 @@ TextureImporter:
       name: Swamp_58
       rect:
         serializedVersion: 2
-        x: 256
-        y: 448
-        width: 64
-        height: 64
+        x: 32
+        y: 96
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1524,7 +1647,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce1a6ad280a207142922d846138ccc2b
+      spriteID: 5ebded0f540d99541842b57dc68d7f67
       vertices: []
       indices: 
       edges: []
@@ -1533,10 +1656,10 @@ TextureImporter:
       name: Swamp_59
       rect:
         serializedVersion: 2
-        x: 320
-        y: 448
-        width: 64
-        height: 64
+        x: 48
+        y: 96
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1544,7 +1667,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 507af25ddb8bffc47a82c5d2f6935daf
+      spriteID: 8d0d13c7c1567464fbb54362ac64f50d
       vertices: []
       indices: 
       edges: []
@@ -1553,70 +1676,10 @@ TextureImporter:
       name: Swamp_60
       rect:
         serializedVersion: 2
-        x: 384
-        y: 448
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 119d08ca1e8927140952a761a128bd0b
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_61
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 448
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 118a67a07c804eb4aa4a806a5a4e374c
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_62
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 448
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 985ff488338018e4fac9fb967d101632
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_63
-      rect:
-        serializedVersion: 2
         x: 64
-        y: 384
-        width: 64
-        height: 64
+        y: 96
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1624,19 +1687,79 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68b3fa518b1f8154b9db83510750451a
+      spriteID: 70d39ddfd9e2b2640ae6289dd046d999
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_64
+      name: Swamp_61_Boundary
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef107e66a088c184197b119ad6adf10c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_62_Boundary
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b64870f64587a446a8e0147fff4dd63
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_63_Wall
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4e9826afa1362545b6e69f4f3fcda98
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_64_Wall
       rect:
         serializedVersion: 2
         x: 128
-        y: 384
-        width: 64
-        height: 64
+        y: 96
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1644,19 +1767,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc3d8c3947283f54cad56dfa0a076d82
+      spriteID: 402073e6cc7e0a54dbaabcc77b7f715f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_65
+      name: Swamp_65
       rect:
         serializedVersion: 2
-        x: 192
-        y: 384
-        width: 64
-        height: 64
+        x: 0
+        y: 80
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1664,19 +1787,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1caa280577ea3d64a80cee54029e6e11
+      spriteID: 1d2bfc376e422204da33704f229a7213
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_66
+      name: Swamp_66
       rect:
         serializedVersion: 2
-        x: 256
-        y: 384
-        width: 64
-        height: 64
+        x: 16
+        y: 80
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1684,19 +1807,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb93db718baaf30478e4c9c6420452f4
+      spriteID: 3f4e05971291df84a92ac2381eb63048
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_67
+      name: Swamp_67_Rough
       rect:
         serializedVersion: 2
-        x: 320
-        y: 384
-        width: 64
-        height: 64
+        x: 32
+        y: 80
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1704,19 +1827,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f3a2cdfa32149c4e959179e645fc62c
+      spriteID: f3d2091fc6417564bbe8654db193e188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_68
+      name: Swamp_68_Rough
       rect:
         serializedVersion: 2
-        x: 384
-        y: 384
-        width: 64
-        height: 64
+        x: 48
+        y: 80
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1724,7 +1847,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f253d1143fcb55042ae07733387e56ae
+      spriteID: 6e2946858f675ed47966aca5444e0a29
       vertices: []
       indices: 
       edges: []
@@ -1733,50 +1856,10 @@ TextureImporter:
       name: Swamp_69
       rect:
         serializedVersion: 2
-        x: 448
-        y: 384
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 70604eaabd1b53249b20ee2fe7300ab6
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_70
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 384
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19676fb3f850d4b4c834970f0cf2bc78
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_71
-      rect:
-        serializedVersion: 2
         x: 64
-        y: 320
-        width: 64
-        height: 64
+        y: 80
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1784,19 +1867,79 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 524fc064c60a3cb4aaf2403e79ac4337
+      spriteID: 0f9215b66cc48de438468a801f6e7e65
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_72
+      name: Swamp_70_Boundary
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e185c654ecc64ac4fb51058da3af76f5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_71_Boundary
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b121fdb19ca260408d4dc831610ac39
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_72_Boundary
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3c5071521a44bd429fc4264e2ec9c54
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_73_Boundary
       rect:
         serializedVersion: 2
         x: 128
-        y: 320
-        width: 64
-        height: 64
+        y: 80
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1804,19 +1947,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 225ddc0ea71415e49b0814d1cde4cf1a
+      spriteID: 12a1b9ce1acf80844abe7c32d0584811
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Shallow_Normal_73
+      name: Swamp_74_Boundary
       rect:
         serializedVersion: 2
-        x: 192
-        y: 320
-        width: 64
-        height: 64
+        x: 0
+        y: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1824,27 +1967,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d65f630edade0f948a8a020f2eb32dfb
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Shallow_Normal_74
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 320
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 578f6f756381f084e881b3201dfce73d
+      spriteID: 9bfad3a645aa6b44ca3af87fb6642053
       vertices: []
       indices: 
       edges: []
@@ -1853,10 +1976,10 @@ TextureImporter:
       name: Swamp_75
       rect:
         serializedVersion: 2
-        x: 320
-        y: 320
-        width: 64
-        height: 64
+        x: 16
+        y: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1864,19 +1987,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d40c2081912d01d44a3ecdf6c500111d
+      spriteID: b922b1b9f475ffe44bd5801f39f00101
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_76
+      name: Swamp_76_Rough
       rect:
         serializedVersion: 2
-        x: 384
-        y: 320
-        width: 64
-        height: 64
+        x: 32
+        y: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1884,19 +2007,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6305b3bcae62c5469134bb80e6b99ce
+      spriteID: ce32f717691e66844b3b45e756e3678d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_77
+      name: Swamp_77_Rough
       rect:
         serializedVersion: 2
-        x: 448
-        y: 320
-        width: 64
-        height: 64
+        x: 48
+        y: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1904,7 +2027,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e952079339dfaa64fb20e778c8ef9c2e
+      spriteID: 0f23e4105bbefa845ab946728a586b2d
       vertices: []
       indices: 
       edges: []
@@ -1913,10 +2036,10 @@ TextureImporter:
       name: Swamp_78
       rect:
         serializedVersion: 2
-        x: 512
-        y: 320
-        width: 64
-        height: 64
+        x: 64
+        y: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1924,7 +2047,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d496ff18101ed52459d9747340f3763c
+      spriteID: 23b16ede49a23ee46b31919096e374bc
       vertices: []
       indices: 
       edges: []
@@ -1933,10 +2056,10 @@ TextureImporter:
       name: Swamp_79
       rect:
         serializedVersion: 2
-        x: 64
-        y: 256
-        width: 64
-        height: 64
+        x: 80
+        y: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1944,7 +2067,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1906f7bc8f71d12419f8c3f4cd4c8b38
+      spriteID: b08bf7923386d5c429f2678600706ac9
       vertices: []
       indices: 
       edges: []
@@ -1953,10 +2076,10 @@ TextureImporter:
       name: Swamp_80
       rect:
         serializedVersion: 2
-        x: 128
-        y: 256
-        width: 64
-        height: 64
+        x: 96
+        y: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1964,7 +2087,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d98a52b4eefb03741a70692adfd4b920
+      spriteID: 61887743f7181724ca90b001f273d87b
       vertices: []
       indices: 
       edges: []
@@ -1973,10 +2096,10 @@ TextureImporter:
       name: Swamp_81
       rect:
         serializedVersion: 2
-        x: 192
-        y: 256
-        width: 64
-        height: 64
+        x: 112
+        y: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1984,19 +2107,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e7ab8af83ae69240b08e3fd6571445a
+      spriteID: 0cdb9c134f2adbb44a8c958a987e8088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_82
+      name: Swamp_82_Boundary
       rect:
         serializedVersion: 2
-        x: 254
-        y: 258
-        width: 64
-        height: 64
+        x: 0
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2004,7 +2127,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 929134dc199423241b5391e6ca667a89
+      spriteID: 2b8c0d1838dfa844abbd8ea80454ba7e
       vertices: []
       indices: 
       edges: []
@@ -2013,10 +2136,10 @@ TextureImporter:
       name: Swamp_83
       rect:
         serializedVersion: 2
-        x: 320
-        y: 256
-        width: 64
-        height: 64
+        x: 16
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2024,19 +2147,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 114f14d197b9ded43af1a458e0c50fd2
+      spriteID: 116fd457735db8b48aea2e2b7b1bccf4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_84
+      name: Swamp_84
       rect:
         serializedVersion: 2
-        x: 384
-        y: 256
-        width: 64
-        height: 64
+        x: 32
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2044,19 +2167,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68a1a0dcb44095c408038d32d9dcc7ce
+      spriteID: 45629ec08ec77b1438c8026f924514a9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Tree_85
+      name: Swamp_85
       rect:
         serializedVersion: 2
-        x: 448
-        y: 256
-        width: 64
-        height: 64
+        x: 48
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2064,39 +2187,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4853b1c55ab445428d4d7587be6c3e2
+      spriteID: ce7f593c5e496fb45833fc2feff9a661
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_86
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 256
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 60d4bc1f7ae6ee745a1ce1a00d8578a5
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_87
+      name: Swamp_86_Rough
       rect:
         serializedVersion: 2
         x: 64
-        y: 192
-        width: 64
-        height: 64
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2104,19 +2207,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 252db045599cd0143a341b97c7041dc7
+      spriteID: 28aa8e5d28d1d99458bbb33a41a1b9bc
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_88
+      name: Swamp_87_Obstacle
       rect:
         serializedVersion: 2
-        x: 128
-        y: 192
-        width: 64
-        height: 64
+        x: 80
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2124,7 +2227,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eac99a24f12ede74ebe2c28c2722f769
+      spriteID: 8f41df412bce7124685f5027761a662f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_88_Obstacle
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 536693e35355ca04eaf04c58a7e55426
       vertices: []
       indices: 
       edges: []
@@ -2133,10 +2256,10 @@ TextureImporter:
       name: Swamp_89
       rect:
         serializedVersion: 2
-        x: 192
-        y: 192
-        width: 64
-        height: 64
+        x: 112
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2144,19 +2267,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 586486bfe7fe27249b9b79a401973328
+      spriteID: 12c7680e4aba5454e97a0518257b37f3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_90
+      name: Swamp_90_Boundary
       rect:
         serializedVersion: 2
-        x: 256
-        y: 192
-        width: 64
-        height: 64
+        x: 0
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2164,19 +2287,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7078b436e1643742ac16c8c86c665e2
+      spriteID: 30a894031c64f2f42b199ac54d798bd0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_91
+      name: Swamp_91
       rect:
         serializedVersion: 2
-        x: 318
-        y: 196
-        width: 64
-        height: 64
+        x: 16
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2184,19 +2307,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 010dcae9e6425564d99b2a083937d335
+      spriteID: befabe458eb282c45adbddc7f53d9fd1
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Tree_92
+      name: Swamp_92
       rect:
         serializedVersion: 2
-        x: 378
-        y: 194
-        width: 64
-        height: 64
+        x: 32
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2204,19 +2327,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa91acd5ec7a593449a8543846fdd875
+      spriteID: da0971b48c3537849b335da69668cff3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_93
+      name: Swamp_93
       rect:
         serializedVersion: 2
-        x: 448
-        y: 192
-        width: 64
-        height: 64
+        x: 48
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2224,39 +2347,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3d5c4fb317d80046bfc443b31212e20
+      spriteID: b029cd67f93a2dd4eb770aaf47661ad1
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_94
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 192
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 496c56b8b4c952e468890e933276e050
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_95
+      name: Swamp_94_Wall
       rect:
         serializedVersion: 2
         x: 64
-        y: 128
-        width: 64
-        height: 64
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2264,19 +2367,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ede08626e62dfa47ae9b54a496a8caa
+      spriteID: 20bf92734d72c544eab1b035a35c73a6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_Normal_96
+      name: Swamp_95_Wall
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
-        width: 64
-        height: 64
+        x: 80
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2284,7 +2387,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f21d7d4486b76a34bb6856ffd9e50055
+      spriteID: 75ac5a411b82e5f408f6847a833d34df
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_96_Wall
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e7bdd043ab905d4b9c50cbcd5cc4f39
       vertices: []
       indices: 
       edges: []
@@ -2293,10 +2416,10 @@ TextureImporter:
       name: Swamp_97
       rect:
         serializedVersion: 2
-        x: 192
-        y: 128
-        width: 64
-        height: 64
+        x: 112
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2304,19 +2427,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc31c9f43aa610e48b319d21f830c463
+      spriteID: 3153c34fd4ff17349b95b0b31973cd5e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_98
+      name: Swamp_98_Boundary
       rect:
         serializedVersion: 2
-        x: 256
-        y: 128
-        width: 64
-        height: 64
+        x: 0
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2324,19 +2447,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 102488eb8e82851478873b76d87ff6cb
+      spriteID: 7f242493a1ddc83428a9dfdb8669f181
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_99
+      name: Swamp_99_Boundary
       rect:
         serializedVersion: 2
-        x: 320
-        y: 128
-        width: 64
-        height: 64
+        x: 16
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2344,19 +2467,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61e93b28f09448c4f9f3cbbba0c1e645
+      spriteID: f8414be9ef4fc8a4c973074de420e9a8
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_100
+      name: Swamp_100_Boundary
       rect:
         serializedVersion: 2
-        x: 384
-        y: 128
-        width: 64
-        height: 64
+        x: 32
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2364,19 +2487,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5dcb17055a249bf4a99992548eece178
+      spriteID: 7e0cf18fe35c3ac4aa114b63387f06e1
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_101
+      name: Swamp_101
       rect:
         serializedVersion: 2
-        x: 448
-        y: 128
-        width: 64
-        height: 64
+        x: 48
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2384,39 +2507,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23b904193fc19d445bc9523e88e542fa
+      spriteID: ff2cf2985dc26524bb018365ce8786a6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_102
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 128
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a54be337003504d4b914b11a75ccc354
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swamp_Boundary_Normal_103
+      name: Swamp_102_Wall
       rect:
         serializedVersion: 2
         x: 64
-        y: 64
-        width: 64
-        height: 64
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2424,19 +2527,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: feb7c573a117b364c8478af72bd26f96
+      spriteID: 25e68f6827244fa4382d9379edb6354e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_Normal_104
+      name: Swamp_103_Wall
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
-        width: 64
-        height: 64
+        x: 80
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2444,19 +2547,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ae28c03c61b0a1d4d918511b8cb49231
+      spriteID: a2d5b716394c30f4b8b2e6fd03dcce1a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_Boundary_Normal_105
+      name: Swamp_104_Wall
       rect:
         serializedVersion: 2
-        x: 192
-        y: 64
-        width: 64
-        height: 64
+        x: 96
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2464,7 +2567,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed79af00dea1f2e49b3ee183466f619d
+      spriteID: 08f8418f2327c584e9d13390fbe2a6a4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_105
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c04050d13622f84b8b85e759289f6a9
       vertices: []
       indices: 
       edges: []
@@ -2473,10 +2596,10 @@ TextureImporter:
       name: Swamp_106
       rect:
         serializedVersion: 2
-        x: 256
-        y: 64
-        width: 64
-        height: 64
+        x: 128
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2484,19 +2607,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5cf59dede56aefa4e8bc9215a7b5ba6b
+      spriteID: 8d07ab9b2dc7d174498926ad1c30dce5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_107
+      name: Swamp_107_Boundary
       rect:
         serializedVersion: 2
-        x: 320
-        y: 64
-        width: 64
-        height: 64
+        x: 0
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2504,19 +2627,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ef54d2e9e9b4524c9e6258666858b6a
+      spriteID: 8c5a2fce59fe4894ea30d9bd6e225067
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_108
+      name: Swamp_108_Boundary
       rect:
         serializedVersion: 2
-        x: 384
-        y: 64
-        width: 64
-        height: 64
+        x: 16
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2524,19 +2647,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 824433c84aaf9024ebc27d5aa7a91f0f
+      spriteID: b874aadee76822649b91370d22acb1a6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swamp_109
+      name: Swamp_109_Boundary
       rect:
         serializedVersion: 2
-        x: 448
-        y: 64
-        width: 64
-        height: 64
+        x: 32
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2544,7 +2667,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46fdd23c7f3b16b45b104e0d9e39c7eb
+      spriteID: d1d90867899649c43904c868bef40d18
       vertices: []
       indices: 
       edges: []
@@ -2553,10 +2676,10 @@ TextureImporter:
       name: Swamp_110
       rect:
         serializedVersion: 2
-        x: 512
-        y: 64
-        width: 64
-        height: 64
+        x: 48
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2564,7 +2687,107 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a51f92439d28b0643869ac13abfb4fa9
+      spriteID: 3c65dab792c04fb498e3d94c991a0005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_111
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f07d852246618aa47903cc751c472eb7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_112
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20ba26f5838bf6d42b21cfa3f9c16f23
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_113
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e2cab60fd0eeda4bb983bbc1ab7981f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_114
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f95015bd0806b574b8a8eed120a1d598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swamp_115
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1aa6e297f4d8814f9289a28d24de1fb
       vertices: []
       indices: 
       edges: []
