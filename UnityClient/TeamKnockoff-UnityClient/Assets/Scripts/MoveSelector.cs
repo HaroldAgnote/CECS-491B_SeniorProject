@@ -94,8 +94,7 @@ public class MoveSelector : MonoBehaviour {
         var possiblePoints = closestPoints.Where(point =>
             ((point == unitPosition) ||
             (GameManager.instance.UnitAtGrid(new Vector3(point.x, point.y, 0f)) == null)) &&
-            (moveLocations.Contains(point)) && 
-            (point.x == unitPosition.x || point.y == unitPosition.y))
+            (moveLocations.Contains(point)))
             .ToList();
 
         Debug.Log("Possible attack positions: ");

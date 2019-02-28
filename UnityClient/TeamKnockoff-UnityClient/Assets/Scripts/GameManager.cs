@@ -123,6 +123,10 @@ public class GameManager : MonoBehaviour
         return currentPlayer.CheckUnitHasMoved(unit);
     }
 
+    public bool EnemyUnitIsAlive(GameObject unit) {
+        return otherPlayer.CheckUnitIsActive(unit);
+    }
+
     public bool DoesUnitBelongToCurrentPlayer(GameObject unit) {
         return currentPlayer.units.Contains(unit);
     }
@@ -171,8 +175,7 @@ public class GameManager : MonoBehaviour
         {
             //the unit is still kinda there, but not really.
             //maybe obliterate the tile
-            Destroy(defender.gameObject);
-            Destroy(defender);
+            otherPlayer.MarkUnitAsInactive(defender.gameObject);
         }
         //print more stuff to make sure
         //destroy unit when dead
