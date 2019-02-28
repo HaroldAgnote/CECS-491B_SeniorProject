@@ -58,6 +58,7 @@ namespace Assets.Scripts.Units {
             var rootTile = GameManager.instance.tiles[gridPoint.x, gridPoint.y];
             tileQueue.Enqueue(rootTile);
 
+            moveLocations.Add(new Vector2Int(gridPoint.x, gridPoint.y));
             while (tileQueue.Count > 0) {
                 Tile current = tileQueue.Dequeue();
 
@@ -88,9 +89,8 @@ namespace Assets.Scripts.Units {
                     moveLocations.Add(new Vector2Int(current.XPosition, current.YPosition));
                 }
             }
-
-            moveLocations = moveLocations.Where(loc => GameManager.instance.UnitAtGrid(new Vector3(loc.x, loc.y, 0f)) == null).ToList();
-            moveLocations.Add(new Vector2Int(gridPoint.x, gridPoint.y));
+            moveLocations = moveLocations.Where(loc => loc == gridPoint ||
+                                                    GameManager.instance.UnitAtGrid(new Vector3(loc.x, loc.y, 0f)) == null).ToList();
             return moveLocations;
         }
 
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Units {
             }
 
             // Temporary
-            MainWeapon = new Weapon();
+            MainWeapon = new Weapon(5, 1, 100, 0);
 
             distance[gridPoint.x, gridPoint.y] = 0;
             var tileQueue = new Queue<Tile>();

@@ -49,3 +49,7 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+# Orig files
+*.orig
+*.orig.meta

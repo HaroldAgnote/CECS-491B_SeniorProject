@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+using Assets.Scripts.Units;
 
 public class MoveSelector : MonoBehaviour {
     public GameObject moveLocationPrefab;
@@ -56,8 +59,11 @@ public class MoveSelector : MonoBehaviour {
                 }
 
                 else if (attackLocations.Contains(new Vector2Int((int)point.x, (int)point.y))) {
-                    Vector2Int movedPoint = new Vector2Int((int)point.x, (int)point.y);
-                    GameManager.instance.Attack(movingUnit, movedPoint);
+                    Vector2Int attackPoint = new Vector2Int((int)point.x, (int)point.y);
+                    Vector2Int movePoint = FindClosestAttackPoint(movingUnit, attackPoint);
+                    GameManager.instance.Move(movingUnit, movePoint);
+                    GameManager.instance.Attack(movingUnit, attackPoint);
+                    ExitState();
                 }
 
             }
@@ -65,6 +71,46 @@ public class MoveSelector : MonoBehaviour {
             tileHighlight.SetActive(false);
         }
     }
+
+    private Vector2Int FindClosestAttackPoint(GameObject attackingUnit, Vector2Int attackPoint)
+    {
+        var unit = attackingUnit.GetComponent<Unit>();
+        var unitPosition = GameManager.instance.GridForUnit(attackingUnit);
+
+        Debug.Log($"Attack Point: ({attackPoint.x}, {attackPoint.y}");
+        var closestPoints = new List<Vector2Int>();
+        
+        closestPoints.Add(new Vector2Int(attackPoint.x - unit.MainWeapon.Range, attackPoint.y));
+        closestPoints.Add(new Vector2Int(attackPoint.x, attackPoint.y - unit.MainWeapon.Range));
+
+        closestPoints.Add(new Vector2Int(attackPoint.x + unit.MainWeapon.Range, attackPoint.y));
+        closestPoints.Add(new Vector2Int(attackPoint.x, attackPoint.y + unit.MainWeapon.Range));
+
+        Debug.Log("Closest Points");
+        foreach (var pos in closestPoints) {
+            Debug.Log($"({pos.x}, {pos.y})");
+        }
+
+        var possiblePoints = closestPoints.Where(point =>
+            ((point == unitPosition) ||
+            (GameManager.instance.UnitAtGrid(new Vector3(point.x, point.y, 0f)) == null)) &&
+            (moveLocations.Contains(point)) && 
+            (point.x == unitPosition.x || point.y == unitPosition.y))
+            .ToList();
+
+        Debug.Log("Possible attack positions: ");
+        foreach (var pos in possiblePoints) {
+            Debug.Log($"({pos.x}, {pos.y})");
+        }
+
+
+        if (possiblePoints.Count > 1) {
+            return possiblePoints.First();
+        } else {
+            return possiblePoints.SingleOrDefault();
+        }
+
+    } 
 
     private void CancelMove() {
         this.enabled = false;
@@ -117,6 +163,9 @@ public class MoveSelector : MonoBehaviour {
         TileSelector selector = GetComponent<TileSelector>();
         tileHighlight.SetActive(false);
         movingUnit = null;
+
+        // Check if Players have active units
+        GameManager.instance.CheckGameState();
 
         // If Player has no more moves, change turns
         if (GameManager.instance.CheckIfCurrentPlayerHasNoMoves()) {
