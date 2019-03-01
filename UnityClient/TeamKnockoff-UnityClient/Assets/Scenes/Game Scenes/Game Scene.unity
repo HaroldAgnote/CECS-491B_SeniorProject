@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: 0
-  speed: 5
+  speed: 10
   minMaxXPosition: {x: 0, y: 8}
   minMaxYPosition: {x: 0, y: 8}
 --- !u!1 &859168760
