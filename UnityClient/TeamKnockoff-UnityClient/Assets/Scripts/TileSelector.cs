@@ -35,6 +35,8 @@ public class TileSelector : MonoBehaviour
                         ExitState(selectedPiece);
                     }
                 }
+            } else if (Input.GetMouseButtonUp(1)) {
+                Debug.Log($"Clicking at Point: ({point.x}, {point.y})");
             }
         } else {
             tileHighlight.SetActive(false);

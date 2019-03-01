@@ -11,9 +11,10 @@ public class TileFactory : MonoBehaviour
     const string RESOURCE_PATH = "Textures/Tiles/";
     const char DELIMITER = '_';
 
-    public GameObject normalTilePrefab;
-    public GameObject obstacleTilePrefab;
+    public GameObject floorTilePrefab;
     public GameObject wallTilePrefab;
+    public GameObject obstacleTilePrefab;
+    public GameObject boundaryTilePrefab;
 
     public Texture2D swampTexture;
 
@@ -46,17 +47,22 @@ public class TileFactory : MonoBehaviour
         Tile newTile = new Tile(tileData.Column, tileData.Row);
 
         if (!tileData.FloorData.IsEmpty()) {
-            SetUpTile(normalTilePrefab, tilePos, newTile, tileData.FloorData, parent);
-        }
-
-        if (!tileData.ObstacleData.IsEmpty()) {
-            SetUpTile(obstacleTilePrefab, tilePos, newTile, tileData.ObstacleData, parent);
+            SetUpTile(floorTilePrefab, tilePos, newTile, tileData.FloorData, parent);
         }
 
         if (!tileData.WallData.IsEmpty()) {
             SetUpTile(wallTilePrefab, tilePos, newTile, tileData.WallData, parent);
             
         }
+
+        if (!tileData.ObstacleData.IsEmpty()) {
+            SetUpTile(obstacleTilePrefab, tilePos, newTile, tileData.ObstacleData, parent);
+        }
+
+        if (!tileData.BoundaryData.IsEmpty()) {
+            SetUpTile(boundaryTilePrefab, tilePos, newTile, tileData.BoundaryData, parent);
+        }
+            
 
         return newTile;
     }
@@ -68,10 +74,13 @@ public class TileFactory : MonoBehaviour
         var tileSprite = instance.GetComponent<SpriteRenderer>();
 
         var theme = GetTheme(tileStringData);
+        Debug.Log($"Theme: {theme}");
         var tileFactory = tileMapper[theme];
 
         var tileType = GetTileType(tileStringData);
+        Debug.Log($"Tile Type: {tileType}");
         var tileEffect = GetTileEffect(tileStringData);
+        Debug.Log($"Tile Effect: {tileEffect}");
 
         newTile.TileType = Tile.TILE_TYPES[tileType];
         newTile.TileEffect = Tile.TILE_EFFECTS[tileEffect];
@@ -127,8 +136,9 @@ public class TileFactory : MonoBehaviour
     }
 
     public int GetTileSpriteIndex(string tileStringData) {
+        const int TILE_SPRITE_INDEX = 1;
         var split_string = tileStringData.Split(DELIMITER);
-        var index = Int32.Parse(split_string.Last<string>());
+        var index = Int32.Parse(split_string[TILE_SPRITE_INDEX]);
 
         return index;
     }

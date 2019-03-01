@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Assets.Scripts.Units;
+using Assets.Scripts.ExtensionMethods;
 
 public class MoveSelector : MonoBehaviour {
     public GameObject moveLocationPrefab;
@@ -34,19 +35,19 @@ public class MoveSelector : MonoBehaviour {
             Vector3 point = hit.collider.gameObject.transform.position;
             // Debug.Log($"Hovering at Point: ({point.x}, {point.y})");
 
+
             tileHighlight.SetActive(true);
             tileHighlight.transform.position = point;
             if (Input.GetMouseButtonDown(0)) {
                 // TODO: Implement movement here
-                if (!moveLocations.Contains(new Vector2Int((int) point.x, (int) point.y)) && 
-                    !attackLocations.Contains(new Vector2Int((int)point.x, (int)point.y))) {
+                if (!moveLocations.Contains(point.ToVector2Int()) && 
+                    !attackLocations.Contains(point.ToVector2Int())) {
                     CancelMove();
                     //ExitState();
                 }
 
-                else if (moveLocations.Contains(new Vector2Int((int)point.x, (int)point.y)))
-                {
-                    Vector2Int movedPoint = new Vector2Int((int)point.x, (int)point.y);
+                else if (moveLocations.Contains(point.ToVector2Int())) {
+                    Vector2Int movedPoint = point.ToVector2Int();
 
                     // TODO: Need to manage moving versus attacking
                     GameManager.instance.Move(movingUnit, movedPoint);
@@ -58,8 +59,8 @@ public class MoveSelector : MonoBehaviour {
                     ExitState();
                 }
 
-                else if (attackLocations.Contains(new Vector2Int((int)point.x, (int)point.y))) {
-                    Vector2Int attackPoint = new Vector2Int((int)point.x, (int)point.y);
+                else if (attackLocations.Contains(point.ToVector2Int())) {
+                    Vector2Int attackPoint = Vector2Int.FloorToInt(point.ToVector2());
                     Vector2Int movePoint = FindClosestAttackPoint(movingUnit, attackPoint);
                     GameManager.instance.Move(movingUnit, movePoint);
                     GameManager.instance.Attack(movingUnit, attackPoint);

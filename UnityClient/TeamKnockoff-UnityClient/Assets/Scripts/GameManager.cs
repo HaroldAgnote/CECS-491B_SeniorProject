@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Units;
@@ -101,8 +102,10 @@ public class GameManager : MonoBehaviour
     }
 
     public GameObject UnitAtGrid(Vector3 gridpoint) {
+        int col = Convert.ToInt32(Math.Ceiling(gridpoint.x));
+        int row = Convert.ToInt32(Math.Ceiling(gridpoint.y));
         try {
-            return units[(int) gridpoint.x, (int) gridpoint.y];
+            return units[col, row];
         } catch {
             return null;
         }
