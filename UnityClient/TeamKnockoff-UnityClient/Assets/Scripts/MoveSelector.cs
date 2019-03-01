@@ -59,7 +59,7 @@ public class MoveSelector : MonoBehaviour {
                     ExitState();
                 }
 
-                else if (attackLocations.Contains(point.ToVector2Int())) {
+                else if (attackLocations.Contains(point.ToVector2Int()) && GameManager.instance.UnitAtGrid(point) != null) {
                     Vector2Int attackPoint = Vector2Int.FloorToInt(point.ToVector2());
                     Vector2Int movePoint = FindClosestAttackPoint(movingUnit, attackPoint);
                     GameManager.instance.Move(movingUnit, movePoint);
