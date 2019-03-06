@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.Units {
     public interface IMover {
         bool CanMove(Tile tile);
+        int MoveCost(Tile tile);
     }
 }

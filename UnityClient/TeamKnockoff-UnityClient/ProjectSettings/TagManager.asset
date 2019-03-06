@@ -41,8 +41,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Hidden
+    uniqueID: 1556059517
+    locked: 0
   - name: Floor
     uniqueID: 113253671
+    locked: 0
+  - name: Wall
+    uniqueID: 2777064181
     locked: 0
   - name: Land Units
     uniqueID: 1860401071
@@ -50,9 +56,15 @@ TagManager:
   - name: Obstacles
     uniqueID: 1234120995
     locked: 0
-  - name: Walls
+  - name: Flying Units
+    uniqueID: 1941384039
+    locked: 0
+  - name: Boundary
     uniqueID: 2757591289
     locked: 0
   - name: Highlighters
     uniqueID: 1062918091
+    locked: 0
+  - name: UI
+    uniqueID: 2897214049
     locked: 0

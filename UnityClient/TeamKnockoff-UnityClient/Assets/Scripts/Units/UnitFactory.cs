@@ -9,7 +9,17 @@ namespace Assets.Scripts.Units {
         const string RESOURCE_PATH = "Textures/Units/";
 
         public GameObject landUnitPrefab;
+        public GameObject flyingUnitPrefab;
+
         public Texture2D landUnitTexture;
+
+        public Texture2D thiefUnitTexture;
+        public Texture2D archerUnitTexture;
+        public Texture2D mageUnitTexture;
+        public Texture2D clericUnitTexture;
+        public Texture2D knightUnitTexture;
+        public Texture2D cavalierUnitTexture;
+        public Texture2D pegasusKnightUnitTexture;
 
         private Dictionary<string, UnitFactoryWrapper> unitMapper; 
 
@@ -19,22 +29,42 @@ namespace Assets.Scripts.Units {
             public Sprite[] UnitSprites;
             public string UnitsResourcePath;
 
-            public UnitFactoryWrapper(GameObject unitPrefab, Texture2D unitTexture) {
+            public Func<GameObject, Sprite, Vector3, GameObject> CreateUnitHandler;
+
+            // TODO: Create delegate to load Unit from existing data
+
+            public UnitFactoryWrapper(GameObject unitPrefab, Texture2D unitTexture, Func<GameObject, Sprite, Vector3, GameObject> createGameObjectMethod) {
                 UnitPrefab = unitPrefab;
                 UnitTexture = unitTexture;
                 UnitsResourcePath = $"{RESOURCE_PATH}{UnitTexture.name}";
                 UnitSprites = Resources.LoadAll<Sprite> (UnitsResourcePath);
+                CreateUnitHandler = createGameObjectMethod;
             }
         }
 
         public void Start() {
-            var landUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, landUnitTexture);
 
+            var landUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, landUnitTexture, SampleUnit.CreateSampleUnit);
+
+            var thiefUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, thiefUnitTexture, Thief.CreateThief);
+            var archerUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, archerUnitTexture, Archer.CreateArcher);
+            var mageUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, mageUnitTexture, Mage.CreateMage);
+            var clericUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, clericUnitTexture, Cleric.CreateCleric);
+            var knightUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, knightUnitTexture, Knight.CreateKnight);
+            var cavalierUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, cavalierUnitTexture, Cavalier.CreateCavalier);
+            var pegasusKnightsUnitsWrapper = new UnitFactoryWrapper(flyingUnitPrefab, pegasusKnightUnitTexture, PegasusKnight.CreatePegasusKnight);
+
+            // Use constant strings rather than hardcoding
             unitMapper = new Dictionary<string, UnitFactoryWrapper>() {
                 { "LandUnits", landUnitsWrapper },
+                { "Thieves", thiefUnitsWrapper },
+                { "Archers", archerUnitsWrapper },
+                { "Mages", mageUnitsWrapper },
+                { "Clerics", clericUnitsWrapper },
+                { "Knights", knightUnitsWrapper },
+                { "Cavaliers", cavalierUnitsWrapper },
+                { "PegasusKnights", pegasusKnightsUnitsWrapper },
             };
-
-            // TODO: Add more unit wrappers for more types
 
         }
 
@@ -50,8 +80,10 @@ namespace Assets.Scripts.Units {
 
             var unitFactoryWrapper = unitMapper[unitType];
 
-            var newUnit = Instantiate(unitFactoryWrapper.UnitPrefab, tilePos, Quaternion.identity) as GameObject;
-            newUnit.GetComponent<SpriteRenderer>().sprite = unitFactoryWrapper.UnitSprites[spriteIndex];
+            var unitPrefab = unitFactoryWrapper.UnitPrefab;
+            var unitSprite = unitFactoryWrapper.UnitSprites[spriteIndex];
+
+            var newUnit = unitFactoryWrapper.CreateUnitHandler(unitPrefab, unitSprite, tilePos);
 
             return newUnit;
         }
