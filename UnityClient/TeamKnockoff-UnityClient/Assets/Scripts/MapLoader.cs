@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class MapLoader : MonoBehaviour
 {
-    const int MAP_OFFSET = 5;
+    const int MAP_OFFSET = 7;
     int map_index = 0; 
     // Debug.Log("QUIT!");
     Dropdown m_Dropdown;
