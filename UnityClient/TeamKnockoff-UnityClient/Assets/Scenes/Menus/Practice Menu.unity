@@ -670,8 +670,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 799324666}
-        m_MethodName: GoToGame
+      - m_Target: {fileID: 1776030691}
+        m_MethodName: GoToMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
