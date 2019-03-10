@@ -28,16 +28,16 @@ public class BoardManager : MonoBehaviour
 
         foreach(var tile in tileData.tileData) {
             var newTile = tileFactory.CreateTile(tile, boardHolder);
-            GameManager.instance.AddTile(newTile);
+            GameManagerOrig.instance.AddTile(newTile);
 
             if (tile.Player != 0) {
                 var newUnit = unitFactory.CreateUnit(tile);
 
                 // TODO: Revise this to accomodate for more players
                 if (tile.Player == 1) {
-                    GameManager.instance.AddUnit(newUnit, GameManager.instance.playerOne, tile.Column, tile.Row);
+                    GameManagerOrig.instance.AddUnit(newUnit, GameManagerOrig.instance.playerOne, tile.Column, tile.Row);
                 } else if (tile.Player == 2) {
-                    GameManager.instance.AddUnit(newUnit, GameManager.instance.playerTwo, tile.Column, tile.Row);
+                    GameManagerOrig.instance.AddUnit(newUnit, GameManagerOrig.instance.playerTwo, tile.Column, tile.Row);
                 }
             }
         }
@@ -45,7 +45,7 @@ public class BoardManager : MonoBehaviour
         // After all tiles have been created, go through entire board to set neighbors
         for (int x = 0; x < columns; x++) {
             for (int y = 0; y < rows; y++) {
-                var currentTile = GameManager.instance.tiles[x, y];
+                var currentTile = GameManagerOrig.instance.tiles[x, y];
                 AddNeighbors(currentTile, x, y);
             }
         }
@@ -53,17 +53,17 @@ public class BoardManager : MonoBehaviour
 
     public void AddNeighbors(Tile newTile, int x, int y) {
         try {
-            GameManager.instance.tiles[x - 1, y].Neighbors.Add(newTile);
+            GameManagerOrig.instance.tiles[x - 1, y].Neighbors.Add(newTile);
         } catch { }
         try {
-            GameManager.instance.tiles[x + 1, y].Neighbors.Add(newTile);
+            GameManagerOrig.instance.tiles[x + 1, y].Neighbors.Add(newTile);
         } catch { }
 
         try {
-            GameManager.instance.tiles[x, y - 1].Neighbors.Add(newTile);
+            GameManagerOrig.instance.tiles[x, y - 1].Neighbors.Add(newTile);
         } catch { }
         try {
-            GameManager.instance.tiles[x, y + 1].Neighbors.Add(newTile);
+            GameManagerOrig.instance.tiles[x, y + 1].Neighbors.Add(newTile);
         } catch { }
     }
 

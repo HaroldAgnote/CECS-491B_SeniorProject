@@ -24,8 +24,8 @@ public class CameraController : MonoBehaviour
         cameraMove.y = transform.position.y;
         cameraMove.z = transform.position.z;
 
-        minMaxXPosition.Set(0, GameManager.instance.boardScript.columns);
-        minMaxYPosition.Set(0, GameManager.instance.boardScript.rows);
+        minMaxXPosition.Set(0, GameManagerOrig.instance.boardScript.columns);
+        minMaxYPosition.Set(0, GameManagerOrig.instance.boardScript.rows);
     }
 
     // Update is called once per frame

@@ -50,8 +50,8 @@ public class MoveSelector : MonoBehaviour {
                     Vector2Int movedPoint = point.ToVector2Int();
 
                     // TODO: Need to manage moving versus attacking
-                    GameManager.instance.Move(movingUnit, movedPoint);
-                    //maybe make GameManager.instance.Attack();
+                    GameManagerOrig.instance.Move(movingUnit, movedPoint);
+                    //maybe make GameManagerOrig.instance.Attack();
                     //what should I pass in? That's my take on that.
                     //make Dmg Calc class that returns number
                     //within Attack() call in the Dmg Calc. Pass in Atkr and Defr
@@ -59,11 +59,11 @@ public class MoveSelector : MonoBehaviour {
                     ExitState();
                 }
 
-                else if (attackLocations.Contains(point.ToVector2Int()) && GameManager.instance.UnitAtGrid(point) != null) {
+                else if (attackLocations.Contains(point.ToVector2Int()) && GameManagerOrig.instance.UnitAtGrid(point) != null) {
                     Vector2Int attackPoint = Vector2Int.FloorToInt(point.ToVector2());
                     Vector2Int movePoint = FindClosestAttackPoint(movingUnit, attackPoint);
-                    GameManager.instance.Move(movingUnit, movePoint);
-                    GameManager.instance.Attack(movingUnit, attackPoint);
+                    GameManagerOrig.instance.Move(movingUnit, movePoint);
+                    GameManagerOrig.instance.Attack(movingUnit, attackPoint);
                     ExitState();
                 }
 
@@ -76,7 +76,7 @@ public class MoveSelector : MonoBehaviour {
     private Vector2Int FindClosestAttackPoint(GameObject attackingUnit, Vector2Int attackPoint)
     {
         var unit = attackingUnit.GetComponent<Unit>();
-        var unitPosition = GameManager.instance.GridForUnit(attackingUnit);
+        var unitPosition = GameManagerOrig.instance.GridForUnit(attackingUnit);
 
         Debug.Log($"Attack Point: ({attackPoint.x}, {attackPoint.y}");
         var closestPoints = new List<Vector2Int>();
@@ -94,7 +94,7 @@ public class MoveSelector : MonoBehaviour {
 
         var possiblePoints = closestPoints.Where(point =>
             ((point == unitPosition) ||
-            (GameManager.instance.UnitAtGrid(new Vector3(point.x, point.y, 0f)) == null)) &&
+            (GameManagerOrig.instance.UnitAtGrid(new Vector3(point.x, point.y, 0f)) == null)) &&
             (moveLocations.Contains(point))).ToList();
 
         Debug.Log("Possible attack positions: ");
@@ -132,7 +132,7 @@ public class MoveSelector : MonoBehaviour {
         movingUnit = unit;
         this.enabled = true;
 
-        moveLocations = GameManager.instance.MovesForUnit(movingUnit);
+        moveLocations = GameManagerOrig.instance.MovesForUnit(movingUnit);
         moveLocationHighlights = new List<GameObject>();
 
         foreach (Vector2Int loc in moveLocations) {
@@ -143,7 +143,7 @@ public class MoveSelector : MonoBehaviour {
         }
 
         // TODO: Need to get attackLocations and highlight them
-        attackLocations = GameManager.instance.AttacksForUnit(movingUnit);
+        attackLocations = GameManagerOrig.instance.AttacksForUnit(movingUnit);
         attackLocationHighlights = new List<GameObject>();
 
         // TODO: Don't filter out locations where there is a unit
@@ -164,11 +164,11 @@ public class MoveSelector : MonoBehaviour {
         movingUnit = null;
 
         // Check if Players have active units
-        GameManager.instance.CheckGameState();
+        GameManagerOrig.instance.CheckGameState();
 
         // If Player has no more moves, change turns
-        if (GameManager.instance.CheckIfCurrentPlayerHasNoMoves()) {
-            GameManager.instance.NextPlayer();
+        if (GameManagerOrig.instance.CheckIfCurrentPlayerHasNoMoves()) {
+            GameManagerOrig.instance.NextPlayer();
         }
         selector.EnterState();
 

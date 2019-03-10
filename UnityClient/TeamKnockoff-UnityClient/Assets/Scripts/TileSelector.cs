@@ -27,11 +27,11 @@ public class TileSelector : MonoBehaviour
             tileHighlight.transform.position = point;
 
             if (Input.GetMouseButtonDown(0)) {
-                GameObject selectedPiece = GameManager.instance.UnitAtGrid(point);
+                GameObject selectedPiece = GameManagerOrig.instance.UnitAtGrid(point);
                 // Reference Point 1: add ExitState call here later
                 if (selectedPiece != null) {
                     // Select a unit only if it belongs to the player and it hasn't moved
-                    if (GameManager.instance.DoesUnitBelongToCurrentPlayer(selectedPiece) && !GameManager.instance.UnitHasMoved(selectedPiece)) {
+                    if (GameManagerOrig.instance.DoesUnitBelongToCurrentPlayer(selectedPiece) && !GameManagerOrig.instance.UnitHasMoved(selectedPiece)) {
                         ExitState(selectedPiece);
                     }
                 }

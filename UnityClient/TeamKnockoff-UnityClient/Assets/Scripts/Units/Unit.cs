@@ -44,8 +44,8 @@ namespace Assets.Scripts.Units {
 
         public List<Vector2Int> GetMoveLocations(Vector2Int gridPoint) {
             var moveLocations = new List<Vector2Int>();
-            int rows = GameManager.instance.boardScript.rows;
-            int columns = GameManager.instance.boardScript.columns;
+            int rows = GameManagerOrig.instance.boardScript.rows;
+            int columns = GameManagerOrig.instance.boardScript.columns;
             int[,] distance = new int[columns, rows];
             for (int col = 0; col < columns; col++) {
                 for (int row = 0; row < rows; row++) {
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Units {
 
             distance[gridPoint.x, gridPoint.y] = 0;
             var tileQueue = new Queue<Tile>();
-            var rootTile = GameManager.instance.tiles[gridPoint.x, gridPoint.y];
+            var rootTile = GameManagerOrig.instance.tiles[gridPoint.x, gridPoint.y];
             tileQueue.Enqueue(rootTile);
 
             moveLocations.Add(new Vector2Int(gridPoint.x, gridPoint.y));
@@ -69,8 +69,8 @@ namespace Assets.Scripts.Units {
 
                 // TODO: Need to find a way to prevent unit moving through tiles where 
                 // there's an enemy.
-                var unitAtPoint = GameManager.instance.UnitAtGrid(new Vector3(current.XPosition, current.YPosition, 0f));
-                if (unitAtPoint != null && !GameManager.instance.DoesUnitBelongToCurrentPlayer(unitAtPoint)&& GameManager.instance.EnemyUnitIsAlive(unitAtPoint) ) {
+                var unitAtPoint = GameManagerOrig.instance.UnitAtGrid(new Vector3(current.XPosition, current.YPosition, 0f));
+                if (unitAtPoint != null && !GameManagerOrig.instance.DoesUnitBelongToCurrentPlayer(unitAtPoint)&& GameManagerOrig.instance.EnemyUnitIsAlive(unitAtPoint) ) {
                     continue;
                 }
 
@@ -90,7 +90,7 @@ namespace Assets.Scripts.Units {
                 }
             }
             moveLocations = moveLocations.Where(loc => loc == gridPoint ||
-                                                    GameManager.instance.UnitAtGrid(new Vector3(loc.x, loc.y, 0f)) == null).ToList();
+                                                    GameManagerOrig.instance.UnitAtGrid(new Vector3(loc.x, loc.y, 0f)) == null).ToList();
             return moveLocations;
         }
 
@@ -98,12 +98,12 @@ namespace Assets.Scripts.Units {
             var attackLocations = GetMoveLocations(gridPoint);
 
             // Temporary
-            MainWeapon = new Weapon(50, 2, 100, 1, DamageCalculator.DamageType.Physical);
+            MainWeapon = new Weapon(50, 1, 100, 1, DamageCalculator.DamageType.Physical);
 
             for (int i = 0; i < MainWeapon.Range; i++) {
                 var tempAttackLocs = new List<Vector2Int>();
                 foreach (var moveLoc in attackLocations) {
-                    var moveLocNeighbors = GameManager.instance.tiles[moveLoc.x, moveLoc.y]
+                    var moveLocNeighbors = GameManagerOrig.instance.tiles[moveLoc.x, moveLoc.y]
                         .Neighbors
                         .Select(tile => new Vector2Int(tile.XPosition, tile.YPosition))
                         .Where(pos => !attackLocations.Contains(pos));
@@ -114,8 +114,8 @@ namespace Assets.Scripts.Units {
             }
 
             attackLocations = attackLocations.Where(x => 
-                                !GameManager.instance.DoesUnitBelongToCurrentPlayer(
-                                GameManager.instance.UnitAtGrid(new Vector3(x.x, x.y, 0f))))
+                                !GameManagerOrig.instance.DoesUnitBelongToCurrentPlayer(
+                                GameManagerOrig.instance.UnitAtGrid(new Vector3(x.x, x.y, 0f))))
                                 .ToList();
 
 
