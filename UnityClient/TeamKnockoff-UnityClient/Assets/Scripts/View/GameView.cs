@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameView : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+using Assets.Scripts.Application;
+using Assets.Scripts.ViewModel;
 
-    // Update is called once per frame
-    void Update()
+namespace Assets.Scripts.View {
+    public class GameView : MonoBehaviour
     {
-        
+        public GameViewModel gameViewModel;
+
+        public new GameObject camera;
+
+        public void ConstructView() {
+            var cameraObject = camera.GetComponent<CameraController>();
+            cameraObject.minMaxXPosition.Set(0, GameManager.instance.Columns);
+            cameraObject.minMaxYPosition.Set(0, GameManager.instance.Rows);
+        }
     }
 }

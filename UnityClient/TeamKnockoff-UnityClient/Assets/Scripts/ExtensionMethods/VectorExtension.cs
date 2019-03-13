@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.ExtensionMethods {
@@ -19,11 +20,21 @@ namespace Assets.Scripts.ExtensionMethods {
             return new Vector3(vector.x, vector.y, 0f);
         }
 
+        public static Vector3 ToVector3(this Vector2Int vector) {
+            return new Vector3(vector.x, vector.y, 0f);
+        }
+
         public static Vector2Int ToVector2Int(this Vector2 vector) {
             var newCol = Convert.ToInt32(Math.Ceiling(vector.x));
             var newRow = Convert.ToInt32(Math.Ceiling(vector.y));
             return new Vector2Int(newCol, newRow);
         }
 
+        public static IEnumerable<Vector2Int> GetRectangularPositions(int rows, int cols) {
+            return Enumerable.Range(0, rows).SelectMany(
+                row => Enumerable.Range(0, cols),
+                (col, row) => new Vector2Int(col, row));
+
+        }
     }
 }
