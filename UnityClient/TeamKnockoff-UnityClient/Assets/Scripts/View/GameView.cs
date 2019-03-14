@@ -17,5 +17,15 @@ namespace Assets.Scripts.View {
             cameraObject.minMaxXPosition.Set(0, GameManager.instance.Columns);
             cameraObject.minMaxYPosition.Set(0, GameManager.instance.Rows);
         }
+
+        public void LockCamera() {
+            var cameraObject = camera.GetComponent<CameraController>();
+            cameraObject.LockCamera();
+        }
+
+        public void UnlockCamera() {
+            var cameraObject = camera.GetComponent<CameraController>();
+            cameraObject.UnlockCamera();
+        }
     }
 }
