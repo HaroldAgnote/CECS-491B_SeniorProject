@@ -101,6 +101,14 @@ namespace Assets.Scripts.ViewModel {
             );
         }
 
+        public Vector2Int GetMinimumAttackPoint(Vector2Int targetPoint) {
+            return model.GetMinimumAttackPoint(SelectedSquare.Unit, targetPoint);
+        }
+
+        public List<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
+            return model.GetSurroundingAttackLocationsAtPoint(attackPoint, range);
+        }
+
         public bool UnitHasMoved(UnitViewModel unitVm) {
             return model.UnitHasMoved(unitVm.Unit);
         }

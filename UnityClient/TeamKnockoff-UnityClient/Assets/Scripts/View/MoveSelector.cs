@@ -121,6 +121,8 @@ namespace Assets.Scripts.View {
 
                         if (!waitingForMove) {
                             // TODO: Calculate Move point here
+                            startPoint = gameViewModel.SelectedSquare.Position;
+                            movedPoint = gameViewModel.GetMinimumAttackPoint(attackPoint);
 
                             // TODO: Phantom movement to tile of MINIMUM valid
                             // Attack Range to attack point
@@ -201,6 +203,21 @@ namespace Assets.Scripts.View {
 
                 foreach (GameObject highlight in moveLocationHighlights) {
                     Destroy(highlight);
+                }
+
+                foreach (GameObject highlight in attackLocationHighlights) {
+                    Destroy(highlight);
+                }
+
+                attackLocationHighlights = new List<GameObject>();
+
+                var newAttackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, movingUnit.MainWeapon.Range);
+
+                foreach (Vector2Int loc in newAttackLocations) {
+                    GameObject highlight;
+                    var point = new Vector3Int(loc.x, loc.y, 0);
+                    highlight = Instantiate(attackLocationPrefab, point, Quaternion.identity, gameObject.transform);
+                    attackLocationHighlights.Add(highlight);
                 }
             } else {
                 AttackUnit();
