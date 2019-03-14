@@ -20,6 +20,10 @@ namespace Assets.Scripts.Model {
 
         // TODO: Add properties for Skill?
 
+        public GameMove(GameMoveType gameMoveType) {
+            
+        }
+
         public GameMove(Vector2Int start, Vector2Int end) {
             StartPosition = start;
             EndPosition = end;
