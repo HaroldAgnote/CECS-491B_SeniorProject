@@ -11,13 +11,15 @@ using Assets.Scripts.ViewModel;
 
 namespace Assets.Scripts.View {
     public class MoveSelector : MonoBehaviour {
+        public static Vector2Int NULL_VECTOR = new Vector2Int(-1, -1);
+
         [SerializeField]
         private GameView gameView;
 
         [SerializeField]
         private TileSelector tileSelector;
 
-        public GameObject unitMenuPrefab;
+        public GameObject unitMenu_Attack_Skills_Items_Wait_Cancel_prefab;
 
         public GameObject moveLocationPrefab;
         public GameObject tileHighlightPrefab;
@@ -36,6 +38,11 @@ namespace Assets.Scripts.View {
         private List<GameObject> attackLocationHighlights;
 
         private bool waitingForMove;
+        private bool waitingForAttack;
+
+        private Vector2Int startPoint;
+        private Vector2Int movedPoint;
+        private Vector2Int attackPoint;
 
         public enum UnitMenuType {
             Attack_Skills_Items_Wait_Cancel,
@@ -59,7 +66,7 @@ namespace Assets.Scripts.View {
             tileHighlight.SetActive(false);
 
             unitMenus = new Dictionary<UnitMenuType, GameObject>() {
-                { UnitMenuType.Attack_Skills_Items_Wait_Cancel, unitMenuPrefab },
+                { UnitMenuType.Attack_Skills_Items_Wait_Cancel, unitMenu_Attack_Skills_Items_Wait_Cancel_prefab },
             };
         }
 
@@ -94,24 +101,36 @@ namespace Assets.Scripts.View {
                         //within Attack() call in the Dmg Calc. Pass in Atkr and Defr
                         //reason for Dmg Calc class, this allows a preview (in FE).
                         if (!waitingForMove) {
-                            Vector2Int movedPoint = point.ToVector2Int();
-
-                            Vector2Int startPoint = gameViewModel.SelectedSquare.Position;
-                            CurrentGameMove = new GameMove(startPoint, movedPoint);
+                            movedPoint = point.ToVector2Int();
+                            startPoint = gameViewModel.SelectedSquare.Position;
 
                             // TODO: Phantom Movement!
 
+                            // TODO: Need to generate the correct menu based on unit and unit's position
                             SetupUnitMenu(point, UnitMenuType.Attack_Skills_Items_Wait_Cancel);
                             WaitForChoice();
                         }
+                        
                     } else if (attackLocations.Contains(point.ToVector2Int())) {
                         // Vector2Int attackPoint = Vector2Int.FloorToInt(point.ToVector2());
                         // Vector2Int movePoint = FindClosestAttackPoint(movingUnit, attackPoint);
                         // GameManagerOrig.instance.Move(movingUnit, movePoint);
                         // GameManagerOrig.instance.Attack(movingUnit, attackPoint);
 
+                        attackPoint = point.ToVector2Int();
+
                         if (!waitingForMove) {
-                            Vector2Int attackPoint = point.ToVector2Int();
+                            // TODO: Calculate Move point here
+
+                            // TODO: Phantom movement to tile of MINIMUM valid
+                            // Attack Range to attack point
+
+                            SetupUnitMenu(point, UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                            WaitForChoice();
+                        }
+
+                        if (waitingForAttack) {
+                            AttackUnit();
                         }
                     }
                 }
@@ -135,15 +154,13 @@ namespace Assets.Scripts.View {
                         button.onClick.AddListener(AttackMove);
                         break;
                     case "SkillsButton":
-                        // Change this later
-                        button.onClick.AddListener(AttackMove);
+                        button.onClick.AddListener(SkillMove);
                         break;
                     case "ItemsButton":
-                        // Change this later
-                        button.onClick.AddListener(AttackMove);
+                        button.onClick.AddListener(ItemMove);
                         break;
                     case "WaitButton":
-                        button.onClick.AddListener(MoveUnit);
+                        button.onClick.AddListener(WaitUnit);
                         break;
                     case "CancelButton":
                         button.onClick.AddListener(CancelMove);
@@ -153,21 +170,66 @@ namespace Assets.Scripts.View {
 
         }
 
-        public void MoveUnit() {
+        private void MoveUnit() {
+            Debug.Log("Move");
+            CurrentGameMove = new GameMove(startPoint, movedPoint);
+            gameViewModel.ApplyMove(CurrentGameMove);
+        }
+
+        private void ItemMove() {
+
+        }
+
+        private void SkillMove() {
+
+        }
+
+        private void WaitUnit() {
+            if (startPoint != movedPoint) {
+                MoveUnit();
+            }
+
+            Debug.Log("Wait");
+            CurrentGameMove = new GameMove(movedPoint, movedPoint, GameMove.GameMoveType.Wait);
             gameViewModel.ApplyMove(CurrentGameMove);
             ExitState();
         }
 
-        public void AttackMove() {
+        private void AttackMove() {
+            if (attackPoint == NULL_VECTOR) {
+                waitingForAttack = true;
 
+                foreach (GameObject highlight in moveLocationHighlights) {
+                    Destroy(highlight);
+                }
+            } else {
+                AttackUnit();
+            }
         }
 
-        public void CancelMove() {
+        private void AttackUnit() {
+            if (startPoint != movedPoint) {
+                MoveUnit();
+            }
+
+            Debug.Log("Attack");
+            CurrentGameMove = new GameMove(movedPoint, attackPoint, GameMove.GameMoveType.Attack);
+            gameViewModel.ApplyMove(CurrentGameMove);
+            ExitState();
+        }
+
+        private void CancelMove() {
             this.enabled = false;
             tileHighlight.SetActive(false);
 
             Destroy(unitMenu);
+
             waitingForMove = false;
+            waitingForAttack = false;
+            startPoint = NULL_VECTOR;
+            movedPoint = NULL_VECTOR;
+            attackPoint = NULL_VECTOR;
+
             gameView.UnlockCamera();
 
             foreach (GameObject highlight in moveLocationHighlights)
@@ -194,6 +256,12 @@ namespace Assets.Scripts.View {
             moveLocations = gameViewModel.MovesForUnit;
 
             moveLocationHighlights = new List<GameObject>();
+
+            waitingForMove = false;
+            waitingForAttack = false;
+            startPoint = NULL_VECTOR;
+            movedPoint = NULL_VECTOR;
+            attackPoint = NULL_VECTOR;
 
             foreach (Vector2Int loc in moveLocations) {
                 GameObject highlight;
@@ -223,7 +291,13 @@ namespace Assets.Scripts.View {
             movingUnit = null;
 
             Destroy(unitMenu);
+
             waitingForMove = false;
+            waitingForAttack = false;
+            startPoint = NULL_VECTOR;
+            movedPoint = NULL_VECTOR;
+            attackPoint = NULL_VECTOR;
+
             gameView.UnlockCamera();
 
             // Destroy all highlighters
