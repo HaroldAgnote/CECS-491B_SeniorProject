@@ -300,18 +300,21 @@ namespace Assets.Scripts.Model {
             return attackLocations;
         }
 
+        public bool TileIsOccupied(Vector2Int position) {
+            return GetUnitAtPosition(position) != null;
+        }
+
         public Vector2Int GetMinimumAttackPoint(Unit unit, Vector2Int targetPoint) {
-            var availableAttackLocations = GetUnitAttackLocations(unit);
+            var availableAttackLocations = GetUnitMoveLocations(unit);
 
             var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, unit.MainWeapon.Range);
 
             possibleAttackLocations = possibleAttackLocations.Where(pos =>
-                                        (GetUnitAtPosition(new Vector2Int(pos.x, pos.y)) == null ||
-                                        GetUnitAtPosition(new Vector2Int(pos.x, pos.y)) == unit))
+                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
+                                        .Where(pos => availableAttackLocations.Contains(pos))
                                         .ToList();
 
-
-            throw new NotImplementedException();
+            return possibleAttackLocations.First();
         }
 
         public List<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
