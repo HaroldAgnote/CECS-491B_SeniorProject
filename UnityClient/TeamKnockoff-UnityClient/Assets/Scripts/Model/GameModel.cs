@@ -173,12 +173,18 @@ namespace Assets.Scripts.Model {
                 case GameMove.GameMoveType.Move:
                     MoveUnit(move);
                     break;
+                case GameMove.GameMoveType.Attack:
+                    AttackUnit(move);
+                    break;
+                case GameMove.GameMoveType.Wait:
+                    WaitUnit(move);
+                    break;
             }
             // TODO: Check Game State
 
 
             // Check if Current Player has no moves and switch if so
-            if (CurrentPlayerHasNoMoves) {
+            if (!GameHasEnded && CurrentPlayerHasNoMoves) {
                 SwitchPlayer();
             }
         }
@@ -194,6 +200,20 @@ namespace Assets.Scripts.Model {
             var unit = GetUnitAtPosition(move.StartPosition);
             mUnits[move.StartPosition.x, move.StartPosition.y] = null;
             mUnits[move.EndPosition.x, move.EndPosition.y] = unit;
+        }
+
+        private void AttackUnit(GameMove move) {
+            var attackingUnit = GetUnitAtPosition(move.StartPosition);
+            var defendingUnit = GetUnitAtPosition(move.EndPosition);
+
+            // Attack Logic Here
+            Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
+
+            CurrentPlayer.MarkUnitAsMoved(attackingUnit);
+        }
+
+        private void WaitUnit(GameMove move) {
+            var unit = GetUnitAtPosition(move.StartPosition);
             CurrentPlayer.MarkUnitAsMoved(unit);
         }
 
@@ -278,6 +298,47 @@ namespace Assets.Scripts.Model {
 
 
             return attackLocations;
+        }
+
+        public Vector2Int GetMinimumAttackPoint(Unit unit, Vector2Int targetPoint) {
+            var availableAttackLocations = GetUnitAttackLocations(unit);
+
+            var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, unit.MainWeapon.Range);
+
+            possibleAttackLocations = possibleAttackLocations.Where(pos =>
+                                        (GetUnitAtPosition(new Vector2Int(pos.x, pos.y)) == null ||
+                                        GetUnitAtPosition(new Vector2Int(pos.x, pos.y)) == unit))
+                                        .ToList();
+
+
+            throw new NotImplementedException();
+        }
+
+        public List<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
+
+            var possibleAttackLocations = new List<Vector2Int>();
+            possibleAttackLocations.Add(attackPoint);
+
+            for (int i = 0; i < range; i++) {
+                var tempAttackLocs = new List<Vector2Int>();
+                foreach (var attackLoc in possibleAttackLocations) {
+                    var attackLocNeighbors = mTiles[attackLoc.x, attackLoc.y]
+                        .Neighbors
+                        .Select(tile => new Vector2Int(tile.XPosition, tile.YPosition))
+                        .Where(pos => !possibleAttackLocations.Contains(pos));
+
+                    tempAttackLocs.AddRange(attackLocNeighbors);
+                }
+                possibleAttackLocations.AddRange(tempAttackLocs);
+            }
+
+            return possibleAttackLocations;
+
+        }
+
+        public bool EnemyAtLocation(Vector2Int location) {
+            var unit = GetUnitAtPosition(location);
+            return unit != null && !CurrentPlayer.Units.Contains(unit);
         }
     } 
 }

@@ -314,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameView: {fileID: 1191771015}
   tileSelector: {fileID: 2035335358}
-  unitMenuPrefab: {fileID: 9020082120811826560, guid: 9dcc767c90ffc6945b965ac0a3373c09,
+  unitMenu_Attack_Skills_Items_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: 9dcc767c90ffc6945b965ac0a3373c09,
     type: 3}
   moveLocationPrefab: {fileID: 285483458665471256, guid: bd3c588b675df5843a2678c7250444f9,
     type: 3}
@@ -668,7 +668,7 @@ MonoBehaviour:
   model: {fileID: 1791339854}
   viewModel: {fileID: 521415712}
   view: {fileID: 1191771015}
-  mapData: {fileID: 4900000, guid: e11daa9dc978c9a4bb330647925fb1b3, type: 3}
+  mapData: {fileID: 4900000, guid: 288c3398b88262b4c960187e4effca0c, type: 3}
   gameType: 0
   localPlay: 1
   numberOfPlayers: 2

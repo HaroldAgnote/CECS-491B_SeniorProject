@@ -5039,8 +5039,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "PegasusKnights_1"
         },
         {
             "Column": 13,
@@ -5119,8 +5119,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "PegasusKnights_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 13,
@@ -5779,8 +5779,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Cavaliers_1"
         },
         {
             "Column": 15,
@@ -5789,8 +5789,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Archers_1"
         },
         {
             "Column": 15,
@@ -5859,8 +5859,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Cavaliers_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 15,
@@ -5869,8 +5869,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Archers_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 15,
@@ -6139,8 +6139,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Thieves_1"
         },
         {
             "Column": 16,
@@ -6179,8 +6179,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Mages_1"
         },
         {
             "Column": 16,
@@ -6219,8 +6219,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Thieves_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 16,
@@ -6259,8 +6259,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Mages_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 16,
@@ -6499,8 +6499,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Knights_1"
         },
         {
             "Column": 17,
@@ -6549,8 +6549,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Clerics_1"
         },
         {
             "Column": 17,
@@ -6579,8 +6579,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Knights_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 17,
@@ -6629,8 +6629,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Clerics_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 17,
@@ -6879,8 +6879,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Thieves_1"
         },
         {
             "Column": 18,
@@ -6959,8 +6959,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Thieves_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 18,
@@ -7259,8 +7259,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Cavaliers_1"
         },
         {
             "Column": 19,
@@ -7269,8 +7269,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "Archers_1"
         },
         {
             "Column": 19,
@@ -7339,8 +7339,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Cavaliers_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 19,
@@ -7349,8 +7349,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Archers_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 19,
@@ -7999,8 +7999,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "PegasusKnights_1"
         },
         {
             "Column": 21,
@@ -8079,8 +8079,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "PegasusKnights_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 21,

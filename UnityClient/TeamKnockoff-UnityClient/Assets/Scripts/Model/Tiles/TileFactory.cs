@@ -71,17 +71,17 @@ namespace Assets.Scripts.Model.Tiles {
         public void SetUpTile(GameObject tilePrefab, Vector3 tilePos, Tile newTile, string tileStringData, Transform parent) {
             GameObject instance = Instantiate(tilePrefab, tilePos, Quaternion.identity, parent) as GameObject;
 
-            Debug.Log($"Instantiating tile: {tileStringData}");
+            // Debug.Log($"Instantiating tile: {tileStringData}");
             var tileSprite = instance.GetComponent<SpriteRenderer>();
 
             var theme = GetTheme(tileStringData);
-            Debug.Log($"Theme: {theme}");
+            // Debug.Log($"Theme: {theme}");
             var tileFactory = tileMapper[theme];
 
             var tileType = GetTileType(tileStringData);
-            Debug.Log($"Tile Type: {tileType}");
+            // Debug.Log($"Tile Type: {tileType}");
             var tileEffect = GetTileEffect(tileStringData);
-            Debug.Log($"Tile Effect: {tileEffect}");
+            // Debug.Log($"Tile Effect: {tileEffect}");
 
             newTile.TileType = Tile.TILE_TYPES[tileType];
             newTile.TileEffect = Tile.TILE_EFFECTS[tileEffect];
