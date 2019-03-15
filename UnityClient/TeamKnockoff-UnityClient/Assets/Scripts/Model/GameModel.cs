@@ -304,6 +304,12 @@ namespace Assets.Scripts.Model {
             return GetUnitAtPosition(position) != null;
         }
 
+        public bool EnemyWithinRange(Vector2Int position, int range) {
+            var surroundingLocations = GetSurroundingAttackLocationsAtPoint(position, range);
+
+            return surroundingLocations.Any(pos => EnemyAtLocation(pos));
+        }
+
         public Vector2Int GetMinimumAttackPoint(Unit unit, Vector2Int targetPoint) {
             var availableAttackLocations = GetUnitMoveLocations(unit);
 

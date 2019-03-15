@@ -109,6 +109,14 @@ namespace Assets.Scripts.ViewModel {
             return model.GetSurroundingAttackLocationsAtPoint(attackPoint, range);
         }
 
+        public bool EnemyAtPoint(Vector2Int position) {
+            return model.EnemyAtLocation(position);
+        }
+
+        public bool EnemyWithinRange(Vector2Int position, int range) {
+            return model.EnemyWithinRange(position, range);
+        }
+
         public bool UnitHasMoved(UnitViewModel unitVm) {
             return model.UnitHasMoved(unitVm.Unit);
         }

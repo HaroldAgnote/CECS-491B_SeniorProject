@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Assets.Scripts.Model.Items;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Tiles;
 
@@ -40,10 +41,15 @@ namespace Assets.Scripts.Model.Units {
         public Weapon MainWeapon { get; set; }
 
         // TODO: Add Item Properties
+        public List<Item> Items { get; set; }
 
         // Abstract methods that must be overridden by Unit sub classes
         public abstract bool CanMove(Tile tile);
         public abstract int MoveCost(Tile tile);
+
+        public Unit() {
+            Items = new List<Item>();
+        }
 
         public string UnitInformation {
             get {
