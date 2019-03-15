@@ -330,9 +330,11 @@ MonoBehaviour:
     type: 3}
   unitMenu_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: 27ef6aa47f8db57418d50c0ebc8b2228,
     type: 3}
-  moveLocationPrefab: {fileID: 285483458665471256, guid: bd3c588b675df5843a2678c7250444f9,
-    type: 3}
   tileHighlightPrefab: {fileID: 285483458665471256, guid: 21b55aec27d9dff41a4c908050845ef5,
+    type: 3}
+  tileSelectedPrefab: {fileID: 285483458665471256, guid: 7afbb0d9ebc83e84499ce841dad33ce0,
+    type: 3}
+  moveLocationPrefab: {fileID: 285483458665471256, guid: bd3c588b675df5843a2678c7250444f9,
     type: 3}
   attackLocationPrefab: {fileID: 285483458665471256, guid: 73725ccf363e8904fb611cf211a932cc,
     type: 3}
