@@ -208,6 +208,13 @@ namespace Assets.Scripts.Model {
 
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
+            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
+            if (defendingUnit.HealthPoints > 0) //check if unit is alive 
+                //TODO CHECK RANGE OF UNIT COUNTER
+            {
+                Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
+                attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
+            }
 
             CurrentPlayer.MarkUnitAsMoved(attackingUnit);
         }
@@ -276,7 +283,7 @@ namespace Assets.Scripts.Model {
             var attackLocations = GetUnitMoveLocations(unit);
 
             // Temporary
-            unit.MainWeapon = new Weapon(50, 1, 100, 1, DamageCalculator.DamageType.Physical);
+            
 
             for (int i = 0; i < unit.MainWeapon.Range; i++) {
                 var tempAttackLocs = new List<Vector2Int>();

@@ -49,6 +49,7 @@ namespace Assets.Scripts.Model.Units {
 
         public Unit() {
             Items = new List<Item>();
+            MainWeapon = new Weapon(50, 1, 100, 1, DamageCalculator.DamageType.Physical);
         }
 
         public string UnitInformation {
