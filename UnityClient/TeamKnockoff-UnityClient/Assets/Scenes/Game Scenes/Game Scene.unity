@@ -316,6 +316,20 @@ MonoBehaviour:
   tileSelector: {fileID: 2035335358}
   unitMenu_Attack_Skills_Items_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: 9dcc767c90ffc6945b965ac0a3373c09,
     type: 3}
+  unitMenu_Attack_Skills_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: e0bc5f5b4e49e454aac751bf05dae39c,
+    type: 3}
+  unitMenu_Attack_Items_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: cabd9b0be57c035439c1737ee45bf3a5,
+    type: 3}
+  unitMenu_Attack_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: 9c2e1c590a41a8b4f876559af84882f4,
+    type: 3}
+  unitMenu_Skills_Items_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: 9fd8d31fd1a6d00428713beedbe5ef17,
+    type: 3}
+  unitMenu_Skills_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: 5ecd76a71e13f4f42b31832b3e71c6de,
+    type: 3}
+  unitMenu_Items_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: 89f2637d76519d34d82765fff157ea0d,
+    type: 3}
+  unitMenu_Wait_Cancel_prefab: {fileID: 9020082120811826560, guid: 27ef6aa47f8db57418d50c0ebc8b2228,
+    type: 3}
   moveLocationPrefab: {fileID: 285483458665471256, guid: bd3c588b675df5843a2678c7250444f9,
     type: 3}
   tileHighlightPrefab: {fileID: 285483458665471256, guid: 21b55aec27d9dff41a4c908050845ef5,

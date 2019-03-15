@@ -20,6 +20,13 @@ namespace Assets.Scripts.View {
         private TileSelector tileSelector;
 
         public GameObject unitMenu_Attack_Skills_Items_Wait_Cancel_prefab;
+        public GameObject unitMenu_Attack_Skills_Wait_Cancel_prefab;
+        public GameObject unitMenu_Attack_Items_Wait_Cancel_prefab;
+        public GameObject unitMenu_Attack_Wait_Cancel_prefab;
+        public GameObject unitMenu_Skills_Items_Wait_Cancel_prefab;
+        public GameObject unitMenu_Skills_Wait_Cancel_prefab;
+        public GameObject unitMenu_Items_Wait_Cancel_prefab;
+        public GameObject unitMenu_Wait_Cancel_prefab;
 
         public GameObject moveLocationPrefab;
         public GameObject tileHighlightPrefab;
@@ -67,6 +74,13 @@ namespace Assets.Scripts.View {
 
             unitMenus = new Dictionary<UnitMenuType, GameObject>() {
                 { UnitMenuType.Attack_Skills_Items_Wait_Cancel, unitMenu_Attack_Skills_Items_Wait_Cancel_prefab },
+                { UnitMenuType.Attack_Skills_Wait_Cancel, unitMenu_Attack_Skills_Wait_Cancel_prefab },
+                { UnitMenuType.Attack_Items_Wait_Cancel, unitMenu_Attack_Items_Wait_Cancel_prefab },
+                { UnitMenuType.Attack_Wait_Cancel, unitMenu_Attack_Wait_Cancel_prefab },
+                { UnitMenuType.Skills_Items_Wait_Cancel, unitMenu_Skills_Items_Wait_Cancel_prefab },
+                { UnitMenuType.Skills_Wait_Cancel, unitMenu_Skills_Wait_Cancel_prefab },
+                { UnitMenuType.Items_Wait_Cancel, unitMenu_Items_Wait_Cancel_prefab },
+                { UnitMenuType.Wait_Cancel, unitMenu_Wait_Cancel_prefab }
             };
         }
 
@@ -107,7 +121,27 @@ namespace Assets.Scripts.View {
                             // TODO: Phantom Movement!
 
                             // TODO: Need to generate the correct menu based on unit and unit's position
-                            SetupUnitMenu(point, UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                            if (gameViewModel.EnemyWithinRange(movedPoint, movingUnit.MainWeapon.Range)) {
+
+                                if (movingUnit.Items.Count > 0) {
+
+                                    SetupUnitMenu(point, UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                } else {
+
+                                    SetupUnitMenu(point, UnitMenuType.Attack_Skills_Wait_Cancel);
+                                }
+                                
+                            } else {
+                                if (movingUnit.Items.Count > 0) {
+
+                                    SetupUnitMenu(point, UnitMenuType.Skills_Items_Wait_Cancel);
+                                } else {
+
+                                    SetupUnitMenu(point, UnitMenuType.Skills_Wait_Cancel);
+                                }
+
+                            }
+
                             WaitForChoice();
                         }
                         
@@ -117,22 +151,30 @@ namespace Assets.Scripts.View {
                         // GameManagerOrig.instance.Move(movingUnit, movePoint);
                         // GameManagerOrig.instance.Attack(movingUnit, attackPoint);
 
-                        attackPoint = point.ToVector2Int();
+                        if (gameViewModel.EnemyAtPoint(point.ToVector2Int())) {
+                            attackPoint = point.ToVector2Int();
 
-                        if (!waitingForMove) {
-                            // TODO: Calculate Move point here
-                            startPoint = gameViewModel.SelectedSquare.Position;
-                            movedPoint = gameViewModel.GetMinimumAttackPoint(attackPoint);
+                            if (!waitingForMove) {
+                                // TODO: Calculate Move point here
+                                startPoint = gameViewModel.SelectedSquare.Position;
+                                movedPoint = gameViewModel.GetMinimumAttackPoint(attackPoint);
 
-                            // TODO: Phantom movement to tile of MINIMUM valid
-                            // Attack Range to attack point
+                                // TODO: Phantom movement to tile of MINIMUM valid
+                                // Attack Range to attack point
 
-                            SetupUnitMenu(point, UnitMenuType.Attack_Skills_Items_Wait_Cancel);
-                            WaitForChoice();
-                        }
+                                if (movingUnit.Items.Count > 0) {
 
-                        if (waitingForAttack) {
-                            AttackUnit();
+                                    SetupUnitMenu(point, UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                } else {
+
+                                    SetupUnitMenu(point, UnitMenuType.Attack_Skills_Wait_Cancel);
+                                }
+                                WaitForChoice();
+                            }
+
+                            if (waitingForAttack) {
+                                AttackUnit();
+                            }
                         }
                     }
                 }
