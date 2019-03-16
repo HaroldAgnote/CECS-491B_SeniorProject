@@ -28,8 +28,9 @@ namespace Assets.Scripts.View {
         public GameObject unitMenu_Items_Wait_Cancel_prefab;
         public GameObject unitMenu_Wait_Cancel_prefab;
 
-        public GameObject moveLocationPrefab;
         public GameObject tileHighlightPrefab;
+        public GameObject tileSelectedPrefab;
+        public GameObject moveLocationPrefab;
         public GameObject attackLocationPrefab;
 
         private GameViewModel gameViewModel;
@@ -38,6 +39,7 @@ namespace Assets.Scripts.View {
 
         private GameObject unitMenu;
         private GameObject tileHighlight;
+        private GameObject tileSelected;
         private Unit movingUnit;
         private List<Vector2Int> moveLocations;
         private List<Vector2Int> attackLocations;
@@ -93,11 +95,11 @@ namespace Assets.Scripts.View {
 
             if (hit) {
                 Vector3 point = hit.collider.gameObject.transform.position;
+
                 // Debug.Log($"Hovering at Point: ({point.x}, {point.y})");
-
-
                 tileHighlight.SetActive(true);
                 tileHighlight.transform.position = point;
+
                 if (Input.GetMouseButtonDown(0)) {
                     // TODO: Implement movement here
                     if (!moveLocations.Contains(point.ToVector2Int()) && 
@@ -142,7 +144,12 @@ namespace Assets.Scripts.View {
 
                             }
 
+                            tileSelected = Instantiate(tileSelectedPrefab, point, Quaternion.identity, gameObject.transform);
                             WaitForChoice();
+                        } else {
+                            if (point.ToVector2Int() == movedPoint) {
+                                WaitUnit();
+                            }
                         }
                         
                     } else if (attackLocations.Contains(point.ToVector2Int())) {
@@ -169,7 +176,12 @@ namespace Assets.Scripts.View {
 
                                     SetupUnitMenu(point, UnitMenuType.Attack_Skills_Wait_Cancel);
                                 }
+                                tileSelected = Instantiate(tileSelectedPrefab, point, Quaternion.identity, gameObject.transform);
                                 WaitForChoice();
+                            } else {
+                                if (point.ToVector2Int() == attackPoint) {
+                                    AttackUnit();
+                                }
                             }
 
                             if (waitingForAttack) {
@@ -291,6 +303,8 @@ namespace Assets.Scripts.View {
 
             gameView.UnlockCamera();
 
+            Destroy(tileSelected);
+
             foreach (GameObject highlight in moveLocationHighlights)
             {
                 Destroy(highlight);
@@ -305,7 +319,6 @@ namespace Assets.Scripts.View {
 
         private void WaitForChoice() {
             gameView.LockCamera();
-            tileHighlight.SetActive(false);
             waitingForMove = true;
         } 
 
@@ -358,6 +371,8 @@ namespace Assets.Scripts.View {
             attackPoint = NULL_VECTOR;
 
             gameView.UnlockCamera();
+
+            Destroy(tileSelected);
 
             // Destroy all highlighters
             foreach (GameObject highlight in moveLocationHighlights) {
