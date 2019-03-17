@@ -72,13 +72,13 @@ namespace Assets.Scripts.ViewModel {
 
         public List<Vector2Int> MovesForUnit {
             get {
-                return model.GetUnitMoveLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitMoveLocations(SelectedSquare.Unit);
             }
         }
 
         public List<Vector2Int> AttacksForUnit {
             get {
-                return model.GetUnitAttackLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitAttackLocations(SelectedSquare.Unit);
             }
         }
 
@@ -101,8 +101,12 @@ namespace Assets.Scripts.ViewModel {
             );
         }
 
-        public Vector2Int GetMinimumAttackPoint(Vector2Int targetPoint) {
-            return model.GetMinimumAttackPoint(SelectedSquare.Unit, targetPoint);
+        public List<Vector2Int> GetShortestPath(Vector2Int endPoint) {
+            return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+        }
+        
+        public List<Vector2Int> GetShortestPathToAttack(Vector2Int endPoint) {
+            return model.GetShortestPathToAttack(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
         }
 
         public List<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {

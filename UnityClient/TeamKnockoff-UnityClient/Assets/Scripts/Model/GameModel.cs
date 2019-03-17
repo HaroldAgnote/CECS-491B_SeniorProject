@@ -224,12 +224,20 @@ namespace Assets.Scripts.Model {
             CurrentPlayer.MarkUnitAsMoved(unit);
         }
 
+        public List<Vector2Int> GetPossibleUnitMoveLocations(Unit unit) {
+            var gridPoint = GridForUnit(unit);
+            var moveLocations = GetUnitMoveLocations(unit)
+                                .Where(loc => loc == gridPoint ||
+                                                    GetUnitAtPosition(new Vector2Int(loc.x, loc.y)) == null).ToList();;
+            return moveLocations;
+        }
+
         public List<Vector2Int> GetUnitMoveLocations(Unit unit) {
             var gridPoint = GridForUnit(unit);
 
             var moveLocations = new List<Vector2Int>();
-            int columns = mUnits.GetLength(0);
-            int rows = mUnits.GetLength(1);
+            int columns = mTiles.GetLength(0);
+            int rows = mTiles.GetLength(1);
             int[,] distance = new int[columns, rows];
             for (int col = 0; col < columns; col++) {
                 for (int row = 0; row < rows; row++) {
@@ -273,9 +281,22 @@ namespace Assets.Scripts.Model {
                     moveLocations.Add(new Vector2Int(current.XPosition, current.YPosition));
                 }
             }
-            moveLocations = moveLocations.Where(loc => loc == gridPoint ||
-                                                    GetUnitAtPosition(new Vector2Int(loc.x, loc.y)) == null).ToList();
             return moveLocations;
+        }
+
+        public Dictionary<Vector2Int, int> GetUnitMoveCosts(Unit unit) {
+            var moveCosts = new Dictionary<Vector2Int, int>();
+
+            var moveLocations = GetUnitMoveLocations(unit);
+
+            foreach (var loc in moveLocations) {
+                var tile = mTiles[loc.x, loc.y];
+
+                moveCosts.Add(loc, unit.MoveCost(tile));
+
+            }
+
+            return moveCosts;
         }
 
         public List<Vector2Int> GetUnitAttackLocations(Unit unit) {
@@ -283,7 +304,6 @@ namespace Assets.Scripts.Model {
             var attackLocations = GetUnitMoveLocations(unit);
 
             // Temporary
-            
 
             for (int i = 0; i < unit.MainWeapon.Range; i++) {
                 var tempAttackLocs = new List<Vector2Int>();
@@ -307,6 +327,22 @@ namespace Assets.Scripts.Model {
             return attackLocations;
         }
 
+        public List<Vector2Int> GetPossibleUnitAttackLocations(Unit unit) {
+            var moveLocations = GetPossibleUnitMoveLocations(unit);
+            var attackLocations = GetUnitAttackLocations(unit);
+
+            var filteredAttackLocations = new List<Vector2Int>();
+            foreach (var loc in attackLocations) {
+                var surroundingLocations = GetSurroundingAttackLocationsAtPoint(loc, unit.MainWeapon.Range);
+                var attackPoints = surroundingLocations.Where(sLoc => moveLocations.Contains(sLoc));
+                if (attackPoints.Count() > 0) {
+                    filteredAttackLocations.Add(loc);
+                }
+            }
+
+            return filteredAttackLocations;
+        }
+
         public bool TileIsOccupied(Vector2Int position) {
             return GetUnitAtPosition(position) != null;
         }
@@ -317,23 +353,11 @@ namespace Assets.Scripts.Model {
             return surroundingLocations.Any(pos => EnemyAtLocation(pos));
         }
 
-        public Vector2Int GetMinimumAttackPoint(Unit unit, Vector2Int targetPoint) {
-            var availableAttackLocations = GetUnitMoveLocations(unit);
-
-            var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, unit.MainWeapon.Range);
-
-            possibleAttackLocations = possibleAttackLocations.Where(pos =>
-                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
-                                        .Where(pos => availableAttackLocations.Contains(pos))
-                                        .ToList();
-
-            return possibleAttackLocations.First();
-        }
-
         public List<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
 
-            var possibleAttackLocations = new List<Vector2Int>();
-            possibleAttackLocations.Add(attackPoint);
+            var possibleAttackLocations = new List<Vector2Int> {
+                attackPoint
+            };
 
             for (int i = 0; i < range; i++) {
                 var tempAttackLocs = new List<Vector2Int>();
@@ -355,6 +379,39 @@ namespace Assets.Scripts.Model {
         public bool EnemyAtLocation(Vector2Int location) {
             var unit = GetUnitAtPosition(location);
             return unit != null && !CurrentPlayer.Units.Contains(unit);
+        }
+
+        public List<Vector2Int> GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
+            var unitCosts = GetUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var shortestDistanceToEnd = distances.SingleOrDefault(d => d.Vertex == endPoint);
+
+            return shortestDistanceToEnd.Path;
+        }
+        
+        public List<Vector2Int> GetShortestPathToAttack(Unit unit, Vector2Int startPoint, Vector2Int targetPoint) {
+            var unitCosts = GetUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var availableAttackLocations = GetUnitMoveLocations(unit);
+
+            var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, unit.MainWeapon.Range);
+
+            possibleAttackLocations = possibleAttackLocations.Where(pos =>
+                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
+                                        .Where(pos => availableAttackLocations.Contains(pos))
+                                        .ToList();
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var attackDistances = distances.Where(pos => possibleAttackLocations.Contains(pos.Vertex));
+
+            var shortestDistanceToAttack = attackDistances.Min();
+
+            return shortestDistanceToAttack.Path;
         }
     } 
 }

@@ -39,12 +39,13 @@ namespace Assets.Scripts.View {
 
         private GameObject unitMenu;
         private GameObject tileHighlight;
-        private GameObject tileSelected;
         private Unit movingUnit;
         private List<Vector2Int> moveLocations;
+        private List<Vector2Int> pathLocations;
         private List<Vector2Int> attackLocations;
         private List<GameObject> moveLocationHighlights;
         private List<GameObject> attackLocationHighlights;
+        private List<GameObject> pathLocationHighlights;
 
         private bool waitingForMove;
         private bool waitingForAttack;
@@ -74,6 +75,8 @@ namespace Assets.Scripts.View {
             tileHighlight = Instantiate(tileHighlightPrefab, point, Quaternion.identity, gameObject.transform);
             tileHighlight.SetActive(false);
 
+            pathLocationHighlights = new List<GameObject>();
+
             unitMenus = new Dictionary<UnitMenuType, GameObject>() {
                 { UnitMenuType.Attack_Skills_Items_Wait_Cancel, unitMenu_Attack_Skills_Items_Wait_Cancel_prefab },
                 { UnitMenuType.Attack_Skills_Wait_Cancel, unitMenu_Attack_Skills_Wait_Cancel_prefab },
@@ -99,6 +102,29 @@ namespace Assets.Scripts.View {
                 // Debug.Log($"Hovering at Point: ({point.x}, {point.y})");
                 tileHighlight.SetActive(true);
                 tileHighlight.transform.position = point;
+
+                if (!waitingForMove) {
+                    foreach (var highlight in pathLocationHighlights) {
+                        Destroy(highlight);
+                    }
+                    if (moveLocations.Contains(point.ToVector2Int())) {
+                        pathLocations = gameViewModel.GetShortestPath(point.ToVector2Int());
+                        pathLocationHighlights = new List<GameObject>();
+                        foreach (var loc in pathLocations) {
+                            GameObject highlight;
+                            highlight = Instantiate(tileSelectedPrefab, loc.ToVector3(), Quaternion.identity, gameObject.transform);
+                            pathLocationHighlights.Add(highlight);
+                        }
+                    } else if (attackLocations.Contains(point.ToVector2Int())) {
+                        pathLocations = gameViewModel.GetShortestPathToAttack(point.ToVector2Int());
+                        pathLocationHighlights = new List<GameObject>();
+                        foreach (var loc in pathLocations) {
+                            GameObject highlight;
+                            highlight = Instantiate(tileSelectedPrefab, loc.ToVector3(), Quaternion.identity, gameObject.transform);
+                            pathLocationHighlights.Add(highlight);
+                        }
+                    }
+                }
 
                 if (Input.GetMouseButtonDown(0)) {
                     // TODO: Implement movement here
@@ -143,8 +169,16 @@ namespace Assets.Scripts.View {
                                 }
 
                             }
-
-                            tileSelected = Instantiate(tileSelectedPrefab, point, Quaternion.identity, gameObject.transform);
+                            foreach (GameObject highlight in pathLocationHighlights) {
+                                Destroy(highlight);
+                            }
+                            pathLocations = gameViewModel.GetShortestPath(point.ToVector2Int());
+                            pathLocationHighlights = new List<GameObject>();
+                            foreach (var loc in pathLocations) {
+                                GameObject highlight;
+                                highlight = Instantiate(tileSelectedPrefab, loc.ToVector3(), Quaternion.identity, gameObject.transform);
+                                pathLocationHighlights.Add(highlight);
+                            }
                             WaitForChoice();
                         } else {
                             if (point.ToVector2Int() == movedPoint) {
@@ -164,7 +198,8 @@ namespace Assets.Scripts.View {
                             if (!waitingForMove) {
                                 // TODO: Calculate Move point here
                                 startPoint = gameViewModel.SelectedSquare.Position;
-                                movedPoint = gameViewModel.GetMinimumAttackPoint(attackPoint);
+                                pathLocations = gameViewModel.GetShortestPathToAttack(point.ToVector2Int());
+                                movedPoint = pathLocations.Last();
 
                                 // TODO: Phantom movement to tile of MINIMUM valid
                                 // Attack Range to attack point
@@ -176,7 +211,15 @@ namespace Assets.Scripts.View {
 
                                     SetupUnitMenu(point, UnitMenuType.Attack_Skills_Wait_Cancel);
                                 }
-                                tileSelected = Instantiate(tileSelectedPrefab, point, Quaternion.identity, gameObject.transform);
+                                foreach (GameObject highlight in pathLocationHighlights) {
+                                    Destroy(highlight);
+                                }
+                                pathLocationHighlights = new List<GameObject>();
+                                foreach (var loc in pathLocations) {
+                                    GameObject highlight;
+                                    highlight = Instantiate(tileSelectedPrefab, loc.ToVector3(), Quaternion.identity, gameObject.transform);
+                                    pathLocationHighlights.Add(highlight);
+                                }
                                 WaitForChoice();
                             } else {
                                 if (point.ToVector2Int() == attackPoint) {
@@ -303,7 +346,10 @@ namespace Assets.Scripts.View {
 
             gameView.UnlockCamera();
 
-            Destroy(tileSelected);
+            // Destroy all highlighters
+            foreach (GameObject highlight in pathLocationHighlights) {
+                Destroy(highlight);
+            }
 
             foreach (GameObject highlight in moveLocationHighlights)
             {
@@ -372,9 +418,11 @@ namespace Assets.Scripts.View {
 
             gameView.UnlockCamera();
 
-            Destroy(tileSelected);
-
             // Destroy all highlighters
+            foreach (GameObject highlight in pathLocationHighlights) {
+                Destroy(highlight);
+            }
+
             foreach (GameObject highlight in moveLocationHighlights) {
                 Destroy(highlight);
             }
