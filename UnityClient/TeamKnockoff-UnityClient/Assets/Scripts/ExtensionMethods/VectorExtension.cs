@@ -30,6 +30,24 @@ namespace Assets.Scripts.ExtensionMethods {
             return new Vector2Int(newCol, newRow);
         }
 
+        public static IEnumerable<Vector2Int> GetNeighbors(this Vector2Int vector) {
+            var neighbors = new List<Vector2Int> {
+                vector + Vector2Int.up,
+                vector + Vector2Int.down,
+                vector + Vector2Int.left,
+                vector + Vector2Int.right
+            };
+
+            return neighbors;
+        }
+
+        public static int CompareTo(this Vector2Int first, Vector2Int second) {
+            if (first.x.CompareTo(second.x) == 0 ){
+                return first.y.CompareTo(second.y);
+            }
+            return first.x.CompareTo(second.x);
+        }
+
         public static IEnumerable<Vector2Int> GetRectangularPositions(int rows, int cols) {
             return Enumerable.Range(0, rows).SelectMany(
                 row => Enumerable.Range(0, cols),

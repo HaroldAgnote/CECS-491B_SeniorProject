@@ -72,13 +72,13 @@ namespace Assets.Scripts.ViewModel {
 
         public List<Vector2Int> MovesForUnit {
             get {
-                return model.GetUnitMoveLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitMoveLocations(SelectedSquare.Unit);
             }
         }
 
         public List<Vector2Int> AttacksForUnit {
             get {
-                return model.GetUnitAttackLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitAttackLocations(SelectedSquare.Unit);
             }
         }
 
@@ -99,6 +99,26 @@ namespace Assets.Scripts.ViewModel {
                     Tile = model.GetTileAtPosition(pos)
                 })
             );
+        }
+
+        public List<Vector2Int> GetShortestPath(Vector2Int endPoint) {
+            return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+        }
+        
+        public List<Vector2Int> GetShortestPathToAttack(Vector2Int endPoint) {
+            return model.GetShortestPathToAttack(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+        }
+
+        public List<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
+            return model.GetSurroundingAttackLocationsAtPoint(attackPoint, range);
+        }
+
+        public bool EnemyAtPoint(Vector2Int position) {
+            return model.EnemyAtLocation(position);
+        }
+
+        public bool EnemyWithinRange(Vector2Int position, int range) {
+            return model.EnemyWithinRange(position, range);
         }
 
         public bool UnitHasMoved(UnitViewModel unitVm) {
@@ -142,7 +162,18 @@ namespace Assets.Scripts.ViewModel {
                     ObjectViewModels.Remove(gameMove.StartPosition);
                     ObjectViewModels.Add(gameMove.EndPosition, objectViewModel);
                 }
+            }
 
+            else if (gameMove.MoveType == GameMove.GameMoveType.Attack) {
+                var objectViewModel = ObjectViewModels[gameMove.EndPosition];
+                if (objectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel)))
+                {
+                    var unitViewModel = objectViewModel as UnitViewModel;
+                    if (unitViewModel.Unit.HealthPoints == 0) {
+                        unitViewModel.GameObject.SetActive(false);
+                        ObjectViewModels.Remove(gameMove.EndPosition);
+                    }
+                }
             }
         }
 
