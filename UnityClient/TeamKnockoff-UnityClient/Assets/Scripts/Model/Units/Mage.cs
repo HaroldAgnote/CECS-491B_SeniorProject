@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Model.Weapons;
 
 namespace Assets.Scripts.Model.Units {
     public class Mage : InfantryUnit {
@@ -55,6 +56,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Mage.CLASS_NAME;
             unit.Class = Mage.CLASS_NAME;
 
+            unit.MainWeapon = new Weapon(25, 2, 100, 1, DamageCalculator.DamageType.Magical);
             return newUnit;
         }
 

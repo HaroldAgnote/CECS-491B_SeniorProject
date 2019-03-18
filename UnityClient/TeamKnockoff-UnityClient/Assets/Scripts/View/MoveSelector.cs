@@ -237,7 +237,50 @@ namespace Assets.Scripts.View {
         }
 
         private void SkillMove() {
+            if (attackPoint == NULL_VECTOR)
+            {
+                waitingForAttack = true;
 
+                foreach (GameObject highlight in moveLocationHighlights)
+                {
+                    Destroy(highlight);
+                }
+
+                foreach (GameObject highlight in attackLocationHighlights)
+                {
+                    Destroy(highlight);
+                }
+
+                attackLocationHighlights = new List<GameObject>();
+
+                var newAttackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, movingUnit.MainWeapon.Range);
+
+                foreach (Vector2Int loc in newAttackLocations)
+                {
+                    GameObject highlight;
+                    var point = new Vector3Int(loc.x, loc.y, 0);
+                    highlight = Instantiate(attackLocationPrefab, point, Quaternion.identity, gameObject.transform);
+                    attackLocationHighlights.Add(highlight);
+                }
+            }
+            else
+            {
+                SkillUnit();
+            }
+
+        }
+
+        private void SkillUnit()
+        {
+            if (startPoint != movedPoint)
+            {
+                MoveUnit();
+            }
+
+            Debug.Log("Use Skill");
+            CurrentGameMove = new GameMove(movedPoint, attackPoint, GameMove.GameMoveType.Skill);
+            gameViewModel.ApplyMove(CurrentGameMove);
+            ExitState();
         }
 
         private void WaitUnit() {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Weapons;
+using Assets.Scripts.Model.Skills;
 
 public class DamageCalculator 
 {
@@ -14,13 +15,13 @@ public class DamageCalculator
         //getDistance from each unit's position
 
         //check magic
-        if (attacker.MainWeapon.DamageType == DamageType.Physical) //Matthew added (int) cast
+        if (attacker.MainWeapon.DamageType == DamageType.Physical) 
         {
             Debug.Log("physical");
             return GetPhysicalDamage(attacker, defender);
         }
 
-        if (attacker.MainWeapon.DamageType == DamageType.Magical) //Matthew added (int) cast
+        if (attacker.MainWeapon.DamageType == DamageType.Magical) 
         {
             return GetMagicalDamage(attacker, defender);
         }
@@ -62,16 +63,54 @@ public class DamageCalculator
         return (int)(critRate - evasionRate);
     }
 
-    public static void ApplySkill(Unit attacker, Unit defender, Skill s)
+    public static int GetSkillDamage(Unit attacker, Unit defender, Skill s)
     {
-        attacker.Speed = 4;
+        //assume physical for now. Maybe weapon determines damage type?
+        //getDistance from each unit's position
+
+        //check magic
+        SingleDamageSkill b = (SingleDamageSkill) s;
+        if (b.DamageType == DamageType.Physical)
+        {
+            Debug.Log("physical");
+            return GetPhysicalSkillDamage(attacker, defender, b);
+        }
+
+        if (b.DamageType == DamageType.Magical)
+        {
+            Debug.Log("magical");
+            return GetMagicalSkillDamage(attacker, defender, b);
+        }
+
+        return 0;
         //we gotta do some polymorphism shit on these boy-toys when we get other skills maybe
     }
+
+    public static int GetPhysicalSkillDamage(Unit attacker, Unit defender, SingleDamageSkill s)
+    {
+        int damageDone = s.GetDamage(attacker, defender);
+        if (damageDone <= 0)
+        {
+            return 1;
+        }
+        return damageDone;
+    }
+
+    public static int GetMagicalSkillDamage(Unit attacker, Unit defender, Skill s)
+    {
+        int damageDone = attacker.MainWeapon.Might + attacker.Magic - defender.Resistance;
+        if (damageDone <= 0)
+        {
+            return 1;
+        }
+        return damageDone;
+    }
+
 
     public static int GetSuccessRate(Unit attacker, Unit defender, Skill s)
     {
         //we gotta do some polymorphism shit on these boy-toys when we get other skills maybe
-        SingleDamage sd = s as SingleDamage;
+        SingleDamageSkill sd = s as SingleDamageSkill;
         int hit = sd.GetHitChance(attacker, defender);
         return hit;
 
