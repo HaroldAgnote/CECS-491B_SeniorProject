@@ -9,6 +9,7 @@ using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.ViewModel;
 using Assets.Scripts.View;
+using Assets.Scripts.ComputerOpponent;
 
 namespace Assets.Scripts.Application {
     public class GameManager: MonoBehaviour {
@@ -101,6 +102,7 @@ namespace Assets.Scripts.Application {
 
         public GameMove GetOtherPlayerMove() {
             // Need to use AI or MP calls here
+
             throw new NotImplementedException();
         }
 
