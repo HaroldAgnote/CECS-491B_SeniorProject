@@ -162,7 +162,18 @@ namespace Assets.Scripts.ViewModel {
                     ObjectViewModels.Remove(gameMove.StartPosition);
                     ObjectViewModels.Add(gameMove.EndPosition, objectViewModel);
                 }
+            }
 
+            else if (gameMove.MoveType == GameMove.GameMoveType.Attack)
+            {
+                var objectViewModel = ObjectViewModels[gameMove.EndPosition];
+                if (objectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel)))
+                {
+                    var unitViewModel = objectViewModel as UnitViewModel;
+                    if (unitViewModel.Unit.HealthPoints == 0) {
+                        unitViewModel.GameObject.SetActive(false);
+                    }
+                }
             }
         }
 

@@ -250,14 +250,6 @@ namespace Assets.Scripts.Model {
             CurrentPlayer.MarkUnitAsMoved(unit);
         }
 
-        public List<Vector2Int> GetPossibleUnitMoveLocations(Unit unit) {
-            var gridPoint = GridForUnit(unit);
-            var moveLocations = GetUnitMoveLocations(unit)
-                                .Where(loc => loc == gridPoint ||
-                                                    GetUnitAtPosition(new Vector2Int(loc.x, loc.y)) == null).ToList();;
-            return moveLocations;
-        }
-
         public List<Vector2Int> GetUnitMoveLocations(Unit unit) {
             var gridPoint = GridForUnit(unit);
 
@@ -310,6 +302,17 @@ namespace Assets.Scripts.Model {
             return moveLocations;
         }
 
+        public List<Vector2Int> GetPossibleUnitMoveLocations(Unit unit) {
+            var gridPoint = GridForUnit(unit);
+            var moveLocations = GetUnitMoveLocations(unit)
+                                .Where(loc => 
+                                    loc == gridPoint 
+                                    || !TileIsOccupied(loc)
+                                    || (TileIsOccupied(loc) && GetUnitAtPosition(loc).HealthPoints <= 0)).ToList();;
+            return moveLocations;
+        }
+
+
         public Dictionary<Vector2Int, int> GetUnitMoveCosts(Unit unit) {
             var moveCosts = new Dictionary<Vector2Int, int>();
 
@@ -344,11 +347,11 @@ namespace Assets.Scripts.Model {
                 attackLocations.AddRange(tempAttackLocs);
             }
 
-            attackLocations = attackLocations.Where(pos => 
-                                !DoesUnitBelongToCurrentPlayer(
-                                GetUnitAtPosition(new Vector2Int(pos.x, pos.y))))
+            attackLocations = attackLocations
+                                .Where(pos => 
+                                    !TileIsOccupied(pos)
+                                    || EnemyAtLocation(pos))
                                 .ToList();
-
 
             return attackLocations;
         }
@@ -370,7 +373,7 @@ namespace Assets.Scripts.Model {
         }
 
         public bool TileIsOccupied(Vector2Int position) {
-            return GetUnitAtPosition(position) != null;
+            return GetUnitAtPosition(position) != null && GetUnitAtPosition(position).HealthPoints > 0;
         }
 
         public bool EnemyWithinRange(Vector2Int position, int range) {
@@ -404,7 +407,7 @@ namespace Assets.Scripts.Model {
 
         public bool EnemyAtLocation(Vector2Int location) {
             var unit = GetUnitAtPosition(location);
-            return unit != null && !CurrentPlayer.Units.Contains(unit);
+            return unit != null && unit.HealthPoints > 0 && !CurrentPlayer.Units.Contains(unit);
         }
         
         public List<Vector2Int> GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
