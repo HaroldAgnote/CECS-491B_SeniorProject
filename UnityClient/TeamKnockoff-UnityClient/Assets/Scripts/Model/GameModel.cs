@@ -176,6 +176,9 @@ namespace Assets.Scripts.Model {
                 case GameMove.GameMoveType.Attack:
                     AttackUnit(move);
                     break;
+                case GameMove.GameMoveType.Skill:
+                    SkillUnit(move);
+                    break;
                 case GameMove.GameMoveType.Wait:
                     WaitUnit(move);
                     break;
@@ -215,6 +218,29 @@ namespace Assets.Scripts.Model {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
                 attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
             }
+            Debug.Log(attackingUnit.UnitInformation + "\n\n");
+            Debug.Log(defendingUnit.UnitInformation);
+
+            CurrentPlayer.MarkUnitAsMoved(attackingUnit);
+        }
+
+        private void SkillUnit(GameMove move)
+        {
+            var attackingUnit = GetUnitAtPosition(move.StartPosition);
+            var defendingUnit = GetUnitAtPosition(move.EndPosition);
+
+            // Attack Logic Here
+            Debug.Log($"{attackingUnit.Name} attacks with skill {defendingUnit.Name}");
+            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
+            if (defendingUnit.HealthPoints > 0) //check if unit is alive 
+                                                //TODO CHECK RANGE OF UNIT COUNTER
+            {
+                Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
+                //instead of Skill[0] of we probably need selected skill or something
+                attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetSkillDamage(defendingUnit, attackingUnit, attackingUnit.Skills[0]);
+            }
+            Debug.Log(attackingUnit.UnitInformation + "\n\n");
+            Debug.Log(defendingUnit.UnitInformation);
 
             CurrentPlayer.MarkUnitAsMoved(attackingUnit);
         }
@@ -380,7 +406,7 @@ namespace Assets.Scripts.Model {
             var unit = GetUnitAtPosition(location);
             return unit != null && !CurrentPlayer.Units.Contains(unit);
         }
-
+        
         public List<Vector2Int> GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);

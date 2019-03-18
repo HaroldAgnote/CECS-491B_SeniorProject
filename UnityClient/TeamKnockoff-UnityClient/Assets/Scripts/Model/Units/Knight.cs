@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Model.Skills;
 
 namespace Assets.Scripts.Model.Units {
     public class Knight : ArmoredUnit {
@@ -54,6 +55,9 @@ namespace Assets.Scripts.Model.Units {
 
             unit.Name = Knight.CLASS_NAME;
             unit.Class = Knight.CLASS_NAME;
+
+            unit.Skills = new List<Skill>();
+            unit.Skills.Add(new Bash());
 
             return newUnit;
         }

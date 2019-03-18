@@ -9,6 +9,7 @@ using UnityEngine;
 using Assets.Scripts.Model.Items;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Tiles;
+using Assets.Scripts.Model.Skills;
 
 namespace Assets.Scripts.Model.Units {
     public abstract class Unit : MonoBehaviour, IMover {
@@ -40,6 +41,8 @@ namespace Assets.Scripts.Model.Units {
 
         public Weapon MainWeapon { get; set; }
 
+        public List<Skill> Skills { get; set; }
+
         // TODO: Add Item Properties
         public List<Item> Items { get; set; }
 
@@ -56,6 +59,8 @@ namespace Assets.Scripts.Model.Units {
             get {
                 var info =
                     $"Name: {Name}\n" +
+                    $"MaxHealth: {MaxHealthPoints}\n" +
+                    $"HealthPoints: {HealthPoints}\n" +
                     $"Level: {Level}\n" +
                     $"Strength: {Strength}\n" +
                     $"Magic: {Magic}\n" +
