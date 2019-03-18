@@ -17,29 +17,42 @@ namespace Assets.Scripts.Model.Units {
         public string Type { get; set; }
         public string Class { get; set; }
 
+        private double mHealthPoints;
+
         // Health Points are the life points of the Unit
         // If Health Points is zero, the unit is dead
         // Health Points can never exceed max health points
-        public double HealthPoints { get; set; }
+        public double HealthPoints {
+            get {
+                return mHealthPoints;
+            }
+            set {
+                if (value < 0) {
+                    mHealthPoints = 0;
+                } else {
+                    mHealthPoints = value;
+                }
+            }
+        }
         public double MaxHealthPoints { get; set; }
 
         public int Level { get; protected set; }
         public int ExperiencePoints { get; protected set; }
 
-        public int Strength { get; set; }
-        public int Magic { get; set; }
+        public int Strength { get; protected set; }
+        public int Magic { get; protected set; }
 
-        public int Defense { get; set; }
-        public int Resistance { get; set; }
+        public int Defense { get; protected set; }
+        public int Resistance { get; protected set; }
 
-        public int Speed { get; set; }
-        public int Skill { get; set; }
+        public int Speed { get; protected set; }
+        public int Skill { get; protected set; }
 
-        public int Luck { get; set; }
+        public int Luck { get; protected set; }
 
-        public int MoveRange { get; set; }
+        public int MoveRange { get; protected set; }
 
-        public Weapon MainWeapon { get; set; }
+        public Weapon MainWeapon { get; protected set; }
 
         public List<Skill> Skills { get; set; }
 

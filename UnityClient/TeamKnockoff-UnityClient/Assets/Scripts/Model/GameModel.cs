@@ -72,10 +72,12 @@ namespace Assets.Scripts.Model {
             mTiles[tile.XPosition, tile.YPosition] = tile;
         }
 
+        // Returns the Unit at a position
         public Unit GetUnitAtPosition(Vector2Int vector) {
             return GetUnitAtPosition(vector.x, vector.y);
         }
 
+        // Returns the Unit at a position
         public Unit GetUnitAtPosition(int col, int row) {
             try {
                 return mUnits[col, row];
@@ -84,10 +86,12 @@ namespace Assets.Scripts.Model {
             }
         }
 
+        // Returns the Tile at a position
         public Tile GetTileAtPosition(Vector2Int vector) {
             return GetTileAtPosition(vector.x, vector.y);
         }
 
+        // Returns the Tile at a position
         public Tile GetTileAtPosition(int col, int row) {
             try {
                 return mTiles[col, row];
@@ -96,6 +100,7 @@ namespace Assets.Scripts.Model {
             }
         }
 
+        // Returns the position of a Unit
         public Vector2Int GridForUnit(Unit unit) {
             for (int col = 0; col < mUnits.GetLength(0); col++) {
                 for (int row = 0; row < mUnits.GetLength(1); row++) {
