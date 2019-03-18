@@ -453,5 +453,11 @@ namespace Assets.Scripts.Model {
 
             return shortestDistanceToAttack.Path;
         }
+
+        //return copies of game data
+        public Unit[,] GetAllUnitsAndPositions()
+        {
+            return mUnits;
+        }
     } 
 }
