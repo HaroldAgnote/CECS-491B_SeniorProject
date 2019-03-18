@@ -46,6 +46,12 @@ namespace Assets.Scripts.Model.Units {
         // TODO: Add Item Properties
         public List<Item> Items { get; set; }
 
+        public bool IsAlive {
+            get {
+                return HealthPoints > 0;
+            }
+        } 
+
         // Abstract methods that must be overridden by Unit sub classes
         public abstract bool CanMove(Tile tile);
         public abstract int MoveCost(Tile tile);
@@ -59,8 +65,8 @@ namespace Assets.Scripts.Model.Units {
             get {
                 var info =
                     $"Name: {Name}\n" +
-                    $"MaxHealth: {MaxHealthPoints}\n" +
                     $"HealthPoints: {HealthPoints}\n" +
+                    $"MaxHealth: {MaxHealthPoints}\n" +
                     $"Level: {Level}\n" +
                     $"Strength: {Strength}\n" +
                     $"Magic: {Magic}\n" +

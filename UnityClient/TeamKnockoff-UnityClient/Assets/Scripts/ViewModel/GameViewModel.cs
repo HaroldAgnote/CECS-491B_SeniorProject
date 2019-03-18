@@ -169,7 +169,7 @@ namespace Assets.Scripts.ViewModel {
                 if (objectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel)))
                 {
                     var unitViewModel = objectViewModel as UnitViewModel;
-                    if (unitViewModel.Unit.HealthPoints == 0) {
+                    if (!unitViewModel.Unit.IsAlive) {
                         unitViewModel.GameObject.SetActive(false);
                         ObjectViewModels.Remove(gameMove.EndPosition);
                     }

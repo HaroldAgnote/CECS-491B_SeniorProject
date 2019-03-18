@@ -112,10 +112,6 @@ namespace Assets.Scripts.Model {
             return CurrentPlayer.Units.Contains(unit);
         }
 
-        public bool UnitIsAlive(Unit unit) {
-            return unit.HealthPoints > 0;
-        }
-
         public void AddNeighbors() {
             int columns = GameManager.instance.Columns;
             int rows = GameManager.instance.Rows;
@@ -213,16 +209,18 @@ namespace Assets.Scripts.Model {
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
             defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
-            if (defendingUnit.HealthPoints > 0) //check if unit is alive 
+            if (defendingUnit.IsAlive) //check if unit is alive 
                 //TODO CHECK RANGE OF UNIT COUNTER
             {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
                 attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
 
-                if (attackingUnit.HealthPoints <= 0) {
+                if (!attackingUnit.IsAlive) {
                     CurrentPlayer.MarkUnitAsInactive(attackingUnit);
+                    Debug.Log($"{attackingUnit.Name} has been defeated");
                 }
             } else {
+                Debug.Log($"{defendingUnit.Name} has been defeated");
                 foreach (var mPlayer in mPlayers) {
                     if (mPlayer.Units.Contains(defendingUnit)) {
                         mPlayer.MarkUnitAsInactive(defendingUnit);
@@ -243,7 +241,7 @@ namespace Assets.Scripts.Model {
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks with skill {defendingUnit.Name}");
             defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
-            if (defendingUnit.HealthPoints > 0) //check if unit is alive 
+            if (defendingUnit.IsAlive) //check if unit is alive 
                                                 //TODO CHECK RANGE OF UNIT COUNTER
             {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
@@ -291,7 +289,7 @@ namespace Assets.Scripts.Model {
                 // TODO: Need to find a way to prevent unit moving through tiles where 
                 // there's an enemy.
                 var unitAtPoint = GetUnitAtPosition(new Vector2Int(current.XPosition, current.YPosition));
-                if (unitAtPoint != null && !DoesUnitBelongToCurrentPlayer(unitAtPoint) && UnitIsAlive(unitAtPoint) ) {
+                if (unitAtPoint != null && !DoesUnitBelongToCurrentPlayer(unitAtPoint) && unitAtPoint.IsAlive ) {
                     continue;
                 }
 
@@ -316,10 +314,10 @@ namespace Assets.Scripts.Model {
         public List<Vector2Int> GetPossibleUnitMoveLocations(Unit unit) {
             var gridPoint = GridForUnit(unit);
             var moveLocations = GetUnitMoveLocations(unit)
-                                .Where(loc => 
-                                    loc == gridPoint 
-                                    || !TileIsOccupied(loc)
-                                    || (TileIsOccupied(loc) && GetUnitAtPosition(loc).HealthPoints <= 0)).ToList();;
+                                .Where(loc =>
+                                    loc == gridPoint
+                                    || !TileIsOccupied(loc))
+                                .ToList();
             return moveLocations;
         }
 
@@ -384,7 +382,7 @@ namespace Assets.Scripts.Model {
         }
 
         public bool TileIsOccupied(Vector2Int position) {
-            return GetUnitAtPosition(position) != null && GetUnitAtPosition(position).HealthPoints > 0;
+            return GetUnitAtPosition(position) != null && GetUnitAtPosition(position).IsAlive;
         }
 
         public bool EnemyWithinRange(Vector2Int position, int range) {
@@ -418,7 +416,7 @@ namespace Assets.Scripts.Model {
 
         public bool EnemyAtLocation(Vector2Int location) {
             var unit = GetUnitAtPosition(location);
-            return unit != null && unit.HealthPoints > 0 && !CurrentPlayer.Units.Contains(unit);
+            return unit != null && unit.IsAlive && !CurrentPlayer.Units.Contains(unit);
         }
         
         public List<Vector2Int> GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
