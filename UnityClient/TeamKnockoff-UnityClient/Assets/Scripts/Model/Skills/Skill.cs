@@ -4,18 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Model.Skills
 {
-    public abstract class Skill : MonoBehaviour
+    public abstract class Skill
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

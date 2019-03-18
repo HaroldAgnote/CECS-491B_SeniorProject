@@ -217,6 +217,16 @@ namespace Assets.Scripts.Model {
             {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
                 attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
+
+                if (attackingUnit.HealthPoints <= 0) {
+                    CurrentPlayer.MarkUnitAsInactive(attackingUnit);
+                }
+            } else {
+                foreach (var mPlayer in mPlayers) {
+                    if (mPlayer.Units.Contains(defendingUnit)) {
+                        mPlayer.MarkUnitAsInactive(defendingUnit);
+                    } 
+                }
             }
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);

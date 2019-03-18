@@ -164,14 +164,14 @@ namespace Assets.Scripts.ViewModel {
                 }
             }
 
-            else if (gameMove.MoveType == GameMove.GameMoveType.Attack)
-            {
+            else if (gameMove.MoveType == GameMove.GameMoveType.Attack) {
                 var objectViewModel = ObjectViewModels[gameMove.EndPosition];
                 if (objectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel)))
                 {
                     var unitViewModel = objectViewModel as UnitViewModel;
                     if (unitViewModel.Unit.HealthPoints == 0) {
                         unitViewModel.GameObject.SetActive(false);
+                        ObjectViewModels.Remove(gameMove.EndPosition);
                     }
                 }
             }
