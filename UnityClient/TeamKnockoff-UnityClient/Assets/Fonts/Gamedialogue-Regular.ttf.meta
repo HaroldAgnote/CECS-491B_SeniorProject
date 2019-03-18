@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 7ebd3b58009be6f428cf5723d725206e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Gamedialogue
+  fontNames:
+  - Gamedialogue
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4ed1bfda02e10c741a4310968f93fd22, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
