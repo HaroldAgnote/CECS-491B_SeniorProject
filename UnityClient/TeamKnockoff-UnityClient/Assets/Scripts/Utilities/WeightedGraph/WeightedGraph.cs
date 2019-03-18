@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Priority_Queue;
-
 using Assets.Scripts.ExtensionMethods;
+using Assets.Scripts.Utilities.PriorityQueue;
 
-namespace Assets.Scripts.Model {
+namespace Assets.Scripts.Utilities.WeightedGraph {
     public class WeightedGraph {
         class WeightedNode : IComparable<WeightedNode> {
             public Vector2Int mVertex;

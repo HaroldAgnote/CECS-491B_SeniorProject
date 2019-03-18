@@ -9,6 +9,7 @@ using Assets.Scripts.ExtensionMethods;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Weapons;
+using Assets.Scripts.Utilities.WeightedGraph;
 
 namespace Assets.Scripts.Model {
     public class GameModel : MonoBehaviour {

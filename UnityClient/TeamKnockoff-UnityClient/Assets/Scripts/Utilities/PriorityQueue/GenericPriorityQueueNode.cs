@@ -1,4 +1,4 @@
-﻿namespace Priority_Queue
+﻿namespace Assets.Scripts.Utilities.PriorityQueue
 {
     public class GenericPriorityQueueNode<TPriority>
     {
