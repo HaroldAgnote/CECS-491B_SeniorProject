@@ -10,11 +10,9 @@ namespace Assets.Scripts.ComputerOpponent
     {
         //Use all possible units to attack
         //Move other units closer to enemy positions
-        void FindBestMove()
+        void FindBestMoves()
         {
 
         }
-        
-
     }
 }

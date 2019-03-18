@@ -457,7 +457,14 @@ namespace Assets.Scripts.Model {
         //return copies of game data
         public Unit[,] GetAllUnitsAndPositions()
         {
-            return mUnits;
+            Unit[,] copy = mUnits.Clone() as Unit[,];
+            return copy;
+        }
+
+        public Tile[,] GetAllTilesAndPositions()
+        {
+            Tile[,] copy = mTiles.Clone() as Tile[,];
+            return copy;
         }
     } 
 }
