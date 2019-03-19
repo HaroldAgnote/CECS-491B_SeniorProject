@@ -475,7 +475,7 @@ namespace Assets.Scripts.View {
             }
 
             Debug.Log("Use Skill");
-            CurrentGameMove = new GameMove(movedPoint, skillPoint, movingUnit.Skills.First(),GameMove.GameMoveType.Skill);
+            CurrentGameMove = new GameMove(movedPoint, skillPoint, movingUnit.Skills.First());
             gameViewModel.ApplyMove(CurrentGameMove);
             ExitState();
         }
