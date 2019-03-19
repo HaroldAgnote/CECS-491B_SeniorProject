@@ -19,25 +19,23 @@ namespace Assets.Scripts.View {
         [SerializeField]
         private TileSelector tileSelector;
 
-        public GameObject unitMenu_Attack_Skills_Items_Wait_Cancel_prefab;
-        public GameObject unitMenu_Attack_Skills_Wait_Cancel_prefab;
-        public GameObject unitMenu_Attack_Items_Wait_Cancel_prefab;
-        public GameObject unitMenu_Attack_Wait_Cancel_prefab;
-        public GameObject unitMenu_Skills_Items_Wait_Cancel_prefab;
-        public GameObject unitMenu_Skills_Wait_Cancel_prefab;
-        public GameObject unitMenu_Items_Wait_Cancel_prefab;
-        public GameObject unitMenu_Wait_Cancel_prefab;
+        public Button attackButton;
+        public Button skillsButton;
+        public Button itemsButton;
+        public Button waitButton;
+        public Button cancelButton;
 
         public GameObject tileHighlightPrefab;
         public GameObject tileSelectedPrefab;
         public GameObject moveLocationPrefab;
         public GameObject attackLocationPrefab;
 
+        public GameObject unitMenu;
+
         private GameViewModel gameViewModel;
 
         private GameMove CurrentGameMove;
 
-        private GameObject unitMenu;
         private GameObject tileHighlight;
         private Unit movingUnit;
         private List<Vector2Int> moveLocations;
@@ -66,8 +64,6 @@ namespace Assets.Scripts.View {
             Wait_Cancel
         }
 
-        public static Dictionary<UnitMenuType, GameObject> unitMenus;
-
         // Start is called before the first frame update
         void Start() {
             this.enabled = false;
@@ -75,19 +71,15 @@ namespace Assets.Scripts.View {
             Vector3 point = new Vector3(0, 0, 0);
             tileHighlight = Instantiate(tileHighlightPrefab, point, Quaternion.identity, gameObject.transform);
             tileHighlight.SetActive(false);
+            unitMenu.SetActive(false);
+
+            attackButton.onClick.AddListener(AttackMove);
+            skillsButton.onClick.AddListener(SkillMove);
+            itemsButton.onClick.AddListener(ItemMove);
+            waitButton.onClick.AddListener(WaitUnit);
+            cancelButton.onClick.AddListener(CancelMove);
 
             pathLocationHighlights = new List<GameObject>();
-
-            unitMenus = new Dictionary<UnitMenuType, GameObject>() {
-                { UnitMenuType.Attack_Skills_Items_Wait_Cancel, unitMenu_Attack_Skills_Items_Wait_Cancel_prefab },
-                { UnitMenuType.Attack_Skills_Wait_Cancel, unitMenu_Attack_Skills_Wait_Cancel_prefab },
-                { UnitMenuType.Attack_Items_Wait_Cancel, unitMenu_Attack_Items_Wait_Cancel_prefab },
-                { UnitMenuType.Attack_Wait_Cancel, unitMenu_Attack_Wait_Cancel_prefab },
-                { UnitMenuType.Skills_Items_Wait_Cancel, unitMenu_Skills_Items_Wait_Cancel_prefab },
-                { UnitMenuType.Skills_Wait_Cancel, unitMenu_Skills_Wait_Cancel_prefab },
-                { UnitMenuType.Items_Wait_Cancel, unitMenu_Items_Wait_Cancel_prefab },
-                { UnitMenuType.Wait_Cancel, unitMenu_Wait_Cancel_prefab }
-            };
         }
 
         // Update is called once per frame
@@ -151,24 +143,42 @@ namespace Assets.Scripts.View {
 
                             // TODO: Need to generate the correct menu based on unit and unit's position
                             if (gameViewModel.EnemyWithinRange(movedPoint, movingUnit.MainWeapon.Range)) {
+                                if (movingUnit.Skills.Count > 0) {
+                                    if (movingUnit.Items.Count > 0) {
 
-                                if (movingUnit.Items.Count > 0) {
+                                        SetupUnitMenu(UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                    } else {
 
-                                    SetupUnitMenu(point, UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                        SetupUnitMenu(UnitMenuType.Attack_Skills_Wait_Cancel);
+                                    }
                                 } else {
+                                    if (movingUnit.Items.Count > 0) {
 
-                                    SetupUnitMenu(point, UnitMenuType.Attack_Skills_Wait_Cancel);
+                                        SetupUnitMenu(UnitMenuType.Attack_Items_Wait_Cancel);
+                                    } else {
+
+                                        SetupUnitMenu(UnitMenuType.Attack_Wait_Cancel);
+                                    }
                                 }
                                 
                             } else {
-                                if (movingUnit.Items.Count > 0) {
+                                if (movingUnit.Skills.Count > 0) {
+                                    if (movingUnit.Items.Count > 0) {
 
-                                    SetupUnitMenu(point, UnitMenuType.Skills_Items_Wait_Cancel);
+                                        SetupUnitMenu(UnitMenuType.Skills_Items_Wait_Cancel);
+                                    } else {
+
+                                        SetupUnitMenu(UnitMenuType.Skills_Wait_Cancel);
+                                    }
                                 } else {
+                                    if (movingUnit.Items.Count > 0) {
 
-                                    SetupUnitMenu(point, UnitMenuType.Skills_Wait_Cancel);
+                                        SetupUnitMenu(UnitMenuType.Items_Wait_Cancel);
+                                    } else {
+
+                                        SetupUnitMenu(UnitMenuType.Wait_Cancel);
+                                    }
                                 }
-
                             }
                             foreach (GameObject highlight in pathLocationHighlights) {
                                 Destroy(highlight);
@@ -207,10 +217,10 @@ namespace Assets.Scripts.View {
 
                                 if (movingUnit.Items.Count > 0) {
 
-                                    SetupUnitMenu(point, UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                    SetupUnitMenu(UnitMenuType.Attack_Skills_Items_Wait_Cancel);
                                 } else {
 
-                                    SetupUnitMenu(point, UnitMenuType.Attack_Skills_Wait_Cancel);
+                                    SetupUnitMenu(UnitMenuType.Attack_Skills_Wait_Cancel);
                                 }
                                 foreach (GameObject highlight in pathLocationHighlights) {
                                     Destroy(highlight);
@@ -252,33 +262,40 @@ namespace Assets.Scripts.View {
             }
         }
 
-        private void SetupUnitMenu(Vector3 point, UnitMenuType unitMenuType) {
-            unitMenu = Instantiate(unitMenus[unitMenuType], point, Quaternion.identity, gameObject.transform);
-
-            // Dirty solution in finding the canvas
-            var canvas = GameObject.Find("UnitMenuCanvas");
-
-            var buttons = canvas.GetComponentsInChildren<Button>();
+        private void SetupUnitMenu(UnitMenuType unitMenuType) {
+            unitMenu.SetActive(true);
             
-            // Dirty solution in hooking button names to listeners
-            foreach (var button in buttons) {
-                switch (button.name) {
-                    case "AttackButton":
-                        button.onClick.AddListener(AttackMove);
-                        break;
-                    case "SkillsButton":
-                        button.onClick.AddListener(SkillMove);
-                        break;
-                    case "ItemsButton":
-                        button.onClick.AddListener(ItemMove);
-                        break;
-                    case "WaitButton":
-                        button.onClick.AddListener(WaitUnit);
-                        break;
-                    case "CancelButton":
-                        button.onClick.AddListener(CancelMove);
-                        break;
-                }
+            attackButton.interactable = true;
+            itemsButton.interactable = true;
+            skillsButton.interactable = true;
+            
+            switch (unitMenuType) {
+                case UnitMenuType.Attack_Items_Wait_Cancel:
+                    skillsButton.interactable = false;
+                    break;
+                case UnitMenuType.Attack_Skills_Wait_Cancel:
+                    itemsButton.interactable = false;
+                    break;
+                case UnitMenuType.Attack_Wait_Cancel:
+                    skillsButton.interactable = false;
+                    itemsButton.interactable = false;
+                    break;
+                case UnitMenuType.Items_Wait_Cancel:
+                    attackButton.interactable = false;
+                    skillsButton.interactable = false;
+                    break;
+                case UnitMenuType.Skills_Items_Wait_Cancel:
+                    attackButton.interactable = false;
+                    break;
+                case UnitMenuType.Skills_Wait_Cancel:
+                    attackButton.interactable = false;
+                    itemsButton.interactable = false;
+                    break;
+                case UnitMenuType.Wait_Cancel:
+                    attackButton.interactable = false;
+                    itemsButton.interactable = false;
+                    skillsButton.interactable = false;
+                    break;
             }
 
         }
@@ -393,7 +410,7 @@ namespace Assets.Scripts.View {
             this.enabled = false;
             tileHighlight.SetActive(false);
 
-            Destroy(unitMenu);
+            unitMenu.SetActive(false);
 
             waitingForMove = false;
             waitingForAttack = false;
@@ -466,7 +483,7 @@ namespace Assets.Scripts.View {
             tileHighlight.SetActive(false);
             movingUnit = null;
 
-            Destroy(unitMenu);
+            unitMenu.SetActive(false);
 
             waitingForMove = false;
             waitingForAttack = false;

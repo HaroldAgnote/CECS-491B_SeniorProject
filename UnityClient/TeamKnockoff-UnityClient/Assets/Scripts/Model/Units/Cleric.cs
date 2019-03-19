@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Assets.Scripts.Model.Skills;
+
 namespace Assets.Scripts.Model.Units {
     public class Cleric : InfantryUnit {
         const double MAX_HEALTH_POINTS = 100;
@@ -54,6 +56,8 @@ namespace Assets.Scripts.Model.Units {
 
             unit.Name = Cleric.CLASS_NAME;
             unit.Class = Cleric.CLASS_NAME;
+
+            unit.Skills = new List<Skill>();
 
             return newUnit;
         }
