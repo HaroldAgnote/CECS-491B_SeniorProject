@@ -25,6 +25,7 @@ namespace Assets.Scripts.Application {
         public GameModel model;
         public GameViewModel viewModel;
         public GameView view;
+        public ComputerOpponent.ComputerOpponent cpu; 
 
         public TextAsset mapData;
         public GameType gameType;
