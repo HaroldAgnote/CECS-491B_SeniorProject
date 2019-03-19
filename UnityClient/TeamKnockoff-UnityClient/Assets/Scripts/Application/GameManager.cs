@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 using Assets.Scripts.Model;
@@ -98,11 +99,23 @@ namespace Assets.Scripts.Application {
             view.ConstructView();
 
             model.StartGame();
+            
+            // If first player is not the Controlling Player
+            // Wait for other player's to make Move's first
+            if (model.CurrentPlayer != ControllingPlayer) {
+                viewModel.WaitForOtherMoves();
+            }
         }
 
         public GameMove GetOtherPlayerMove() {
             // Need to use AI or MP calls here
-
+            while (true) {
+                if (gameType == GameType.Singleplayer) {
+                    // Call and return AI Best Move
+                } else {
+                    // Call and return MP Move
+                }
+            }
             throw new NotImplementedException();
         }
 

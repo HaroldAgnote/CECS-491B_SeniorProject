@@ -160,7 +160,14 @@ namespace Assets.Scripts.ViewModel {
             return model.GridForUnit(unit);
         }
 
-        public async void ApplyMove(GameMove gameMove) {
+        public void ApplyMove(GameMove gameMove) {
+            // Should check if move is possible before applying to prevent cheating?
+            model.ApplyMove(gameMove);
+            UpdateMove(gameMove);
+            WaitForOtherMoves();
+        }
+
+        public async void WaitForOtherMoves() {
             // If playing a singleplayer (AI) or multiplayer game
             // Wait for other players to finish making their moves
             if (!GameManager.instance.localPlay) {
@@ -177,9 +184,6 @@ namespace Assets.Scripts.ViewModel {
                 }
             }
 
-            // Should check if move is possible before applying to prevent cheating?
-            model.ApplyMove(gameMove);
-            UpdateMove(gameMove);
         }
 
         public void UpdateMove(GameMove gameMove) {
