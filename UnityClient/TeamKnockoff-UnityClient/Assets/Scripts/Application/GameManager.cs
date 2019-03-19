@@ -24,6 +24,7 @@ namespace Assets.Scripts.Application {
         public GameModel model;
         public GameViewModel viewModel;
         public GameView view;
+        public ComputerOpponent.ComputerOpponent cpu; 
 
         public TextAsset mapData;
         public GameType gameType;
@@ -102,7 +103,7 @@ namespace Assets.Scripts.Application {
 
         public GameMove GetOtherPlayerMove() {
             // Need to use AI or MP calls here
-
+            
             throw new NotImplementedException();
         }
 

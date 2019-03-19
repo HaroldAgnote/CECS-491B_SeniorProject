@@ -536,6 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d18e1820730f794fbde46bb260e22dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 1791339854}
 --- !u!1 &1791339852
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,6 +728,7 @@ MonoBehaviour:
   model: {fileID: 1791339854}
   viewModel: {fileID: 521415712}
   view: {fileID: 1191771015}
+  cpu: {fileID: 1787739566}
   mapData: {fileID: 4900000, guid: 288c3398b88262b4c960187e4effca0c, type: 3}
   gameType: 0
   localPlay: 1
