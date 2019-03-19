@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Assets.Scripts.Model.Skills;
+
 namespace Assets.Scripts.Model {
     public class GameMove {
 
@@ -19,6 +21,7 @@ namespace Assets.Scripts.Model {
         public GameMoveType MoveType { get; private set; }
 
         // TODO: Add properties for Skill?
+        public Skill UsedSkill { get; }
 
         public GameMove(GameMoveType gameMoveType) {
             
@@ -39,6 +42,13 @@ namespace Assets.Scripts.Model {
             StartPosition = start;
             EndPosition = end;
             MoveType = moveType;
+        }
+
+        public GameMove(Vector2Int start, Vector2Int end, Skill skill, GameMoveType moveType = GameMoveType.Skill) {
+            StartPosition = start;
+            EndPosition = end;
+            MoveType = moveType;
+            UsedSkill = skill;
         }
     }
 }

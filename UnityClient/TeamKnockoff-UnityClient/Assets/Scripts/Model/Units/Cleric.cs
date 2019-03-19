@@ -57,7 +57,9 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Cleric.CLASS_NAME;
             unit.Class = Cleric.CLASS_NAME;
 
-            unit.Skills = new List<Skill>();
+            unit.Skills = new List<Skill>() {
+                new Heal()
+            };
 
             return newUnit;
         }

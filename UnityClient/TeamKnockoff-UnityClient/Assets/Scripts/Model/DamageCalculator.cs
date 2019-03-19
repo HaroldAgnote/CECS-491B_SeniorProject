@@ -7,7 +7,10 @@ using Assets.Scripts.Model.Skills;
 
 public class DamageCalculator 
 {
-    public enum DamageType { Physical, Magical };
+    public enum DamageType {
+        Physical,
+        Magical,
+    };
 
     public static int GetDamage(Unit attacker, Unit defender)
     {

@@ -5,8 +5,13 @@ using UnityEngine;
 
 namespace Assets.Scripts.Model.Skills
 {
-    public class Bash : SingleDamageSkill
-    {
+    public class Bash : SingleDamageSkill {
+
+        public Bash() {
+            SkillName = "Bash";
+            Range = 1;
+        }
+
         //public enum DamageType { Physical, Magical };
         public double HealthPoints = -4;
 
@@ -24,8 +29,7 @@ namespace Assets.Scripts.Model.Skills
         public override int GetDamage(Unit attacker, Unit defender)
         {
             int damageDone = attacker.MainWeapon.Might + attacker.Strength + Strength - defender.Defense;
-            if (damageDone <= 0)
-            {
+            if (damageDone <= 0) {
                 return 1;
             }
             return damageDone;

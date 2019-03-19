@@ -7,8 +7,8 @@ using UnityEngine;
 using Assets.Scripts.Application;
 using Assets.Scripts.ExtensionMethods;
 using Assets.Scripts.Model.Units;
+using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Tiles;
-using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Utilities.WeightedGraph;
 
 namespace Assets.Scripts.Model {
@@ -240,6 +240,16 @@ namespace Assets.Scripts.Model {
 
         private void SkillUnit(GameMove move)
         {
+            var skill = move.UsedSkill;
+
+            if (skill is SingleDamageSkill) {
+                ApplySingleDamageSkill(move);
+            } else if (skill is SingleSupportSkill) {
+                ApplySingleSupportSkill(move);
+            }
+        }
+
+        private void ApplySingleDamageSkill(GameMove move) {
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
@@ -257,9 +267,7 @@ namespace Assets.Scripts.Model {
                     CurrentPlayer.MarkUnitAsInactive(attackingUnit);
                     Debug.Log($"{attackingUnit.Name} has been defeated");
                 }
-            }
-
-            else
+            } else
             {
                 Debug.Log($"{defendingUnit.Name} has been defeated");
                 foreach (var mPlayer in mPlayers)
@@ -274,6 +282,22 @@ namespace Assets.Scripts.Model {
             Debug.Log(defendingUnit.UnitInformation);
 
             CurrentPlayer.MarkUnitAsMoved(attackingUnit);
+        }
+
+        private void ApplySingleSupportSkill(GameMove move) {
+            var supportingUnit = GetUnitAtPosition(move.StartPosition);
+            var supportedUnit = GetUnitAtPosition(move.EndPosition);
+
+            var skill = move.UsedSkill as SingleSupportSkill;
+            skill.SupportUnit(supportingUnit, supportedUnit);
+
+            // Attack Logic Here
+            Debug.Log($"{supportingUnit.Name} uses {move.UsedSkill.SkillName} on {supportedUnit.Name}");
+
+            Debug.Log(supportingUnit.UnitInformation + "\n\n");
+            Debug.Log(supportedUnit.UnitInformation);
+
+            CurrentPlayer.MarkUnitAsMoved(supportingUnit);
         }
 
         private void WaitUnit(GameMove move) {
@@ -361,21 +385,14 @@ namespace Assets.Scripts.Model {
 
         public List<Vector2Int> GetUnitAttackLocations(Unit unit) {
             var gridPoint = GridForUnit(unit);
-            var attackLocations = GetUnitMoveLocations(unit);
+            var moveLocations = GetUnitMoveLocations(unit);
+
+            var attackLocations = new List<Vector2Int>();
 
             // Temporary
-
-            for (int i = 0; i < unit.MainWeapon.Range; i++) {
-                var tempAttackLocs = new List<Vector2Int>();
-                foreach (var moveLoc in attackLocations) {
-                    var moveLocNeighbors = mTiles[moveLoc.x, moveLoc.y]
-                        .Neighbors
-                        .Select(tile => new Vector2Int(tile.XPosition, tile.YPosition))
-                        .Where(pos => !attackLocations.Contains(pos));
-
-                    tempAttackLocs.AddRange(moveLocNeighbors); 
-                }
-                attackLocations.AddRange(tempAttackLocs);
+            foreach (var moveLoc in moveLocations) {
+                var surroundingLocations = GetSurroundingAttackLocationsAtPoint(moveLoc, unit.MainWeapon.Range);
+                attackLocations.AddRange(surroundingLocations.Where(loc => !attackLocations.Contains(loc)));
             }
 
             attackLocations = attackLocations
@@ -403,6 +420,70 @@ namespace Assets.Scripts.Model {
             return filteredAttackLocations;
         }
 
+        public List<Vector2Int> GetUnitSkillLocations(Unit unit) {
+            var singleTargetSkills = unit.Skills
+                                        .Select(sk => sk as SingleTargetSkill)
+                                        .Where(sk => sk != null);
+
+            var skillLocations = new List<Vector2Int>();
+            foreach (var skill in singleTargetSkills) {
+                skillLocations.AddRange(GetUnitSkillLocations(unit, skill));
+            }
+
+            return skillLocations;
+        }
+
+        public List<Vector2Int> GetPossibleUnitSkillLocations(Unit unit) {
+            var singleTargetSkills = unit.Skills
+                                        .Select(sk => sk as SingleTargetSkill)
+                                        .Where(sk => sk != null);
+
+            var skillLocations = new List<Vector2Int>();
+            foreach (var skill in singleTargetSkills) {
+                skillLocations.AddRange(GetPossibleUnitSkillLocations(unit, skill));
+            }
+
+            return skillLocations;
+        }
+
+        public List<Vector2Int> GetUnitSkillLocations(Unit unit, SingleTargetSkill skill) {
+            var gridPoint = GridForUnit(unit);
+            var moveLocations = GetUnitMoveLocations(unit);
+
+            var skillLocations = new List<Vector2Int>();
+
+            // Temporary
+            foreach (var moveLoc in moveLocations) {
+                var surroundingLocations = GetSurroundingAttackLocationsAtPoint(moveLoc, skill.Range);
+                skillLocations.AddRange(surroundingLocations.Where(loc => !skillLocations.Contains(loc)));
+            }
+
+            skillLocations = skillLocations
+                                .Where(pos => 
+                                    !TileIsOccupied(pos)
+                                    || (skill is SingleDamageSkill && EnemyAtLocation(pos))
+                                    || (skill is SingleSupportSkill && AllyAtLocation(pos)))
+                                .ToList();
+
+            return skillLocations;
+        }
+
+        public List<Vector2Int> GetPossibleUnitSkillLocations(Unit unit, SingleTargetSkill skill) {
+            var moveLocations = GetPossibleUnitMoveLocations(unit);
+            var skillLocations = GetUnitSkillLocations(unit, skill);
+
+            var filteredSkillLocations = new List<Vector2Int>();
+            foreach (var loc in skillLocations) {
+                var surroundingLocations = GetSurroundingAttackLocationsAtPoint(loc, skill.Range);
+                var attackPoints = surroundingLocations.Where(sLoc => moveLocations.Contains(sLoc));
+                if (attackPoints.Count() > 0) {
+                    filteredSkillLocations.Add(loc);
+                }
+            }
+
+            return filteredSkillLocations;
+        }
+
         public bool TileIsOccupied(Vector2Int position) {
             return GetUnitAtPosition(position) != null && GetUnitAtPosition(position).IsAlive;
         }
@@ -411,6 +492,12 @@ namespace Assets.Scripts.Model {
             var surroundingLocations = GetSurroundingAttackLocationsAtPoint(position, range);
 
             return surroundingLocations.Any(pos => EnemyAtLocation(pos));
+        }
+
+        public bool AllyWithinRange(Vector2Int position, int range) {
+            var surroundingLocations = GetSurroundingAttackLocationsAtPoint(position, range);
+
+            return surroundingLocations.Any(pos => AllyAtLocation(pos));
         }
 
         public List<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
@@ -439,6 +526,11 @@ namespace Assets.Scripts.Model {
         public bool EnemyAtLocation(Vector2Int location) {
             var unit = GetUnitAtPosition(location);
             return unit != null && unit.IsAlive && !CurrentPlayer.Units.Contains(unit);
+        }
+
+        public bool AllyAtLocation(Vector2Int location) {
+            var unit = GetUnitAtPosition(location);
+            return unit != null && unit.IsAlive && CurrentPlayer.Units.Contains(unit);
         }
         
         public List<Vector2Int> GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {

@@ -59,6 +59,8 @@ namespace Assets.Scripts.Model.Units {
         // TODO: Add Item Properties
         public List<Item> Items { get; set; }
 
+        public List<UnitEffect> Effects { get; }
+
         public bool IsAlive {
             get {
                 return HealthPoints > 0;

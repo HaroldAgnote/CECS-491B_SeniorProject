@@ -70,15 +70,21 @@ namespace Assets.Scripts.ViewModel {
             }
         }
 
-        public List<Vector2Int> MovesForUnit {
+        public IEnumerable<Vector2Int> MovesForUnit {
             get {
                 return model.GetPossibleUnitMoveLocations(SelectedSquare.Unit);
             }
         }
 
-        public List<Vector2Int> AttacksForUnit {
+        public IEnumerable<Vector2Int> AttacksForUnit {
             get {
                 return model.GetPossibleUnitAttackLocations(SelectedSquare.Unit);
+            }
+        }
+
+        public IEnumerable<Vector2Int> SkillsForUnit {
+            get {
+                return model.GetPossibleUnitSkillLocations(SelectedSquare.Unit);
             }
         }
 
@@ -101,15 +107,15 @@ namespace Assets.Scripts.ViewModel {
             );
         }
 
-        public List<Vector2Int> GetShortestPath(Vector2Int endPoint) {
+        public IEnumerable<Vector2Int> GetShortestPath(Vector2Int endPoint) {
             return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
         }
         
-        public List<Vector2Int> GetShortestPathToAttack(Vector2Int endPoint) {
+        public IEnumerable<Vector2Int> GetShortestPathToAttack(Vector2Int endPoint) {
             return model.GetShortestPathToAttack(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
         }
 
-        public List<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
+        public IEnumerable<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
             return model.GetSurroundingAttackLocationsAtPoint(attackPoint, range);
         }
 
@@ -119,6 +125,14 @@ namespace Assets.Scripts.ViewModel {
 
         public bool EnemyWithinRange(Vector2Int position, int range) {
             return model.EnemyWithinRange(position, range);
+        }
+
+        public bool AllyWithinRange(Vector2Int position, int range) {
+            return model.AllyWithinRange(position, range);
+        }
+
+        public bool AllyAPoint(Vector2Int position) {
+            return model.AllyAtLocation(position);
         }
 
         public bool UnitHasMoved(UnitViewModel unitVm) {

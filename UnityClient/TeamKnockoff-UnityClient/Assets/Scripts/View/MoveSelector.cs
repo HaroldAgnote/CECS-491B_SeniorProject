@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using Assets.Scripts.ExtensionMethods;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
+using Assets.Scripts.Model.Skills;
 using Assets.Scripts.ViewModel;
 
 namespace Assets.Scripts.View {
@@ -38,9 +39,10 @@ namespace Assets.Scripts.View {
 
         private GameObject tileHighlight;
         private Unit movingUnit;
-        private List<Vector2Int> moveLocations;
-        private List<Vector2Int> pathLocations;
-        private List<Vector2Int> attackLocations;
+        private IEnumerable<Vector2Int> moveLocations;
+        private IEnumerable<Vector2Int> pathLocations;
+        private IEnumerable<Vector2Int> attackLocations;
+        private IEnumerable<Vector2Int> skillLocations;
         private List<GameObject> moveLocationHighlights;
         private List<GameObject> attackLocationHighlights;
         private List<GameObject> pathLocationHighlights;
@@ -143,9 +145,13 @@ namespace Assets.Scripts.View {
 
                             // TODO: Need to generate the correct menu based on unit and unit's position
                             if (gameViewModel.EnemyWithinRange(movedPoint, movingUnit.MainWeapon.Range)) {
-                                if (movingUnit.Skills.Count > 0) {
-                                    if (movingUnit.Items.Count > 0) {
+                                if (movingUnit.Skills.Count > 0 
+                                    && movingUnit.Skills
+                                    .Select(sk => sk as SingleTargetSkill)
+                                    .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range)) 
+                                    || (sk is SingleDamageSkill && gameViewModel.EnemyWithinRange(movedPoint, sk.Range)))) {
 
+                                    if (movingUnit.Items.Count > 0) {
                                         SetupUnitMenu(UnitMenuType.Attack_Skills_Items_Wait_Cancel);
                                     } else {
 
@@ -162,7 +168,12 @@ namespace Assets.Scripts.View {
                                 }
                                 
                             } else {
-                                if (movingUnit.Skills.Count > 0) {
+                                if (movingUnit.Skills.Count > 0 
+                                    && movingUnit.Skills
+                                    .Select(sk => sk as SingleTargetSkill)
+                                    .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range)) 
+                                    || (sk is SingleDamageSkill && gameViewModel.EnemyWithinRange(movedPoint, sk.Range)))) {
+
                                     if (movingUnit.Items.Count > 0) {
 
                                         SetupUnitMenu(UnitMenuType.Skills_Items_Wait_Cancel);
@@ -352,7 +363,7 @@ namespace Assets.Scripts.View {
             }
 
             Debug.Log("Use Skill");
-            CurrentGameMove = new GameMove(movedPoint, attackPoint, GameMove.GameMoveType.Skill);
+            CurrentGameMove = new GameMove(movedPoint, attackPoint, movingUnit.Skills.First(),GameMove.GameMoveType.Skill);
             gameViewModel.ApplyMove(CurrentGameMove);
             ExitState();
         }
@@ -465,6 +476,8 @@ namespace Assets.Scripts.View {
 
             // TODO: Need to get attackLocations and highlight them
             attackLocations = gameViewModel.AttacksForUnit;
+            skillLocations = gameViewModel.SkillsForUnit;
+
             attackLocationHighlights = new List<GameObject>();
 
             // TODO: Don't filter out locations where there is a unit
