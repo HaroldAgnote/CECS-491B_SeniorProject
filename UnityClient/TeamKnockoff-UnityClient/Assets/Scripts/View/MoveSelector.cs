@@ -28,6 +28,7 @@ namespace Assets.Scripts.View {
 
         public GameObject tileHighlightPrefab;
         public GameObject tileSelectedPrefab;
+        public GameObject allyLocationPrefab;
         public GameObject moveLocationPrefab;
         public GameObject attackLocationPrefab;
 
@@ -39,10 +40,15 @@ namespace Assets.Scripts.View {
 
         private GameObject tileHighlight;
         private Unit movingUnit;
+
         private IEnumerable<Vector2Int> moveLocations;
         private IEnumerable<Vector2Int> pathLocations;
         private IEnumerable<Vector2Int> attackLocations;
         private IEnumerable<Vector2Int> skillLocations;
+        private IEnumerable<Vector2Int> supportSkillLocations;
+        private IEnumerable<Vector2Int> attackSkillLocations;
+
+        private List<GameObject> allyLocationHighlights;
         private List<GameObject> moveLocationHighlights;
         private List<GameObject> attackLocationHighlights;
         private List<GameObject> pathLocationHighlights;
@@ -53,7 +59,9 @@ namespace Assets.Scripts.View {
 
         private Vector2Int startPoint;
         private Vector2Int movedPoint;
+        private Vector2Int skillPoint;
         private Vector2Int attackPoint;
+        private Vector2Int supportPoint;
 
         public enum UnitMenuType {
             Attack_Skills_Items_Wait_Cancel,
@@ -69,19 +77,21 @@ namespace Assets.Scripts.View {
         // Start is called before the first frame update
         void Start() {
             this.enabled = false;
-            gameViewModel = gameView.gameViewModel;
             Vector3 point = new Vector3(0, 0, 0);
             tileHighlight = Instantiate(tileHighlightPrefab, point, Quaternion.identity, gameObject.transform);
             tileHighlight.SetActive(false);
             unitMenu.SetActive(false);
 
+            pathLocationHighlights = new List<GameObject>();
+        }
+
+        public void ConstructMoveSelector() {
+            gameViewModel = gameView.gameViewModel;
             attackButton.onClick.AddListener(AttackMove);
             skillsButton.onClick.AddListener(SkillMove);
             itemsButton.onClick.AddListener(ItemMove);
             waitButton.onClick.AddListener(WaitUnit);
             cancelButton.onClick.AddListener(CancelMove);
-
-            pathLocationHighlights = new List<GameObject>();
         }
 
         // Update is called once per frame
@@ -123,13 +133,13 @@ namespace Assets.Scripts.View {
 
                 if (Input.GetMouseButtonDown(0)) {
                     // TODO: Implement movement here
-                    if (!moveLocations.Contains(point.ToVector2Int()) && 
-                        !attackLocations.Contains(point.ToVector2Int())) {
+                    if (!moveLocations.Contains(point.ToVector2Int()) 
+                        && !attackLocations.Contains(point.ToVector2Int())
+                        && !supportSkillLocations.Contains(point.ToVector2Int())) {
+
                         CancelMove();
                         //ExitState();
-                    }
-
-                    else if (moveLocations.Contains(point.ToVector2Int())) {
+                    } else if (moveLocations.Contains(point.ToVector2Int())) {
                         // TODO: Need to manage moving versus attacking
                         // GameManagerOrig.instance.Move(movingUnit, movedPoint);
                         //maybe make GameManagerOrig.instance.Attack();
@@ -145,10 +155,10 @@ namespace Assets.Scripts.View {
 
                             // TODO: Need to generate the correct menu based on unit and unit's position
                             if (gameViewModel.EnemyWithinRange(movedPoint, movingUnit.MainWeapon.Range)) {
-                                if (movingUnit.Skills.Count > 0 
+                                if (movingUnit.Skills.Count > 0
                                     && movingUnit.Skills
                                     .Select(sk => sk as SingleTargetSkill)
-                                    .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range)) 
+                                    .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range))
                                     || (sk is SingleDamageSkill && gameViewModel.EnemyWithinRange(movedPoint, sk.Range)))) {
 
                                     if (movingUnit.Items.Count > 0) {
@@ -166,12 +176,12 @@ namespace Assets.Scripts.View {
                                         SetupUnitMenu(UnitMenuType.Attack_Wait_Cancel);
                                     }
                                 }
-                                
+
                             } else {
-                                if (movingUnit.Skills.Count > 0 
+                                if (movingUnit.Skills.Count > 0
                                     && movingUnit.Skills
                                     .Select(sk => sk as SingleTargetSkill)
-                                    .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range)) 
+                                    .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range))
                                     || (sk is SingleDamageSkill && gameViewModel.EnemyWithinRange(movedPoint, sk.Range)))) {
 
                                     if (movingUnit.Items.Count > 0) {
@@ -207,9 +217,8 @@ namespace Assets.Scripts.View {
                                 WaitUnit();
                             }
                         }
-                        
-                    } else if (attackLocations.Contains(point.ToVector2Int())) {
-                        // Vector2Int attackPoint = Vector2Int.FloorToInt(point.ToVector2());
+
+                    } else if (attackLocations.Contains(point.ToVector2Int())) { // Vector2Int attackPoint = Vector2Int.FloorToInt(point.ToVector2());
                         // Vector2Int movePoint = FindClosestAttackPoint(movingUnit, attackPoint);
                         // GameManagerOrig.instance.Move(movingUnit, movePoint);
                         // GameManagerOrig.instance.Attack(movingUnit, attackPoint);
@@ -244,26 +253,50 @@ namespace Assets.Scripts.View {
                                 }
                                 WaitForChoice();
                             } else {
-                                if (waitingForAttack)
-                                {
+                                if (!waitingForSkill && (waitingForAttack || point.ToVector2Int() == attackPoint)) {
                                     AttackUnit();
-                                }
-                                if (waitingForSkill)
-                                {
+                                } else if (waitingForSkill) {
+                                    skillPoint = attackPoint;
                                     SkillUnit();
                                 }
+                            }
+                        }
+                    } else if (supportSkillLocations.Contains(point.ToVector2Int())) {
+                        if (gameViewModel.AllyAPoint(point.ToVector2Int())) {
+                            supportPoint = point.ToVector2Int();
 
-                                if (point.ToVector2Int() == attackPoint) {
-                                    AttackUnit();
+                            if (!waitingForMove) {
+                                // TODO: Calculate Move point here
+                                startPoint = gameViewModel.SelectedSquare.Position;
+                                pathLocations = gameViewModel.GetShortestPathToAttack(point.ToVector2Int());
+                                movedPoint = pathLocations.Last();
+
+                                // TODO: Phantom movement to tile of MINIMUM valid
+                                // Attack Range to attack point
+
+                                if (movingUnit.Items.Count > 0) {
+
+                                    SetupUnitMenu(UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                } else {
+
+                                    SetupUnitMenu(UnitMenuType.Attack_Skills_Wait_Cancel);
                                 }
-                            }
 
-                            if (waitingForAttack) {
-                                AttackUnit();
-                            }
-                            if(waitingForSkill)
-                            {
-                                SkillUnit();
+                                foreach (GameObject highlight in pathLocationHighlights) {
+                                    Destroy(highlight);
+                                }
+                                pathLocationHighlights = new List<GameObject>();
+                                foreach (var loc in pathLocations) {
+                                    GameObject highlight;
+                                    highlight = Instantiate(tileSelectedPrefab, loc.ToVector3(), Quaternion.identity, gameObject.transform);
+                                    pathLocationHighlights.Add(highlight);
+                                }
+                                WaitForChoice();
+                            } else {
+                                if (waitingForSkill || point.ToVector2Int() == supportPoint) {
+                                    skillPoint = supportPoint;
+                                    SkillUnit();
+                                }
                             }
                         }
                     }
@@ -322,10 +355,18 @@ namespace Assets.Scripts.View {
         }
 
         private void SkillMove() {
-            if (attackPoint == NULL_VECTOR)
-            {
+            if (attackSkillLocations.Contains(movedPoint)) {
+                DamageSkillMove();
+            } else if (supportSkillLocations.Contains(movedPoint)) {
+                SupportSkillMove();
+            }
+        }
+
+        private void DamageSkillMove() {
+            if (attackPoint == NULL_VECTOR) {
                 //waitingForAttack = true;
                 waitingForSkill = true;
+
                 foreach (GameObject highlight in moveLocationHighlights)
                 {
                     Destroy(highlight);
@@ -338,7 +379,7 @@ namespace Assets.Scripts.View {
 
                 attackLocationHighlights = new List<GameObject>();
 
-                var newAttackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, movingUnit.MainWeapon.Range);
+                var newAttackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, (movingUnit.Skills.First() as SingleTargetSkill).Range);
 
                 foreach (Vector2Int loc in newAttackLocations)
                 {
@@ -348,22 +389,48 @@ namespace Assets.Scripts.View {
                     attackLocationHighlights.Add(highlight);
                 }
             }
-            else
-            {
+            else {
+                skillPoint = attackPoint;
                 SkillUnit();
             }
+        }
 
+        private void SupportSkillMove() {
+            if (supportPoint == NULL_VECTOR) {
+                //waitingForAttack = true;
+                waitingForSkill = true;
+                foreach (GameObject highlight in moveLocationHighlights) {
+                    Destroy(highlight);
+                }
+
+                foreach (GameObject highlight in allyLocationHighlights) {
+                    Destroy(highlight);
+                }
+
+                allyLocationHighlights = new List<GameObject>();
+
+                var newSupportLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, (movingUnit.Skills.First() as SingleTargetSkill).Range);
+
+                foreach (Vector2Int loc in newSupportLocations) {
+                    GameObject highlight;
+                    var point = new Vector3Int(loc.x, loc.y, 0);
+                    highlight = Instantiate(allyLocationPrefab, point, Quaternion.identity, gameObject.transform);
+                    attackLocationHighlights.Add(highlight);
+                }
+            } else {
+                skillPoint = supportPoint;
+                SkillUnit();
+            }
         }
 
         private void SkillUnit()
         {
-            if (startPoint != movedPoint)
-            {
+            if (startPoint != movedPoint) {
                 MoveUnit();
             }
 
             Debug.Log("Use Skill");
-            CurrentGameMove = new GameMove(movedPoint, attackPoint, movingUnit.Skills.First(),GameMove.GameMoveType.Skill);
+            CurrentGameMove = new GameMove(movedPoint, skillPoint, movingUnit.Skills.First(),GameMove.GameMoveType.Skill);
             gameViewModel.ApplyMove(CurrentGameMove);
             ExitState();
         }
@@ -432,20 +499,8 @@ namespace Assets.Scripts.View {
 
             gameView.UnlockCamera();
 
-            // Destroy all highlighters
-            foreach (GameObject highlight in pathLocationHighlights) {
-                Destroy(highlight);
-            }
+            DestroyHighlighters();
 
-            foreach (GameObject highlight in moveLocationHighlights)
-            {
-                Destroy(highlight);
-            }
-
-            foreach (GameObject highlight in attackLocationHighlights)
-            {
-                Destroy(highlight);
-            }
             tileSelector.EnterState();
         }
 
@@ -465,7 +520,9 @@ namespace Assets.Scripts.View {
             waitingForAttack = false;
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
+            skillPoint = NULL_VECTOR;
             attackPoint = NULL_VECTOR;
+            supportPoint = NULL_VECTOR;
 
             foreach (Vector2Int loc in moveLocations) {
                 GameObject highlight;
@@ -477,6 +534,8 @@ namespace Assets.Scripts.View {
             // TODO: Need to get attackLocations and highlight them
             attackLocations = gameViewModel.AttacksForUnit;
             skillLocations = gameViewModel.SkillsForUnit;
+            supportSkillLocations = gameViewModel.SupportSkillsForUnit;
+            attackSkillLocations = gameViewModel.DamageSkillsForUnit;
 
             attackLocationHighlights = new List<GameObject>();
 
@@ -488,6 +547,15 @@ namespace Assets.Scripts.View {
                 var point = new Vector3Int(loc.x, loc.y, 0);
                 highlight = Instantiate(attackLocationPrefab, point, Quaternion.identity, gameObject.transform);
                 attackLocationHighlights.Add(highlight);
+            }
+
+            allyLocationHighlights = new List<GameObject>();
+
+            foreach (var playerUnit in gameViewModel.ControlllingPlayer.Units) {
+                GameObject highlight;
+                var allyLoc = gameViewModel.GetPositionOfUnit(playerUnit);
+                highlight = Instantiate(allyLocationPrefab, allyLoc.ToVector3(), Quaternion.identity, gameObject.transform);
+                allyLocationHighlights.Add(highlight);
             }
         }
 
@@ -503,10 +571,18 @@ namespace Assets.Scripts.View {
             waitingForSkill = false;
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
+            skillPoint = NULL_VECTOR;
             attackPoint = NULL_VECTOR;
+            supportPoint = NULL_VECTOR;
+
+            DestroyHighlighters();
 
             gameView.UnlockCamera();
 
+            tileSelector.EnterState();
+        }
+
+        private void DestroyHighlighters() {
             // Destroy all highlighters
             foreach (GameObject highlight in pathLocationHighlights) {
                 Destroy(highlight);
@@ -520,7 +596,9 @@ namespace Assets.Scripts.View {
                 Destroy(highlight);
             }
 
-            tileSelector.EnterState();
+            foreach (var highlight in allyLocationHighlights) {
+                Destroy(highlight);
+            }
         }
     }
 }

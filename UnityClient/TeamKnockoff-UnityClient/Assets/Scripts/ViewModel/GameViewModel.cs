@@ -57,8 +57,9 @@ namespace Assets.Scripts.ViewModel {
 
         public ObservableList<GameSquare> Squares { get { return mGameSquares; } }
 
-        public Player CurrentPlayer { get { return model.CurrentPlayer; }
-        }
+        public Player CurrentPlayer { get { return model.CurrentPlayer; } }
+
+        public Player ControlllingPlayer { get { return GameManager.instance.ControllingPlayer; } }
 
         public bool IsControllingPlayersTurn {
             get { return GameManager.instance.localPlay || CurrentPlayer == GameManager.instance.ControllingPlayer; }
@@ -85,6 +86,18 @@ namespace Assets.Scripts.ViewModel {
         public IEnumerable<Vector2Int> SkillsForUnit {
             get {
                 return model.GetPossibleUnitSkillLocations(SelectedSquare.Unit);
+            }
+        }
+
+        public IEnumerable<Vector2Int> DamageSkillsForUnit {
+            get {
+                return model.GetPossibleUnitDamageSkillLocations(SelectedSquare.Unit);
+            }
+        }
+
+        public IEnumerable<Vector2Int> SupportSkillsForUnit {
+            get {
+                return model.GetPossibleUnitSupportSkillLocations(SelectedSquare.Unit);
             }
         }
 
@@ -137,6 +150,10 @@ namespace Assets.Scripts.ViewModel {
 
         public bool UnitHasMoved(UnitViewModel unitVm) {
             return model.UnitHasMoved(unitVm.Unit);
+        }
+
+        public Vector2Int GetPositionOfUnit(Unit unit) {
+            return model.GridForUnit(unit);
         }
 
         public async void ApplyMove(GameMove gameMove) {

@@ -18,14 +18,21 @@ namespace Assets.Scripts.View {
         private GameViewModel gameViewModel;
 
         public GameObject tileHighlightPrefab;
+        public GameObject allyHighlightPrefab;
         private GameObject tileHighlight;
+        private List<GameObject> allyLocationHighlights;
 
         // Start is called before the first frame update
         void Start() {
-            gameViewModel = gameView.gameViewModel;
             Vector3 point = new Vector3(0, 0, 0);
             tileHighlight = Instantiate(tileHighlightPrefab, point, Quaternion.identity, gameObject.transform);
             tileHighlight.SetActive(false);
+
+        }
+
+        public void ConstructTileSelector() {
+            gameViewModel = gameView.gameViewModel;
+            EnterState();
         }
 
         // Update is called once per frame
@@ -69,11 +76,25 @@ namespace Assets.Scripts.View {
 
         public void EnterState() {
             this.enabled = true;
+
+            allyLocationHighlights = new List<GameObject>();
+
+            foreach (var unit in gameViewModel.ControlllingPlayer.Units) {
+                GameObject highlight;
+                var allyLoc = gameViewModel.GetPositionOfUnit(unit);
+                highlight = Instantiate(allyHighlightPrefab, allyLoc.ToVector3(), Quaternion.identity, gameObject.transform);
+                allyLocationHighlights.Add(highlight);
+            }
         }
 
         private void ExitState(Unit selectedUnit) {
             this.enabled = false;
             tileHighlight.SetActive(false);
+
+            foreach (var highlight in allyLocationHighlights) {
+                Destroy(highlight);
+            }
+
             moveSelector.EnterState(selectedUnit);
         }
     }

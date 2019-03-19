@@ -12,10 +12,16 @@ namespace Assets.Scripts.View {
 
         public new GameObject camera;
 
+        public TileSelector tileSelector;
+        public MoveSelector moveSelector;
+
         public void ConstructView() {
             var cameraObject = camera.GetComponent<CameraController>();
             cameraObject.minMaxXPosition.Set(0, GameManager.instance.Columns);
             cameraObject.minMaxYPosition.Set(0, GameManager.instance.Rows);
+
+            tileSelector.ConstructTileSelector();
+            moveSelector.ConstructMoveSelector();
         }
 
         public void LockCamera() {

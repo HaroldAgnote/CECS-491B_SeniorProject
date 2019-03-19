@@ -484,6 +484,58 @@ namespace Assets.Scripts.Model {
             return filteredSkillLocations;
         }
 
+        public List<Vector2Int> GetUnitDamageSkillLocations(Unit unit) {
+            var singleTargetSkills = unit.Skills
+                                        .Select(sk => sk as SingleDamageSkill)
+                                        .Where(sk => sk != null);
+
+            var skillLocations = new List<Vector2Int>();
+            foreach (var skill in singleTargetSkills) {
+                skillLocations.AddRange(GetUnitSkillLocations(unit, skill));
+            }
+
+            return skillLocations;
+        }
+
+        public List<Vector2Int> GetPossibleUnitDamageSkillLocations(Unit unit) {
+            var singleTargetSkills = unit.Skills
+                                        .Select(sk => sk as SingleDamageSkill)
+                                        .Where(sk => sk != null);
+
+            var skillLocations = new List<Vector2Int>();
+            foreach (var skill in singleTargetSkills) {
+                skillLocations.AddRange(GetPossibleUnitSkillLocations(unit, skill));
+            }
+
+            return skillLocations;
+        }
+
+        public List<Vector2Int> GetUnitSupportSkillLocations(Unit unit) {
+            var singleTargetSkills = unit.Skills
+                                        .Select(sk => sk as SingleSupportSkill)
+                                        .Where(sk => sk != null);
+
+            var skillLocations = new List<Vector2Int>();
+            foreach (var skill in singleTargetSkills) {
+                skillLocations.AddRange(GetUnitSkillLocations(unit, skill));
+            }
+
+            return skillLocations;
+        }
+
+        public List<Vector2Int> GetPossibleUnitSupportSkillLocations(Unit unit) {
+            var singleTargetSkills = unit.Skills
+                                        .Select(sk => sk as SingleSupportSkill)
+                                        .Where(sk => sk != null);
+
+            var skillLocations = new List<Vector2Int>();
+            foreach (var skill in singleTargetSkills) {
+                skillLocations.AddRange(GetPossibleUnitSkillLocations(unit, skill));
+            }
+
+            return skillLocations;
+        }
+
         public bool TileIsOccupied(Vector2Int position) {
             return GetUnitAtPosition(position) != null && GetUnitAtPosition(position).IsAlive;
         }
