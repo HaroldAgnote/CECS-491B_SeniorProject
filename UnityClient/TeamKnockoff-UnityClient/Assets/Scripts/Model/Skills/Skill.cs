@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Model.Skills
 {
-    public abstract class Skill
-    {
+    public abstract class Skill {
     }
 }

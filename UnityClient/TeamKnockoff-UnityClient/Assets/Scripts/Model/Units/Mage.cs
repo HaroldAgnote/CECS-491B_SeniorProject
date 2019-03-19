@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Weapons;
 
 namespace Assets.Scripts.Model.Units {
@@ -57,6 +59,9 @@ namespace Assets.Scripts.Model.Units {
             unit.Class = Mage.CLASS_NAME;
 
             unit.MainWeapon = new Weapon(25, 2, 100, 1, DamageCalculator.DamageType.Magical);
+
+            unit.Skills = new List<Skill>();
+
             return newUnit;
         }
 
