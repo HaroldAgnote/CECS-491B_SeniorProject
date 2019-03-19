@@ -50,6 +50,9 @@ TagManager:
   - name: Wall
     uniqueID: 2777064181
     locked: 0
+  - name: Highlighters
+    uniqueID: 1062918091
+    locked: 0
   - name: Land Units
     uniqueID: 1860401071
     locked: 0
@@ -61,9 +64,6 @@ TagManager:
     locked: 0
   - name: Boundary
     uniqueID: 2757591289
-    locked: 0
-  - name: Highlighters
-    uniqueID: 1062918091
     locked: 0
   - name: UI
     uniqueID: 2897214049

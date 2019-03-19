@@ -44,10 +44,10 @@ namespace Assets.Scripts.Model {
             MoveType = moveType;
         }
 
-        public GameMove(Vector2Int start, Vector2Int end, Skill skill, GameMoveType moveType = GameMoveType.Skill) {
+        public GameMove(Vector2Int start, Vector2Int end, Skill skill) {
             StartPosition = start;
             EndPosition = end;
-            MoveType = moveType;
+            MoveType = GameMoveType.Skill;
             UsedSkill = skill;
         }
     }

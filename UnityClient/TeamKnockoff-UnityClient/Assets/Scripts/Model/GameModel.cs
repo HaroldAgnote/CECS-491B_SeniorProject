@@ -253,9 +253,11 @@ namespace Assets.Scripts.Model {
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
+            var usedSkill = move.UsedSkill;
+
             // Attack Logic Here
-            Debug.Log($"{attackingUnit.Name} attacks with skill {defendingUnit.Name}");
-            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetSkillDamage(attackingUnit, defendingUnit, attackingUnit.Skills[0]);
+            Debug.Log($"{attackingUnit.Name} attacks with {usedSkill.SkillName} on {defendingUnit.Name}");
+            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetSkillDamage(attackingUnit, defendingUnit, usedSkill);
             if (defendingUnit.IsAlive) //check if unit is alive 
                                                 //TODO CHECK RANGE OF UNIT COUNTER
             {
@@ -603,6 +605,30 @@ namespace Assets.Scripts.Model {
             var availableAttackLocations = GetUnitMoveLocations(unit);
 
             var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, unit.MainWeapon.Range);
+
+            possibleAttackLocations = possibleAttackLocations.Where(pos =>
+                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
+                                        .Where(pos => availableAttackLocations.Contains(pos))
+                                        .ToList();
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var attackDistances = distances.Where(pos => possibleAttackLocations.Contains(pos.Vertex));
+
+            var shortestDistanceToAttack = attackDistances.Min();
+
+            return shortestDistanceToAttack.Path;
+        }
+
+        public List<Vector2Int> GetShortestPathToSkill(Unit unit, Vector2Int startPoint, Vector2Int targetPoint) {
+            var unitCosts = GetUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var availableAttackLocations = GetUnitMoveLocations(unit);
+
+            var bestSkillRange = unit.Skills.Where(sk => sk is SingleTargetSkill).Select(sk => (sk as SingleTargetSkill).Range).Max();
+
+            var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, bestSkillRange);
 
             possibleAttackLocations = possibleAttackLocations.Where(pos =>
                                         (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))

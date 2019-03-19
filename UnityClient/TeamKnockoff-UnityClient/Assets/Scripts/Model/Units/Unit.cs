@@ -27,14 +27,26 @@ namespace Assets.Scripts.Model.Units {
                 return mHealthPoints;
             }
             set {
-                if (value < 0) {
+                // Prevent HP from exceeding above Max Health Points
+                if (value > MaxHealthPoints) {
+                    mHealthPoints = MaxHealthPoints;
+
+                // Prevent HP from exceeding below zero
+                } else if (value < 0) {
                     mHealthPoints = 0;
                 } else {
                     mHealthPoints = value;
                 }
             }
         }
-        public double MaxHealthPoints { get; set; }
+
+        public bool IsAlive {
+            get {
+                return HealthPoints > 0;
+            }
+        } 
+
+        public double MaxHealthPoints { get; protected set; }
 
         public int Level { get; protected set; }
         public int ExperiencePoints { get; protected set; }
@@ -54,25 +66,21 @@ namespace Assets.Scripts.Model.Units {
 
         public Weapon MainWeapon { get; protected set; }
 
-        public List<Skill> Skills { get; set; }
+        public List<Skill> Skills { get; protected set; }
 
         // TODO: Add Item Properties
-        public List<Item> Items { get; set; }
+        public List<Item> Items { get; protected set; }
 
         public List<UnitEffect> Effects { get; }
-
-        public bool IsAlive {
-            get {
-                return HealthPoints > 0;
-            }
-        } 
 
         // Abstract methods that must be overridden by Unit sub classes
         public abstract bool CanMove(Tile tile);
         public abstract int MoveCost(Tile tile);
 
         public Unit() {
+            Skills = new List<Skill>();
             Items = new List<Item>();
+            Effects = new List<UnitEffect>();
             MainWeapon = new Weapon(50, 1, 100, 1, DamageCalculator.DamageType.Physical);
         }
 

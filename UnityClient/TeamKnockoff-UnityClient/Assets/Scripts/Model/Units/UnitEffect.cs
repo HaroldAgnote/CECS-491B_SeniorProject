@@ -12,5 +12,8 @@ namespace Assets.Scripts.Model.Units {
             EffectApplied = false;
             TurnsRemaining = turns;
         }
+
+        public abstract void ApplyEffect(Unit unit);
+        public abstract void RemoveEffect(Unit unit);
     }
 }

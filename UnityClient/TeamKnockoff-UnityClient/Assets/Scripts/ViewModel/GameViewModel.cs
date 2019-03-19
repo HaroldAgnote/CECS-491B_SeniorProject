@@ -128,6 +128,10 @@ namespace Assets.Scripts.ViewModel {
             return model.GetShortestPathToAttack(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
         }
 
+        public IEnumerable<Vector2Int> GetShortestPathToSkill(Vector2Int endPoint) {
+            return model.GetShortestPathToSkill(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+        }
+
         public IEnumerable<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
             return model.GetSurroundingAttackLocationsAtPoint(attackPoint, range);
         }

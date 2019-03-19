@@ -57,7 +57,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Archer.CLASS_NAME;
             unit.Class = Archer.CLASS_NAME;
 
-            unit.Skills = new List<Skill>();
+            unit.Skills.Add(new PiercingShot());
 
             return newUnit;
         }
