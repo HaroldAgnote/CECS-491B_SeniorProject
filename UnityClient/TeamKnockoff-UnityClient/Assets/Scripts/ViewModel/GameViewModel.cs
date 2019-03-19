@@ -164,7 +164,8 @@ namespace Assets.Scripts.ViewModel {
                 }
             }
 
-            else if (gameMove.MoveType == GameMove.GameMoveType.Attack) {
+            else if (gameMove.MoveType == GameMove.GameMoveType.Attack || 
+                    gameMove.MoveType == GameMove.GameMoveType.Skill) {
                 var objectViewModel = ObjectViewModels[gameMove.EndPosition];
                 if (objectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel)))
                 {

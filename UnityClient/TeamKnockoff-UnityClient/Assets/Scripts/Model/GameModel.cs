@@ -245,13 +245,30 @@ namespace Assets.Scripts.Model {
 
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks with skill {defendingUnit.Name}");
-            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
+            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetSkillDamage(attackingUnit, defendingUnit, attackingUnit.Skills[0]);
             if (defendingUnit.IsAlive) //check if unit is alive 
                                                 //TODO CHECK RANGE OF UNIT COUNTER
             {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
                 //instead of Skill[0] of we probably need selected skill or something
-                attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetSkillDamage(defendingUnit, attackingUnit, attackingUnit.Skills[0]);
+                attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
+                if (!attackingUnit.IsAlive)
+                {
+                    CurrentPlayer.MarkUnitAsInactive(attackingUnit);
+                    Debug.Log($"{attackingUnit.Name} has been defeated");
+                }
+            }
+
+            else
+            {
+                Debug.Log($"{defendingUnit.Name} has been defeated");
+                foreach (var mPlayer in mPlayers)
+                {
+                    if (mPlayer.Units.Contains(defendingUnit))
+                    {
+                        mPlayer.MarkUnitAsInactive(defendingUnit);
+                    }
+                }
             }
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);

@@ -10,7 +10,7 @@ namespace Assets.Scripts.Model.Skills
         //public enum DamageType { Physical, Magical };
         public double HealthPoints = -4;
 
-        public int Strength = 4;
+        public int Strength = 1000;
 
         public int Speed = -1;
         public int Skill = -3;
@@ -18,7 +18,7 @@ namespace Assets.Scripts.Model.Skills
         public int Hit = -10;
         //public int CritRate = 3;
 
-        public DamageCalculator.DamageType DamageType = DamageCalculator.DamageType.Physical;
+        public new DamageCalculator.DamageType DamageType = DamageCalculator.DamageType.Physical;
 
 
         public override int GetDamage(Unit attacker, Unit defender)

@@ -49,6 +49,7 @@ namespace Assets.Scripts.View {
 
         private bool waitingForMove;
         private bool waitingForAttack;
+        private bool waitingForSkill;
 
         private Vector2Int startPoint;
         private Vector2Int movedPoint;
@@ -222,6 +223,15 @@ namespace Assets.Scripts.View {
                                 }
                                 WaitForChoice();
                             } else {
+                                if (waitingForAttack)
+                                {
+                                    AttackUnit();
+                                }
+                                if (waitingForSkill)
+                                {
+                                    SkillUnit();
+                                }
+
                                 if (point.ToVector2Int() == attackPoint) {
                                     AttackUnit();
                                 }
@@ -229,6 +239,10 @@ namespace Assets.Scripts.View {
 
                             if (waitingForAttack) {
                                 AttackUnit();
+                            }
+                            if(waitingForSkill)
+                            {
+                                SkillUnit();
                             }
                         }
                     }
@@ -282,8 +296,8 @@ namespace Assets.Scripts.View {
         private void SkillMove() {
             if (attackPoint == NULL_VECTOR)
             {
-                waitingForAttack = true;
-
+                //waitingForAttack = true;
+                waitingForSkill = true;
                 foreach (GameObject highlight in moveLocationHighlights)
                 {
                     Destroy(highlight);
@@ -383,6 +397,7 @@ namespace Assets.Scripts.View {
 
             waitingForMove = false;
             waitingForAttack = false;
+            waitingForSkill = false;
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
             attackPoint = NULL_VECTOR;
@@ -455,6 +470,7 @@ namespace Assets.Scripts.View {
 
             waitingForMove = false;
             waitingForAttack = false;
+            waitingForSkill = false;
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
             attackPoint = NULL_VECTOR;
