@@ -14,7 +14,7 @@ namespace Assets.Scripts.ComputerOpponent
         public GameModel model;
         public static int currentUnitIndex = 0;
         public Vector2Int vectorNull = new Vector2Int(-1, -1);
-        public Vector2Int attackReadyLocation = new Vector2Int(-1, -1);;
+        public Vector2Int attackReadyLocation = new Vector2Int(-1, -1);
         public bool possibleAttack = true;
         public System.Random RNG = new System.Random();
 
