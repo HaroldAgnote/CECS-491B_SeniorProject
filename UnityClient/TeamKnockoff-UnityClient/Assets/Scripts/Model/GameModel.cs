@@ -191,6 +191,8 @@ namespace Assets.Scripts.Model {
             // Check if Current Player has no moves and switch if so
             if (!GameHasEnded && CurrentPlayerHasNoMoves) {
                 SwitchPlayer();
+            } else if (GameHasEnded) {
+                Debug.Log("Game Over");
             }
         }
 
@@ -602,14 +604,11 @@ namespace Assets.Scripts.Model {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);
 
-            var availableAttackLocations = GetUnitMoveLocations(unit);
+            var availableAttackLocations = GetPossibleUnitMoveLocations(unit);
 
             var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, unit.MainWeapon.Range);
 
-            possibleAttackLocations = possibleAttackLocations.Where(pos =>
-                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
-                                        .Where(pos => availableAttackLocations.Contains(pos))
-                                        .ToList();
+            possibleAttackLocations = possibleAttackLocations.Where(pos => availableAttackLocations.Contains(pos)).ToList();
 
             var distances = moveGraph.GetShortestDistancesFrom(startPoint);
 

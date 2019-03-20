@@ -113,6 +113,8 @@ namespace Assets.Scripts.Application {
             while (true) {
                 if (gameType == GameType.Singleplayer) {
                     // Call and return AI Best Move
+                    Debug.Log("Getting CPU Move");
+                    return cpu.FindBestMove();
                 } else {
                     // Call and return MP Move
                 }

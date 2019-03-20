@@ -164,14 +164,18 @@ namespace Assets.Scripts.ViewModel {
             // Should check if move is possible before applying to prevent cheating?
             model.ApplyMove(gameMove);
             UpdateMove(gameMove);
-            WaitForOtherMoves();
+            if (!model.GameHasEnded) {
+                WaitForOtherMoves();
+            }
+
         }
 
         public async void WaitForOtherMoves() {
             // If playing a singleplayer (AI) or multiplayer game
             // Wait for other players to finish making their moves
             if (!GameManager.instance.localPlay) {
-                while (!IsControllingPlayersTurn) {
+                Debug.Log("Getting other player's moves");
+                while (!IsControllingPlayersTurn && !model.GameHasEnded) {
                     
                     var moveTask = Task.Run(() => {
                         return GameManager.instance.GetOtherPlayerMove();
@@ -205,13 +209,21 @@ namespace Assets.Scripts.ViewModel {
 
             else if (gameMove.MoveType == GameMove.GameMoveType.Attack || 
                     gameMove.MoveType == GameMove.GameMoveType.Skill) {
-                var objectViewModel = ObjectViewModels[gameMove.EndPosition];
-                if (objectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel)))
-                {
-                    var unitViewModel = objectViewModel as UnitViewModel;
+                var endObjectViewModel = ObjectViewModels[gameMove.EndPosition];
+                if (endObjectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel))) {
+                    var unitViewModel = endObjectViewModel as UnitViewModel;
                     if (!unitViewModel.Unit.IsAlive) {
                         unitViewModel.GameObject.SetActive(false);
                         ObjectViewModels.Remove(gameMove.EndPosition);
+                    }
+                }
+
+                var startObjectViewModel = ObjectViewModels[gameMove.StartPosition];
+                if (startObjectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel))) {
+                    var unitViewModel = startObjectViewModel as UnitViewModel;
+                    if (!unitViewModel.Unit.IsAlive) {
+                        unitViewModel.GameObject.SetActive(false);
+                        ObjectViewModels.Remove(gameMove.StartPosition);
                     }
                 }
             }

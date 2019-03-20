@@ -79,7 +79,7 @@ namespace Assets.Scripts.View {
 
             allyLocationHighlights = new List<GameObject>();
 
-            foreach (var unit in gameViewModel.ControlllingPlayer.Units) {
+            foreach (var unit in gameViewModel.ControlllingPlayer.Units.Where(u => u.IsAlive)) {
                 GameObject highlight;
                 var allyLoc = gameViewModel.GetPositionOfUnit(unit);
                 highlight = Instantiate(allyHighlightPrefab, allyLoc.ToVector3(), Quaternion.identity, gameObject.transform);

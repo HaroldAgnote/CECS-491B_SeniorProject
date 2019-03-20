@@ -743,7 +743,7 @@ MonoBehaviour:
   cpu: {fileID: 1787739566}
   mapData: {fileID: 4900000, guid: 288c3398b88262b4c960187e4effca0c, type: 3}
   gameType: 0
-  localPlay: 1
+  localPlay: 0
   numberOfPlayers: 2
   tileFactory: {fileID: 1910316875}
   unitFactory: {fileID: 1650911912}
