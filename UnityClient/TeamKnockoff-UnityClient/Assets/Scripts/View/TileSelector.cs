@@ -48,6 +48,9 @@ namespace Assets.Scripts.View {
                 tileHighlight.SetActive(true);
                 tileHighlight.transform.position = point;
 
+                gameViewModel.HoveredSquare = gameViewModel.Squares
+                        .SingleOrDefault(sq => sq.Position == point.ToVector2Int());
+
                 if (Input.GetMouseButtonDown(0)) {
                     gameViewModel.SelectedSquare = gameViewModel.Squares
                         .SingleOrDefault(sq => sq.Position == point.ToVector2Int());

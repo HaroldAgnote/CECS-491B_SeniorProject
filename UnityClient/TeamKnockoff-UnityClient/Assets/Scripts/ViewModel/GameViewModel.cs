@@ -70,6 +70,31 @@ namespace Assets.Scripts.ViewModel {
             }
         }
 
+        private GameSquare mHoveredSquare;
+
+        public GameSquare HoveredSquare {
+            get {
+                return mHoveredSquare;
+            }
+            set {
+                mHoveredSquare = value;
+                OnPropertyChanged(nameof(HoveredSquare));
+            }
+        }
+
+        private bool mCombatMode;
+
+        public bool CombatMode {
+            get {
+                return mCombatMode;
+            }
+            
+            set {
+                mCombatMode = value;
+                OnPropertyChanged(nameof(CombatMode));
+            }
+        }
+
         public ObservableList<GameSquare> Squares { get { return mGameSquares; } }
 
         public int CurrentTurn {

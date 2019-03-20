@@ -108,6 +108,11 @@ namespace Assets.Scripts.View {
                 tileHighlight.SetActive(true);
                 tileHighlight.transform.position = point;
 
+                if (waitingForAttack) {
+                    gameViewModel.HoveredSquare = gameViewModel.Squares
+                            .SingleOrDefault(sq => sq.Position == point.ToVector2Int());
+                }
+
                 if (!waitingForMove) {
                     foreach (var highlight in pathLocationHighlights) {
                         Destroy(highlight);
@@ -227,9 +232,10 @@ namespace Assets.Scripts.View {
 
                             if (gameViewModel.EnemyAtPoint(point.ToVector2Int())) {
                                 attackPoint = point.ToVector2Int();
-
                                 if (!waitingForMove) {
                                     // TODO: Calculate Move point here
+                                    gameViewModel.CombatMode = true;
+
                                     startPoint = gameViewModel.SelectedSquare.Position;
                                     pathLocations = gameViewModel.GetShortestPathToAttack(point.ToVector2Int());
                                     movedPoint = pathLocations.Last();
@@ -490,6 +496,8 @@ namespace Assets.Scripts.View {
             if (attackPoint == NULL_VECTOR) {
                 waitingForAttack = true;
 
+                gameViewModel.CombatMode = true;
+
                 foreach (GameObject highlight in moveLocationHighlights) {
                     Destroy(highlight);
                 }
@@ -617,6 +625,9 @@ namespace Assets.Scripts.View {
             waitingForMove = false;
             waitingForAttack = false;
             waitingForSkill = false;
+
+            gameViewModel.CombatMode = false;
+
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
             skillPoint = NULL_VECTOR;

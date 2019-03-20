@@ -29,9 +29,9 @@ namespace Assets.Scripts.View {
         }
 
         private void GameViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            if (e.PropertyName == "SelectedSquare") {
-                if (gameViewModel.SelectedSquare.Unit != null) {
-                    var unit = gameViewModel.SelectedSquare.Unit;
+            if (e.PropertyName == "HoveredSquare") {
+                if (gameViewModel.HoveredSquare.Unit != null && !gameViewModel.CombatMode) {
+                    var unit = gameViewModel.HoveredSquare.Unit;
 
                     if (unit != null) {
                         unitNameLabel.text = unit.Name;
