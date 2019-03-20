@@ -84,7 +84,7 @@ namespace Assets.Scripts.Application {
                 model.AddTile(newTile);
 
                 if (tile.Player != 0) {
-                    var newUnitObject = unitFactory.CreateUnit(tile, view.transform);
+                    var newUnitObject = unitFactory.CreateUnit(tile, view.gameObject.transform);
                     var newUnitModel = newUnitObject.GetComponent<Unit>();
 
                     var newUnitViewModel = new UnitViewModel(newUnitObject, newUnitModel);

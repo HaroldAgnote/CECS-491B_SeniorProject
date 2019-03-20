@@ -153,11 +153,6 @@ namespace Assets.Scripts.View {
                                 movedPoint = point.ToVector2Int();
                                 startPoint = gameViewModel.SelectedSquare.Position;
 
-                                if (movedPoint == startPoint) {
-                                    WaitUnit();
-                                    return;
-                                }
-
                                 // TODO: Phantom Movement!
 
                                 // TODO: Need to generate the correct menu based on unit and unit's position
@@ -604,7 +599,7 @@ namespace Assets.Scripts.View {
 
             allyLocationHighlights = new List<GameObject>();
 
-            foreach (var playerUnit in gameViewModel.ControlllingPlayer.Units.Where(un => un.IsAlive)) {
+            foreach (var playerUnit in gameViewModel.ControllingPlayer.Units.Where(un => un.IsAlive)) {
                 GameObject highlight;
                 var allyLoc = gameViewModel.GetPositionOfUnit(playerUnit);
                 highlight = Instantiate(allyLocationPrefab, allyLoc.ToVector3(), Quaternion.identity, gameObject.transform);

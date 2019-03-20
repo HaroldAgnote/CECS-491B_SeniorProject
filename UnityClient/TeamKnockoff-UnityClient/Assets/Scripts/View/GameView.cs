@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 using Assets.Scripts.Application;
 using Assets.Scripts.ViewModel;
@@ -15,6 +16,10 @@ namespace Assets.Scripts.View {
         public TileSelector tileSelector;
         public MoveSelector moveSelector;
 
+        public TextMeshProUGUI turnLabel;
+
+        public UnitInformation unitInformation;
+
         public void ConstructView() {
             var cameraObject = camera.GetComponent<CameraController>();
             cameraObject.minMaxXPosition.Set(0, GameManager.instance.Columns);
@@ -22,6 +27,19 @@ namespace Assets.Scripts.View {
 
             tileSelector.ConstructTileSelector();
             moveSelector.ConstructMoveSelector();
+
+            unitInformation.ConstructUnitInformation();
+
+            turnLabel.text = $"Turn {gameViewModel.CurrentTurn}";
+
+            gameViewModel.PropertyChanged += GameViewModel_PropertyChanged;
+
+        }
+
+        private void GameViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            if (e.PropertyName == "CurrentTurn") {
+                turnLabel.text = $"Turn {gameViewModel.CurrentTurn}";
+            }
         }
 
         public void LockCamera() {

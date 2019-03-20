@@ -14,8 +14,7 @@ using Assets.Scripts.Model.Units;
 using Assets.Scripts.ExtensionMethods;
 
 namespace Assets.Scripts.ViewModel {
-    public class GameViewModel : MonoBehaviour, INotifyPropertyChanged
-    {
+    public class GameViewModel : MonoBehaviour, INotifyPropertyChanged {
         public class GameSquare : INotifyPropertyChanged {
             public Vector2Int Position;
 
@@ -31,8 +30,12 @@ namespace Assets.Scripts.ViewModel {
 
             public Unit Unit {
                 get {
-                    var unitViewModel = mGameObject as UnitViewModel;
-                    return unitViewModel.Unit;
+                    if (GameObject is UnitViewModel) {
+                        var unitViewModel = mGameObject as UnitViewModel;
+                        return unitViewModel.Unit;
+                    } else {
+                        return null;
+                    }
                 }
             }
 
@@ -53,13 +56,38 @@ namespace Assets.Scripts.ViewModel {
 
         private ObservableList<GameSquare> mGameSquares;
 
-        public GameSquare SelectedSquare { get; set; }
+        private int mCurrentTurn;
+
+        private GameSquare mSelectedSquare;
+
+        public GameSquare SelectedSquare {
+            get {
+                return mSelectedSquare;
+            }
+            set {
+                mSelectedSquare = value;
+                OnPropertyChanged(nameof(SelectedSquare));
+            }
+        }
 
         public ObservableList<GameSquare> Squares { get { return mGameSquares; } }
 
+        public int CurrentTurn {
+            get {
+                return mCurrentTurn;
+            }
+
+            set {
+                if (value != mCurrentTurn) {
+                    mCurrentTurn = value;
+                    OnPropertyChanged(nameof(CurrentTurn));
+                }
+            }
+        }
+
         public Player CurrentPlayer { get { return model.CurrentPlayer; } }
 
-        public Player ControlllingPlayer { get { return GameManager.instance.ControllingPlayer; } }
+        public Player ControllingPlayer { get { return GameManager.instance.ControllingPlayer; } }
 
         public bool IsControllingPlayersTurn {
             get { return GameManager.instance.localPlay || CurrentPlayer == GameManager.instance.ControllingPlayer; }
@@ -118,6 +146,7 @@ namespace Assets.Scripts.ViewModel {
                     Tile = model.GetTileAtPosition(pos)
                 })
             );
+            CurrentTurn = model.Turn;
         }
 
         public IEnumerable<Vector2Int> GetShortestPath(Vector2Int endPoint) {
@@ -167,16 +196,16 @@ namespace Assets.Scripts.ViewModel {
             if (!model.GameHasEnded) {
                 WaitForOtherMoves();
             }
-
+            CurrentTurn = model.Turn;
         }
 
         public async void WaitForOtherMoves() {
             // If playing a singleplayer (AI) or multiplayer game
             // Wait for other players to finish making their moves
             if (!GameManager.instance.localPlay) {
-                Debug.Log("Getting other player's moves");
                 while (!IsControllingPlayersTurn && !model.GameHasEnded) {
                     
+                    Debug.Log("Getting other player's moves");
                     var moveTask = Task.Run(() => {
                         return GameManager.instance.GetOtherPlayerMove();
                     });
@@ -186,6 +215,7 @@ namespace Assets.Scripts.ViewModel {
                     model.ApplyMove(move);
                     UpdateMove(move);
                 }
+                CurrentTurn = model.Turn;
             }
 
         }

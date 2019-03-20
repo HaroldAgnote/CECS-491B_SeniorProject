@@ -198,8 +198,12 @@ namespace Assets.Scripts.Model {
 
         public void SwitchPlayer() {
             Debug.Log("Switching Player!");
-            var index = mPlayers.FindIndex(player => player == CurrentPlayer);
-            CurrentPlayer = mPlayers[(index + 1) % mPlayers.Count];
+            int index = mPlayers.FindIndex(player => player == CurrentPlayer);
+            index = (index + 1) % mPlayers.Count;
+            CurrentPlayer = mPlayers[index];
+            if (index == 0) {
+                Turn++;
+            }
             CurrentPlayer.StartTurn();
         }
 
