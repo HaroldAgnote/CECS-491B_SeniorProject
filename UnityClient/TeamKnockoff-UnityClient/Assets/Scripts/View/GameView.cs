@@ -20,6 +20,8 @@ namespace Assets.Scripts.View {
 
         public UnitInformation unitInformation;
 
+        public CombatForecast combatForecast;
+
         public void ConstructView() {
             var cameraObject = camera.GetComponent<CameraController>();
             cameraObject.minMaxXPosition.Set(0, GameManager.instance.Columns);
@@ -29,6 +31,8 @@ namespace Assets.Scripts.View {
             moveSelector.ConstructMoveSelector();
 
             unitInformation.ConstructUnitInformation();
+
+            combatForecast.ConstructCombatForecast();
 
             turnLabel.text = $"Turn {gameViewModel.CurrentTurn}";
 

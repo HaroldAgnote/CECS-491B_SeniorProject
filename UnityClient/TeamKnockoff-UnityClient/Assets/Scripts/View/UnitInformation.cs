@@ -48,6 +48,17 @@ namespace Assets.Scripts.View {
                     }
                 }
             }
+            if (e.PropertyName == "CombatMode")
+            {
+                if (gameViewModel.CombatMode == true)
+                {
+                    this.enabled = false;
+                }
+                else
+                {
+                    this.enabled = true;
+                }
+            }
         }
     }
 }

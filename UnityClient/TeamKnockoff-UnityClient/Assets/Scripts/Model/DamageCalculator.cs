@@ -57,7 +57,7 @@ public class DamageCalculator
         {
             return GetPhysicalOffensive(attacker);
 
-        } else (attacker.MainWeapon.DamageType == DamageType.Magical) 
+        } else
         {
             return GetMagicalOffensive(attacker);
         }
