@@ -56,14 +56,20 @@ public class DamageCalculator
     {
         double hitRate = attacker.MainWeapon.Hit;// + attacker.Skill * 0.01;
         double evasionRate = defender.Speed + defender.Luck;
-        return (int)(hitRate - evasionRate);
+        int hit = (int)(hitRate - evasionRate);
+        if (hit > 0)
+            return hit;
+        return 0;
     }
 
     public static int GetCritRate(Unit attacker, Unit defender)
     {
         double critRate = attacker.MainWeapon.CritRate; // + attacker.Skill * 0.01
         double evasionRate = defender.Luck;
-        return (int)(critRate - evasionRate);
+        int crit = (int)(critRate - evasionRate);
+        if (crit > 0)
+            return crit;
+        return 0;
     }
 
     public static int GetSkillDamage(Unit attacker, Unit defender, Skill s)
@@ -117,6 +123,13 @@ public class DamageCalculator
         int hit = sd.GetHitChance(attacker, defender);
         return hit;
 
+    }
+
+    public static bool DiceRoll(int hitChance)
+    {
+        int randHit = UnityEngine.Random.Range(0, 100);
+        Debug.Log($"hitChance: {hitChance} \t randHit: {randHit} ");
+        return (hitChance > randHit);
     }
     /*
     public static int GetPhysicalDamage(Unit attacker, Unit defender, Skill s)

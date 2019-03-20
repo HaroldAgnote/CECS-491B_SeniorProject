@@ -20,7 +20,7 @@ namespace Assets.Scripts.Model.Units {
         const int INITIAL_SPEED = 1;
         const int INITIAL_SKILL = 1;
 
-        const int INITIAL_LUCK = 1;
+        const int INITIAL_LUCK = 75;
         const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Knight";

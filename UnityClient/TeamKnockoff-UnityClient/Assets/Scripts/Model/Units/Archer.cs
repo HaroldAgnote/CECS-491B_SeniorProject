@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Skills;
 
 namespace Assets.Scripts.Model.Units {
@@ -57,6 +58,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Archer.CLASS_NAME;
             unit.Class = Archer.CLASS_NAME;
 
+            unit.MainWeapon = new Weapon(15, 2, 90, 0, DamageCalculator.DamageType.Physical);
             unit.Skills.Add(new PiercingShot());
 
             return newUnit;
