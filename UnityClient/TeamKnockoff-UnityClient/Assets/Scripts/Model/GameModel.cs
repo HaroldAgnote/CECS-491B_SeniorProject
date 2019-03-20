@@ -191,6 +191,8 @@ namespace Assets.Scripts.Model {
             // Check if Current Player has no moves and switch if so
             if (!GameHasEnded && CurrentPlayerHasNoMoves) {
                 SwitchPlayer();
+            } else if (GameHasEnded) {
+                Debug.Log("Game Over");
             }
         }
 
@@ -211,14 +213,32 @@ namespace Assets.Scripts.Model {
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
+            int hitChance = DamageCalculator.GetHitChance(attackingUnit, defendingUnit);
+            if(DamageCalculator.DiceRoll(hitChance))
+            {
+                Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
+                defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
+            }
+            else
+            {
+                Debug.Log($"{attackingUnit.Name} missed.");
+            }
             // Attack Logic Here
-            Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
-            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
+           
             if (defendingUnit.IsAlive) //check if unit is alive 
                 //TODO CHECK RANGE OF UNIT COUNTER
             {
-                Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
-                attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
+                hitChance = DamageCalculator.GetHitChance(defendingUnit, attackingUnit);
+                if(DamageCalculator.DiceRoll(hitChance))
+                {
+                    Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
+                    attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
+                }
+                else
+                {
+                    Debug.Log($"{defendingUnit.Name} missed.");
+                }
+
 
                 if (!attackingUnit.IsAlive) {
                     CurrentPlayer.MarkUnitAsInactive(attackingUnit);
@@ -602,14 +622,11 @@ namespace Assets.Scripts.Model {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);
 
-            var availableAttackLocations = GetUnitMoveLocations(unit);
+            var availableAttackLocations = GetPossibleUnitMoveLocations(unit);
 
             var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, unit.MainWeapon.Range);
 
-            possibleAttackLocations = possibleAttackLocations.Where(pos =>
-                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
-                                        .Where(pos => availableAttackLocations.Contains(pos))
-                                        .ToList();
+            possibleAttackLocations = possibleAttackLocations.Where(pos => availableAttackLocations.Contains(pos)).ToList();
 
             var distances = moveGraph.GetShortestDistancesFrom(startPoint);
 

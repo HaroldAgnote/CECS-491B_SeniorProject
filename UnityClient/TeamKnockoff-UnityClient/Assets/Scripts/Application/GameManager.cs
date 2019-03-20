@@ -25,6 +25,7 @@ namespace Assets.Scripts.Application {
         public GameModel model;
         public GameViewModel viewModel;
         public GameView view;
+        public ComputerOpponent.ComputerOpponent cpu; 
 
         public TextAsset mapData;
         public GameType gameType;
@@ -112,6 +113,8 @@ namespace Assets.Scripts.Application {
             while (true) {
                 if (gameType == GameType.Singleplayer) {
                     // Call and return AI Best Move
+                    Debug.Log("Getting CPU Move");
+                    return cpu.FindBestMove();
                 } else {
                     // Call and return MP Move
                 }
