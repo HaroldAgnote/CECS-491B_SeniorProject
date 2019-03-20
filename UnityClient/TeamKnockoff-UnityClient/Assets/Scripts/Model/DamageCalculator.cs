@@ -52,6 +52,36 @@ public class DamageCalculator
         return damageDone;
     }
 
+    public static int GetOffensive(Unit attacker) {
+        if (attacker.MainWeapon.DamageType == DamageType.Physical) 
+        {
+            return GetPhysicalOffensive(attacker);
+
+        } else (attacker.MainWeapon.DamageType == DamageType.Magical) 
+        {
+            return GetMagicalOffensive(attacker);
+        }
+
+    }
+
+    public static int GetPhysicalOffensive(Unit attacker) {
+        int damageDone = attacker.MainWeapon.Might + attacker.Strength;
+        return damageDone;
+    }
+
+    public static int GetMagicalOffensive(Unit attacker) {
+        int damageDone = attacker.MainWeapon.Might + attacker.Magic;
+        return damageDone;
+    }
+
+    public static int GetDefensive(Unit attacker, Unit defender) {
+        if (attacker.MainWeapon.DamageType == DamageType.Physical) {
+            return defender.Defense;
+        } else {
+            return defender.Resistance;
+        }
+    }
+
     public static int GetHitChance(Unit attacker, Unit defender)
     {
         double hitRate = attacker.MainWeapon.Hit;// + attacker.Skill * 0.01;
