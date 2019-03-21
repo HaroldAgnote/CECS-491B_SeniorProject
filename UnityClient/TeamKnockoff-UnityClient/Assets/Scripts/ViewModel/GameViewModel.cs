@@ -171,6 +171,7 @@ namespace Assets.Scripts.ViewModel {
                     Tile = model.GetTileAtPosition(pos)
                 })
             );
+            CombatMode = false;
             CurrentTurn = model.Turn;
         }
 

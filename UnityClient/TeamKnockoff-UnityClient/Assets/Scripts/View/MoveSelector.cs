@@ -538,6 +538,7 @@ namespace Assets.Scripts.View {
 
             unitMenu.SetActive(false);
 
+            gameViewModel.CombatMode = false;
             waitingForMove = false;
             waitingForAttack = false;
             waitingForSkill = false;
@@ -564,6 +565,7 @@ namespace Assets.Scripts.View {
 
             moveLocationHighlights = new List<GameObject>();
 
+            gameViewModel.CombatMode = false;
             waitingForMove = false;
             waitingForAttack = false;
             startPoint = NULL_VECTOR;

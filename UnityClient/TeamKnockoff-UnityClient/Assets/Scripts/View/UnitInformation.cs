@@ -52,11 +52,11 @@ namespace Assets.Scripts.View {
             {
                 if (gameViewModel.CombatMode == true)
                 {
-                    this.enabled = false;
+                    gameObject.SetActive(false);
                 }
                 else
                 {
-                    this.enabled = true;
+                    gameObject.SetActive(true);
                 }
             }
         }
