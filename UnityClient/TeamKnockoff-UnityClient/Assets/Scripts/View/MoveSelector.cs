@@ -141,10 +141,11 @@ namespace Assets.Scripts.View {
                 if (Input.GetMouseButtonDown(0)) {
                     if (!EventSystem.current.IsPointerOverGameObject()) {
                         // TODO: Implement movement here
-                        if (!moveLocations.Contains(point.ToVector2Int())
+                        if ((!moveLocations.Contains(point.ToVector2Int())
                             && !attackLocations.Contains(point.ToVector2Int())
                             && !attackSkillLocations.Contains(point.ToVector2Int())
-                            && !supportSkillLocations.Contains(point.ToVector2Int())) {
+                            && !supportSkillLocations.Contains(point.ToVector2Int()))
+                            || (waitingForAttack && !attackLocations.Contains(point.ToVector2Int()))) {
 
                             CancelMove();
                             //ExitState();
@@ -233,9 +234,10 @@ namespace Assets.Scripts.View {
                             // GameManagerOrig.instance.Attack(movingUnit, attackPoint);
 
                             if (gameViewModel.EnemyAtPoint(point.ToVector2Int())) {
-                                attackPoint = point.ToVector2Int();
                                 if (!waitingForMove) {
                                     // TODO: Calculate Move point here
+                                    attackPoint = point.ToVector2Int();
+
                                     gameViewModel.CombatMode = true;
                                     gameViewModel.TargetSquare = gameViewModel.Squares
                                             .SingleOrDefault(sq => sq.Position == point.ToVector2Int());
@@ -281,7 +283,54 @@ namespace Assets.Scripts.View {
                                     }
                                     WaitForChoice();
                                 } else {
-                                    if (!waitingForSkill && (waitingForAttack || point.ToVector2Int() == attackPoint)) {
+                                    if (attackPoint != NULL_VECTOR && attackPoint != point.ToVector2Int()) {
+
+                                        attackPoint = point.ToVector2Int();
+                                        gameViewModel.TargetSquare = gameViewModel.Squares
+                                                .SingleOrDefault(sq => sq.Position == point.ToVector2Int());
+
+                                        startPoint = gameViewModel.SelectedSquare.Position;
+                                        pathLocations = gameViewModel.GetShortestPathToAttack(point.ToVector2Int());
+                                        movedPoint = pathLocations.Last();
+
+                                        // TODO: Phantom movement to tile of MINIMUM valid
+                                        // Attack Range to attack point
+
+                                        if (movingUnit.Skills.Count > 0
+                                            && movingUnit.Skills
+                                            .Select(sk => sk as SingleTargetSkill)
+                                            .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range))
+                                            || (sk is SingleDamageSkill && gameViewModel.EnemyWithinRange(movedPoint, sk.Range)))) {
+
+                                            if (movingUnit.Items.Count > 0) {
+
+                                                SetupUnitMenu(UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                            } else {
+
+                                                SetupUnitMenu(UnitMenuType.Attack_Skills_Wait_Cancel);
+                                            }
+                                        } else {
+                                            if (movingUnit.Items.Count > 0) {
+
+                                                SetupUnitMenu(UnitMenuType.Attack_Items_Wait_Cancel);
+                                            } else {
+
+                                                SetupUnitMenu(UnitMenuType.Attack_Wait_Cancel);
+                                            }
+                                        }
+
+                                        foreach (GameObject highlight in pathLocationHighlights) {
+                                            Destroy(highlight);
+                                        }
+                                        pathLocationHighlights = new List<GameObject>();
+                                        foreach (var loc in pathLocations) {
+                                            GameObject highlight;
+                                            highlight = Instantiate(tileSelectedPrefab, loc.ToVector3(), Quaternion.identity, gameObject.transform);
+                                            pathLocationHighlights.Add(highlight);
+                                        }
+                                        WaitForChoice();
+                                    } else if (!waitingForSkill && (waitingForAttack || point.ToVector2Int() == attackPoint)) {
+                                        attackPoint = point.ToVector2Int();
                                         AttackUnit();
                                     } else if (waitingForSkill) {
                                         skillPoint = attackPoint;

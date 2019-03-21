@@ -102,8 +102,10 @@ namespace Assets.Scripts.ViewModel {
             }
             
             set {
-                mCombatMode = value;
-                OnPropertyChanged(nameof(CombatMode));
+                if (mCombatMode != value) {
+                    mCombatMode = value;
+                    OnPropertyChanged(nameof(CombatMode));
+                }
             }
         }
 

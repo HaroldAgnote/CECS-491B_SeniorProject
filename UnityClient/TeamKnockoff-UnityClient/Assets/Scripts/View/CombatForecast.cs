@@ -36,16 +36,32 @@ namespace Assets.Scripts.View
             gameViewModel.PropertyChanged += GameViewModel_PropertyChanged;
         }
 
+        private void ResetLabels() {
+            var playerUnit = gameViewModel.SelectedSquare.Unit;
+            playerNameLabel.text = playerUnit.Name;
+            playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
+            playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
+            playerHitLabel.text = $"HIT ";
+            playerOffensiveLabel.text = $"OFF ";
+            playerDefensiveLabel.text = $"DEF ";
+            playerCritLabel.text = $"CRT ";
+
+            enemyNameLabel.text = "";
+            enemyCurrentHpLabel.text = "";
+            enemyMaxHpLabel.text = "";
+            enemyHitLabel.text = "";
+            enemyOffensiveLabel.text = "";
+            enemyDefensiveLabel.text = "";
+            enemyCritLabel.text = "";
+        }
+
         private void GameViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "CombatMode")
-            {
-                if (gameViewModel.CombatMode == true)
-                {
+            if (e.PropertyName == "CombatMode") {
+                if (gameViewModel.CombatMode == true) {
+                    ResetLabels();
                     gameObject.SetActive(true);
-                }
-                else
-                {
+                } else {
                     gameObject.SetActive(false);
                 }
             }
@@ -56,61 +72,30 @@ namespace Assets.Scripts.View
                 var playerUnit = gameViewModel.SelectedSquare.Unit;
                 var targetSquare = gameViewModel.TargetSquare;
 
-                if (gameViewModel.CombatMode == true)
-                {
-                    if (targetSquare == null) {
-                        playerNameLabel.text = playerUnit.Name;
-                        playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
-                        playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
-                        playerHitLabel.text = $"HIT ";
-                        playerOffensiveLabel.text = $"OFF ";
-                        playerDefensiveLabel.text = $"DEF ";
-                        playerCritLabel.text = $"CRT ";
+                if (gameViewModel.CombatMode == true) {
+                    if (gameViewModel.EnemyAtPoint(targetSquare.Position) == true) {
+                        var enemyUnit = targetSquare.Unit;
 
-                        enemyNameLabel.text = "";
-                        enemyCurrentHpLabel.text = "";
-                        enemyMaxHpLabel.text = "";
-                        enemyHitLabel.text = "";
-                        enemyOffensiveLabel.text = "";
-                        enemyDefensiveLabel.text = "";
-                        enemyCritLabel.text = "";
-                    } else {
-                        if (gameViewModel.EnemyAtPoint(targetSquare.Position) == true) {
-                            var enemyUnit = targetSquare.Unit;
+                        if (enemyUnit != null) {
+                            playerNameLabel.text = playerUnit.Name;
+                            playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
+                            playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
+                            playerHitLabel.text = $"HIT {DamageCalculator.GetHitChance(playerUnit, enemyUnit)}";
+                            playerOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(playerUnit)}";
+                            playerDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(enemyUnit, playerUnit)}";
+                            playerCritLabel.text = $"CRT {DamageCalculator.GetCritRate(playerUnit, enemyUnit)}";
 
-                            if (enemyUnit != null) {
-                                playerNameLabel.text = playerUnit.Name;
-                                playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
-                                playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
-                                playerHitLabel.text = $"HIT {DamageCalculator.GetHitChance(playerUnit, enemyUnit)}";
-                                playerOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(playerUnit)}";
-                                playerDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(enemyUnit, playerUnit)}";
-                                playerCritLabel.text = $"CRT {DamageCalculator.GetCritRate(playerUnit, enemyUnit)}";
-
-                                enemyNameLabel.text = enemyUnit.Name;
-                                enemyCurrentHpLabel.text = $"CUR {enemyUnit.HealthPoints}";
-                                enemyMaxHpLabel.text = $"MAX {enemyUnit.MaxHealthPoints}";
-                                enemyHitLabel.text = $"HIT {DamageCalculator.GetHitChance(enemyUnit, playerUnit)}";
-                                enemyOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(enemyUnit)}";
-                                enemyDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(playerUnit, enemyUnit)}";
-                                enemyCritLabel.text = $"CRT {DamageCalculator.GetCritRate(enemyUnit, playerUnit)}";
-                            }
+                            enemyNameLabel.text = enemyUnit.Name;
+                            enemyCurrentHpLabel.text = $"CUR {enemyUnit.HealthPoints}";
+                            enemyMaxHpLabel.text = $"MAX {enemyUnit.MaxHealthPoints}";
+                            enemyHitLabel.text = $"HIT {DamageCalculator.GetHitChance(enemyUnit, playerUnit)}";
+                            enemyOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(enemyUnit)}";
+                            enemyDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(playerUnit, enemyUnit)}";
+                            enemyCritLabel.text = $"CRT {DamageCalculator.GetCritRate(enemyUnit, playerUnit)}";
                         }
                     }
-                }
-                
+                }                
             }
-        }
-
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
     }
 }
