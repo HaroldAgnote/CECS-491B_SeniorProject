@@ -51,33 +51,50 @@ namespace Assets.Scripts.View
             }
 
             //change label depending on info on unit
-            if (e.PropertyName == "HoveredSquare")
+            if (e.PropertyName == "TargetSquare")
             {
-                var hoveredSquare = gameViewModel.HoveredSquare;
+                var playerUnit = gameViewModel.SelectedSquare.Unit;
+                var targetSquare = gameViewModel.TargetSquare;
+
                 if (gameViewModel.CombatMode == true)
                 {
-                    var playerUnit = gameViewModel.SelectedSquare.Unit;
-                    if (gameViewModel.EnemyAtPoint(hoveredSquare.Position) == true)
-                    {
-                        var enemyUnit = hoveredSquare.Unit;
+                    if (targetSquare == null) {
+                        playerNameLabel.text = playerUnit.Name;
+                        playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
+                        playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
+                        playerHitLabel.text = $"HIT ";
+                        playerOffensiveLabel.text = $"OFF ";
+                        playerDefensiveLabel.text = $"DEF ";
+                        playerCritLabel.text = $"CRT ";
 
-                        if (enemyUnit != null)
-                        {
-                            playerNameLabel.text = playerUnit.Name;
-                            playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
-                            playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
-                            playerHitLabel.text = $"HIT {DamageCalculator.GetHitChance(playerUnit, enemyUnit)}";
-                            playerOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(playerUnit)}";
-                            playerDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(playerUnit, enemyUnit)}";
-                            playerCritLabel.text = $"CRT {DamageCalculator.GetCritRate(playerUnit, enemyUnit)}";
+                        enemyNameLabel.text = "";
+                        enemyCurrentHpLabel.text = "";
+                        enemyMaxHpLabel.text = "";
+                        enemyHitLabel.text = "";
+                        enemyOffensiveLabel.text = "";
+                        enemyDefensiveLabel.text = "";
+                        enemyCritLabel.text = "";
+                    } else {
+                        if (gameViewModel.EnemyAtPoint(targetSquare.Position) == true) {
+                            var enemyUnit = targetSquare.Unit;
 
-                            enemyNameLabel.text = enemyUnit.Name;
-                            enemyCurrentHpLabel.text = $"CUR {enemyUnit.HealthPoints}";
-                            enemyMaxHpLabel.text = $"MAX {enemyUnit.MaxHealthPoints}";
-                            enemyHitLabel.text = $"HIT {DamageCalculator.GetHitChance(enemyUnit, playerUnit)}";
-                            enemyOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(enemyUnit)}";
-                            enemyDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(enemyUnit, playerUnit)}";
-                            enemyCritLabel.text = $"CRT {DamageCalculator.GetCritRate(enemyUnit, playerUnit)}";
+                            if (enemyUnit != null) {
+                                playerNameLabel.text = playerUnit.Name;
+                                playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
+                                playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
+                                playerHitLabel.text = $"HIT {DamageCalculator.GetHitChance(playerUnit, enemyUnit)}";
+                                playerOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(playerUnit)}";
+                                playerDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(enemyUnit, playerUnit)}";
+                                playerCritLabel.text = $"CRT {DamageCalculator.GetCritRate(playerUnit, enemyUnit)}";
+
+                                enemyNameLabel.text = enemyUnit.Name;
+                                enemyCurrentHpLabel.text = $"CUR {enemyUnit.HealthPoints}";
+                                enemyMaxHpLabel.text = $"MAX {enemyUnit.MaxHealthPoints}";
+                                enemyHitLabel.text = $"HIT {DamageCalculator.GetHitChance(enemyUnit, playerUnit)}";
+                                enemyOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(enemyUnit)}";
+                                enemyDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(playerUnit, enemyUnit)}";
+                                enemyCritLabel.text = $"CRT {DamageCalculator.GetCritRate(enemyUnit, playerUnit)}";
+                            }
                         }
                     }
                 }

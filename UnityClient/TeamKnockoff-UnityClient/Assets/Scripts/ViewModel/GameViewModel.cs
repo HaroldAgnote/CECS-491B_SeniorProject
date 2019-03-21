@@ -82,6 +82,18 @@ namespace Assets.Scripts.ViewModel {
             }
         }
 
+        private GameSquare mTargetSquare;
+
+        public GameSquare TargetSquare {
+            get {
+                return mTargetSquare;
+            }
+            set {
+                mTargetSquare = value;
+                OnPropertyChanged(nameof(TargetSquare));
+            }
+        }
+
         private bool mCombatMode;
 
         public bool CombatMode {

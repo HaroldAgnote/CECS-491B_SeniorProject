@@ -109,8 +109,10 @@ namespace Assets.Scripts.View {
                 tileHighlight.transform.position = point;
 
                 if (waitingForAttack) {
-                    gameViewModel.HoveredSquare = gameViewModel.Squares
-                            .SingleOrDefault(sq => sq.Position == point.ToVector2Int());
+                    if (attackLocations.Contains(point.ToVector2Int())) {
+                        gameViewModel.TargetSquare = gameViewModel.Squares
+                                .SingleOrDefault(sq => sq.Position == point.ToVector2Int());
+                    }
                 }
 
                 if (!waitingForMove) {
@@ -235,6 +237,8 @@ namespace Assets.Scripts.View {
                                 if (!waitingForMove) {
                                     // TODO: Calculate Move point here
                                     gameViewModel.CombatMode = true;
+                                    gameViewModel.TargetSquare = gameViewModel.Squares
+                                            .SingleOrDefault(sq => sq.Position == point.ToVector2Int());
 
                                     startPoint = gameViewModel.SelectedSquare.Position;
                                     pathLocations = gameViewModel.GetShortestPathToAttack(point.ToVector2Int());
@@ -243,13 +247,29 @@ namespace Assets.Scripts.View {
                                     // TODO: Phantom movement to tile of MINIMUM valid
                                     // Attack Range to attack point
 
-                                    if (movingUnit.Items.Count > 0) {
+                                    if (movingUnit.Skills.Count > 0
+                                        && movingUnit.Skills
+                                        .Select(sk => sk as SingleTargetSkill)
+                                        .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range))
+                                        || (sk is SingleDamageSkill && gameViewModel.EnemyWithinRange(movedPoint, sk.Range)))) {
 
-                                        SetupUnitMenu(UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                        if (movingUnit.Items.Count > 0) {
+
+                                            SetupUnitMenu(UnitMenuType.Attack_Skills_Items_Wait_Cancel);
+                                        } else {
+
+                                            SetupUnitMenu(UnitMenuType.Attack_Skills_Wait_Cancel);
+                                        }
                                     } else {
+                                        if (movingUnit.Items.Count > 0) {
 
-                                        SetupUnitMenu(UnitMenuType.Attack_Skills_Wait_Cancel);
+                                            SetupUnitMenu(UnitMenuType.Attack_Items_Wait_Cancel);
+                                        } else {
+
+                                            SetupUnitMenu(UnitMenuType.Attack_Wait_Cancel);
+                                        }
                                     }
+
                                     foreach (GameObject highlight in pathLocationHighlights) {
                                         Destroy(highlight);
                                     }
@@ -508,9 +528,9 @@ namespace Assets.Scripts.View {
 
                 attackLocationHighlights = new List<GameObject>();
 
-                var newAttackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, movingUnit.MainWeapon.Range);
+                attackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, movingUnit.MainWeapon.Range);
 
-                foreach (Vector2Int loc in newAttackLocations) {
+                foreach (Vector2Int loc in attackLocations) {
                     GameObject highlight;
                     var point = new Vector3Int(loc.x, loc.y, 0);
                     highlight = Instantiate(attackLocationPrefab, point, Quaternion.identity, gameObject.transform);
@@ -539,9 +559,12 @@ namespace Assets.Scripts.View {
             unitMenu.SetActive(false);
 
             gameViewModel.CombatMode = false;
+            gameViewModel.TargetSquare = null;
+
             waitingForMove = false;
             waitingForAttack = false;
             waitingForSkill = false;
+
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
             attackPoint = NULL_VECTOR;
@@ -568,6 +591,8 @@ namespace Assets.Scripts.View {
             gameViewModel.CombatMode = false;
             waitingForMove = false;
             waitingForAttack = false;
+            gameViewModel.TargetSquare = null;
+
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
             skillPoint = NULL_VECTOR;
@@ -629,6 +654,7 @@ namespace Assets.Scripts.View {
             waitingForSkill = false;
 
             gameViewModel.CombatMode = false;
+            gameViewModel.TargetSquare = null;
 
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
