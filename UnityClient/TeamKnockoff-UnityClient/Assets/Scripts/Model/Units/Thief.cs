@@ -59,7 +59,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Thief.CLASS_NAME;
             unit.Class = Thief.CLASS_NAME;
 
-            unit.MainWeapon = new Weapon(5, 1, 25, 0, DamageCalculator.DamageType.Physical);
+            unit.MainWeapon = new Weapon(5, 1, 100, 50, DamageCalculator.DamageType.Physical);
             unit.Skills = new List<Skill>();
 
             return newUnit;

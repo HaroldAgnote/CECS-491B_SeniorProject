@@ -213,42 +213,29 @@ namespace Assets.Scripts.Model {
             mUnits[move.EndPosition.x, move.EndPosition.y] = unit;
         }
 
+        //since we attack and counterattack, 
+        //Matthew feels that this is condensible into where you call another method twice
         private void AttackUnit(GameMove move) {
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
-            int hitChance = DamageCalculator.GetHitChance(attackingUnit, defendingUnit);
-            if(DamageCalculator.DiceRoll(hitChance))
-            {
-                Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
-                defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
-            }
-            else
-            {
-                Debug.Log($"{attackingUnit.Name} missed.");
-            }
             // Attack Logic Here
-           
-            if (defendingUnit.IsAlive) //check if unit is alive 
+            AttackUnit(attackingUnit, defendingUnit);
+            var defendingUnitAttackLocations = GetSurroundingAttackLocationsAtPoint(move.EndPosition, defendingUnit.MainWeapon.Range);
+            if (defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition)) //check if unit is alive 
                 //TODO CHECK RANGE OF UNIT COUNTER
             {
-                hitChance = DamageCalculator.GetHitChance(defendingUnit, attackingUnit);
-                if(DamageCalculator.DiceRoll(hitChance))
-                {
-                    Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
-                    attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
-                }
-                else
-                {
-                    Debug.Log($"{defendingUnit.Name} missed.");
-                }
-
+                Debug.Log("COUNTERATTACKING");
+                AttackUnit(defendingUnit, attackingUnit);
 
                 if (!attackingUnit.IsAlive) {
                     CurrentPlayer.MarkUnitAsInactive(attackingUnit);
                     Debug.Log($"{attackingUnit.Name} has been defeated");
                 }
-            } else {
+
+            }
+            if (!defendingUnit.IsAlive) 
+            {
                 Debug.Log($"{defendingUnit.Name} has been defeated");
                 foreach (var mPlayer in mPlayers) {
                     if (mPlayer.Units.Contains(defendingUnit)) {
@@ -256,10 +243,36 @@ namespace Assets.Scripts.Model {
                     } 
                 }
             }
-            Debug.Log(attackingUnit.UnitInformation + "\n\n");
-            Debug.Log(defendingUnit.UnitInformation);
+            //Debug.Log(attackingUnit.UnitInformation + "\n\n");
+            //Debug.Log(defendingUnit.UnitInformation);
 
             CurrentPlayer.MarkUnitAsMoved(attackingUnit);
+        }
+
+        private void AttackUnit(Unit attackingUnit, Unit defendingUnit)
+        {
+            int hitChance = DamageCalculator.GetHitChance(attackingUnit, defendingUnit);
+            Debug.Log("Rolling for hit");
+            if (DamageCalculator.DiceRoll(hitChance))
+            {
+                int critChance = DamageCalculator.GetCritRate(attackingUnit, defendingUnit);
+                Debug.Log("Rolling for Crit");
+                if (DamageCalculator.DiceRoll(critChance))
+                {
+                    Debug.Log($"{attackingUnit.Name} crits {defendingUnit.Name}");
+                    defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetCritDamage(attackingUnit, defendingUnit);
+                }
+                else
+                {
+                    Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
+                    defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
+                }
+
+            }
+            else
+            {
+                Debug.Log($"{attackingUnit.Name} missed.");
+            }
         }
 
         private void SkillUnit(GameMove move)

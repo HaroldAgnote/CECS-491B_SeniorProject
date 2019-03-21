@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Assets.Scripts.Model.Skills;
+using Assets.Scripts.Model.Weapons;
 
 namespace Assets.Scripts.Model.Units {
     public class PegasusKnight : FlyingUnit {
@@ -57,6 +58,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = PegasusKnight.CLASS_NAME;
             unit.Class = PegasusKnight.CLASS_NAME;
 
+            unit.MainWeapon = new Weapon(5, 1, 25, 0, DamageCalculator.DamageType.Physical);
             unit.Skills = new List<Skill>();
 
             return newUnit;

@@ -32,6 +32,27 @@ public class DamageCalculator
         return 0;
     }
 
+    public static int GetCritDamage(Unit attacker, Unit defender)
+    {
+        int critMultiplier = 3;
+        //assume physical for now. Maybe weapon determines damage type?
+        //getDistance from each unit's position
+
+        //check magic
+        if (attacker.MainWeapon.DamageType == DamageType.Physical)
+        {
+            Debug.Log("physical");
+            return critMultiplier * GetPhysicalDamage(attacker, defender);
+        }
+
+        if (attacker.MainWeapon.DamageType == DamageType.Magical)
+        {
+            return critMultiplier * GetMagicalDamage(attacker, defender);
+        }
+
+        return 0;
+    }
+
     public static int GetPhysicalDamage(Unit attacker, Unit defender)
     {
         int damageDone = attacker.MainWeapon.Might + attacker.Strength - defender.Defense;
@@ -158,7 +179,7 @@ public class DamageCalculator
     public static bool DiceRoll(int hitChance)
     {
         int randHit = UnityEngine.Random.Range(0, 100);
-        Debug.Log($"hitChance: {hitChance} \t randHit: {randHit} ");
+        Debug.Log($"SuccessRate: {hitChance} \t randVal: {randHit} ");
         return (hitChance > randHit);
     }
     /*
