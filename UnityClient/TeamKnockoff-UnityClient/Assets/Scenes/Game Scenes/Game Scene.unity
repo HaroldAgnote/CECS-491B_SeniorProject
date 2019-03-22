@@ -5195,8 +5195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0149458610fbe46b2650da0346dd83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: 0
-  speed: 5
+  offset: 100
+  speed: 10
   minMaxXPosition: {x: 0, y: 128}
   minMaxYPosition: {x: 0, y: 128}
 --- !u!1 &1495477176

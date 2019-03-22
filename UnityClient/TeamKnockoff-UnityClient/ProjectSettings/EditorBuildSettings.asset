@@ -5,9 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Menus/Main Menu.unity
     guid: 5e57d0c1397084844ad463c190347a55
@@ -21,21 +18,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/Multiplayer Menu.unity
     guid: 5889cc944a1573040bba94e21a6b0cba
   - enabled: 1
-    path: Assets/Scenes/Game Scenes/Game Scene.unity
-    guid: e38cea2a1e9aff2448ecf20ff78d7b97
-  - enabled: 1
     path: Assets/Scenes/Menus/Practice Menu.unity
     guid: 80e7b2bc273b4b64d82dc5daeae427ed
   - enabled: 1
     path: Assets/Scenes/Menus/Settings Menu.unity
     guid: 53b66fc7c64db584fba86109a197f990
   - enabled: 1
-    path: Assets/Scenes/Game Scenes/Practice Games/Practice Game 1.unity
-    guid: 6dbc49d350974784c9f1c864bce6de53
-  - enabled: 1
-    path: Assets/Scenes/Game Scenes/Practice Games/Practice Game 2.unity
-    guid: 14f339108685c454489ff48358eebf02
-  - enabled: 1
-    path: Assets/Scenes/Game Scenes/Practice Games/Practice Game 3.unity
-    guid: 077f58d8a87027d46af8319b3b8621f6
+    path: Assets/Scenes/Game Scenes/Game Scene.unity
+    guid: 8dc3a505864e820419e3bf9781509b7e
   m_configObjects: {}

@@ -178,7 +178,7 @@ namespace Assets.Scripts.ViewModel {
             ObjectViewModels = objectViewModels;
 
             mGameSquares = new ObservableList<GameSquare>(
-                VectorExtension.GetRectangularPositions(GameManager.instance.Rows, GameManager.instance.Columns)
+                VectorExtension.GetRectangularPositions(GameManager.instance.Columns, GameManager.instance.Rows)
                 .Select(pos => new GameSquare() {
                     Position = pos,
                     GameObject = objectViewModels.SingleOrDefault(vm => vm.Key == pos).Value,

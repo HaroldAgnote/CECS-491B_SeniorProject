@@ -48,10 +48,9 @@ namespace Assets.Scripts.ExtensionMethods {
             return first.x.CompareTo(second.x);
         }
 
-        public static IEnumerable<Vector2Int> GetRectangularPositions(int rows, int cols) {
-            return Enumerable.Range(0, rows).SelectMany(
-                row => Enumerable.Range(0, cols),
-                (col, row) => new Vector2Int(col, row));
+        public static IEnumerable<Vector2Int> GetRectangularPositions(int cols, int rows) {
+            return Enumerable.Range(0, cols)
+                .SelectMany( col => Enumerable.Range(0, rows), (col, row) => new Vector2Int(col, row));
 
         }
     }

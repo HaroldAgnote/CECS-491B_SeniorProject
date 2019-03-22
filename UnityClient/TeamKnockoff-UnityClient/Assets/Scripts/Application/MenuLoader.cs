@@ -9,9 +9,8 @@ namespace Assets.Scripts.Application {
         const int SINGLEPLAYER_MENU_INDEX = 1;
         const int CAMPAIGN_MENU_INDEX = 2;
         const int MULTIPLAYER_MENU_INDEX = 3;
-        const int GAME_INDEX = 4;
-        const int PRACTICE_MENU_INDEX = 5;
-        const int SETTINGS_MENU_INDEX = 6;
+        const int PRACTICE_MENU_INDEX = 4;
+        const int SETTINGS_MENU_INDEX = 5;
 
         public void GoToMenu(int menuIndex) {
             SceneManager.LoadScene(menuIndex);
@@ -25,10 +24,6 @@ namespace Assets.Scripts.Application {
         public void GoToPracticeMenu()
         {
             GoToMenu(PRACTICE_MENU_INDEX);
-        }
-
-        public void GoToGame() {
-            GoToMenu(GAME_INDEX);
         }
 
         public void GoToMainMenu() {

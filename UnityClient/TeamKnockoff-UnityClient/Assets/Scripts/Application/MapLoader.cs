@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Assets.Scripts.Application {
     public class MapLoader : MonoBehaviour
     {
-        const int MAP_OFFSET = 7;
+        public int practice_map_offset = 6;
         int map_index = 0; 
         // Debug.Log("QUIT!");
         Dropdown m_Dropdown;
@@ -19,11 +19,12 @@ namespace Assets.Scripts.Application {
             m_Dropdown.onValueChanged.AddListener(delegate {
                 UpdateMapIndex(m_Dropdown);
             });
+            map_index = practice_map_offset;
         }
 
         void UpdateMapIndex(Dropdown change)
         {
-            map_index = change.value + MAP_OFFSET;
+            map_index = change.value + practice_map_offset;
         }
 
         public void GoToMap()

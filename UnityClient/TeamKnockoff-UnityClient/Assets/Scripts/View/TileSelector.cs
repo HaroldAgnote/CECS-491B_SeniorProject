@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Assets.Scripts.Application;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.ViewModel;
 using Assets.Scripts.ExtensionMethods;
 
 namespace Assets.Scripts.View {
     public class TileSelector : MonoBehaviour {
-        [SerializeField]
-        private GameView gameView;
 
-        [SerializeField]
-        private MoveSelector moveSelector;
+        public GameView gameView;
+        public MoveSelector moveSelector;
 
         private GameViewModel gameViewModel;
 
@@ -31,6 +30,14 @@ namespace Assets.Scripts.View {
         }
 
         public void ConstructTileSelector() {
+            if (gameView == null) {
+                gameView = GameManager.instance.view;
+            }
+
+            if (moveSelector == null) {
+                moveSelector = gameView.moveSelector;
+            }
+
             gameViewModel = gameView.gameViewModel;
             EnterState();
         }

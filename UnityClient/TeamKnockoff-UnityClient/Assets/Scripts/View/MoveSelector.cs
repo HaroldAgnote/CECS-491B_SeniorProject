@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+using Assets.Scripts.Application;
 using Assets.Scripts.ExtensionMethods;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
@@ -15,11 +16,8 @@ namespace Assets.Scripts.View {
     public class MoveSelector : MonoBehaviour {
         public static Vector2Int NULL_VECTOR = new Vector2Int(-1, -1);
 
-        [SerializeField]
-        private GameView gameView;
-
-        [SerializeField]
-        private TileSelector tileSelector;
+        public GameView gameView;
+        public TileSelector tileSelector;
 
         public Button attackButton;
         public Button skillsButton;
@@ -87,7 +85,16 @@ namespace Assets.Scripts.View {
         }
 
         public void ConstructMoveSelector() {
+            if (gameView == null) {
+                gameView = GameManager.instance.view;
+            }
+
+            if (tileSelector == null) {
+                tileSelector = gameView.tileSelector;
+            }
+
             gameViewModel = gameView.gameViewModel;
+
             attackButton.onClick.AddListener(AttackMove);
             skillsButton.onClick.AddListener(SkillMove);
             itemsButton.onClick.AddListener(ItemMove);
