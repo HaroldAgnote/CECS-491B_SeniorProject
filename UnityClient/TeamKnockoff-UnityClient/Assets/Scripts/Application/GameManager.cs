@@ -56,8 +56,6 @@ namespace Assets.Scripts.Application {
             int cols = tileData.Columns;
             int rows = tileData.Rows;
 
-            model.ConstructModel(cols, rows);
-
             var players = new List<Player>();
 
             // Set up Players
@@ -75,7 +73,7 @@ namespace Assets.Scripts.Application {
                 // TODO: Set up logic to find out which player the human in controlling
             }
 
-            model.AddPlayers(players);
+            model.ConstructModel(cols, rows, players);
 
             var newObjectViews = new Dictionary<Vector2Int, ObjectView>();
 

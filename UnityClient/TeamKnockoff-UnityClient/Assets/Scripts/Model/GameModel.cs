@@ -12,140 +12,64 @@ using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Utilities.WeightedGraph;
 
 namespace Assets.Scripts.Model {
+
+    /// <summary>
+    /// <c>GameModel</c> is the model representation of a Game.
+    /// </summary>
     public class GameModel : MonoBehaviour {
 
         #region Member fields
 
+        /// <summary>
+        /// 2D Array to keep track of Units and their positions
+        /// </summary>
         private Unit[,] mUnits;
+
+        /// <summary>
+        /// 2D Array to keep track of Tiles and their positions 
+        /// </summary>
         private Tile[,] mTiles;
+
+        /// <summary>
+        /// List to keep track of Players in the current Game 
+        /// </summary>
         private List<Player> mPlayers;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Columns in the Game Map
+        /// </summary>
         public int Columns { get; private set; }
 
+        /// <summary>
+        /// Rows in the Game Map
+        /// </summary>
         public int Rows { get; private set; }
 
+        /// <summary>
+        /// Current Turn in the Game
+        /// </summary>
         public int Turn { get; private set; }
 
+        /// <summary>
+        /// The Current Player controlling the Game 
+        /// </summary>
         public Player CurrentPlayer { get; private set; }
 
-        #endregion
-
-        public void ConstructModel(int cols, int rows) {
-            Columns = cols;
-            Rows = rows;
-            mUnits = new Unit[Columns, Rows];
-            mTiles = new Tile[Columns, Rows];
-            mPlayers = new List<Player>();
-
-            // Start turns
-            Turn = 1;
-        }
-
-        public void StartGame() {
-            CurrentPlayer = mPlayers.First();
-            CurrentPlayer.StartTurn();
-        }
-
-        public void AddPlayer(string playerName) {
-            mPlayers.Add(new Player(playerName));
-        }
-
-        public void AddPlayer(Player player) {
-            mPlayers.Add(player);
-        }
-
-        public void AddPlayers(IEnumerable<Player> players) {
-            mPlayers.AddRange(players);
-        }
-
-        public void AddUnit(Unit unit, int playerNum, int col, int row) {
-            mPlayers[playerNum - 1].AddUnit(unit);
-            mUnits[col, row] = unit;
-        }
-
-        public void AddUnit(Unit unit, Player player, int col, int row) {
-            player.AddUnit(unit);
-            mUnits[col, row] = unit;
-        }
-
-        public void AddTile(Tile tile) {
-            mTiles[tile.XPosition, tile.YPosition] = tile;
-        }
-
-        // Returns the Unit at a position
-        public Unit GetUnitAtPosition(Vector2Int vector) {
-            return GetUnitAtPosition(vector.x, vector.y);
-        }
-
-        // Returns the Unit at a position
-        public Unit GetUnitAtPosition(int col, int row) {
-            try {
-                return mUnits[col, row];
-            } catch {
-                return null;
-            }
-        }
-
-        // Returns the Tile at a position
-        public Tile GetTileAtPosition(Vector2Int vector) {
-            return GetTileAtPosition(vector.x, vector.y);
-        }
-
-        // Returns the Tile at a position
-        public Tile GetTileAtPosition(int col, int row) {
-            try {
-                return mTiles[col, row];
-            } catch {
-                return null;
-            }
-        }
-
-        // Returns the position of a Unit
-        public Vector2Int GridForUnit(Unit unit) {
-            for (int col = 0; col < mUnits.GetLength(0); col++) {
-                for (int row = 0; row < mUnits.GetLength(1); row++) {
-                    if (mUnits[col, row] == unit) {
-                        return new Vector2Int(col, row);
-                    }
-                }
-            }
-
-            return new Vector2Int(-1, -1);
-        }
-
-        public bool DoesUnitBelongToCurrentPlayer(Unit unit) {
-            return CurrentPlayer.Units.Contains(unit);
-        }
-
-        public void AddNeighbors() {
-            for (int column = 0; column < Columns; column++) {
-                for (int row = 0; row < Rows; row++) {
-                    var tile = mTiles[column, row];
-                    try {
-                        mTiles[column - 1, row].Neighbors.Add(tile);
-                    } catch { }
-                    try {
-                        mTiles[column + 1, row].Neighbors.Add(tile);
-                    } catch { }
-
-                    try {
-                        mTiles[column, row - 1].Neighbors.Add(tile);
-                    } catch { }
-                    try {
-                        mTiles[column, row + 1].Neighbors.Add(tile);
-                    } catch { }
-                }
-            }
-        }
-
+        /// <summary>
+        /// Determines if the Current Player has any Units that can move
+        /// </summary>
         public bool CurrentPlayerHasNoMoves {
             get { return !CurrentPlayer.UnitHasMoved.Contains(false); }
         }
 
+
+        /// <summary>
+        /// Determines if the Game has ended
+        /// </summary>
 
         public bool GameHasEnded {
             get {
@@ -163,6 +87,207 @@ namespace Assets.Scripts.Model {
                     return false;
                 } else {
                     return false;
+                }
+            }
+        }
+
+
+        #endregion
+
+        #region Public methods (Initialization)
+
+        /// <summary>
+        /// Initializes the Model of the Game
+        /// </summary>
+        /// <param name="cols">Number of columns of the Map</param>
+        /// <param name="rows">Number of rows of the Map</param>
+        /// <param name="players">Players that will be in the game</param>
+
+        public void ConstructModel(int cols, int rows, IEnumerable<Player> players) {
+            // Initialize members and properties
+            Columns = cols;
+            Rows = rows;
+
+            mUnits = new Unit[Columns, Rows];
+            mTiles = new Tile[Columns, Rows];
+
+            mPlayers = new List<Player>();
+            mPlayers.AddRange(players);
+
+            // Start turns
+            Turn = 1;
+        }
+
+        /// <summary>
+        /// Starts the Game by setting the Current Player to the first player in the 
+        /// list and starting their turn 
+        /// </summary>
+
+        public void StartGame() {
+            CurrentPlayer = mPlayers.First();
+            CurrentPlayer.StartTurn();
+        }
+
+        /// <summary>
+        /// Adds a Unit to the Game
+        /// </summary>
+        /// <param name="unit">Unit to be added to the game</param>
+        /// <param name="playerNum">index number of the Player that will own the Unit</param>
+        /// <param name="col">Column for Unit to spawn in</param>
+        /// <param name="row">Row for Unit to spawn in</param>
+
+        public void AddUnit(Unit unit, int playerNum, int col, int row) {
+            mPlayers[playerNum - 1].AddUnit(unit);
+            mUnits[col, row] = unit;
+        }
+
+        /// <summary>
+        /// Adds a Unit to the Game
+        /// </summary>
+        /// <param name="unit">Unit to be added to the game</param>
+        /// <param name="player">Player that will own the Unit</param>
+        /// <param name="col">Column for Unit to spawn in</param>
+        /// <param name="row">Row for Unit to spawn in</param>
+
+        public void AddUnit(Unit unit, Player player, int col, int row) {
+            player.AddUnit(unit);
+            mUnits[col, row] = unit;
+        }
+
+        /// <summary>
+        /// Adds a tile to the game map
+        /// </summary>
+        /// <param name="tile">Tile to be added to the Game map</param>
+
+        public void AddTile(Tile tile) {
+            mTiles[tile.XPosition, tile.YPosition] = tile;
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        #endregion 
+
+        #region Private Methods
+
+        #endregion 
+
+
+        /// <summary>
+        /// Retrieves a Unit at a certain position
+        /// </summary>
+        /// <param name="vector">(x, y) position to get the Unit</param>
+        /// <returns>
+        /// Returns the Unit at the given position.
+        /// Returns null if no Unit exists at that position.
+        /// </returns>
+
+        public Unit GetUnitAtPosition(Vector2Int vector) {
+            return GetUnitAtPosition(vector.x, vector.y);
+        }
+
+        /// <summary>
+        /// Retrieves a Unit at a certain position
+        /// </summary>
+        /// <param name="col">Column (X Position) of Unit</param>
+        /// <param name="row">Row (Y position) of Unit</param>
+        /// <returns>
+        /// Returns the Unit at the given position.
+        /// Returns null if no Unit exists at that position.
+        /// </returns>
+
+        public Unit GetUnitAtPosition(int col, int row) {
+            try {
+                return mUnits[col, row];
+            } catch {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a Tile at a certain position
+        /// </summary>
+        /// <param name="vector">(x, y) position to get the Tile </param>
+        /// <returns>
+        /// Returns the Tile at the given position.
+        /// Returns null if no Tile exists at that position.
+        /// </returns>
+
+        public Tile GetTileAtPosition(Vector2Int vector) {
+            return GetTileAtPosition(vector.x, vector.y);
+        }
+
+        /// <summary>
+        /// Retrieves a Tile at a certain position
+        /// </summary>
+        /// <param name="col">Column (X Position) of Tile</param>
+        /// <param name="row">Row (Y position) of Tile</param>
+        /// <returns>
+        /// Returns the Tile at the given position.
+        /// Returns null if no Tile exists at that position.
+        /// </returns>
+        public Tile GetTileAtPosition(int col, int row) {
+            try {
+                return mTiles[col, row];
+            } catch {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the position of a given Unit
+        /// </summary>
+        /// <param name="unit">Unit to find position of</param>
+        /// <returns>
+        /// Returns the Vector of the Unit's position
+        /// Returns null if no Unit could be found
+        /// </returns>
+        public Vector2Int GridForUnit(Unit unit) {
+            for (int col = 0; col < mUnits.GetLength(0); col++) {
+                for (int row = 0; row < mUnits.GetLength(1); row++) {
+                    if (mUnits[col, row] == unit) {
+                        return new Vector2Int(col, row);
+                    }
+                }
+            }
+
+            return new Vector2Int(-1, -1);
+        }
+
+        /// <summary>
+        /// Determines if a given Unit is owned by the Current Player controlling the Game.
+        /// </summary>
+        /// <param name="unit">Unit to determine if Current Player's owner</param>
+        /// <returns>
+        /// Returns the Vector of the Unit's position
+        /// Returns null if no Unit could be found
+        /// </returns>
+
+        public bool DoesUnitBelongToCurrentPlayer(Unit unit) {
+            return CurrentPlayer.Units.Contains(unit);
+        }
+
+        /// <summary>
+        /// Goes through each tile in the Game Map and adds neighbors
+        /// </summary>
+        public void AddNeighbors() {
+            for (int column = 0; column < Columns; column++) {
+                for (int row = 0; row < Rows; row++) {
+                    var tile = mTiles[column, row];
+                    try {
+                        mTiles[column - 1, row].Neighbors.Add(tile);
+                    } catch { }
+                    try {
+                        mTiles[column + 1, row].Neighbors.Add(tile);
+                    } catch { }
+
+                    try {
+                        mTiles[column, row - 1].Neighbors.Add(tile);
+                    } catch { }
+                    try {
+                        mTiles[column, row + 1].Neighbors.Add(tile);
+                    } catch { }
                 }
             }
         }
