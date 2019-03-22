@@ -12,36 +12,49 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.ExtensionMethods;
+using Assets.Scripts.Utilities.ObservableList;
 
 namespace Assets.Scripts.ViewModel {
     public class GameViewModel : MonoBehaviour, INotifyPropertyChanged {
         public class GameSquare : INotifyPropertyChanged {
-            public Vector2Int Position;
 
-            private ObjectViewModel mGameObject;
+            public Vector2Int Position { get; set; }
 
-            public ObjectViewModel GameObject {
-                get { return mGameObject; }
-                set {
-                    mGameObject = value;
-                    OnPropertyChanged(nameof(GameObject));
-                }
-            }
+            private Unit mUnit;
 
             public Unit Unit {
                 get {
-                    if (GameObject is UnitViewModel) {
-                        var unitViewModel = mGameObject as UnitViewModel;
-                        return unitViewModel.Unit;
-                    } else {
-                        return null;
+                    return mUnit;
+                }
+
+                set {
+                    if (mUnit != value) {
+                        mUnit = value;
+                        OnPropertyChanged(nameof(Unit));
                     }
                 }
             }
 
+            private Tile mTile;
+
             public Tile Tile {
-                get;
-                set;
+                get {
+                    return mTile;
+                }
+
+                set {
+                    if (mTile != value) {
+                        mTile = value;
+                        OnPropertyChanged(nameof(Tile));
+                    }
+                }
+            }
+
+            public bool ObjectAtSquare {
+                get {
+                    // TODO: If we add items that can be placed here, add more checks
+                    return mUnit != null;
+                }
             }
 
             public event PropertyChangedEventHandler PropertyChanged;
@@ -54,9 +67,22 @@ namespace Assets.Scripts.ViewModel {
         [SerializeField]
         private GameModel model;
 
-        private ObservableList<GameSquare> mGameSquares;
+        #region Observable Properties
 
         private int mCurrentTurn;
+
+        public int CurrentTurn {
+            get {
+                return mCurrentTurn;
+            }
+
+            set {
+                if (value != mCurrentTurn) {
+                    mCurrentTurn = value;
+                    OnPropertyChanged(nameof(CurrentTurn));
+                }
+            }
+        }
 
         private GameSquare mSelectedSquare;
 
@@ -109,20 +135,26 @@ namespace Assets.Scripts.ViewModel {
             }
         }
 
+        private ObservableList<GameSquare> mGameSquares;
+
         public ObservableList<GameSquare> Squares { get { return mGameSquares; } }
 
-        public int CurrentTurn {
+        private GameMove mLastMove;
+
+        public GameMove LastMove {
             get {
-                return mCurrentTurn;
+                return mLastMove;
             }
 
             set {
-                if (value != mCurrentTurn) {
-                    mCurrentTurn = value;
-                    OnPropertyChanged(nameof(CurrentTurn));
+                if (mLastMove != value) {
+                    mLastMove = value;
+                    OnPropertyChanged(nameof(LastMove));
                 }
             }
         }
+
+        #endregion
 
         public Player CurrentPlayer { get { return model.CurrentPlayer; } }
 
@@ -168,21 +200,23 @@ namespace Assets.Scripts.ViewModel {
             }
         }
 
-        public Dictionary<Vector2Int, ObjectViewModel> ObjectViewModels { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void ConstructViewModel(Dictionary<Vector2Int, ObjectViewModel> objectViewModels) {
+        public void OnPropertyChanged(string name) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void ConstructViewModel() {
             if (model == null) {
                 model = GameManager.instance.model;
             }
 
-            ObjectViewModels = objectViewModels;
-
             mGameSquares = new ObservableList<GameSquare>(
-                VectorExtension.GetRectangularPositions(GameManager.instance.Columns, GameManager.instance.Rows)
+                VectorExtension.GetRectangularPositions(model.Columns, model.Rows)
                 .Select(pos => new GameSquare() {
                     Position = pos,
-                    GameObject = objectViewModels.SingleOrDefault(vm => vm.Key == pos).Value,
-                    Tile = model.GetTileAtPosition(pos)
+                    Unit = model.GetUnitAtPosition(pos),
+                    Tile = model.GetTileAtPosition(pos),
                 })
             );
             CombatMode = false;
@@ -221,8 +255,8 @@ namespace Assets.Scripts.ViewModel {
             return model.AllyAtLocation(position);
         }
 
-        public bool UnitHasMoved(UnitViewModel unitVm) {
-            return model.UnitHasMoved(unitVm.Unit);
+        public bool UnitHasMoved(Unit unit) {
+            return model.UnitHasMoved(unit);
         }
 
         public Vector2Int GetPositionOfUnit(Unit unit) {
@@ -232,10 +266,13 @@ namespace Assets.Scripts.ViewModel {
         public void ApplyMove(GameMove gameMove) {
             // Should check if move is possible before applying to prevent cheating?
             model.ApplyMove(gameMove);
-            UpdateMove(gameMove);
+            LastMove = gameMove;
+            RebindState();
+
             if (!model.GameHasEnded) {
                 WaitForOtherMoves();
             }
+
             CurrentTurn = model.Turn;
         }
 
@@ -253,63 +290,21 @@ namespace Assets.Scripts.ViewModel {
                     var move = await moveTask;
 
                     model.ApplyMove(move);
-                    UpdateMove(move);
+                    LastMove = move;
+                    RebindState();
                 }
                 CurrentTurn = model.Turn;
             }
 
         }
 
-        public void UpdateMove(GameMove gameMove) {
-            if (gameMove.MoveType == GameMove.GameMoveType.Move) {
-                if (gameMove.StartPosition != gameMove.EndPosition) {
-                    var objectViewModel = ObjectViewModels[gameMove.StartPosition];
-                    objectViewModel.UpdatePosition(gameMove.EndPosition);
-
-                    var square = mGameSquares.SingleOrDefault(sq => sq.Position == gameMove.StartPosition);
-                    var newSquare = mGameSquares.SingleOrDefault(sq => sq.Position == gameMove.EndPosition);
-
-                    square.GameObject = null;
-                    newSquare.GameObject = objectViewModel;
-
-                    ObjectViewModels.Remove(gameMove.StartPosition);
-                    ObjectViewModels.Add(gameMove.EndPosition, objectViewModel);
-                }
+        public void RebindState() {
+            var newSquares = VectorExtension.GetRectangularPositions(model.Columns, model.Rows);
+            int i = 0;
+            foreach (var pos in newSquares) {
+                mGameSquares[i].Unit = model.GetUnitAtPosition(pos);
+                i++;
             }
-
-            else if (gameMove.MoveType == GameMove.GameMoveType.Attack || 
-                    gameMove.MoveType == GameMove.GameMoveType.Skill) {
-                var endObjectViewModel = ObjectViewModels[gameMove.EndPosition];
-                if (endObjectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel))) {
-                    var unitViewModel = endObjectViewModel as UnitViewModel;
-                    if (!unitViewModel.Unit.IsAlive) {
-                        unitViewModel.GameObject.SetActive(false);
-                        ObjectViewModels.Remove(gameMove.EndPosition);
-                    }
-                }
-
-                var startObjectViewModel = ObjectViewModels[gameMove.StartPosition];
-                if (startObjectViewModel.GetType().IsSameOrSubClass(typeof(UnitViewModel))) {
-                    var unitViewModel = startObjectViewModel as UnitViewModel;
-                    if (!unitViewModel.Unit.IsAlive) {
-                        unitViewModel.GameObject.SetActive(false);
-                        ObjectViewModels.Remove(gameMove.StartPosition);
-                    }
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
-        // Update is called once per frame
-        void Update()
-        {
-            
         }
     }
 }

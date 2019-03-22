@@ -62,10 +62,10 @@ namespace Assets.Scripts.View {
                     gameViewModel.SelectedSquare = gameViewModel.Squares
                         .SingleOrDefault(sq => sq.Position == point.ToVector2Int());
 
-                    var selectedObject = gameViewModel.SelectedSquare.GameObject;
-                    if (selectedObject != null) {
-                        var selectedUnit = selectedObject as UnitViewModel;
-                        Debug.Log($"Unit Information: {selectedUnit.Unit.UnitInformation}");
+                    var selectedSquare = gameViewModel.SelectedSquare;
+                    if (selectedSquare.ObjectAtSquare) {
+                        var selectedUnit = selectedSquare.Unit;
+                        Debug.Log($"Unit Information: {selectedUnit.UnitInformation}");
 
                         // TODO: Maybe update unit information in UI here?
 
@@ -73,7 +73,7 @@ namespace Assets.Scripts.View {
                             !gameViewModel.UnitHasMoved(selectedUnit) &&
                             gameViewModel.IsControllingPlayersTurn) {
 
-                            ExitState(selectedUnit.Unit);
+                            ExitState(selectedUnit);
                         }
                     }
                 } else if (Input.GetMouseButtonUp(1)) {

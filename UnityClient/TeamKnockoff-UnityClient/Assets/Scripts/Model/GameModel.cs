@@ -24,17 +24,21 @@ namespace Assets.Scripts.Model {
 
         #region Properties
 
+        public int Columns { get; private set; }
+
+        public int Rows { get; private set; }
+
         public int Turn { get; private set; }
 
         public Player CurrentPlayer { get; private set; }
 
         #endregion
 
-        public void ConstructModel() {
-            int cols = GameManager.instance.Columns;
-            int rows = GameManager.instance.Rows;
-            mUnits = new Unit[cols, rows];
-            mTiles = new Tile[cols, rows];
+        public void ConstructModel(int cols, int rows) {
+            Columns = cols;
+            Rows = rows;
+            mUnits = new Unit[Columns, Rows];
+            mTiles = new Tile[Columns, Rows];
             mPlayers = new List<Player>();
 
             // Start turns
@@ -118,11 +122,8 @@ namespace Assets.Scripts.Model {
         }
 
         public void AddNeighbors() {
-            int columns = GameManager.instance.Columns;
-            int rows = GameManager.instance.Rows;
-
-            for (int column = 0; column < columns; column++) {
-                for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < Columns; column++) {
+                for (int row = 0; row < Rows; row++) {
                     var tile = mTiles[column, row];
                     try {
                         mTiles[column - 1, row].Neighbors.Add(tile);
@@ -229,24 +230,29 @@ namespace Assets.Scripts.Model {
                 AttackUnit(defendingUnit, attackingUnit);
 
                 if (!attackingUnit.IsAlive) {
-                    CurrentPlayer.MarkUnitAsInactive(attackingUnit);
                     Debug.Log($"{attackingUnit.Name} has been defeated");
+                    KillUnit(attackingUnit);
                 }
 
             }
             if (!defendingUnit.IsAlive) 
             {
                 Debug.Log($"{defendingUnit.Name} has been defeated");
-                foreach (var mPlayer in mPlayers) {
-                    if (mPlayer.Units.Contains(defendingUnit)) {
-                        mPlayer.MarkUnitAsInactive(defendingUnit);
-                    } 
-                }
+                KillUnit(defendingUnit);
             }
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
             //Debug.Log(defendingUnit.UnitInformation);
 
             CurrentPlayer.MarkUnitAsMoved(attackingUnit);
+        }
+
+        private void KillUnit(Unit unit) {
+            var unitOwner = mPlayers.SingleOrDefault(player => player.Units.Contains(unit));
+            var unitPos = GridForUnit(unit);
+
+            unitOwner.MarkUnitAsInactive(unit);
+            mUnits[unitPos.x, unitPos.y] = null;
+
         }
 
         private void AttackUnit(Unit attackingUnit, Unit defendingUnit)
@@ -303,19 +309,13 @@ namespace Assets.Scripts.Model {
                 attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
                 if (!attackingUnit.IsAlive)
                 {
-                    CurrentPlayer.MarkUnitAsInactive(attackingUnit);
+                    KillUnit(attackingUnit);
                     Debug.Log($"{attackingUnit.Name} has been defeated");
                 }
             } else
             {
                 Debug.Log($"{defendingUnit.Name} has been defeated");
-                foreach (var mPlayer in mPlayers)
-                {
-                    if (mPlayer.Units.Contains(defendingUnit))
-                    {
-                        mPlayer.MarkUnitAsInactive(defendingUnit);
-                    }
-                }
+                KillUnit(defendingUnit);
             }
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);

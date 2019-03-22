@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// I got this from somewhere
-namespace Assets.Scripts.ViewModel {
+namespace Assets.Scripts.Utilities.ObservableList {
     public class ObservableList<T> : IList<T> {
         public delegate void ListUpdateHandler(object sender, object updatedValue);
         public event ListUpdateHandler ItemAdded;

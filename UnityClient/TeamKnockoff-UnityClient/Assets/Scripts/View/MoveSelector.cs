@@ -340,7 +340,7 @@ namespace Assets.Scripts.View {
                                         attackPoint = point.ToVector2Int();
                                         AttackUnit();
                                     } else if (waitingForSkill) {
-                                        skillPoint = attackPoint;
+                                        skillPoint = point.ToVector2Int();
                                         SkillUnit();
                                     }
                                 }

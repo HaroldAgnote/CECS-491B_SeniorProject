@@ -37,10 +37,6 @@ namespace Assets.Scripts.Application {
         public TileFactory tileFactory;
         public UnitFactory unitFactory;
 
-        public int Rows { get; private set; }
-
-        public int Columns { get; private set; }
-
         private void Awake() {
             //Check if instance already exists
             if (instance == null) {
@@ -57,10 +53,10 @@ namespace Assets.Scripts.Application {
 
         private void Start() {
             var tileData = JsonUtility.FromJson<TileDataWrapper>(mapData.text);
-            Rows = tileData.Rows;
-            Columns = tileData.Columns;
+            int cols = tileData.Columns;
+            int rows = tileData.Rows;
 
-            model.ConstructModel();
+            model.ConstructModel(cols, rows);
 
             var players = new List<Player>();
 
@@ -75,9 +71,13 @@ namespace Assets.Scripts.Application {
                 ControllingPlayer = players.First();
             }
 
+            if (gameType == GameType.Multiplayer) {
+                // TODO: Set up logic to find out which player the human in controlling
+            }
+
             model.AddPlayers(players);
 
-            var newUnitViewModels = new Dictionary<Vector2Int, ObjectViewModel>();
+            var newObjectViews = new Dictionary<Vector2Int, ObjectView>();
 
             foreach(var tile in tileData.tileData) {
                 var newTile = tileFactory.CreateTile(tile, view.transform);
@@ -87,17 +87,18 @@ namespace Assets.Scripts.Application {
                     var newUnitObject = unitFactory.CreateUnit(tile, view.gameObject.transform);
                     var newUnitModel = newUnitObject.GetComponent<Unit>();
 
-                    var newUnitViewModel = new UnitViewModel(newUnitObject, newUnitModel);
-                    newUnitViewModels.Add(new Vector2Int(tile.Column, tile.Row), newUnitViewModel);
+                    var newUnitView= new UnitView(newUnitObject);
+
+                    newObjectViews.Add(new Vector2Int(tile.Column, tile.Row), newUnitView);
 
                     model.AddUnit(newUnitModel, tile.Player, tile.Column, tile.Row);
                 }
             }
             model.AddNeighbors();
 
-            viewModel.ConstructViewModel(newUnitViewModels);
+            viewModel.ConstructViewModel();
 
-            view.ConstructView();
+            view.ConstructView(cols, rows, newObjectViews);
 
             model.StartGame();
             
@@ -115,8 +116,11 @@ namespace Assets.Scripts.Application {
                     // Call and return AI Best Move
                     Debug.Log("Getting CPU Move");
                     return cpu.FindBestMove();
-                } else {
-                    // Call and return MP Move
+                }
+                
+                if (gameType == GameType.Multiplayer) {
+                    // TODO: Call and return MP Move
+                    
                 }
             }
             throw new NotImplementedException();
