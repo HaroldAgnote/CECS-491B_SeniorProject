@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using Assets.Scripts.Application;
-using Assets.Scripts.ExtensionMethods;
+using Assets.Scripts.Utilities.ExtensionMethods;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Skills;

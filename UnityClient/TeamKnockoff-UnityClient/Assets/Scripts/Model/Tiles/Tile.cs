@@ -60,23 +60,20 @@ namespace Assets.Scripts.Model.Tiles {
             Fortify,
         }
 
-        public int XPosition { get; set; }
-        public int YPosition { get; set; }
+        public Vector2Int Position { get; set; }
 
         public BoardTileType TileType { get; set; }
         public BoardTileEffect TileEffect { get; set; }
         public List<Tile> Neighbors { get; set; }
 
         public Tile(int xPos, int yPos) {
-            XPosition = xPos;
-            YPosition = yPos;
+            Position = new Vector2Int(xPos, yPos);
             Neighbors = new List<Tile>();
             TileType = BoardTileType.Normal;
         }
 
         public Tile(int xPos, int yPos, BoardTileType tileType) {
-            XPosition = xPos;
-            YPosition = yPos;
+            Position = new Vector2Int(xPos, yPos);
             TileType = tileType;
             Neighbors = new List<Tile>();
         }

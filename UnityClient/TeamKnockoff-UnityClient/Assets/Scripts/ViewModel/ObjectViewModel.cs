@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Assets.Scripts.ExtensionMethods;
+using Assets.Scripts.Utilities.ExtensionMethods;
 
 namespace Assets.Scripts.ViewModel {
     public abstract class ObjectViewModel {

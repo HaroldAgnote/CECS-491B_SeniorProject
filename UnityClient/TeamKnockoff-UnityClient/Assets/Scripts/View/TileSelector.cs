@@ -6,7 +6,7 @@ using UnityEngine;
 using Assets.Scripts.Application;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.ViewModel;
-using Assets.Scripts.ExtensionMethods;
+using Assets.Scripts.Utilities.ExtensionMethods;
 
 namespace Assets.Scripts.View {
     public class TileSelector : MonoBehaviour {

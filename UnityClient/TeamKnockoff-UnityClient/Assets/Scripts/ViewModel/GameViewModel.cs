@@ -11,7 +11,7 @@ using Assets.Scripts.Application;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Units;
-using Assets.Scripts.ExtensionMethods;
+using Assets.Scripts.Utilities.ExtensionMethods;
 using Assets.Scripts.Utilities.ObservableList;
 
 namespace Assets.Scripts.ViewModel {

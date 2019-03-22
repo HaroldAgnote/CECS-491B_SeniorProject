@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Assets.Scripts.ExtensionMethods;
+using Assets.Scripts.Utilities.ExtensionMethods;
 using Assets.Scripts.Utilities.PriorityQueue;
 
 namespace Assets.Scripts.Utilities.WeightedGraph {

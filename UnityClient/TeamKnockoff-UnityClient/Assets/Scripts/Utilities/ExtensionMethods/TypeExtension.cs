@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.ExtensionMethods {
+namespace Assets.Scripts.Utilities.ExtensionMethods {
     public static class TypeExtension {
         public static bool IsSameOrSubClass(this Type potentialBase, Type potentialDescendant ) {
             return potentialDescendant.IsSubclassOf(potentialBase) || potentialDescendant == potentialBase;

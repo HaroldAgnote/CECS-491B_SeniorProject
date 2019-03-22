@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Scripts.ExtensionMethods {
+namespace Assets.Scripts.Utilities.ExtensionMethods {
     public static class VectorExtension {
         public static Vector2 ToVector2(this Vector3 vector) {
             return new Vector2(vector.x, vector.y);

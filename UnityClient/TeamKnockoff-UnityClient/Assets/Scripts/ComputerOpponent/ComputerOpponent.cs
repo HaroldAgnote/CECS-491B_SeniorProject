@@ -102,7 +102,7 @@ namespace Assets.Scripts.ComputerOpponent
 
                     //generate random possible position
                     //move to random position
-                    List<Vector2Int> movePositions = model.GetPossibleUnitMoveLocations(CurrentControllingUnit);
+                    var movePositions = model.GetPossibleUnitMoveLocations(CurrentControllingUnit).ToList();
                     Vector2Int randomPosition = movePositions[RNG.Next(movePositions.Count)];
 
                     // Set hasMoved flag to true and return move 
