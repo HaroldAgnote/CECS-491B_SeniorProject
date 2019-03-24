@@ -69,11 +69,6 @@ namespace Assets.Scripts.View {
         /// </summary>
         public UnitMenu unitMenu;
 
-        /// <summary>
-        /// Determines if the Unit Main Menu has already been set up with options
-        /// </summary>
-        public bool mainMenuCreated;
-
         #endregion
 
         #region Private Fields
@@ -206,6 +201,11 @@ namespace Assets.Scripts.View {
         /// The current menu options that willl be on the Unit Main Menu
         /// </summary>
         private HashSet<UnitMenuOptions> currentMenuOptions;
+
+        /// <summary>
+        /// Determines if the Unit Main Menu has already been set up with options
+        /// </summary>
+        private bool mainMenuCreated;
 
         #endregion
 

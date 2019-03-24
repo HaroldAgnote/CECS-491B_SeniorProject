@@ -3891,14 +3891,14 @@ MonoBehaviour:
   m_Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 1334254119}
+  m_Content: {fileID: 1386666190}
   m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 5
   m_Viewport: {fileID: 0}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 42169234}
@@ -5620,6 +5620,7 @@ MonoBehaviour:
   attackLocationPrefab: {fileID: 285483458665471256, guid: 73725ccf363e8904fb611cf211a932cc,
     type: 3}
   unitMenu: {fileID: 1065424550}
+  mainMenuCreated: 0
 --- !u!1 &1493605794
 GameObject:
   m_ObjectHideFlags: 0
