@@ -98,8 +98,15 @@ namespace Assets.Scripts.Application {
 
             view.ConstructView(cols, rows, newObjectViews);
 
-            model.StartGame();
+            StartGame();
             
+        }
+
+        public void StartGame()
+        {
+            model.StartGame();
+            viewModel.StartGame();
+
             // If first player is not the Controlling Player
             // Wait for other player's to make Move's first
             if (model.CurrentPlayer != ControllingPlayer) {
