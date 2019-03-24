@@ -5,7 +5,10 @@ using UnityEngine;
 namespace Assets.Scripts.Model.Skills
 {
     public abstract class Skill {
-        public string SkillName { get; protected set; }
-        public int SkillCost { get; protected set; }
+        public string SkillName { get; }
+
+        public Skill(string skillName) {
+            SkillName = skillName;
+        }
     }
 }

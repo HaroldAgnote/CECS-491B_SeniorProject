@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using Assets.Scripts.Model.Units;
 using UnityEngine;
 
+using DamageType = DamageCalculator.DamageType;
+
 namespace Assets.Scripts.Model.Skills
 {
     public class PiercingShot : SingleDamageSkill {
 
-        public PiercingShot() {
-            SkillName = "PiercingShot";
-            Range = 3;
-        }
+        private const string SKILL_NAME = "Piercing Shot";
+        private const int SKILL_COST = 10;
+        private const int RANGE = 3;
+        private const bool TARGET_SELF = false;
+        private const DamageType DAMAGE_TYPE = DamageType.Physical;
+
+        public PiercingShot() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF, DAMAGE_TYPE) { }
 
         //public enum DamageType { Physical, Magical };
         public double HealthPoints = -10;
@@ -22,9 +27,6 @@ namespace Assets.Scripts.Model.Skills
 
         public int Hit = 90;
         //public int CritRate = 3;
-
-        public new DamageCalculator.DamageType DamageType = DamageCalculator.DamageType.Physical;
-
 
         public override int GetDamage(Unit attacker, Unit defender)
         {

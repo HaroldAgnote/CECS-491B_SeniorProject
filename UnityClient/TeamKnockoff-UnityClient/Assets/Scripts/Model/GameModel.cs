@@ -650,45 +650,71 @@ namespace Assets.Scripts.Model {
         #region Skill Calculations
 
         /// <summary>
-        /// Retrieves positions where a Unit can use a skill
+        /// Retrieves skills and usable positions where a Unit can use that skill
         /// </summary>
         /// <param name="unit">Unit to check skill locations</param>
         /// <returns>
-        /// Return set of locations where a Unit can use a skill
+        /// Return dictionary of skills and usable locations where a Unit can use the skill
         /// </returns>
 
-        public HashSet<Vector2Int> GetUnitSkillLocations(Unit unit) {
-            var singleTargetSkills = unit.Skills
+        public Dictionary<ActiveSkill, HashSet<Vector2Int>> GetUnitSkillLocations(Unit unit) {
+            var skillToLocations = new Dictionary<ActiveSkill, HashSet<Vector2Int>>();
+
+            // Filter out passive skills
+            var activeSkills = unit.Skills
+                                        .Where(sk => sk is ActiveSkill)
+                                        .Select(sk => sk as ActiveSkill);
+
+            // For non-target or multi-target skills, use all move locations
+            // TODO: Implement adding other skills
+
+            // For single-target skills, get usable locations
+
+            var singleTargetSkills = activeSkills
                                         .Where(sk => sk is SingleTargetSkill)
                                         .Select(sk => sk as SingleTargetSkill);
 
-            var skillLocations = new HashSet<Vector2Int>();
-            foreach (var skill in singleTargetSkills) {
-                skillLocations.AddRange(GetUnitSkillLocations(unit, skill));
+            foreach (var singleTargetSkill in singleTargetSkills) {
+                var skillLocations = new HashSet<Vector2Int>();
+                skillLocations.AddRange(GetUnitSkillLocations(unit, singleTargetSkill));
+                skillToLocations.Add(singleTargetSkill, skillLocations);
             }
 
-            return skillLocations;
+            return skillToLocations;
         }
 
         /// <summary>
-        /// Retrieves possible positions for Unit to use Skill
+        /// Retrieves skills and possible positions where a Unit can use that skill
         /// </summary>
-        /// <param name="unit">Unit to check possible skill positions</param>
+        /// <param name="unit">Unit to check skill locations</param>
         /// <returns>
-        /// Returns set of possible positions where a Unit can use a skill
+        /// Return dictionary of skills and possible locations where a Unit can use the skill
         /// </returns>
 
-        public HashSet<Vector2Int> GetPossibleUnitSkillLocations(Unit unit) {
-            var singleTargetSkills = unit.Skills
+        public Dictionary<ActiveSkill, HashSet<Vector2Int>> GetUnitPossibleSkillLocations(Unit unit) {
+            var skillToLocations = new Dictionary<ActiveSkill, HashSet<Vector2Int>>();
+
+            // Filter out passive skills or unusable skills
+            var usableActiveSkills = unit.Skills
+                                        .Where(sk => sk is ActiveSkill)
+                                        .Select(sk => sk as ActiveSkill);
+
+            // For non-target or multi-target skills, use all move locations
+            // TODO: Implement adding other skills
+
+            // For single-target skills, get usable locations
+
+            var singleTargetSkills = usableActiveSkills
                                         .Where(sk => sk is SingleTargetSkill)
                                         .Select(sk => sk as SingleTargetSkill);
 
-            var skillLocations = new HashSet<Vector2Int>();
-            foreach (var skill in singleTargetSkills) {
-                skillLocations.AddRange(GetPossibleUnitSkillLocations(unit, skill));
+            foreach (var singleTargetSkill in singleTargetSkills) {
+                var skillLocations = new HashSet<Vector2Int>();
+                skillLocations.AddRange(GetPossibleUnitSkillLocations(unit, singleTargetSkill));
+                skillToLocations.Add(singleTargetSkill, skillLocations);
             }
 
-            return skillLocations;
+            return skillToLocations;
         }
 
         /// <summary>
@@ -732,13 +758,16 @@ namespace Assets.Scripts.Model {
 
         public HashSet<Vector2Int> GetPossibleUnitSkillLocations(Unit unit, SingleTargetSkill skill) {
             var moveLocations = GetPossibleUnitMoveLocations(unit);
-            var skillLocations = GetUnitSkillLocations(unit, skill);
+            var skillLocations = GetUnitSkillLocations(unit, skill)
+                                    .Where(pos =>
+                                        !TileIsOccupied(pos)
+                                        || (TileIsOccupied(pos) && skill.IsUsableOnTarget(unit, GetUnitAtPosition(pos))));
 
             var filteredSkillLocations = new HashSet<Vector2Int>();
             foreach (var loc in skillLocations) {
                 var surroundingLocations = GetSurroundingAttackLocationsAtPoint(loc, skill.Range);
-                var attackPoints = surroundingLocations.Where(sLoc => moveLocations.Contains(sLoc));
-                if (attackPoints.Count() > 0) {
+                var skillPoints = surroundingLocations.Where(sLoc => moveLocations.Contains(sLoc));
+                if (skillPoints.Count() > 0) {
                     filteredSkillLocations.Add(loc);
                 }
             }
@@ -830,6 +859,23 @@ namespace Assets.Scripts.Model {
             return skillLocations;
         }
 
+        /// <summary>
+        /// Determines if a SingleTargetSkill used by a unit is usable on a target unit
+        /// </summary>
+        /// <param name="usingUnit">The Unit using the Skill</param>
+        /// <param name="targetUnit">The target unit affected by the skill</param>
+        /// <param name="skill">The Skill that will be used</param>
+        /// <returns>
+        /// Returns <c>true</c> if the Skill can be used, <c>false</c> otherwise.
+        /// </returns>
+
+        public bool SkillIsUsableOnTarget(Unit usingUnit, Unit targetUnit, SingleTargetSkill skill) {
+            if (targetUnit != null && usingUnit == targetUnit) {
+                return skill.CanTargetSelf && skill.IsUsableOnTarget(usingUnit, usingUnit);
+            }
+            return targetUnit != null && skill.IsUsableOnTarget(usingUnit, targetUnit);
+        }
+
         #endregion
 
         #region Shortest Path Calculations
@@ -904,6 +950,40 @@ namespace Assets.Scripts.Model {
             var bestSkillRange = unit.Skills.Where(sk => sk is SingleTargetSkill).Select(sk => (sk as SingleTargetSkill).Range).Max();
 
             var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, bestSkillRange);
+
+            possibleAttackLocations = possibleAttackLocations.Where(pos =>
+                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
+                                        .Where(pos => availableAttackLocations.Contains(pos))
+                                        .ToHashSet();
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var attackDistances = distances.Where(pos => possibleAttackLocations.Contains(pos.Vertex));
+
+            var shortestDistanceToAttack = attackDistances.Min();
+
+            return shortestDistanceToAttack.Path;
+        }
+
+        /// <summary>
+        /// Gets the shortest path for a Unit to move from one point to the 
+        /// point closest to a position where they can use a particular Skill.
+        /// </summary>
+        /// <param name="unit">The Unit that will be moving</param>
+        /// <param name="startPoint">The starting position of the path</param>
+        /// <param name="targetPoint">The position the unit will be attacking</param>
+        /// <param name="skill">Skill that will be used </param>
+        /// <returns>
+        /// Returns list of positions in a path for a Unit to move from the start location to the end location
+        /// </returns>
+
+        public List<Vector2Int> GetShortestPathToSkill(Unit unit, Vector2Int startPoint, Vector2Int targetPoint, SingleTargetSkill skill) {
+            var unitCosts = GetUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var availableAttackLocations = GetUnitMoveLocations(unit);
+
+            var possibleAttackLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, skill.Range);
 
             possibleAttackLocations = possibleAttackLocations.Where(pos =>
                                         (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
@@ -1039,6 +1119,9 @@ namespace Assets.Scripts.Model {
         private void SkillUnit(GameMove move)
         {
             var skill = move.UsedSkill;
+
+            var usingUnit = GetUnitAtPosition(move.StartPosition);
+            usingUnit.HealthPoints -= skill.SkillCost;
 
             // Call appropriate methods depending on Skill Type
             if (skill is SingleDamageSkill) {

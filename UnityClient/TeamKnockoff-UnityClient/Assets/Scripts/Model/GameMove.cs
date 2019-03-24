@@ -21,7 +21,7 @@ namespace Assets.Scripts.Model {
         public GameMoveType MoveType { get; private set; }
 
         // TODO: Add properties for Skill?
-        public Skill UsedSkill { get; }
+        public ActiveSkill UsedSkill { get; }
 
         public GameMove(GameMoveType gameMoveType) {
             
@@ -44,7 +44,7 @@ namespace Assets.Scripts.Model {
             MoveType = moveType;
         }
 
-        public GameMove(Vector2Int start, Vector2Int end, Skill skill) {
+        public GameMove(Vector2Int start, Vector2Int end, ActiveSkill skill) {
             StartPosition = start;
             EndPosition = end;
             MoveType = GameMoveType.Skill;

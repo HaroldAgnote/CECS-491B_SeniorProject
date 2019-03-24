@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using Assets.Scripts.Model.Units;
 using UnityEngine;
 
+using DamageType = DamageCalculator.DamageType;
+
 namespace Assets.Scripts.Model.Skills
 {
-    public class Bash : SingleDamageSkill {
+    public class Bash : SingleDamageSkill
+    {
+        private const string SKILL_NAME = "Bash";
+        private const int SKILL_COST = 10;
+        private const int RANGE = 1;
+        private const bool TARGET_SELF = false;
+        private const DamageType DAMAGE_TYPE = DamageType.Physical;
 
-        public Bash() {
-            SkillName = "Bash";
-            Range = 1;
-        }
+        public Bash() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF, DAMAGE_TYPE) { }
 
-        //public enum DamageType { Physical, Magical };
         public double HealthPoints = -4;
 
         public int Strength = 1000;
@@ -24,7 +28,6 @@ namespace Assets.Scripts.Model.Skills
         //public int CritRate = 3;
 
         public new DamageCalculator.DamageType DamageType = DamageCalculator.DamageType.Physical;
-
 
         public override int GetDamage(Unit attacker, Unit defender)
         {
