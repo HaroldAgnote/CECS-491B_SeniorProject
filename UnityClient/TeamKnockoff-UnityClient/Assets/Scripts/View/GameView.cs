@@ -61,6 +61,10 @@ namespace Assets.Scripts.View {
                 turnLabel.text = $"Turn {gameViewModel.CurrentTurn}";
             }
 
+            if (e.PropertyName == "Squares") {
+                tileSelector.RefreshAllyHighlighters();
+            }
+
             if (e.PropertyName == "LastMove") {
                 var gameMove = gameViewModel.LastMove;
                 if (gameMove.MoveType == GameMove.GameMoveType.Move) {

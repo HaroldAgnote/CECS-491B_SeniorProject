@@ -14,7 +14,7 @@ namespace Assets.Scripts.View {
     /// The TileSelector is a View component used for the player to select a Unit to move.
     /// </summary>
     public class TileSelector : MonoBehaviour {
-
+        #region Public fields
         /// <summary>
         /// The View of the Game system
         /// </summary>
@@ -26,11 +26,6 @@ namespace Assets.Scripts.View {
         public MoveSelector moveSelector;
 
         /// <summary>
-        /// The ViewModel of the Game system retrieved from the View
-        /// </summary>
-        private GameViewModel gameViewModel;
-
-        /// <summary>
         /// Prefab containing a general highlighter for tiles when hovering cursor on the map
         /// </summary>
         public GameObject tileHighlightPrefab;
@@ -39,6 +34,15 @@ namespace Assets.Scripts.View {
         /// Prefab containing a highlighter for tiles with allies on them
         /// </summary>
         public GameObject allyHighlightPrefab;
+
+        #endregion
+
+        #region Private Fields
+
+        /// <summary>
+        /// The ViewModel of the Game system retrieved from the View
+        /// </summary>
+        private GameViewModel gameViewModel;
 
         /// <summary>
         /// The highlighter that will be used when hovering the cursor on the map
@@ -50,10 +54,16 @@ namespace Assets.Scripts.View {
         /// </summary>
         private List<GameObject> allyLocationHighlights;
 
+        #endregion
+
+        #region Methods
+
+        #region Initializers
+
         /// <summary>
         /// Start is called before the first frame update
         /// </summary>
-        void Start() {
+        private void Start() {
             Vector3 point = new Vector3(0, 0, 0);
             tileHighlight = Instantiate(tileHighlightPrefab, point, Quaternion.identity, gameObject.transform);
             tileHighlight.SetActive(false);
@@ -78,10 +88,52 @@ namespace Assets.Scripts.View {
             EnterState();
         }
 
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Entering the Select State for the Player to select a Unit to move
+        /// </summary>
+        public void EnterState() {
+            this.enabled = true;
+
+            allyLocationHighlights = new List<GameObject>();
+
+            foreach (var unit in gameViewModel.ControllingPlayer.Units.Where(u => u.IsAlive)) {
+                GameObject highlight;
+                var allyLoc = gameViewModel.GetPositionOfUnit(unit);
+                highlight = Instantiate(allyHighlightPrefab, allyLoc.ToVector3(), Quaternion.identity, gameObject.transform);
+                allyLocationHighlights.Add(highlight);
+            }
+        }
+
+        /// <summary>
+        /// Used to refresh highlighters on ally positions
+        /// </summary>
+        public void RefreshAllyHighlighters() {
+            foreach (var highlight in allyLocationHighlights) {
+                Destroy(highlight);
+
+            }
+            allyLocationHighlights = new List<GameObject>();
+
+            foreach (var playerUnit in gameViewModel.ControllingPlayer.Units.Where(un => un.IsAlive)) {
+                GameObject highlight;
+                var allyLoc = gameViewModel.GetPositionOfUnit(playerUnit);
+                highlight = Instantiate(allyHighlightPrefab, allyLoc.ToVector3(), Quaternion.identity, gameObject.transform);
+                allyLocationHighlights.Add(highlight);
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
         /// <summary>
         /// Update is called once per frame
         /// </summary>
-        void Update() {
+        private void Update() {
             //Converting Mouse Pos to 2D (vector2) World Pos
             Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
@@ -116,7 +168,7 @@ namespace Assets.Scripts.View {
                                 gameViewModel.IsControllingPlayersTurn)
                             {
 
-                                ExitState(selectedUnit);
+                                ExitState();
                             }
                         }
                     }
@@ -131,25 +183,9 @@ namespace Assets.Scripts.View {
         }
 
         /// <summary>
-        /// Entering the Select State for the Player to select a Unit to move
-        /// </summary>
-        public void EnterState() {
-            this.enabled = true;
-
-            allyLocationHighlights = new List<GameObject>();
-
-            foreach (var unit in gameViewModel.ControllingPlayer.Units.Where(u => u.IsAlive)) {
-                GameObject highlight;
-                var allyLoc = gameViewModel.GetPositionOfUnit(unit);
-                highlight = Instantiate(allyHighlightPrefab, allyLoc.ToVector3(), Quaternion.identity, gameObject.transform);
-                allyLocationHighlights.Add(highlight);
-            }
-        }
-
-        /// <summary>
         /// Exiting the Select State when the Player has selected a Unit to move
         /// </summary>
-        private void ExitState(Unit selectedUnit) {
+        private void ExitState() {
             this.enabled = false;
             tileHighlight.SetActive(false);
 
@@ -158,7 +194,12 @@ namespace Assets.Scripts.View {
                 Destroy(highlight);
             }
 
-            moveSelector.EnterState(selectedUnit);
+            moveSelector.EnterState();
         }
+
+
+        #endregion
+
+        #endregion
     }
 }
