@@ -62,7 +62,11 @@ namespace Assets.Scripts.Model {
         /// Determines if the Current Player has any Units that can move
         /// </summary>
         public bool CurrentPlayerHasNoMoves {
-            get { return !CurrentPlayer.UnitHasMoved.Contains(false); }
+            get {
+                return CurrentPlayer.Units
+                            .Where(unit => unit.IsAlive)
+                            .All(unit => unit.HasMoved);
+            }
         }
 
 
@@ -283,18 +287,6 @@ namespace Assets.Scripts.Model {
 
         public bool DoesUnitBelongToCurrentPlayer(Unit unit) {
             return CurrentPlayer.Units.Contains(unit);
-        }
-
-        /// <summary>
-        /// Determines if a given Unit owned by the Current Player has moved
-        /// </summary>
-        /// <param name="unit">Unit to determine if it has moved </param>
-        /// <returns>
-        /// Returns <c>true</c> if the Unit has moved, <c>false</c> otherwise.
-        /// </returns>
-
-        public bool UnitHasMoved(Unit unit) {
-            return CurrentPlayer.CheckUnitHasMoved(unit);
         }
 
         /// <summary>
@@ -1034,7 +1026,6 @@ namespace Assets.Scripts.Model {
             var unitOwner = mPlayers.SingleOrDefault(player => player.Units.Contains(unit));
             var unitPos = GridForUnit(unit);
 
-            unitOwner.MarkUnitAsInactive(unit);
             mUnits[unitPos.x, unitPos.y] = null;
 
         }
@@ -1076,7 +1067,7 @@ namespace Assets.Scripts.Model {
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
             //Debug.Log(defendingUnit.UnitInformation);
 
-            CurrentPlayer.MarkUnitAsMoved(attackingUnit);
+            attackingUnit.HasMoved = true;
         }
 
         /// <summary>
@@ -1129,6 +1120,8 @@ namespace Assets.Scripts.Model {
             } else if (skill is SingleSupportSkill) {
                 ApplySingleSupportSkill(move);
             }
+
+            usingUnit.HasMoved = true;
         }
 
         /// <summary>
@@ -1163,8 +1156,6 @@ namespace Assets.Scripts.Model {
             }
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
-
-            CurrentPlayer.MarkUnitAsMoved(attackingUnit);
         }
 
         /// <summary>
@@ -1184,8 +1175,6 @@ namespace Assets.Scripts.Model {
 
             Debug.Log(supportingUnit.UnitInformation + "\n\n");
             Debug.Log(supportedUnit.UnitInformation);
-
-            CurrentPlayer.MarkUnitAsMoved(supportingUnit);
         }
 
         /// <summary>
@@ -1195,7 +1184,7 @@ namespace Assets.Scripts.Model {
 
         private void WaitUnit(GameMove move) {
             var unit = GetUnitAtPosition(move.StartPosition);
-            CurrentPlayer.MarkUnitAsMoved(unit);
+            unit.HasMoved = true;
         }
 
         #endregion 

@@ -10,6 +10,7 @@ using Assets.Scripts.Model.Items;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Skills;
+using Assets.Scripts.Model.UnitEffects;
 
 namespace Assets.Scripts.Model.Units {
     public abstract class Unit : MonoBehaviour, IMover {
@@ -17,28 +18,60 @@ namespace Assets.Scripts.Model.Units {
         public string Type { get; set; }
         public string Class { get; set; }
 
-        private double mHealthPoints;
+        private double mCurrentHealthPoints;
 
-        // Health Points are the life points of the Unit
-        // If Health Points is zero, the unit is dead
-        // Health Points can never exceed max health points
+        public struct BaseStats {
+            public int Strength { get; private set; }
+            public int Magic { get; private set; }
+            public int Defense { get; private set; }
+            public int Resistance { get; private set; }
+            public int Speed { get; private set; }
+            public int Skill { get; private set; }
+            public int Luck { get; private set; }
+            public int MoveRange { get; private set; }
+        }
+
+        public BaseStats BaseStat { get; private set; }
+
+        public struct StatModifiers {
+            public int StrengthModifier;
+            public int MagicModifier;
+            public int DefenseModifier;
+            public int ResistanceModifier;
+            public int SpeedModifier;
+            public int SkillModifier;
+            public int LuckModifier;
+            public int MoveRangeModifier;
+        }
+
+        public StatModifiers StatModifier { get; private set; }
+
+        /// <summary>
+        /// Health Points are the life points of the Unit. 
+        /// If Health Points are zero, the unit is dead. 
+        /// Health Points can never exceed max health points.
+        /// </summary>
         public double HealthPoints {
             get {
-                return mHealthPoints;
+                return mCurrentHealthPoints;
             }
             set {
                 // Prevent HP from exceeding above Max Health Points
-                if (value > MaxHealthPoints) {
-                    mHealthPoints = MaxHealthPoints;
+                if (value > MaxHealthPoints + MaxHealthModifier) {
+                    mCurrentHealthPoints = MaxHealthPoints + MaxHealthModifier;
 
                 // Prevent HP from exceeding below zero
                 } else if (value < 0) {
-                    mHealthPoints = 0;
+                    mCurrentHealthPoints = 0;
                 } else {
-                    mHealthPoints = value;
+                    mCurrentHealthPoints = value;
                 }
             }
         }
+
+        public double MaxHealthPoints { get; protected set; }
+
+        public double MaxHealthModifier { get; set; }
 
         public bool IsAlive {
             get {
@@ -46,7 +79,8 @@ namespace Assets.Scripts.Model.Units {
             }
         } 
 
-        public double MaxHealthPoints { get; protected set; }
+        public bool HasMoved { get; set; }
+
 
         public int Level { get; protected set; }
         public int ExperiencePoints { get; protected set; }
@@ -71,7 +105,7 @@ namespace Assets.Scripts.Model.Units {
         // TODO: Add Item Properties
         public List<Item> Items { get; protected set; }
 
-        public List<UnitEffect> Effects { get; }
+        public List<UnitEffect> UnitEffects { get; }
 
         // Abstract methods that must be overridden by Unit sub classes
         public abstract bool CanMove(Tile tile);
@@ -80,7 +114,7 @@ namespace Assets.Scripts.Model.Units {
         public Unit() {
             Skills = new List<Skill>();
             Items = new List<Item>();
-            Effects = new List<UnitEffect>();
+            UnitEffects = new List<UnitEffect>();
             MainWeapon = new Weapon(50, 1, 100, 1, DamageCalculator.DamageType.Physical);
         }
 
