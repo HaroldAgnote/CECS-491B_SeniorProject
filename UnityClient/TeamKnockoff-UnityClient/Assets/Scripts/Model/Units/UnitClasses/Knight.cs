@@ -58,7 +58,8 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Knight.CLASS_NAME;
             unit.Class = Knight.CLASS_NAME;
 
-            var newWeapon = new Weapon(40, 1, 60, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            var newWeapon = new Weapon(12, 1, 70, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            unit.EquipWeapon(newWeapon);
 
             unit.Skills = new List<Skill>() {
                 new Bash(),

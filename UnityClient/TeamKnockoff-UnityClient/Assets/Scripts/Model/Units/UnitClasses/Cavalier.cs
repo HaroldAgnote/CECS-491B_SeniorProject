@@ -58,7 +58,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Cavalier.CLASS_NAME;
             unit.Class = Cavalier.CLASS_NAME;
 
-            var testWeapon = new Weapon(15, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            var testWeapon = new Weapon(7, 1, 90, 10, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
 
             unit.EquipWeapon(testWeapon);
             return newUnit;

@@ -59,7 +59,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Thief.CLASS_NAME;
             unit.Class = Thief.CLASS_NAME;
 
-            var newWeapon = new Weapon(5, 1, 100, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            var newWeapon = new Weapon(7, 1, 95, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
             unit.EquipWeapon(newWeapon);
             unit.Skills = new List<Skill>() {
                 new MediumSpeedBoost()

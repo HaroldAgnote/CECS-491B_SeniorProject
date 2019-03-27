@@ -58,7 +58,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Archer.CLASS_NAME;
             unit.Class = Archer.CLASS_NAME;
 
-            var testWeapon = new Weapon(15, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            var testWeapon = new Weapon(8, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
 
             unit.EquipWeapon(testWeapon);
             unit.Skills.Add(new PiercingShot());

@@ -58,7 +58,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = PegasusKnight.CLASS_NAME;
             unit.Class = PegasusKnight.CLASS_NAME;
 
-            var newWeapon = new Weapon(5, 1, 25, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            var newWeapon = new Weapon(8, 1, 80, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
             unit.EquipWeapon(newWeapon);
             unit.Skills = new List<Skill>();
 

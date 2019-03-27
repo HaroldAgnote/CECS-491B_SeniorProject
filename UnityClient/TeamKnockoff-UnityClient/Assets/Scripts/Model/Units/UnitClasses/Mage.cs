@@ -59,7 +59,7 @@ namespace Assets.Scripts.Model.Units {
             unit.Class = Mage.CLASS_NAME;
 
             
-            var newWeapon = new Weapon(25, 2, 100, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
+            var newWeapon = new Weapon(25, 2, 95, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
 
             unit.EquipWeapon(newWeapon);
 
