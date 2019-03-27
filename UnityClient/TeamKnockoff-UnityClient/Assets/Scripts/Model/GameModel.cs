@@ -62,7 +62,11 @@ namespace Assets.Scripts.Model {
         /// Determines if the Current Player has any Units that can move
         /// </summary>
         public bool CurrentPlayerHasNoMoves {
-            get { return !CurrentPlayer.UnitHasMoved.Contains(false); }
+            get {
+                return CurrentPlayer.Units
+                            .Where(unit => unit.IsAlive)
+                            .All(unit => unit.HasMoved);
+            }
         }
 
 
@@ -123,6 +127,17 @@ namespace Assets.Scripts.Model {
         /// </summary>
 
         public void StartGame() {
+            foreach (var player in mPlayers) {
+                foreach (var unit in player.Units) {
+                    var passiveSkills = unit.Skills
+                                            .Where(skill => skill is FieldSkill)
+                                            .Select(skill => skill as FieldSkill);
+
+                    foreach (var skill in passiveSkills) {
+                        skill.ApplyFieldSkill(unit);
+                    }
+                }
+            }
             CurrentPlayer = mPlayers.First();
             CurrentPlayer.StartTurn();
         }
@@ -283,18 +298,6 @@ namespace Assets.Scripts.Model {
 
         public bool DoesUnitBelongToCurrentPlayer(Unit unit) {
             return CurrentPlayer.Units.Contains(unit);
-        }
-
-        /// <summary>
-        /// Determines if a given Unit owned by the Current Player has moved
-        /// </summary>
-        /// <param name="unit">Unit to determine if it has moved </param>
-        /// <returns>
-        /// Returns <c>true</c> if the Unit has moved, <c>false</c> otherwise.
-        /// </returns>
-
-        public bool UnitHasMoved(Unit unit) {
-            return CurrentPlayer.CheckUnitHasMoved(unit);
         }
 
         /// <summary>
@@ -496,18 +499,18 @@ namespace Assets.Scripts.Model {
 
                 // Otherwise, move to this tile and check the neighboring tiles.
                 foreach (var neighbor in current.Neighbors) {
-                    if (distance[neighbor.Position.x, neighbor.Position.y] > unit.MoveRange) {
+                    if (distance[neighbor.Position.x, neighbor.Position.y] > unit.Movement.Value) {
                         int movementCost = unit.MoveCost(neighbor);
                         distance[neighbor.Position.x, neighbor.Position.y] = movementCost + distance[current.Position.x, current.Position.y];
 
-                        if (distance[neighbor.Position.x, neighbor.Position.y] <= unit.MoveRange) {
+                        if (distance[neighbor.Position.x, neighbor.Position.y] <= unit.Movement.Value) {
                             tileQueue.Enqueue(neighbor);
                         }
                     }
                 }
 
                 // If current tile is within moving distance, add it as move location
-                if (distance[current.Position.x, current.Position.y] > 0 && distance[current.Position.x, current.Position.y] <= unit.MoveRange) {
+                if (distance[current.Position.x, current.Position.y] > 0 && distance[current.Position.x, current.Position.y] <= unit.Movement.Value) {
                     moveLocations.Add(current.Position);
                 }
             }
@@ -1034,7 +1037,6 @@ namespace Assets.Scripts.Model {
             var unitOwner = mPlayers.SingleOrDefault(player => player.Units.Contains(unit));
             var unitPos = GridForUnit(unit);
 
-            unitOwner.MarkUnitAsInactive(unit);
             mUnits[unitPos.x, unitPos.y] = null;
 
         }
@@ -1076,7 +1078,7 @@ namespace Assets.Scripts.Model {
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
             //Debug.Log(defendingUnit.UnitInformation);
 
-            CurrentPlayer.MarkUnitAsMoved(attackingUnit);
+            attackingUnit.HasMoved = true;
         }
 
         /// <summary>
@@ -1129,6 +1131,8 @@ namespace Assets.Scripts.Model {
             } else if (skill is SingleSupportSkill) {
                 ApplySingleSupportSkill(move);
             }
+
+            usingUnit.HasMoved = true;
         }
 
         /// <summary>
@@ -1140,7 +1144,7 @@ namespace Assets.Scripts.Model {
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
-            var usedSkill = move.UsedSkill;
+            var usedSkill = move.UsedSkill as SingleDamageSkill;
 
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks with {usedSkill.SkillName} on {defendingUnit.Name}");
@@ -1161,10 +1165,11 @@ namespace Assets.Scripts.Model {
                 Debug.Log($"{defendingUnit.Name} has been defeated");
                 KillUnit(defendingUnit);
             }
+
+            usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
+
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
-
-            CurrentPlayer.MarkUnitAsMoved(attackingUnit);
         }
 
         /// <summary>
@@ -1177,15 +1182,14 @@ namespace Assets.Scripts.Model {
             var supportedUnit = GetUnitAtPosition(move.EndPosition);
 
             var skill = move.UsedSkill as SingleSupportSkill;
-            skill.SupportUnit(supportingUnit, supportedUnit);
+            skill.ApplySupportSkill(supportingUnit, supportedUnit);
+
 
             // Attack Logic Here
             Debug.Log($"{supportingUnit.Name} uses {move.UsedSkill.SkillName} on {supportedUnit.Name}");
 
             Debug.Log(supportingUnit.UnitInformation + "\n\n");
             Debug.Log(supportedUnit.UnitInformation);
-
-            CurrentPlayer.MarkUnitAsMoved(supportingUnit);
         }
 
         /// <summary>
@@ -1195,7 +1199,7 @@ namespace Assets.Scripts.Model {
 
         private void WaitUnit(GameMove move) {
             var unit = GetUnitAtPosition(move.StartPosition);
-            CurrentPlayer.MarkUnitAsMoved(unit);
+            unit.HasMoved = true;
         }
 
         #endregion 

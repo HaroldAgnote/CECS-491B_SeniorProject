@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.Skills {
-    public class PassiveSkill : Skill {
+    public abstract class PassiveSkill : Skill {
         public PassiveSkill(string skillName) 
             : base(skillName) {
         }
