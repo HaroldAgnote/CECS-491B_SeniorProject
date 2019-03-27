@@ -35,16 +35,16 @@ namespace Assets.Scripts.View {
 
                     if (unit != null) {
                         unitNameLabel.text = unit.Name;
-                        currentHpLabel.text = $"CUR {unit.HealthPoints}";
-                        maxHpLabel.text = $"MAX {unit.MaxHealthPoints}";
-                        strengthLabel.text = $"STR {unit.Strength}";
-                        magicLabel.text = $"MAG {unit.Magic}";
-                        defenseLabel.text = $"DEF {unit.Defense}";
-                        resistanceLabel.text = $"RES {unit.Resistance}";
-                        speedLabel.text = $"SPD {unit.Speed}";
-                        skillLabel.text = $"SKL {unit.Skill}";
-                        luckLabel.text = $"LCK {unit.Luck}";
-                        moveLabel.text = $"MOV {unit.MoveRange}";
+                        currentHpLabel.text = $"{unit.HealthPoints}";
+                        maxHpLabel.text = $"{unit.MaxHealthPoints}";
+                        strengthLabel.text = $"{unit.Strength}";
+                        magicLabel.text = $"{unit.Magic}";
+                        defenseLabel.text = $"{unit.Defense}";
+                        resistanceLabel.text = $"{unit.Resistance}";
+                        speedLabel.text = $"{unit.Speed}";
+                        skillLabel.text = $"{unit.Skill}";
+                        luckLabel.text = $"{unit.Luck}";
+                        moveLabel.text = $"{unit.Movement}";
                     }
                 }
             }

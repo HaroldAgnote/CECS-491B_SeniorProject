@@ -6,6 +6,8 @@ using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 
+using Assets.Scripts.Model;
+
 namespace Assets.Scripts.View
 {
     public class CombatForecast : MonoBehaviour
@@ -27,7 +29,6 @@ namespace Assets.Scripts.View
         public TextMeshProUGUI enemyCritLabel;
 
         public GameView gameView;
-        public DamageCalculator damageCalculator;
         private GameViewModel gameViewModel;
   
         public void ConstructCombatForecast()

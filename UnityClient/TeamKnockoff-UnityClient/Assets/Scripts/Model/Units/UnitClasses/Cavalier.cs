@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Skills;
 
 namespace Assets.Scripts.Model.Units {
     public class Cavalier : CavalryUnit {
-        const double MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 100;
 
         const int INITIAL_LEVEL = 1;
         const int INITIAL_EXPERIENCE_POINTS = 0;
@@ -36,29 +37,30 @@ namespace Assets.Scripts.Model.Units {
             var unit = newUnit.GetComponent<Cavalier>();
 
             // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints = Cavalier.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints;
+            unit.MaxHealthPoints.Base = Cavalier.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints.Value;
 
             unit.Level = Cavalier.INITIAL_LEVEL;
             unit.ExperiencePoints = Cavalier.INITIAL_EXPERIENCE_POINTS;
 
-            unit.Strength = Cavalier.INITIAL_STRENGTH;
-            unit.Magic = Cavalier.INITIAL_MAGIC;
+            unit.Strength.Base = Cavalier.INITIAL_STRENGTH;
+            unit.Magic.Base = Cavalier.INITIAL_MAGIC;
 
-            unit.Defense = Cavalier.INITIAL_DEFENSE;
-            unit.Resistance = Cavalier.INITIAL_RESISTANCE;
+            unit.Defense.Base = Cavalier.INITIAL_DEFENSE;
+            unit.Resistance.Base = Cavalier.INITIAL_RESISTANCE;
 
-            unit.Speed = Cavalier.INITIAL_SPEED;
-            unit.Skill = Cavalier.INITIAL_SKILL;
+            unit.Speed.Base = Cavalier.INITIAL_SPEED;
+            unit.Skill.Base = Cavalier.INITIAL_SKILL;
 
-            unit.Luck = Cavalier.INITIAL_LUCK;
-            unit.MoveRange = Cavalier.MOVEMENT_RANGE;
+            unit.Luck.Base = Cavalier.INITIAL_LUCK;
+            unit.Movement.Base = Cavalier.MOVEMENT_RANGE;
 
             unit.Name = Cavalier.CLASS_NAME;
             unit.Class = Cavalier.CLASS_NAME;
 
-            unit.Skills = new List<Skill>();
+            var testWeapon = new Weapon(15, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
 
+            unit.EquipWeapon(testWeapon);
             return newUnit;
         }
 

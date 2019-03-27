@@ -7,7 +7,7 @@ using Assets.Scripts.Model.Skills;
 
 namespace Assets.Scripts.Model.Units {
     public class Archer : InfantryUnit {
-        const double MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 100;
 
         const int INITIAL_LEVEL = 1;
         const int INITIAL_EXPERIENCE_POINTS = 0;
@@ -37,28 +37,30 @@ namespace Assets.Scripts.Model.Units {
             var unit = newUnit.GetComponent<Archer>();
 
             // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints = Archer.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints;
+            unit.MaxHealthPoints.Base = Archer.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints.Value;
 
             unit.Level = Archer.INITIAL_LEVEL;
             unit.ExperiencePoints = Archer.INITIAL_EXPERIENCE_POINTS;
 
-            unit.Strength = Archer.INITIAL_STRENGTH;
-            unit.Magic = Archer.INITIAL_MAGIC;
+            unit.Strength.Base = Archer.INITIAL_STRENGTH;
+            unit.Magic.Base = Archer.INITIAL_MAGIC;
 
-            unit.Defense = Archer.INITIAL_DEFENSE;
-            unit.Resistance = Archer.INITIAL_RESISTANCE;
+            unit.Defense.Base = Archer.INITIAL_DEFENSE;
+            unit.Resistance.Base = Archer.INITIAL_RESISTANCE;
 
-            unit.Speed = Archer.INITIAL_SPEED;
-            unit.Skill = Archer.INITIAL_SKILL;
+            unit.Speed.Base = Archer.INITIAL_SPEED;
+            unit.Skill.Base = Archer.INITIAL_SKILL;
 
-            unit.Luck = Archer.INITIAL_LUCK;
-            unit.MoveRange = Archer.MOVEMENT_RANGE;
+            unit.Luck.Base = Archer.INITIAL_LUCK;
+            unit.Movement.Base = Archer.MOVEMENT_RANGE;
 
             unit.Name = Archer.CLASS_NAME;
             unit.Class = Archer.CLASS_NAME;
 
-            unit.MainWeapon = new Weapon(15, 2, 90, 0, DamageCalculator.DamageType.Physical);
+            var testWeapon = new Weapon(15, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+
+            unit.EquipWeapon(testWeapon);
             unit.Skills.Add(new PiercingShot());
 
             return newUnit;

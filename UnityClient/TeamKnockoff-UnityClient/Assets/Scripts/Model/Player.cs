@@ -23,9 +23,7 @@ namespace Assets.Scripts.Model {
 
         public void StartTurn() {
             foreach(var unit in Units) {
-                if (unit.IsAlive) {
-                    unit.HasMoved = false;
-                }
+                unit.StartTurn();
             }
         }
 

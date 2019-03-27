@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Model.Units;
 using UnityEngine;
+
+using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.Skills {
     public class Heal : SingleSupportSkill {
@@ -14,10 +15,10 @@ namespace Assets.Scripts.Model.Skills {
         public Heal() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF) { }
 
         public override bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit) {
-            return targetUnit.HealthPoints != targetUnit.MaxHealthPoints;
+            return targetUnit.HealthPoints != targetUnit.MaxHealthPoints.Value;
         }
 
-        public override void SupportUnit(Unit healer, Unit patient) {
+        public override void ApplySupportSkill(Unit healer, Unit patient) {
             // Change this later
             patient.HealthPoints += 10;
         }
