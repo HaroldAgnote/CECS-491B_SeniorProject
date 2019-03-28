@@ -5,176 +5,175 @@ using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Skills;
 
-public class DamageCalculator 
-{
-    public enum DamageType {
-        Physical,
-        Magical,
-    };
-
-    public static int GetDamage(Unit attacker, Unit defender)
+namespace Assets.Scripts.Model {
+    public class DamageCalculator 
     {
-        //assume physical for now. Maybe weapon determines damage type?
-        //getDistance from each unit's position
+        public enum DamageType {
+            Physical,
+            Magical,
+        };
 
-        //check magic
-        if (attacker.MainWeapon.DamageType == DamageType.Physical) 
+        public static int GetDamage(Unit attacker, Unit defender)
         {
-            Debug.Log("physical");
-            return GetPhysicalDamage(attacker, defender);
+            //assume physical for now. Maybe weapon determines damage type?
+            //getDistance from each unit's position
+
+            //check magic
+            if (attacker.MainWeapon.DamageType == DamageType.Physical) 
+            {
+                Debug.Log("physical");
+                return GetPhysicalDamage(attacker, defender);
+            }
+
+            if (attacker.MainWeapon.DamageType == DamageType.Magical) 
+            {
+                return GetMagicalDamage(attacker, defender);
+            }
+
+            return 0;
         }
 
-        if (attacker.MainWeapon.DamageType == DamageType.Magical) 
+        public static int GetCritDamage(Unit attacker, Unit defender)
         {
-            return GetMagicalDamage(attacker, defender);
+            int critMultiplier = 3;
+            //assume physical for now. Maybe weapon determines damage type?
+            //getDistance from each unit's position
+
+            //check magic
+            if (attacker.MainWeapon.DamageType == DamageType.Physical)
+            {
+                Debug.Log("physical");
+                return critMultiplier * GetPhysicalDamage(attacker, defender);
+            }
+
+            if (attacker.MainWeapon.DamageType == DamageType.Magical)
+            {
+                return critMultiplier * GetMagicalDamage(attacker, defender);
+            }
+
+            return 0;
         }
 
-        return 0;
-    }
-
-    public static int GetCritDamage(Unit attacker, Unit defender)
-    {
-        int critMultiplier = 3;
-        //assume physical for now. Maybe weapon determines damage type?
-        //getDistance from each unit's position
-
-        //check magic
-        if (attacker.MainWeapon.DamageType == DamageType.Physical)
+        public static int GetPhysicalDamage(Unit attacker, Unit defender)
         {
-            Debug.Log("physical");
-            return critMultiplier * GetPhysicalDamage(attacker, defender);
+            int damageDone = attacker.Strength.Value - defender.Defense.Value;
+            if (damageDone <= 0)
+            {
+                return 1;
+            }
+            return damageDone;
         }
 
-        if (attacker.MainWeapon.DamageType == DamageType.Magical)
+        public static int GetMagicalDamage(Unit attacker, Unit defender)
         {
-            return critMultiplier * GetMagicalDamage(attacker, defender);
+            int damageDone = attacker.Magic.Value - defender.Resistance.Value;
+            if (damageDone <= 0)
+            {
+                return 1;
+            }
+            return damageDone;
         }
 
-        return 0;
-    }
+        public static int GetOffensive(Unit attacker) {
+            if (attacker.MainWeapon.DamageType == DamageType.Physical) 
+            {
+                return GetPhysicalOffensive(attacker);
 
-    public static int GetPhysicalDamage(Unit attacker, Unit defender)
-    {
-        int damageDone = attacker.MainWeapon.Might + attacker.Strength - defender.Defense;
-        if (damageDone <= 0)
-        {
-            return 1;
-        }
-        return damageDone;
-    }
+            } else
+            {
+                return GetMagicalOffensive(attacker);
+            }
 
-    public static int GetMagicalDamage(Unit attacker, Unit defender)
-    {
-        int damageDone = attacker.MainWeapon.Might + attacker.Magic - defender.Resistance;
-        if (damageDone <= 0)
-        {
-            return 1;
-        }
-        return damageDone;
-    }
-
-    public static int GetOffensive(Unit attacker) {
-        if (attacker.MainWeapon.DamageType == DamageType.Physical) 
-        {
-            return GetPhysicalOffensive(attacker);
-
-        } else
-        {
-            return GetMagicalOffensive(attacker);
         }
 
-    }
-
-    public static int GetPhysicalOffensive(Unit attacker) {
-        int damageDone = attacker.MainWeapon.Might + attacker.Strength;
-        return damageDone;
-    }
-
-    public static int GetMagicalOffensive(Unit attacker) {
-        int damageDone = attacker.MainWeapon.Might + attacker.Magic;
-        return damageDone;
-    }
-
-    public static int GetDefensive(Unit attacker, Unit defender) {
-        if (attacker.MainWeapon.DamageType == DamageType.Physical) {
-            return defender.Defense;
-        } else {
-            return defender.Resistance;
+        public static int GetPhysicalOffensive(Unit attacker) {
+            int damageDone = attacker.Strength.Value;
+            return damageDone;
         }
-    }
 
-    public static int GetHitChance(Unit attacker, Unit defender)
-    {
-        double hitRate = attacker.MainWeapon.Hit;// + attacker.Skill * 0.01;
-        double evasionRate = defender.Speed + defender.Luck;
-        int hit = (int)(hitRate - evasionRate);
-        if (hit > 0)
+        public static int GetMagicalOffensive(Unit attacker) {
+            int damageDone = attacker.Magic.Value;
+            return damageDone;
+        }
+
+        public static int GetDefensive(Unit attacker, Unit defender) {
+            if (attacker.MainWeapon.DamageType == DamageType.Physical) {
+                return defender.Defense.Value;
+            } else {
+                return defender.Resistance.Value;
+            }
+        }
+
+        public static int GetHitChance(Unit attacker, Unit defender)
+        {
+            double hitRate = attacker.MainWeapon.Hit;// + attacker.Skill * 0.01;
+            double evasionRate = defender.Speed.Value + defender.Luck.Value;
+            int hit = (int)(hitRate - evasionRate);
+            if (hit > 0)
+                return hit;
+            return 0;
+        }
+
+        public static int GetCritRate(Unit attacker, Unit defender)
+        {
+            double critRate = attacker.MainWeapon.CritRate; // + attacker.Skill * 0.01
+            double evasionRate = defender.Luck.Value;
+            int crit = (int)(critRate - evasionRate);
+            if (crit > 0)
+                return crit;
+            return 0;
+        }
+
+        public static int GetSkillDamage(Unit attacker, Unit defender, Skill s)
+        {
+            //assume physical for now. Maybe weapon determines damage type?
+            //getDistance from each unit's position
+
+            //check magic
+            SingleDamageSkill b = (SingleDamageSkill) s;
+            if (b.DamageType == DamageType.Physical)
+            {
+                Debug.Log("physical");
+                return GetPhysicalSkillDamage(attacker, defender, b);
+            }
+
+            if (b.DamageType == DamageType.Magical)
+            {
+                Debug.Log("magical");
+                return GetMagicalSkillDamage(attacker, defender, b);
+            }
+
+            return 0;
+            //we gotta do some polymorphism shit on these boy-toys when we get other skills maybe
+        }
+
+        public static int GetPhysicalSkillDamage(Unit attacker, Unit defender, SingleDamageSkill s)
+        {
+            int damageDone = s.GetDamage(attacker, defender);
+            if (damageDone <= 0) {
+                return 1;
+            }
+            return damageDone;
+        }
+
+        public static int GetMagicalSkillDamage(Unit attacker, Unit defender, Skill s)
+        {
+            int damageDone = attacker.Magic.Value - defender.Resistance.Value;
+            if (damageDone <= 0) {
+                return 1;
+            }
+            return damageDone;
+        }
+
+
+        public static int GetSuccessRate(Unit attacker, Unit defender, Skill s)
+        {
+            //we gotta do some polymorphism shit on these boy-toys when we get other skills maybe
+            SingleDamageSkill sd = s as SingleDamageSkill;
+            int hit = sd.GetHitChance(attacker, defender);
             return hit;
-        return 0;
-    }
 
-    public static int GetCritRate(Unit attacker, Unit defender)
-    {
-        double critRate = attacker.MainWeapon.CritRate; // + attacker.Skill * 0.01
-        double evasionRate = defender.Luck;
-        int crit = (int)(critRate - evasionRate);
-        if (crit > 0)
-            return crit;
-        return 0;
-    }
-
-    public static int GetSkillDamage(Unit attacker, Unit defender, Skill s)
-    {
-        //assume physical for now. Maybe weapon determines damage type?
-        //getDistance from each unit's position
-
-        //check magic
-        SingleDamageSkill b = (SingleDamageSkill) s;
-        if (b.DamageType == DamageType.Physical)
-        {
-            Debug.Log("physical");
-            return GetPhysicalSkillDamage(attacker, defender, b);
         }
-
-        if (b.DamageType == DamageType.Magical)
-        {
-            Debug.Log("magical");
-            return GetMagicalSkillDamage(attacker, defender, b);
-        }
-
-        return 0;
-        //we gotta do some polymorphism shit on these boy-toys when we get other skills maybe
-    }
-
-    public static int GetPhysicalSkillDamage(Unit attacker, Unit defender, SingleDamageSkill s)
-    {
-        int damageDone = s.GetDamage(attacker, defender);
-        if (damageDone <= 0)
-        {
-            return 1;
-        }
-        return damageDone;
-    }
-
-    public static int GetMagicalSkillDamage(Unit attacker, Unit defender, Skill s)
-    {
-        int damageDone = attacker.MainWeapon.Might + attacker.Magic - defender.Resistance;
-        if (damageDone <= 0)
-        {
-            return 1;
-        }
-        return damageDone;
-    }
-
-
-    public static int GetSuccessRate(Unit attacker, Unit defender, Skill s)
-    {
-        //we gotta do some polymorphism shit on these boy-toys when we get other skills maybe
-        SingleDamageSkill sd = s as SingleDamageSkill;
-        int hit = sd.GetHitChance(attacker, defender);
-        return hit;
-
-    }
 
     public static bool DiceRoll(int hitChance)
     {
@@ -189,38 +188,49 @@ public class DamageCalculator
         int damageDone = attacker.MainWeapon.Might + attacker.Strength - defender.Defense;
         if (damageDone <= 0)
         {
-            return 1;
+            int randHit = UnityEngine.Random.Range(0, 100);
+            Debug.Log($"SuccessRate: {hitChance} \t randVal: {randHit} ");
+            return (hitChance > randHit);
         }
-        return damageDone;
-    }
-
-    public static int GetMagicalDamage(Unit attacker, Unit defender, Skill s)
-    {
-        int damageDone = attacker.MainWeapon.Might + attacker.Magic - defender.Resistance;
-        if (damageDone <= 0)
+        /*
+        public static int GetPhysicalDamage(Unit attacker, Unit defender, Skill s)
         {
-            return 1;
+            int damageDone = attacker.MainWeapon.Might + attacker.Strength - defender.Defense;
+            if (damageDone <= 0)
+            {
+                return 1;
+            }
+            return damageDone;
         }
-        return damageDone;
+
+        public static int GetMagicalDamage(Unit attacker, Unit defender, Skill s)
+        {
+            int damageDone = attacker.MainWeapon.Might + attacker.Magic - defender.Resistance;
+            if (damageDone <= 0)
+            {
+                return 1;
+            }
+            return damageDone;
+        }
+
+        public static int GetHitChance(Unit attacker, Unit defender, Skill s)
+        {
+            double hitRate = attacker.MainWeapon.Hit;// + attacker.Skill * 0.01;
+            double evasionRate = defender.Speed + defender.Luck;
+            return (int)(hitRate - evasionRate);
+        }
+
+        public static int GetCritRate(Unit attacker, Unit defender, Skill s)
+        {
+            double critRate = attacker.MainWeapon.CritRate; // + attacker.Skill * 0.01
+            double evasionRate = defender.Luck;
+            return (int)(critRate - evasionRate);
+        }
+        */
+
     }
 
-    public static int GetHitChance(Unit attacker, Unit defender, Skill s)
-    {
-        double hitRate = attacker.MainWeapon.Hit;// + attacker.Skill * 0.01;
-        double evasionRate = defender.Speed + defender.Luck;
-        return (int)(hitRate - evasionRate);
-    }
 
-    public static int GetCritRate(Unit attacker, Unit defender, Skill s)
-    {
-        double critRate = attacker.MainWeapon.CritRate; // + attacker.Skill * 0.01
-        double evasionRate = defender.Luck;
-        return (int)(critRate - evasionRate);
-    }
-    */
+
 
 }
-
-
-
-

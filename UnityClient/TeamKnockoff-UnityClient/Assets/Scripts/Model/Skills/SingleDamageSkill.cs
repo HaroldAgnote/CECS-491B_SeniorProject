@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Assets.Scripts.Model.Units;
 
-using DamageType = DamageCalculator.DamageType;
+using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
 
 namespace Assets.Scripts.Model.Skills
 {
@@ -21,10 +21,7 @@ namespace Assets.Scripts.Model.Skills
         public abstract int GetHitChance(Unit attacker, Unit defender);
         public abstract int GetCritRate(Unit attacker, Unit defender);
 
-        // TODO: Is there any reason a damage skill wouldn't be usable on another unit?
-        public override bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit) {
-            return true;
-        }
+        public abstract void ApplyDamageSkill(Unit attacker, Unit defender);
     }
 }
 

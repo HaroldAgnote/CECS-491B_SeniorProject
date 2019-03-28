@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Assets.Scripts.Model.Skills;
+using Assets.Scripts.Model.Weapons;
 
 namespace Assets.Scripts.Model.Units {
     public class Knight : ArmoredUnit {
-        const double MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 100;
 
         const int INITIAL_LEVEL = 1;
         const int INITIAL_EXPERIENCE_POINTS = 0;
@@ -36,29 +37,33 @@ namespace Assets.Scripts.Model.Units {
             var unit = newUnit.GetComponent<Knight>();
 
             // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints = Knight.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints;
+            unit.MaxHealthPoints.Base = Knight.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints.Value;
 
             unit.Level = Knight.INITIAL_LEVEL;
             unit.ExperiencePoints = Knight.INITIAL_EXPERIENCE_POINTS;
 
-            unit.Strength = Knight.INITIAL_STRENGTH;
-            unit.Magic = Knight.INITIAL_MAGIC;
+            unit.Strength.Base = Knight.INITIAL_STRENGTH;
+            unit.Magic.Base = Knight.INITIAL_MAGIC;
 
-            unit.Defense = Knight.INITIAL_DEFENSE;
-            unit.Resistance = Knight.INITIAL_RESISTANCE;
+            unit.Defense.Base = Knight.INITIAL_DEFENSE;
+            unit.Resistance.Base = Knight.INITIAL_RESISTANCE;
 
-            unit.Speed = Knight.INITIAL_SPEED;
-            unit.Skill = Knight.INITIAL_SKILL;
+            unit.Speed.Base = Knight.INITIAL_SPEED;
+            unit.Skill.Base = Knight.INITIAL_SKILL;
 
-            unit.Luck = Knight.INITIAL_LUCK;
-            unit.MoveRange = Knight.MOVEMENT_RANGE;
+            unit.Luck.Base = Knight.INITIAL_LUCK;
+            unit.Movement.Base = Knight.MOVEMENT_RANGE;
 
             unit.Name = Knight.CLASS_NAME;
             unit.Class = Knight.CLASS_NAME;
 
-            unit.Skills = new List<Skill>();
-            unit.Skills.Add(new Bash());
+            var newWeapon = new Weapon(12, 1, 70, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            unit.EquipWeapon(newWeapon);
+
+            unit.Skills = new List<Skill>() {
+                new Bash(),
+            };
 
             unit.ExperiencePoints = 50;
             unit.Level = 5;
