@@ -52,7 +52,8 @@ namespace Assets.Scripts.Model.Units {
 
         public void GainExperience(Unit defender)
         {
-            if(defender == null) //if unit is dead
+            
+            if(!defender.IsAlive) //if unit is dead
             {
                 ExperiencePoints += 20;
             }
@@ -211,7 +212,7 @@ namespace Assets.Scripts.Model.Units {
                     $"Skill: {Skill}\n" +
                     $"Luck: {Luck}\n" +
                     $"Level: {Level}\n" +
-                    $"Experience: {ExperiencePoints}\n";
+                    $"Experience: {ExperiencePoints}\n" +
                     $"Move Range: {Movement}\n";
                 return info;
             }

@@ -16,8 +16,9 @@ namespace Assets.Scripts.Model.Skills
             : base(skillName, skillCost, range, targetSelf) {
             DamageType = damageType;
         }
-
+        public int CRIT_MULTIPLIER = 3;
         public abstract int GetDamage(Unit attacker, Unit defender);
+        public abstract int GetCritDamage(Unit attacker, Unit defender);
         public abstract int GetHitChance(Unit attacker, Unit defender);
         public abstract int GetCritRate(Unit attacker, Unit defender);
 
