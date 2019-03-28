@@ -890,7 +890,7 @@ namespace Assets.Scripts.Model {
         /// Returns list of positions in a path for a Unit to move from the start location to the end location
         /// </returns>
 
-        public List<Vector2Int> GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
+        public WeightedGraph.DijkstraDistance GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);
 
@@ -898,7 +898,7 @@ namespace Assets.Scripts.Model {
 
             var shortestDistanceToEnd = distances.SingleOrDefault(d => d.Vertex == endPoint);
 
-            return shortestDistanceToEnd.Path;
+            return shortestDistanceToEnd;
         }
         
         /// <summary>

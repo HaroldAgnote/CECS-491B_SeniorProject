@@ -388,7 +388,7 @@ namespace Assets.Scripts.ViewModel {
         /// Enumerable list of positions of the path to the endpoint
         /// </returns>
         public IEnumerable<Vector2Int> GetShortestPath(Vector2Int endPoint) {
-            return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+            return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint).Path;
         }
         
         /// <summary>
