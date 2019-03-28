@@ -93,7 +93,7 @@ namespace Assets.Scripts.View {
 
             }
 
-            buttonLabel.text = newButtonLabel;
+            buttonLabel.text = newButtonLabel.ToUpper();
 
             var button = buttonObject.GetComponent<Button>();
             return button;

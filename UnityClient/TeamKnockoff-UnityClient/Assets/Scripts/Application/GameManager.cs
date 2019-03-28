@@ -10,33 +10,93 @@ using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.ViewModel;
 using Assets.Scripts.View;
-using Assets.Scripts.ComputerOpponent;
 
 namespace Assets.Scripts.Application {
+
+    /// <summary>
+    /// Initializes the Game Scene when a Player starts a Game
+    /// </summary>
     public class GameManager: MonoBehaviour {
 
+        #region Public fields
+
+        /// <summary>
+        /// A single instance of the GameManager that is active at all times
+        /// </summary>
         public static GameManager instance;
 
+        /// <summary>
+        /// The Model of the Game System
+        /// </summary>
+        public GameModel model;
+
+        /// <summary>
+        /// The ViewModel of the Game System
+        /// </summary>
+        public GameViewModel viewModel;
+
+        /// <summary>
+        /// The View of the Game System
+        /// </summary>
+        public GameView view;
+
+        /// <summary>
+        /// AI that will control other player moves
+        /// </summary>
+        public ComputerOpponent.ComputerOpponent cpu; 
+
+        /// <summary>
+        /// File containing Map Data to generate and load the map on the Game
+        /// </summary>
+        public TextAsset mapData;
+
+        /// <summary>
+        /// Available Game Types
+        /// </summary>
         public enum GameType {
             Singleplayer,
             Multiplayer,
         }
 
-        public GameModel model;
-        public GameViewModel viewModel;
-        public GameView view;
-        public ComputerOpponent.ComputerOpponent cpu; 
-
-        public TextAsset mapData;
+        /// <summary>
+        /// The current Game Type that will be set for the Game
+        /// </summary>
         public GameType gameType;
+
+        /// <summary>
+        /// Determines if the Game will be played locally on one computer for all Players
+        /// </summary>
         public bool localPlay;
+
+        /// <summary>
+        /// The number of Players that will be playing in the Game
+        /// </summary>
         public int numberOfPlayers;
 
+        /// <summary>
+        /// The Player that the user will be controlling in the Game.
+        /// Not used if local play is enabled.
+        /// </summary>
         public Player ControllingPlayer;
 
+        /// <summary>
+        /// The TileFactory to generate the model and view representation of a Tile
+        /// </summary>
         public TileFactory tileFactory;
+
+        /// <summary>
+        /// The UnitFactory to generate the model and view representation of a Unit
+        /// </summary>
         public UnitFactory unitFactory;
 
+        #endregion
+
+        #region Initializers
+
+        /// <summary>
+        /// First method invoked when GameManager object is enabled.
+        /// This method ensures that only one GameManager instance is active at a time
+        /// </summary>
         private void Awake() {
             //Check if instance already exists
             if (instance == null) {
@@ -46,29 +106,44 @@ namespace Assets.Scripts.Application {
 
             //If instance already exists and it's not this:
             else if (instance != this) {
-                //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManagerOrig.
+                //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
                 Destroy(gameObject);
             }
         }
 
+        /// <summary>
+        /// Initializes the Game with configured settings.
+        /// </summary>
         private void Start() {
+
+            // Read map data from text file to get columns and rows
             var tileData = JsonUtility.FromJson<TileDataWrapper>(mapData.text);
             int cols = tileData.Columns;
             int rows = tileData.Rows;
 
+            // Set up Players
             var players = new List<Player>();
 
-            // Set up Players
             for (int player = 1; player <= numberOfPlayers; player++) {
-                // model.AddPlayer($"Player {player}");
-                Player newPlayer = new Player($"Player {player}");
+                Player newPlayer = null;
+
+                if (gameType == GameType.Singleplayer) {
+                    newPlayer = new Player($"Player {player}");
+                }
+
+                if (gameType == GameType.Multiplayer) {
+                    // TODO: Get logic to set up Players with unique names from server?
+                }
+
                 players.Add(newPlayer);
             }
 
+            // If playing a Singleplayer game, the user always controls the first Player (Player 1)
             if (gameType == GameType.Singleplayer) {
                 ControllingPlayer = players.First();
             }
 
+            // If playing a Multiplayer game, the server decides which player the user controls
             if (gameType == GameType.Multiplayer) {
                 // TODO: Set up logic to find out which player the human in controlling
             }
@@ -77,10 +152,14 @@ namespace Assets.Scripts.Application {
 
             var newObjectViews = new Dictionary<Vector2Int, ObjectView>();
 
+            // Initializing Model/View component of the map with Tiles/Units
             foreach(var tile in tileData.tileData) {
+
+                // Initialize Tile Model/View
                 var newTile = tileFactory.CreateTile(tile, view.transform);
                 model.AddTile(newTile);
 
+                // If Tile contains Player data, initialize Unit Model/View
                 if (tile.Player != 0) {
                     var newUnitObject = unitFactory.CreateUnit(tile, view.gameObject.transform);
                     var newUnitModel = newUnitObject.GetComponent<Unit>();
@@ -92,6 +171,8 @@ namespace Assets.Scripts.Application {
                     model.AddUnit(newUnitModel, tile.Player, tile.Column, tile.Row);
                 }
             }
+
+            // Invoke model to set up tile neighbors
             model.AddNeighbors();
 
             viewModel.ConstructViewModel();
@@ -102,7 +183,10 @@ namespace Assets.Scripts.Application {
             
         }
 
-        public void StartGame()
+        /// <summary>
+        /// Starts the Game and applys other player moves if necessary for the first turn
+        /// </summary>
+        private void StartGame()
         {
             model.StartGame();
             viewModel.StartGame();
@@ -114,25 +198,31 @@ namespace Assets.Scripts.Application {
             }
         }
 
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Acquires the GameMoves from other Players that will be applied on the game
+        /// when it is not the controlling player's turn.
+        /// </summary>
+        /// <returns></returns>
         public GameMove GetOtherPlayerMove() {
-            // Need to use AI or MP calls here
             while (true) {
+
+                // Call and return AI Best Move
                 if (gameType == GameType.Singleplayer) {
-                    // Call and return AI Best Move
                     Debug.Log("Getting CPU Move");
                     return cpu.FindBestMove();
                 }
                 
+                // TODO: Call and return MP Move
                 if (gameType == GameType.Multiplayer) {
-                    // TODO: Call and return MP Move
-                    
+                    throw new NotImplementedException();
                 }
             }
-            throw new NotImplementedException();
         }
 
-        private void Update() {
-
-        }
+        #endregion
     }
 }

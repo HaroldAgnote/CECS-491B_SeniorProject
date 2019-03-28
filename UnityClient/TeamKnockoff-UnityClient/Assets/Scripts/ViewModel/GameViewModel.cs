@@ -495,17 +495,6 @@ namespace Assets.Scripts.ViewModel {
         }
 
         /// <summary>
-        /// Determines if a Unit has moved in the turn
-        /// </summary>
-        /// <param name="unit">The Unit to check if it has moved</param>
-        /// <returns>
-        /// Returns <c>true</c> if the unit has moved, <c>false</c> otherwise.
-        /// </returns>
-        public bool UnitHasMoved(Unit unit) {
-            return model.UnitHasMoved(unit);
-        }
-
-        /// <summary>
         /// Retrieves the Position of a given Unit
         /// </summary>
         /// <param name="unit">Unit to check Position</param>

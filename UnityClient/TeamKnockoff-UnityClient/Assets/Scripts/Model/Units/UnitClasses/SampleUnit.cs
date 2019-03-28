@@ -16,15 +16,15 @@ namespace Assets.Scripts.Model.Units {
             newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
 
             newUnit.AddComponent<SampleUnit>();
+            var unit = newUnit.GetComponent<Unit>();
+
+            unit.Name = "Sample Unit";
+            unit.MaxHealthPoints.Base = 100;
+            unit.Movement.Base = 5;
+            var newWeapon = new Weapon(1000, 1, 100, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            unit.EquipWeapon(newWeapon);
 
             return newUnit;
-        }
-
-        public SampleUnit() {
-            Name = "Sample Unit";
-            MaxHealthPoints = 100;
-            MoveRange = 5;
-            MainWeapon = new Weapon(1000, 1, 100, 0, DamageCalculator.DamageType.Physical);
         }
 
         public override bool CanMove(Tile tile) {

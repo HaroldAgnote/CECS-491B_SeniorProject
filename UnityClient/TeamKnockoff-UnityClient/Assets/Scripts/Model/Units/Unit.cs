@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,32 +9,37 @@ using Assets.Scripts.Model.Items;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Skills;
+using Assets.Scripts.Model.UnitEffects;
+using Assets.Scripts.Utilities.ExtensionMethods;
 
 namespace Assets.Scripts.Model.Units {
     public abstract class Unit : MonoBehaviour, IMover {
+
         public string Name { get; set; }
         public string Type { get; set; }
         public string Class { get; set; }
 
-        private double mHealthPoints;
+        private int mCurrentHealthPoints;
 
-        // Health Points are the life points of the Unit
-        // If Health Points is zero, the unit is dead
-        // Health Points can never exceed max health points
-        public double HealthPoints {
+        /// <summary>
+        /// Health Points are the life points of the Unit. 
+        /// If Health Points are zero, the unit is dead. 
+        /// Health Points can never exceed max health points.
+        /// </summary>
+        public int HealthPoints {
             get {
-                return mHealthPoints;
+                return mCurrentHealthPoints;
             }
             set {
                 // Prevent HP from exceeding above Max Health Points
-                if (value > MaxHealthPoints) {
-                    mHealthPoints = MaxHealthPoints;
+                if (value > MaxHealthPoints.Value ) {
+                    mCurrentHealthPoints = MaxHealthPoints.Value;
 
                 // Prevent HP from exceeding below zero
                 } else if (value < 0) {
-                    mHealthPoints = 0;
+                    mCurrentHealthPoints = 0;
                 } else {
-                    mHealthPoints = value;
+                    mCurrentHealthPoints = value;
                 }
             }
         }
@@ -46,42 +50,129 @@ namespace Assets.Scripts.Model.Units {
             }
         } 
 
-        public double MaxHealthPoints { get; protected set; }
+        public bool HasMoved { get; set; }
+
 
         public int Level { get; protected set; }
         public int ExperiencePoints { get; protected set; }
 
-        public int Strength { get; protected set; }
-        public int Magic { get; protected set; }
+        public class Stat {
+            public int Base { get; protected internal set; }
+            public int Modifier { get; protected internal set; }
 
-        public int Defense { get; protected set; }
-        public int Resistance { get; protected set; }
+            public Stat() {
+                Base = 0;
+                Modifier = 0;
+            }
 
-        public int Speed { get; protected set; }
-        public int Skill { get; protected set; }
+            public Stat(int baseStat) {
+                Base = baseStat;
+                Modifier = 0;
+            }
 
-        public int Luck { get; protected set; }
+            public Stat(int baseStat, int initialModifier) {
+                Base = baseStat;
+                Modifier = initialModifier;
+            }
 
-        public int MoveRange { get; protected set; }
+            public int Value => Base + Modifier;
 
-        public Weapon MainWeapon { get; protected set; }
+            public override string ToString() {
+                if (Modifier == 0) {
+                    return $"{Base}";
+                } else if (Modifier > 0) {
+                    return $"{Base} +{Modifier}";
+                } else {
+                    return $"{Base} {Modifier}";
+                }
+            }
+
+        }
+
+        public Stat MaxHealthPoints { get; protected internal set; } = new Stat();
+        public Stat Strength { get; protected internal set; } = new Stat();
+        public Stat Magic { get; protected internal set; } = new Stat();
+        public Stat Defense { get; protected internal set; } = new Stat();
+        public Stat Resistance { get; protected internal set; } = new Stat();
+        public Stat Speed { get; protected internal set; } = new Stat();
+        public Stat Skill { get; protected internal set; } = new Stat();
+        public Stat Luck { get; protected internal set; } = new Stat();
+        public Stat Movement { get; protected internal set; } = new Stat();
+
+        public Weapon MainWeapon { get; private set; }
 
         public List<Skill> Skills { get; protected set; }
 
         // TODO: Add Item Properties
         public List<Item> Items { get; protected set; }
 
-        public List<UnitEffect> Effects { get; }
+        public HashSet<UnitEffect> UnitEffects { get; protected set; }
 
         // Abstract methods that must be overridden by Unit sub classes
         public abstract bool CanMove(Tile tile);
         public abstract int MoveCost(Tile tile);
 
-        public Unit() {
+        void Awake() {
             Skills = new List<Skill>();
             Items = new List<Item>();
-            Effects = new List<UnitEffect>();
-            MainWeapon = new Weapon(50, 1, 100, 1, DamageCalculator.DamageType.Physical);
+            UnitEffects = new HashSet<UnitEffect>();
+            MainWeapon = new Weapon(1, 1, 100, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+        }
+
+        public void StartTurn() {
+
+            HasMoved = IsAlive ? false : true;
+
+            var removeList = new List<UnitEffect>();
+
+            foreach (var effect in UnitEffects) {
+                if (effect is IApplicableEffect) {
+                    var applicableEffect = effect as IApplicableEffect;
+                    if (applicableEffect.IsApplicable()) {
+                        applicableEffect.ApplyEffect(this);
+                    }
+                }
+
+                if (effect is IRemovableEffect) {
+                    var removableEffect = effect as IRemovableEffect;
+                    if (removableEffect.IsRemovable()) {
+                        removableEffect.RemoveEffect(this);
+                        removeList.Add(effect);
+                    }
+                }
+
+                if (effect is ITurnEffect) {
+                    (effect as ITurnEffect).UpdateTurns();
+                }
+            }
+
+            UnitEffects.RemoveRange(removeList);
+        }
+
+        public void EquipWeapon(Weapon newWeapon) {
+            MainWeapon = newWeapon;
+
+            if (MainWeapon.DamageType == Assets.Scripts.Model.DamageCalculator.DamageType.Physical) {
+                Strength.Modifier += MainWeapon.Might;
+            }
+
+            if (MainWeapon.DamageType == Assets.Scripts.Model.DamageCalculator.DamageType.Magical) {
+                Magic.Modifier += MainWeapon.Might;
+            }
+
+        }
+
+        public Weapon UnequipWeapon() {
+            if (MainWeapon.DamageType == Assets.Scripts.Model.DamageCalculator.DamageType.Physical) {
+                Strength.Modifier -= MainWeapon.Might;
+            }
+
+            if (MainWeapon.DamageType == Assets.Scripts.Model.DamageCalculator.DamageType.Magical) {
+                Magic.Modifier -= MainWeapon.Might;
+            }
+            var weapon = MainWeapon;
+            MainWeapon = null;
+            return weapon;
         }
 
         public string UnitInformation {
@@ -98,7 +189,7 @@ namespace Assets.Scripts.Model.Units {
                     $"Speed: {Speed}\n" +
                     $"Skill: {Skill}\n" +
                     $"Luck: {Luck}\n" +
-                    $"Move Range: {MoveRange}\n";
+                    $"Move Range: {Movement}\n";
                 return info;
             }
         }

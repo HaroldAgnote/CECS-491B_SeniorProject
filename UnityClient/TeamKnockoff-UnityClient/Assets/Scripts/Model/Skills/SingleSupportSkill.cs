@@ -12,6 +12,6 @@ namespace Assets.Scripts.Model.Skills {
             : base(skillName, skillCost, range, targetSelf) {
         }
 
-        public abstract void SupportUnit(Unit usingUnit, Unit targetUnit);
+        public abstract void ApplySupportSkill(Unit usingUnit, Unit targetUnit);
     }
 }

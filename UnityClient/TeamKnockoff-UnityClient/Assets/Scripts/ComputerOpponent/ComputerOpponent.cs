@@ -49,7 +49,7 @@ namespace Assets.Scripts.ComputerOpponent
                 }
 
                 // Cycle until CPU finds a unit they can control
-                while (!CurrentPlayer.CheckUnitIsActive(PlayerUnits[currentUnitIndex])) {
+                while (!PlayerUnits[currentUnitIndex].IsAlive || PlayerUnits[currentUnitIndex].HasMoved) {
                     currentUnitIndex++;
                     if (currentUnitIndex == PlayerUnits.Count) {
                         currentUnitIndex = 0;

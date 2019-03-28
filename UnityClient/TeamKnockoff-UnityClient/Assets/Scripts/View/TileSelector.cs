@@ -163,10 +163,9 @@ namespace Assets.Scripts.View {
                             var selectedUnit = selectedSquare.Unit;
                             Debug.Log($"Unit Information: {selectedUnit.UnitInformation}");
 
-                            if (gameViewModel.SelectedUnitBelongsToPlayer &&
-                                !gameViewModel.UnitHasMoved(selectedUnit) &&
-                                gameViewModel.IsControllingPlayersTurn)
-                            {
+                            if (gameViewModel.SelectedUnitBelongsToPlayer 
+                                && !selectedUnit.HasMoved 
+                                && gameViewModel.IsControllingPlayersTurn) {
 
                                 ExitState();
                             }

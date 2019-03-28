@@ -31,7 +31,6 @@ namespace Assets.Scripts.Model.Units {
             public Sprite[] UnitSprites;
             public string UnitsResourcePath;
 
-            // public Func<GameObject, Sprite, Vector3, GameObject> CreateUnitHandler;
             public Func<GameObject, Sprite, Vector3, Transform, GameObject> CreateUnitHandler;
 
             // TODO: Create delegate to load Unit from existing data

@@ -7,7 +7,7 @@ using Assets.Scripts.Model.Weapons;
 
 namespace Assets.Scripts.Model.Units {
     public class Mage : InfantryUnit {
-        const double MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 100;
 
         const int INITIAL_LEVEL = 1;
         const int INITIAL_EXPERIENCE_POINTS = 0;
@@ -37,30 +37,35 @@ namespace Assets.Scripts.Model.Units {
             var unit = newUnit.GetComponent<Mage>();
 
             // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints = Mage.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints;
+            unit.MaxHealthPoints.Base = Mage.MAX_HEALTH_POINTS;
+            unit.HealthPoints = unit.MaxHealthPoints.Value;
 
             unit.Level = Mage.INITIAL_LEVEL;
             unit.ExperiencePoints = Mage.INITIAL_EXPERIENCE_POINTS;
 
-            unit.Strength = Mage.INITIAL_STRENGTH;
-            unit.Magic = Mage.INITIAL_MAGIC;
+            unit.Strength.Base = Mage.INITIAL_STRENGTH;
+            unit.Magic.Base = Mage.INITIAL_MAGIC;
 
-            unit.Defense = Mage.INITIAL_DEFENSE;
-            unit.Resistance = Mage.INITIAL_RESISTANCE;
+            unit.Defense.Base = Mage.INITIAL_DEFENSE;
+            unit.Resistance.Base = Mage.INITIAL_RESISTANCE;
 
-            unit.Speed = Mage.INITIAL_SPEED;
-            unit.Skill = Mage.INITIAL_SKILL;
+            unit.Speed.Base = Mage.INITIAL_SPEED;
+            unit.Skill.Base = Mage.INITIAL_SKILL;
 
-            unit.Luck = Mage.INITIAL_LUCK;
-            unit.MoveRange = Mage.MOVEMENT_RANGE;
+            unit.Luck.Base = Mage.INITIAL_LUCK;
+            unit.Movement.Base = Mage.MOVEMENT_RANGE;
 
             unit.Name = Mage.CLASS_NAME;
             unit.Class = Mage.CLASS_NAME;
 
-            unit.MainWeapon = new Weapon(25, 2, 100, 1, DamageCalculator.DamageType.Magical);
+            
+            var newWeapon = new Weapon(25, 2, 95, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
 
-            unit.Skills = new List<Skill>();
+            unit.EquipWeapon(newWeapon);
+
+            unit.Skills = new List<Skill>() {
+                new Gravity()
+            };
 
             return newUnit;
         }
