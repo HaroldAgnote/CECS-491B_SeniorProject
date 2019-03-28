@@ -1049,7 +1049,6 @@ namespace Assets.Scripts.Model {
 
         private void AttackUnit(GameMove move) {
             //since we attack and counterattack, 
-            //Matthew feels that this is condensible into where you call another method twice
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
@@ -1068,11 +1067,7 @@ namespace Assets.Scripts.Model {
                 }
 
             }
-            if (!defendingUnit.IsAlive) 
-            {
-                Debug.Log($"{defendingUnit.Name} has been defeated");
-                KillUnit(defendingUnit);
-            }
+
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
             //Debug.Log(defendingUnit.UnitInformation);
 
@@ -1103,6 +1098,18 @@ namespace Assets.Scripts.Model {
                     Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
                     defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
                 }
+
+                if (!defendingUnit.IsAlive)
+                {
+                    Debug.Log($"{defendingUnit.Name} has been defeated");
+                    KillUnit(defendingUnit);
+                    attackingUnit.GainExperience(defendingUnit);
+                }
+                else
+                {
+                    attackingUnit.GainExperience(defendingUnit);
+                }
+
 
             }
             else
@@ -1160,6 +1167,7 @@ namespace Assets.Scripts.Model {
             {
                 Debug.Log($"{defendingUnit.Name} has been defeated");
                 KillUnit(defendingUnit);
+
             }
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);

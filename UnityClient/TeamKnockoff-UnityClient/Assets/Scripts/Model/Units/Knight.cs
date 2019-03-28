@@ -60,6 +60,8 @@ namespace Assets.Scripts.Model.Units {
             unit.Skills = new List<Skill>();
             unit.Skills.Add(new Bash());
 
+            unit.ExperiencePoints = 50;
+            unit.Level = 5;
             return newUnit;
         }
 

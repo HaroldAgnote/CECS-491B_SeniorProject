@@ -18,6 +18,7 @@ namespace Assets.Scripts.Model.Units {
         public string Class { get; set; }
 
         private double mHealthPoints;
+    
 
         // Health Points are the life points of the Unit
         // If Health Points is zero, the unit is dead
@@ -45,6 +46,26 @@ namespace Assets.Scripts.Model.Units {
                 return HealthPoints > 0;
             }
         } 
+
+        public void GainExperience(Unit defender)
+        {
+            if(defender == null) //if unit is dead
+            {
+                ExperiencePoints += 20;
+            }
+
+            else
+            {
+                ExperiencePoints += 3;
+            }
+            //exp logic
+            //some bullshit event handler that calls levelUP
+        }
+
+        public void LevelUp()
+        {
+
+        }
 
         public double MaxHealthPoints { get; protected set; }
 
@@ -82,6 +103,8 @@ namespace Assets.Scripts.Model.Units {
             Items = new List<Item>();
             Effects = new List<UnitEffect>();
             MainWeapon = new Weapon(50, 1, 100, 1, DamageCalculator.DamageType.Physical);
+            Level = 1;
+            ExperiencePoints = 0;
         }
 
         public string UnitInformation {
@@ -98,7 +121,9 @@ namespace Assets.Scripts.Model.Units {
                     $"Speed: {Speed}\n" +
                     $"Skill: {Skill}\n" +
                     $"Luck: {Luck}\n" +
-                    $"Move Range: {MoveRange}\n";
+                    $"Move Range: {MoveRange}\n" +
+                    $"Level: {Level}\n" +
+                    $"Experience: {ExperiencePoints}\n";
                 return info;
             }
         }

@@ -182,6 +182,7 @@ public class DamageCalculator
         Debug.Log($"SuccessRate: {hitChance} \t randVal: {randHit} ");
         return (hitChance > randHit);
     }
+
     /*
     public static int GetPhysicalDamage(Unit attacker, Unit defender, Skill s)
     {
