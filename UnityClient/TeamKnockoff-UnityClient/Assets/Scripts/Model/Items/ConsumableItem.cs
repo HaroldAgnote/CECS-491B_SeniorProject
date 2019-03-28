@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Assets.Scripts.Model.Items
 {
-    public abstract class Item 
+    public class ConsumableItem : Item
     {
-        public string Name { get; }
-
-        public Item(string name) {
-            Name = name;
+        public ConsumableItem(string itemName) : base(itemName)
+        {
+            
         }
     }
 }
+
