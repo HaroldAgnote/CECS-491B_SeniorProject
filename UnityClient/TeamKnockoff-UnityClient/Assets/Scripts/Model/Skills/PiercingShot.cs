@@ -20,13 +20,13 @@ namespace Assets.Scripts.Model.Skills
         //public enum DamageType { Physical, Magical };
         public double HealthPoints = -10;
 
-        public int Strength = 1000;
+        public int Strength = 15;
 
         public int Speed = 5;
         public int Skill = 8;
 
         public int Hit = 90;
-        //public int CritRate = 3;
+        public int CritRate = 50;
 
         public override int GetDamage(Unit attacker, Unit defender)
         {
@@ -35,6 +35,10 @@ namespace Assets.Scripts.Model.Skills
                 return 1;
             }
             return damageDone;
+        }
+
+        public override int GetCritDamage(Unit attacker, Unit defender) {
+            return GetDamage(attacker, defender) * CRIT_MULTIPLIER;
         }
 
         public override int GetHitChance(Unit attacker, Unit defender)
@@ -46,7 +50,7 @@ namespace Assets.Scripts.Model.Skills
 
         public override int GetCritRate(Unit attacker, Unit defender)
         {
-            double critRate = attacker.MainWeapon.CritRate; // + attacker.Skill * 0.01
+            double critRate = attacker.MainWeapon.CritRate + CritRate; // + attacker.Skill * 0.01
             double evasionRate = defender.Luck.Value;
             return (int)(critRate - evasionRate);
         }

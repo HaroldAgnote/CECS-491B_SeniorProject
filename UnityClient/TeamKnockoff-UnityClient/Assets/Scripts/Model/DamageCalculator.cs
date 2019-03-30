@@ -123,7 +123,7 @@ namespace Assets.Scripts.Model {
                 return crit;
             return 0;
         }
-
+        /*
         public static int GetSkillDamage(Unit attacker, Unit defender, Skill s)
         {
             //assume physical for now. Maybe weapon determines damage type?
@@ -146,6 +146,7 @@ namespace Assets.Scripts.Model {
             return 0;
             //we gotta do some polymorphism shit on these boy-toys when we get other skills maybe
         }
+        */
 
         public static int GetPhysicalSkillDamage(Unit attacker, Unit defender, SingleDamageSkill s)
         {
@@ -175,7 +176,18 @@ namespace Assets.Scripts.Model {
 
         }
 
-        public static bool DiceRoll(int hitChance)
+    public static bool DiceRoll(int hitChance)
+    {
+        int randHit = UnityEngine.Random.Range(0, 100);
+        Debug.Log($"SuccessRate: {hitChance} \t randVal: {randHit} ");
+        return (hitChance > randHit);
+    }
+
+    /*
+    public static int GetPhysicalDamage(Unit attacker, Unit defender, Skill s)
+    {
+        int damageDone = attacker.MainWeapon.Might + attacker.Strength - defender.Defense;
+        if (damageDone <= 0)
         {
             int randHit = UnityEngine.Random.Range(0, 100);
             Debug.Log($"SuccessRate: {hitChance} \t randVal: {randHit} ");

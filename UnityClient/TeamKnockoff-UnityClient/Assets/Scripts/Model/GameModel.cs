@@ -1051,7 +1051,6 @@ namespace Assets.Scripts.Model {
 
         private void AttackUnit(GameMove move) {
             //since we attack and counterattack, 
-            //Matthew feels that this is condensible into where you call another method twice
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
@@ -1070,11 +1069,7 @@ namespace Assets.Scripts.Model {
                 }
 
             }
-            if (!defendingUnit.IsAlive) 
-            {
-                Debug.Log($"{defendingUnit.Name} has been defeated");
-                KillUnit(defendingUnit);
-            }
+
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
             //Debug.Log(defendingUnit.UnitInformation);
 
@@ -1105,6 +1100,18 @@ namespace Assets.Scripts.Model {
                     Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
                     defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
                 }
+
+                if (!defendingUnit.IsAlive)
+                {
+                    Debug.Log($"{defendingUnit.Name} has been defeated");
+                    KillUnit(defendingUnit);
+                    attackingUnit.GainExperience(defendingUnit);
+                }
+                else
+                {
+                    attackingUnit.GainExperience(defendingUnit);
+                }
+
 
             }
             else
@@ -1148,28 +1155,55 @@ namespace Assets.Scripts.Model {
 
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks with {usedSkill.SkillName} on {defendingUnit.Name}");
-            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetSkillDamage(attackingUnit, defendingUnit, usedSkill);
-            if (defendingUnit.IsAlive) //check if unit is alive 
+            ApplySingleDamageSkill(attackingUnit, defendingUnit, usedSkill);
+            var defendingUnitAttackLocations = GetSurroundingAttackLocationsAtPoint(move.EndPosition, defendingUnit.MainWeapon.Range);
+            if (defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition)) //check if unit is alive 
                                                 //TODO CHECK RANGE OF UNIT COUNTER
             {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
                 //instead of Skill[0] of we probably need selected skill or something
-                attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
+                //attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
+                AttackUnit(defendingUnit, attackingUnit);
                 if (!attackingUnit.IsAlive)
                 {
                     KillUnit(attackingUnit);
                     Debug.Log($"{attackingUnit.Name} has been defeated");
                 }
-            } else
-            {
-                Debug.Log($"{defendingUnit.Name} has been defeated");
-                KillUnit(defendingUnit);
-            }
+            } 
 
-            usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
+            //usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
 
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
+        }
+
+        private void ApplySingleDamageSkill(Unit attackingUnit, Unit defendingUnit, SingleDamageSkill skill) {
+            int hitChance = skill.GetHitChance(attackingUnit, defendingUnit);
+            Debug.Log($"Rolling for {skill.SkillName} hit");
+            if (DamageCalculator.DiceRoll(hitChance)) {
+                int critChance = skill.GetCritRate(attackingUnit, defendingUnit);
+                Debug.Log($"Rolling for {skill.SkillName} Crit");
+                if (DamageCalculator.DiceRoll(critChance)) {
+                    Debug.Log($"{attackingUnit.Name} crits with {skill.SkillName} on {defendingUnit.Name}");
+                    defendingUnit.HealthPoints -= skill.GetCritDamage(attackingUnit, defendingUnit);
+                } else {
+                    Debug.Log($"{attackingUnit.Name} uses {skill.SkillName} on {defendingUnit.Name}");
+                    defendingUnit.HealthPoints -= skill.GetDamage(attackingUnit, defendingUnit);
+
+                }
+
+                if (!defendingUnit.IsAlive) {
+                    Debug.Log($"{defendingUnit.Name} has been defeated");
+                    KillUnit(defendingUnit);
+                    attackingUnit.GainExperience(defendingUnit);
+                } else {
+                    attackingUnit.GainExperience(defendingUnit);
+                }
+
+
+            } else {
+                Debug.Log($"{attackingUnit.Name} missed {skill.SkillName}.");
+            }
         }
 
         /// <summary>
