@@ -73,11 +73,22 @@ namespace Assets.Scripts.ComputerOpponent
             }
 
             if (attacking) {
-                // CPU has not found a attack location
+                // CPU has not found an attack location
                 if (attackReadyLocation == NULL_VECTOR) {
                     var possibleAttackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit)
                                                     .Where(loc => model.EnemyAtLocation(loc));
-                    attackReadyLocation = possibleAttackLocations.FirstOrDefault();
+
+                    //Go through possible attack locations and return the closest one
+                    var currentDijkstraDistance = new WeightedGraph.DijkstraDistance(new Vector2Int(), Double.MaxValue);
+                    foreach (var pos in possibleAttackLocations)
+                    {
+                        var tempDijkstraDistance = model.GetShortestPath(CurrentControllingUnit, model.GridForUnit(CurrentControllingUnit), pos);
+                        if (tempDijkstraDistance.CurrentDistance < currentDijkstraDistance.CurrentDistance)
+                        {
+                            currentDijkstraDistance = tempDijkstraDistance;
+                        }
+                    }
+                    attackReadyLocation = currentDijkstraDistance.Vertex;
                 }
 
                 // CPU has not moved towards closest attack position yet
@@ -94,21 +105,26 @@ namespace Assets.Scripts.ComputerOpponent
                 }
 
             } else {
-                // Unit was not able to find an attack location and will now move randomly
+                // Unit was not able to find an attack location and will now move towards the closest enemy unit
 
-                // Unit has not moved to random position yet
+                // Unit has not moved to the closest enemy unit yet
                 if (!hasMoved) {
-
+                    //Iterate through closest enemy unit path 
+                    //Find farthest point unit can move to 
                     var startPosition = model.GridForUnit(CurrentControllingUnit);
-
-                    //generate random possible position
-                    //move to random position
+                    var enemyUnitPath = GetClosestEnemyUnit(CurrentControllingUnit).Path;
+                    var counter = enemyUnitPath.Count - 1;
+                    var movePosition = enemyUnitPath[counter];
                     var movePositions = model.GetPossibleUnitMoveLocations(CurrentControllingUnit).ToList();
-                    Vector2Int randomPosition = movePositions[RNG.Next(movePositions.Count)];
+                    while (!movePositions.Contains(movePosition))
+                    {
+                        counter--;
+                        movePosition = enemyUnitPath[counter];
+                    }
 
                     // Set hasMoved flag to true and return move 
                     hasMoved = true;
-                    return new GameMove(model.GridForUnit(CurrentControllingUnit), randomPosition, GameMove.GameMoveType.Move);
+                    return new GameMove(startPosition, movePosition, GameMove.GameMoveType.Move);
                 } else {
                     // Unit is done moving, so end their turn
 
