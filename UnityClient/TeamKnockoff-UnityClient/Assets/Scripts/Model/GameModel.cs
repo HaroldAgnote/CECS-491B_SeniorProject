@@ -58,6 +58,8 @@ namespace Assets.Scripts.Model {
         /// </summary>
         public Player CurrentPlayer { get; private set; }
 
+        public List<Player> Players { get { return mPlayers; } }
+
         /// <summary>
         /// Determines if the Current Player has any Units that can move
         /// </summary>
@@ -903,7 +905,36 @@ namespace Assets.Scripts.Model {
 
             return shortestDistanceToEnd;
         }
-        
+
+        public WeightedGraph.DijkstraDistance GetShortestPathAll(Unit unit, Vector2Int startPoint, Vector2Int endPoint)
+        {
+            var unitCosts = GetAllUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var shortestDistanceToEnd = distances.SingleOrDefault(d => d.Vertex == endPoint);
+
+            return shortestDistanceToEnd;
+        }
+
+        public Dictionary<Vector2Int, int> GetAllUnitMoveCosts(Unit unit)
+        {
+            var moveCosts = new Dictionary<Vector2Int, int>();
+
+            var moveLocations = VectorExtension.GetRectangularPositions(Columns, Rows);
+
+            foreach (var loc in moveLocations)
+            {
+                var tile = mTiles[loc.x, loc.y];
+
+                moveCosts.Add(loc, unit.MoveCost(tile));
+
+            }
+
+            return moveCosts;
+        }
+
         /// <summary>
         /// Gets the shortest path for a Unit to move from one point to the 
         /// point closest to a position where they can attack.

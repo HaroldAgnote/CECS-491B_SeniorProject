@@ -8,6 +8,7 @@ using UnityEngine;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model;
+using Assets.Scripts.Utilities.WeightedGraph;
 
 namespace Assets.Scripts.ComputerOpponent
 {
@@ -120,6 +121,61 @@ namespace Assets.Scripts.ComputerOpponent
                     return new GameMove(waitPosition, waitPosition, GameMove.GameMoveType.Wait);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the closest ally unit to a unit 
+        /// </summary>
+        /// <param name="unit">The Unit who's being checked upon</param>
+        /// <returns>
+        /// Returns closest ally unit
+        /// </returns>
+
+        public WeightedGraph.DijkstraDistance GetClosestAllyUnit(Unit unit)
+        {
+            var unitLocation = model.GridForUnit(unit);
+            var allAlliesPositions = CurrentPlayer.Units
+                .Where(un => un != unit)
+                .Select(un => model.GridForUnit(un));
+
+            var currentDijkstra = new WeightedGraph.DijkstraDistance(new Vector2Int(), Double.MaxValue);
+            foreach (var pos in allAlliesPositions)
+            {
+                var tempDijkstra = model.GetShortestPathAll(unit, model.GridForUnit(unit), pos);
+                if (tempDijkstra.CurrentDistance < currentDijkstra.CurrentDistance)
+                {
+                    currentDijkstra = tempDijkstra;
+                }
+            }
+            return currentDijkstra;
+        }
+
+        /// <summary>
+        /// Gets the closest enemy unit to a unit 
+        /// </summary>
+        /// <param name="unit">The Unit who's being checked upon</param>
+        /// <returns>
+        /// Returns closest enemy unit
+        /// </returns>
+
+        public WeightedGraph.DijkstraDistance GetClosestEnemyUnit(Unit unit)
+        {
+            var unitLocation = model.GridForUnit(unit);
+            var allEnemyPositions = model.Players.Where(player => player != CurrentPlayer)
+                .Select(player => player.Units)
+                .SelectMany(x => x)
+                .Select(un => model.GridForUnit(un));
+
+            var currentDijkstra = new WeightedGraph.DijkstraDistance(new Vector2Int(), Double.MaxValue);
+            foreach (var pos in allEnemyPositions)
+            {
+                var tempDijkstra = model.GetShortestPathAll(unit, model.GridForUnit(unit), pos);
+                if (tempDijkstra.CurrentDistance < currentDijkstra.CurrentDistance)
+                {
+                    currentDijkstra = tempDijkstra;
+                }
+            }
+            return currentDijkstra;
         }
     }
 }
