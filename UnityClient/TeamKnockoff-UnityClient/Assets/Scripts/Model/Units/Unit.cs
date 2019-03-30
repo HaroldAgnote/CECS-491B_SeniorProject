@@ -50,8 +50,28 @@ namespace Assets.Scripts.Model.Units {
             }
         } 
 
-        public bool HasMoved { get; set; }
+        public void GainExperience(Unit defender)
+        {
+            
+            if(!defender.IsAlive) //if unit is dead
+            {
+                ExperiencePoints += 20;
+            }
 
+            else
+            {
+                ExperiencePoints += 3;
+            }
+            //exp logic
+            //some bullshit event handler that calls levelUP
+        }
+
+        public void LevelUp()
+        {
+
+        }
+
+        public bool HasMoved { get; set; }
 
         public int Level { get; protected set; }
         public int ExperiencePoints { get; protected set; }
@@ -115,6 +135,8 @@ namespace Assets.Scripts.Model.Units {
         void Awake() {
             Skills = new List<Skill>();
             Items = new List<Item>();
+            Level = 1;
+            ExperiencePoints = 0;
             UnitEffects = new HashSet<UnitEffect>();
             MainWeapon = new Weapon(1, 1, 100, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
         }
@@ -189,6 +211,8 @@ namespace Assets.Scripts.Model.Units {
                     $"Speed: {Speed}\n" +
                     $"Skill: {Skill}\n" +
                     $"Luck: {Luck}\n" +
+                    $"Level: {Level}\n" +
+                    $"Experience: {ExperiencePoints}\n" +
                     $"Move Range: {Movement}\n";
                 return info;
             }

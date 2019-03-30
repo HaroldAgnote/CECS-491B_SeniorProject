@@ -115,6 +115,11 @@ namespace Assets.Scripts.Application {
         /// Initializes the Game with configured settings.
         /// </summary>
         private void Start() {
+            var selectedMap = SceneLoader.GetParam(SceneLoader.LOAD_MAP_PARAM);
+
+            if (selectedMap != "") {
+                mapData = MapLoader.instance.GetMapAsset(selectedMap);
+            }
 
             // Read map data from text file to get columns and rows
             var tileData = JsonUtility.FromJson<TileDataWrapper>(mapData.text);

@@ -24,7 +24,7 @@ namespace Assets.Scripts.Model.Skills
         public int Speed = -1;
         public int Skill = -3;
 
-        public int Hit = -10;
+        public int Hit = 10;
         //public int CritRate = 3;
 
         public new Assets.Scripts.Model.DamageCalculator.DamageType DamageType = Assets.Scripts.Model.DamageCalculator.DamageType.Physical;
@@ -36,6 +36,10 @@ namespace Assets.Scripts.Model.Skills
                 return 1;
             }
             return damageDone;
+        }
+
+        public override int GetCritDamage(Unit attacker, Unit defender) {
+            return GetDamage(attacker, defender) * CRIT_MULTIPLIER;
         }
 
         public override int GetHitChance(Unit attacker, Unit defender)
@@ -53,7 +57,6 @@ namespace Assets.Scripts.Model.Skills
         }
 
         public override void ApplyDamageSkill(Unit attacker, Unit defender) {
-            throw new System.NotImplementedException();
         }
 
         public override bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit) {

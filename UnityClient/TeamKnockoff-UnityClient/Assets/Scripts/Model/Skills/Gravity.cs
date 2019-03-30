@@ -60,11 +60,15 @@ namespace Assets.Scripts.Model.Skills {
 
         public override int GetDamage(Unit attacker, Unit defender)
         {
-            int damageDone = (attacker.Magic.Value*DAMAGE_MODIFIER) - attacker.Resistance.Value;
+            int damageDone = (attacker.Magic.Value*DAMAGE_MODIFIER) - defender.Resistance.Value;
             if (damageDone <= 0) {
                 return 1;
             }
             return damageDone;
+        }
+
+        public override int GetCritDamage(Unit attacker, Unit defender) {
+            return GetDamage(attacker, defender) * CRIT_MULTIPLIER;
         }
 
         public override int GetHitChance(Unit attacker, Unit defender)
