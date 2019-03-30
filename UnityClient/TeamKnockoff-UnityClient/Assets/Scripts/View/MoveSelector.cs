@@ -9,6 +9,7 @@ using Assets.Scripts.Application;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Skills;
+using Assets.Scripts.Model.Items;
 using Assets.Scripts.ViewModel;
 using Assets.Scripts.Utilities.ExtensionMethods;
 
@@ -92,6 +93,11 @@ namespace Assets.Scripts.View {
         /// The current Skill that the Unit will be using
         /// </summary>
         private ActiveSkill selectedSkill;
+
+        /// <summary>
+        /// The current Item that the Unit can consume
+        /// </summary>
+        private ConsumableItem selectedItem;
 
         /// <summary>
         /// Set of locations Unit can move to
@@ -903,6 +909,48 @@ namespace Assets.Scripts.View {
         /// Show Item Sub Menu
         /// </summary>
         private void ItemMenu() {
+            unitMenu.CreateSubMenu();
+            unitMenu.SwitchtoSubMenu();
+
+            waitingForMove = true;
+            waitingForSkillChoice = true;
+
+            var availableItems = selectedUnit.Items
+                                    .Where(it => it is ConsumableItem && (it is ISelfConsumable || it is ITargetConsumable))
+                                    .Select(it => it as ConsumableItem);
+
+            foreach (var item in availableItems)
+            {
+                var itemButton = unitMenu.CreateButton(item.Name.ToUpper());
+                itemButton.onClick.AddListener(() =>
+                {
+                    selectedItem = item;
+                    CheckItemOptions();
+                });
+
+                //If the current unit will not be able to consume the item (Full HP)...
+                //Then it must be disabled to prevent misuse
+
+                itemButton.interactable = false;
+
+                if (item is ISelfConsumable)
+                {
+                    var consumableItem = item as ISelfConsumable;
+                    if (consumableItem.CanUse(selectedUnit))
+                    {
+                        itemButton.interactable = true;
+                    }
+                }
+                if(item is ITargetConsumable)
+                {
+                    var consumableItem = item as ITargetConsumable;
+                    //I don't think this is okay
+                    if (consumableItem.CanUseOn(selectedUnit, gameViewModel.HoveredSquare.Unit))
+                    {
+                        itemButton.interactable = true;
+                    }
+                }
+            }
             throw new NotImplementedException();
         }
 
