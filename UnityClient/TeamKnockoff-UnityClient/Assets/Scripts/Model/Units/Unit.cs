@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -182,7 +182,13 @@ namespace Assets.Scripts.Model.Units {
             } else {
                 ExperiencePoints += 3;
             }
+
+            if (ExperiencePoints >= 100) {
+                ExperiencePoints -= 100;
+                Level += 1;
+            }
         }
+
 
         public string UnitInformation {
             get {

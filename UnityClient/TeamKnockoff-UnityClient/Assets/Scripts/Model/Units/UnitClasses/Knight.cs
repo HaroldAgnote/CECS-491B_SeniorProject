@@ -9,8 +9,8 @@ namespace Assets.Scripts.Model.Units {
     public class Knight : ArmoredUnit {
         const int MAX_HEALTH_POINTS = 100;
 
-        const int INITIAL_LEVEL = 1;
-        const int INITIAL_EXPERIENCE_POINTS = 0;
+        const int INITIAL_LEVEL = 17;
+        const int INITIAL_EXPERIENCE_POINTS = 90;
 
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
@@ -58,6 +58,9 @@ namespace Assets.Scripts.Model.Units {
             unit.Name = Knight.CLASS_NAME;
             unit.Class = Knight.CLASS_NAME;
 
+            unit.ExperiencePoints = INITIAL_EXPERIENCE_POINTS;
+            unit.Level = INITIAL_LEVEL;
+
             var newWeapon = new Weapon(12, 1, 70, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
             unit.EquipWeapon(newWeapon);
 
@@ -65,8 +68,7 @@ namespace Assets.Scripts.Model.Units {
                 new Bash(),
             };
 
-            unit.ExperiencePoints = 50;
-            unit.Level = 5;
+
             return newUnit;
         }
 

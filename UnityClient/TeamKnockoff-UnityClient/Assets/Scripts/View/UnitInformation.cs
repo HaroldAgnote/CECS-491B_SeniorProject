@@ -21,6 +21,7 @@ namespace Assets.Scripts.View {
         public TextMeshProUGUI luckLabel;
         public TextMeshProUGUI moveLabel;
         public TextMeshProUGUI expLabel;
+        public TextMeshProUGUI lvLabel;
 
         private GameViewModel gameViewModel;
 
@@ -47,6 +48,7 @@ namespace Assets.Scripts.View {
                         luckLabel.text = $"{unit.Luck}";
                         moveLabel.text = $"{unit.Movement}";
                         expLabel.text = $"{unit.ExperiencePoints}";
+                        lvLabel.text = $"{unit.Level}";
                     }
                 }
             }
