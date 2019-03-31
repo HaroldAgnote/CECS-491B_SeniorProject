@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using UnityEngine;
 
+using Assets.Scripts.Campaign;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
@@ -17,6 +18,11 @@ namespace Assets.Scripts.Application {
     /// Initializes the Game Scene when a Player starts a Game
     /// </summary>
     public class GameManager: MonoBehaviour {
+
+        public const string SINGLEPLAYER_GAME_TYPE = "SinglePlayer";
+        public const string MULTIPLAYER_GAME_TYPE = "MultiPlayer";
+        public const string CAMPAIGN_GAME_TYPE = "Campaign";
+        public const string PRACTICE_GAME_TYPE = "Practice";
 
         #region Public fields
 
@@ -59,9 +65,22 @@ namespace Assets.Scripts.Application {
         }
 
         /// <summary>
+        /// Available Singleplayer Game Types
+        /// </summary>
+        public enum SingleplayerGameType {
+            Campaign,
+            Practice
+        }
+
+        /// <summary>
         /// The current Game Type that will be set for the Game
         /// </summary>
         public GameType gameType;
+
+        /// <summary>
+        /// The current SinglePlayer Game Type that will be set for the Game
+        /// </summary>
+        public SingleplayerGameType singleplayerGameType;
 
         /// <summary>
         /// Determines if the Game will be played locally on one computer for all Players
@@ -119,6 +138,25 @@ namespace Assets.Scripts.Application {
 
             if (selectedMap != "") {
                 mapData = MapLoader.instance.GetMapAsset(selectedMap);
+            }
+
+            var gameTypeString = SceneLoader.GetParam(SceneLoader.GAME_TYPE);
+
+            if (gameTypeString == GameManager.SINGLEPLAYER_GAME_TYPE) {
+                gameType = GameType.Singleplayer;
+            } else if (gameTypeString == GameManager.MULTIPLAYER_GAME_TYPE) {
+                gameType = GameType.Multiplayer;
+            } else {
+                gameType = GameType.Singleplayer;
+            }
+
+            var singleGameTypeString = SceneLoader.GetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE);
+            if (singleGameTypeString == GameManager.CAMPAIGN_GAME_TYPE) {
+                singleplayerGameType = SingleplayerGameType.Campaign;
+            } else if (singleGameTypeString == GameManager.PRACTICE_GAME_TYPE) {
+                singleplayerGameType = SingleplayerGameType.Practice;
+            } else {
+                singleplayerGameType = SingleplayerGameType.Practice;
             }
 
             // Read map data from text file to get columns and rows
@@ -185,7 +223,6 @@ namespace Assets.Scripts.Application {
             view.ConstructView(cols, rows, newObjectViews);
 
             StartGame();
-            
         }
 
         /// <summary>
@@ -201,6 +238,8 @@ namespace Assets.Scripts.Application {
             if (model.CurrentPlayer != ControllingPlayer) {
                 viewModel.WaitForOtherMoves();
             }
+
+            viewModel.GameFinished += ViewModel_GameFinished;
         }
 
         #endregion
@@ -225,6 +264,34 @@ namespace Assets.Scripts.Application {
                 if (gameType == GameType.Multiplayer) {
                     throw new NotImplementedException();
                 }
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void ViewModel_GameFinished(object sender, EventArgs e) {
+            if (gameType == GameType.Singleplayer) {
+                if (singleplayerGameType == SingleplayerGameType.Practice) {
+                    SceneLoader.instance.GoToMainMenu();
+                }
+
+                if (singleplayerGameType == SingleplayerGameType.Campaign) {
+                    if (ControllingPlayer.HasAliveUnit()) {
+                        CampaignManager.instance.CompleteCurrentCampaignMap();
+                        if (!CampaignManager.instance.CurrentCampaignIsFinished) {
+                            CampaignManager.instance.LoadNextMap();
+                        }
+                        else {
+                            SceneLoader.instance.GoToMainMenu();
+                        }
+                    }
+                }
+            }
+
+            if (gameType == GameType.Multiplayer) {
+                // TODO: Do stuff here
             }
         }
 
