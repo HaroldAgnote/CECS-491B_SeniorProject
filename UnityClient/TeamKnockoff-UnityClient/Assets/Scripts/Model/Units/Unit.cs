@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,27 +48,6 @@ namespace Assets.Scripts.Model.Units {
             get {
                 return HealthPoints > 0;
             }
-        } 
-
-        public void GainExperience(Unit defender)
-        {
-            
-            if(!defender.IsAlive) //if unit is dead
-            {
-                ExperiencePoints += 20;
-            }
-
-            else
-            {
-                ExperiencePoints += 3;
-            }
-            //exp logic
-            //some bullshit event handler that calls levelUP
-        }
-
-        public void LevelUp()
-        {
-
         }
 
         public bool HasMoved { get; set; }
@@ -196,6 +175,20 @@ namespace Assets.Scripts.Model.Units {
             MainWeapon = null;
             return weapon;
         }
+
+        public void GainExperience(Unit defendingUnit) {
+            if (!defendingUnit.IsAlive) {
+                ExperiencePoints += 20;
+            } else {
+                ExperiencePoints += 3;
+            }
+
+            if (ExperiencePoints >= 100) {
+                ExperiencePoints -= 100;
+                Level += 1;
+            }
+        }
+
 
         public string UnitInformation {
             get {

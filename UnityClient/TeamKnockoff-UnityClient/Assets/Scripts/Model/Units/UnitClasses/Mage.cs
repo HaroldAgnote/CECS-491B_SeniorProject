@@ -10,7 +10,7 @@ namespace Assets.Scripts.Model.Units {
         const int MAX_HEALTH_POINTS = 100;
 
         const int INITIAL_LEVEL = 1;
-        const int INITIAL_EXPERIENCE_POINTS = 0;
+        const int INITIAL_EXPERIENCE_POINTS = 90;
 
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
