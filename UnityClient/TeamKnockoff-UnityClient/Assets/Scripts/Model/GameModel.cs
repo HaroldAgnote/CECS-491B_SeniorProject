@@ -927,9 +927,10 @@ namespace Assets.Scripts.Model {
             foreach (var loc in moveLocations)
             {
                 var tile = mTiles[loc.x, loc.y];
-
-                moveCosts.Add(loc, unit.MoveCost(tile));
-
+                if (unit.CanMove(tile))
+                {
+                    moveCosts.Add(loc, unit.MoveCost(tile));
+                }
             }
 
             return moveCosts;

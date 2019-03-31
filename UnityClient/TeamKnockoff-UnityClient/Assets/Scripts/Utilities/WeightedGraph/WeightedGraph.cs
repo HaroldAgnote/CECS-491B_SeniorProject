@@ -102,6 +102,10 @@ namespace Assets.Scripts.Utilities.WeightedGraph {
                     if (!vVertex.Equals(uVertex)) {
                         if (vertexQueue.Contains(distances.SingleOrDefault(d => d.Vertex == vVertex.mVertex ))) {
                             double length = distances.SingleOrDefault(d => d.Vertex == uVertex.mVertex).CurrentDistance + edge.weight;
+                            if (length == Int32.MaxValue)
+                            {
+                                Debug.Log("");
+                            }
                             if (length < distances.SingleOrDefault(d => d.Vertex == vVertex.mVertex).CurrentDistance) {
                                 vertexQueue.Remove(distances.SingleOrDefault(d => d.Vertex == vVertex.mVertex));
                                 distances.SingleOrDefault(d => d.Vertex == vVertex.mVertex).CurrentDistance = length;
@@ -114,7 +118,6 @@ namespace Assets.Scripts.Utilities.WeightedGraph {
                     }
                 }
             }
-
             return distances;
         }
 
