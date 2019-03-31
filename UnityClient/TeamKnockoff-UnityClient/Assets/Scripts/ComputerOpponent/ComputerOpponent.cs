@@ -82,7 +82,7 @@ namespace Assets.Scripts.ComputerOpponent
                     var currentDijkstraDistance = new WeightedGraph.DijkstraDistance(new Vector2Int(), Double.MaxValue);
                     foreach (var pos in possibleAttackLocations)
                     {
-                        var tempDijkstraDistance = model.GetShortestPath(CurrentControllingUnit, model.GridForUnit(CurrentControllingUnit), pos);
+                        var tempDijkstraDistance = model.GetShortestPathToAttack(CurrentControllingUnit, model.GridForUnit(CurrentControllingUnit), pos);
                         if (tempDijkstraDistance.CurrentDistance < currentDijkstraDistance.CurrentDistance)
                         {
                             currentDijkstraDistance = tempDijkstraDistance;
@@ -94,7 +94,7 @@ namespace Assets.Scripts.ComputerOpponent
                 // CPU has not moved towards closest attack position yet
                 if (!hasMoved) {
                     var startPosition = model.GridForUnit(CurrentControllingUnit);
-                    var movePoint = model.GetShortestPathToAttack(CurrentControllingUnit, startPosition, attackReadyLocation).Last();
+                    var movePoint = model.GetShortestPathToAttack(CurrentControllingUnit, startPosition, attackReadyLocation).Path.Last();
                     hasMoved = true;
                     return new GameMove(startPosition, movePoint, GameMove.GameMoveType.Move);
                 } else {

@@ -946,7 +946,7 @@ namespace Assets.Scripts.Model {
         /// Returns list of positions in a path for a Unit to move from the start location to the end location
         /// </returns>
 
-        public List<Vector2Int> GetShortestPathToAttack(Unit unit, Vector2Int startPoint, Vector2Int targetPoint) {
+        public WeightedGraph.DijkstraDistance GetShortestPathToAttack(Unit unit, Vector2Int startPoint, Vector2Int targetPoint) {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);
 
@@ -961,7 +961,7 @@ namespace Assets.Scripts.Model {
 
             var shortestDistanceToAttack = attackDistances.Min();
 
-            return shortestDistanceToAttack.Path;
+            return shortestDistanceToAttack;
         }
 
         /// <summary>

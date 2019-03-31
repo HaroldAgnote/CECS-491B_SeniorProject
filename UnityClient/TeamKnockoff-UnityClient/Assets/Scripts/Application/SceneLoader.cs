@@ -63,7 +63,7 @@ namespace Assets.Scripts.Application {
         }
 
         public static string GetParam(string paramKey) {
-            if (instance.parameters == null) {
+            if (instance == null || instance.parameters == null) {
                 return "";
             }
 
