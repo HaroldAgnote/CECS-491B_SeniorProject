@@ -1062,12 +1062,6 @@ namespace Assets.Scripts.Model {
             {
                 Debug.Log("COUNTERATTACKING");
                 AttackUnit(defendingUnit, attackingUnit);
-
-                if (!attackingUnit.IsAlive) {
-                    Debug.Log($"{attackingUnit.Name} has been defeated");
-                    KillUnit(attackingUnit);
-                }
-
             }
 
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
@@ -1164,11 +1158,6 @@ namespace Assets.Scripts.Model {
                 //instead of Skill[0] of we probably need selected skill or something
                 //attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
                 AttackUnit(defendingUnit, attackingUnit);
-                if (!attackingUnit.IsAlive)
-                {
-                    KillUnit(attackingUnit);
-                    Debug.Log($"{attackingUnit.Name} has been defeated");
-                }
             } 
 
             //usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
@@ -1195,10 +1184,9 @@ namespace Assets.Scripts.Model {
                 if (!defendingUnit.IsAlive) {
                     Debug.Log($"{defendingUnit.Name} has been defeated");
                     KillUnit(defendingUnit);
-                    attackingUnit.GainExperience(defendingUnit);
-                } else {
-                    attackingUnit.GainExperience(defendingUnit);
                 }
+
+                attackingUnit.GainExperience(defendingUnit);
 
 
             } else {

@@ -9,6 +9,8 @@ namespace Assets.Scripts.Application {
         public static SceneLoader instance;
 
         public const string LOAD_MAP_PARAM = "LoadMap";
+        public const string GAME_TYPE = "GameType";
+        public const string SINGLEPLAYER_GAME_TYPE = "SinglePlayerGameType";
 
         const int MAIN_MENU_INDEX = 0;
         const int SINGLEPLAYER_MENU_INDEX = 1;
@@ -17,6 +19,7 @@ namespace Assets.Scripts.Application {
         const int PRACTICE_MENU_INDEX = 4;
         const int SETTINGS_MENU_INDEX = 5;
         const int GAME_INDEX = 6;
+        const int DIALOGUE_INDEX = 7;
 
         private Dictionary<string, string> parameters;
 
@@ -63,7 +66,7 @@ namespace Assets.Scripts.Application {
         }
 
         public static string GetParam(string paramKey) {
-            if (instance.parameters == null) {
+            if (instance == null || instance.parameters == null) {
                 return "";
             }
 

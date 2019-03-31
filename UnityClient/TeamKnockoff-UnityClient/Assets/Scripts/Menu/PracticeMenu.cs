@@ -15,6 +15,7 @@ namespace Assets.Scripts.Application {
             mDropdown.ClearOptions();
 
             var maps = MapLoader.instance.availableMaps.Select(map => map.name).ToList();
+            SceneLoader.SetParam(SceneLoader.LOAD_MAP_PARAM, maps.First());
 
             mDropdown.AddOptions(maps);
             mDropdown.onValueChanged.AddListener(delegate {
@@ -29,6 +30,8 @@ namespace Assets.Scripts.Application {
         }
 
         public void GoToGame() {
+            SceneLoader.SetParam(SceneLoader.GAME_TYPE, GameManager.SINGLEPLAYER_GAME_TYPE);
+            SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE, GameManager.PRACTICE_GAME_TYPE);
             SceneLoader.instance.GoToMap();
         }
     }

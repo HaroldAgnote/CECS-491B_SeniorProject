@@ -112,6 +112,11 @@ namespace Assets.Scripts.ViewModel {
         private int mCurrentTurn;
 
         /// <summary>
+        /// Determines if the game is over or not
+        /// </summary>
+        private bool mGameOver;
+
+        /// <summary>
         /// The Current Player controlling the Game
         /// </summary>
         private Player mCurrentPlayer;
@@ -273,6 +278,17 @@ namespace Assets.Scripts.ViewModel {
             get { return GameManager.instance.localPlay || CurrentPlayer == GameManager.instance.ControllingPlayer; }
         }
 
+        public bool IsGameOver {
+            get { return mGameOver; }
+
+            set {
+                if (mGameOver != value) {
+                    mGameOver = value;
+                    OnPropertyChanged(nameof(IsGameOver));
+                }
+            }
+        }
+
         /// <summary>
         /// Determines if the Selected Unit belongs to the Player
         /// </summary>
@@ -335,6 +351,8 @@ namespace Assets.Scripts.ViewModel {
         /// Event handler to used when a Property of the ViewModel has changed
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler GameFinished;
 
         /// <summary>
         /// Method used to invoke all methods subscribed to the PropertyChanged event
@@ -554,8 +572,12 @@ namespace Assets.Scripts.ViewModel {
 
             CurrentTurn = model.Turn;
             CurrentPlayer = model.CurrentPlayer;
+            IsGameOver = model.GameHasEnded;
         }
 
+        public void FinishGame() {
+            GameFinished?.Invoke(this, new EventArgs());
+        }
 
         #endregion
     }

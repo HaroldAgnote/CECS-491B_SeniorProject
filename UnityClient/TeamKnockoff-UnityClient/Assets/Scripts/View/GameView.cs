@@ -25,6 +25,8 @@ namespace Assets.Scripts.View {
 
         public CombatForecast combatForecast;
 
+        public GameOverScreen gameOverScreen;
+
         private Dictionary<Vector2Int, ObjectView> mVectorToObjectViews;
 
         public void ConstructView(int columns, int rows, Dictionary<Vector2Int, ObjectView> vectorsToObjectViews) {
@@ -40,6 +42,8 @@ namespace Assets.Scripts.View {
             unitInformation.ConstructUnitInformation();
 
             combatForecast.ConstructCombatForecast();
+
+            gameOverScreen.ConstructGameOverScreen();
 
             turnLabel.text = $"Turn {gameViewModel.CurrentTurn}";
 
