@@ -8,30 +8,40 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Application {
     public class PracticeMenu : MonoBehaviour {
-        Dropdown mDropdown;
+        public Dropdown mapMenuDropdown;
+
+        public Button[] singlePlayerButtons;
+        public Button goButton;
+        public Button mainMenuButton;
 
         private void Start() {
-            mDropdown = GetComponent<Dropdown>();
-            mDropdown.ClearOptions();
+            foreach (var singlePlayerButton in singlePlayerButtons) {
+                singlePlayerButton.onClick.AddListener(SceneLoader.instance.GoToSingleplayerMenu);
+            }
+
+            goButton.onClick.AddListener(GoToGame);
+            mainMenuButton.onClick.AddListener(SceneLoader.instance.GoToMainMenu);
+
+            mapMenuDropdown.ClearOptions();
 
             var maps = MapLoader.instance.availableMaps.Select(map => map.name).ToList();
             SceneLoader.SetParam(SceneLoader.LOAD_MAP_PARAM, maps.First());
 
-            mDropdown.AddOptions(maps);
-            mDropdown.onValueChanged.AddListener(delegate {
+            mapMenuDropdown.AddOptions(maps);
+            mapMenuDropdown.onValueChanged.AddListener(delegate {
                 UpdateSelectedMap();
             });
         }
 
         private void UpdateSelectedMap() {
-            var selectedIndex = mDropdown.value;
-            var selectedMap = mDropdown.options[selectedIndex].text;
+            var selectedIndex = mapMenuDropdown.value;
+            var selectedMap = mapMenuDropdown.options[selectedIndex].text;
             SceneLoader.SetParam(SceneLoader.LOAD_MAP_PARAM, selectedMap);
         }
 
         public void GoToGame() {
-            SceneLoader.SetParam(SceneLoader.GAME_TYPE, GameManager.SINGLEPLAYER_GAME_TYPE);
-            SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE, GameManager.PRACTICE_GAME_TYPE);
+            SceneLoader.SetParam(SceneLoader.GAME_TYPE_PARAM, GameManager.SINGLEPLAYER_GAME_TYPE);
+            SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM, GameManager.PRACTICE_GAME_TYPE);
             SceneLoader.instance.GoToMap();
         }
     }

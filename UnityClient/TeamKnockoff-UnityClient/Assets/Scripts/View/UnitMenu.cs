@@ -6,8 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.View {
-    public class UnitMenu : MonoBehaviour
-    {
+    public class UnitMenu : MonoBehaviour {
         public GameView gameView;
 
         public GameObject unitMenuButtonPrefab;

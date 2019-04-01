@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Application;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -16,14 +17,24 @@ namespace Assets.Scripts.View {
 
         public TextMeshProUGUI gameOverLabel;
 
-        public Button nextButton;
+        public Button actionButton;
+        public Button restartButton;
+        public Button quitButton;
 
         private GameViewModel gameViewModel;
 
         public void ConstructGameOverScreen() {
             gameViewModel = gameView.gameViewModel;
             gameViewModel.PropertyChanged += GameViewModel_PropertyChanged;
-            nextButton.onClick.AddListener(NextAction);
+
+            this.gameObject.SetActive(false);
+
+            if (GameManager.instance.singleplayerGameType == GameManager.SingleplayerGameType.Practice) {
+                actionButton.gameObject.SetActive(false);
+            }
+
+            restartButton.onClick.AddListener(ReloadMap);
+            quitButton.onClick.AddListener(QuitGame);
         }
 
         private void GameViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -32,8 +43,13 @@ namespace Assets.Scripts.View {
                     this.gameObject.SetActive(true);
                     if (gameViewModel.ControllingPlayer.HasAliveUnit()) {
                         gameOverLabel.text = "Map Cleared!";
+                        actionButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Next";
+                        actionButton.onClick.AddListener(NextAction);
+
                     } else {
                         gameOverLabel.text = "Game Over";
+                        actionButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Back";
+                        actionButton.onClick.AddListener(GoBack);
                     }
                 }
             }
@@ -41,6 +57,18 @@ namespace Assets.Scripts.View {
 
         private void NextAction() {
             gameViewModel.FinishGame();
+        }
+
+        private void ReloadMap() {
+            GameManager.instance.RestartGame();
+        }
+
+        private void GoBack() {
+            SceneLoader.instance.GoToLastMenu();
+        }
+
+        private void QuitGame() {
+            SceneLoader.instance.GoToMainMenu();
         }
     }
 }

@@ -7,9 +7,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Assets.Scripts.Application;
-using Assets.Scripts.Campaign;
 
-namespace Assets.Scripts.Menu {
+namespace Assets.Scripts.Campaign {
     public class CampaignMenu : MonoBehaviour {
         public Button[] singlePlayerButton;
         public Button newCampaignButton;
@@ -23,13 +22,12 @@ namespace Assets.Scripts.Menu {
             }
             mainMenuButton.onClick.AddListener(sceneLoader.GoToMainMenu);
 
-            newCampaignButton.onClick.AddListener(() => {
-                CampaignManager.instance.RestartCampaign();
-                CampaignManager.instance.LoadNextMap();
+            continueCampaignButton.onClick.AddListener(() => {
+                SceneLoader.instance.GoToCampaignLoadMenu();
             });
 
-            continueCampaignButton.onClick.AddListener(() => {
-                CampaignManager.instance.LoadNextMap();
+            newCampaignButton.onClick.AddListener(() => {
+                SceneLoader.instance.GoToCampaignNewStoryMenu();
             });
         }
     }

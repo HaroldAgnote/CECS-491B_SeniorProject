@@ -140,7 +140,7 @@ namespace Assets.Scripts.Application {
                 mapData = MapLoader.instance.GetMapAsset(selectedMap);
             }
 
-            var gameTypeString = SceneLoader.GetParam(SceneLoader.GAME_TYPE);
+            var gameTypeString = SceneLoader.GetParam(SceneLoader.GAME_TYPE_PARAM);
 
             if (gameTypeString == GameManager.SINGLEPLAYER_GAME_TYPE) {
                 gameType = GameType.Singleplayer;
@@ -150,7 +150,7 @@ namespace Assets.Scripts.Application {
                 gameType = GameType.Singleplayer;
             }
 
-            var singleGameTypeString = SceneLoader.GetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE);
+            var singleGameTypeString = SceneLoader.GetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM);
             if (singleGameTypeString == GameManager.CAMPAIGN_GAME_TYPE) {
                 singleplayerGameType = SingleplayerGameType.Campaign;
             } else if (singleGameTypeString == GameManager.PRACTICE_GAME_TYPE) {
@@ -267,6 +267,16 @@ namespace Assets.Scripts.Application {
             }
         }
 
+        public void SaveGame() {
+            // TODO: Serialize CurrentControllingPlayer Unit Data here
+
+            // TODO: Serialize CurrentCampaignSequence Data here
+        }
+
+        public void RestartGame() {
+            SceneLoader.instance.ReloadMap();
+        }
+
         #endregion
 
         #region Private Methods
@@ -274,17 +284,16 @@ namespace Assets.Scripts.Application {
         private void ViewModel_GameFinished(object sender, EventArgs e) {
             if (gameType == GameType.Singleplayer) {
                 if (singleplayerGameType == SingleplayerGameType.Practice) {
-                    SceneLoader.instance.GoToMainMenu();
+                    SceneLoader.instance.GoToLastMenu();
                 }
 
                 if (singleplayerGameType == SingleplayerGameType.Campaign) {
                     if (ControllingPlayer.HasAliveUnit()) {
-                        CampaignManager.instance.CompleteCurrentCampaignMap();
                         if (!CampaignManager.instance.CurrentCampaignIsFinished) {
-                            CampaignManager.instance.LoadNextMap();
+                            CampaignManager.instance.LoadNextCampaignEvent();
                         }
                         else {
-                            SceneLoader.instance.GoToMainMenu();
+                            SceneLoader.instance.GoToCampaignMenu();
                         }
                     }
                 }

@@ -58,7 +58,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c84f16cdb6f9b43b02dd1c3fe8dfed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  campaign: {fileID: 6648202356864797477}
+  availableCampaigns:
+  - {fileID: 6648202356864797477}
 --- !u!114 &6648202356102799858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +75,6 @@ MonoBehaviour:
   availableMaps:
   - {fileID: 4900000, guid: 288c3398b88262b4c960187e4effca0c, type: 3}
   - {fileID: 4900000, guid: ec8aa71105eab004abddcfdb45d28daf, type: 3}
-  - {fileID: 4900000, guid: af0494bdb7aa46545bc15106329b504e, type: 3}
   - {fileID: 4900000, guid: e11daa9dc978c9a4bb330647925fb1b3, type: 3}
   - {fileID: 4900000, guid: af1ab0eabb862904699ccd3d3e44cb96, type: 3}
   - {fileID: 4900000, guid: 6536e8d24e335164fbea19ba8b3a76f3, type: 3}
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 6648202356864797476}
   - component: {fileID: 6648202356864797477}
   m_Layer: 0
-  m_Name: Campaign Sequence
+  m_Name: Test Campaign Sequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,9 +124,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   campaignName: Test Campaign
+  numberOfChapters: 3
+  chapterNames:
+  - The First One
+  - The Second ONe
+  - The Third One
   mapSequence:
   - {fileID: 4900000, guid: 6536e8d24e335164fbea19ba8b3a76f3, type: 3}
   - {fileID: 4900000, guid: c54bd6a940ba5a941ad707337ac5f019, type: 3}
   - {fileID: 4900000, guid: 276066747876d8445883a15f889b8040, type: 3}
-  preMapDialogueSequence: []
-  postMapDialogueSequence: []
+  preMapDialogueSequence:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  postMapDialogueSequence:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

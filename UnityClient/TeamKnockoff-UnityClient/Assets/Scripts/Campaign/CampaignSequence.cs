@@ -9,40 +9,29 @@ using UnityEngine;
 
 namespace Assets.Scripts.Campaign {
     public class CampaignSequence : MonoBehaviour {
-
         public string campaignName;
+        public int numberOfChapters;
+        public List<string> chapterNames;
         public List<TextAsset> mapSequence;
         public List<TextAsset> preMapDialogueSequence;
         public List<TextAsset> postMapDialogueSequence;
 
-        private int currentCampaignIndex;
+        void Start() {
+            if (numberOfChapters != chapterNames.Count) {
+                Debug.Log("Number of Chapters does not match Chapter Names");
+            }
 
-        public void LoadFromFile(string fileName) {
-            throw new NotImplementedException();
-        }
+            if (numberOfChapters != mapSequence.Count) {
+                Debug.Log("Number of Chapters does not match Map Sequences");
+            }
 
-        public TextAsset CurrentMap {
-            get { return mapSequence[currentCampaignIndex]; }
-        }
+            if (numberOfChapters != preMapDialogueSequence.Count) {
+                Debug.Log("Number of Chapters does not match Pre map dialogue scenes");
+            }
 
-        public TextAsset CurrentPreMapDialogue {
-            get { return preMapDialogueSequence[currentCampaignIndex]; }
-        }
-
-        public TextAsset CurrentPostMapDialogue {
-            get { return postMapDialogueSequence[currentCampaignIndex]; }
-        }
-
-        public void RestartCampaign() {
-            currentCampaignIndex = 0;
-        }
-
-        public bool IsCampaignOver {
-            get { return currentCampaignIndex == mapSequence.Count; }
-        }
-
-        public void UpdateCampaign() {
-            currentCampaignIndex++;
+            if (numberOfChapters != postMapDialogueSequence.Count) {
+                Debug.Log("Number of Chapters does not match Post map dialogue scenes");
+            }
         }
     }
 }
