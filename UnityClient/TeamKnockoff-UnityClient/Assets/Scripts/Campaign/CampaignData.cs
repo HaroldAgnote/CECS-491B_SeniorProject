@@ -10,16 +10,28 @@ using Assets.Scripts.Utilities.DateTime;
 namespace Assets.Scripts.Campaign {
 
     [Serializable]
-    public class CampaignData {
+    public class CampaignData : IComparable<CampaignData> {
         
         [SerializeField]
         private string mCampaignName;
 
         public string CampaignName {
             get { return mCampaignName; }
-            private set {
+            set {
                 if (mCampaignName != value) {
                     mCampaignName = value;
+                }
+            }
+        }
+
+        [SerializeField]
+        private bool mIsCompleted;
+
+        public bool IsCompleted {
+            get { return mIsCompleted; }
+            set {
+                if (mIsCompleted != value) {
+                    mIsCompleted = value;
                 }
             }
         }
@@ -48,8 +60,7 @@ namespace Assets.Scripts.Campaign {
 
         public int FarthestCampaignIndex {
             get { return mFarthestCampaignIndex; }
-
-            private set {
+            set {
                 if (mFarthestCampaignIndex != value) {
                     mFarthestCampaignIndex = value;
                 }
@@ -83,6 +94,10 @@ namespace Assets.Scripts.Campaign {
             CampaignName = campaignName;
             CurrentCampaignIndex = currentIndex;
             FarthestCampaignIndex = farthestIndex;
+        }
+
+        public int CompareTo(CampaignData other) {
+            return this.mTimeStamp.CompareTo(other.mTimeStamp);
         }
     }
 }

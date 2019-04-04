@@ -13,7 +13,19 @@ namespace Assets.Scripts.Campaign {
         public static CampaignManager instance;
 
         public List<CampaignSequence> availableCampaigns;
+
         public CampaignSequence CurrentCampaignSequence { get; set; }
+
+        private bool mCurrentCampaignIsCompleted;
+
+        public bool IsCompleted {
+            get { return mCurrentCampaignIsCompleted; }
+            set {
+                if (mCurrentCampaignIsCompleted != value) {
+                    mCurrentCampaignIsCompleted = value;
+                }
+            }
+        }
 
         private int mCurrentCampaignIndex;
 
@@ -22,6 +34,12 @@ namespace Assets.Scripts.Campaign {
             set {
                 if (mCurrentCampaignIndex != value) {
                     mCurrentCampaignIndex = value;
+                }
+                
+                // Ensure chapter stays at last chapter
+                if (mCurrentCampaignIndex == CurrentCampaignSequence.numberOfChapters) {
+                    mCurrentCampaignIndex = CurrentCampaignSequence.numberOfChapters - 1;
+                    IsCompleted = true;
                 }
 
                 if (mCurrentCampaignIndex > FarthestCampaignIndex) {
@@ -62,8 +80,13 @@ namespace Assets.Scripts.Campaign {
 
         public static string DataToString(CampaignData data) {
             var sequence = instance.NamesToCampaignSequences[data.CampaignName];
-            return
-                $"{sequence.campaignName}: Chapter {data.FarthestCampaignIndex + 1} - {sequence.chapterNames[data.FarthestCampaignIndex]}";
+            var dataString = $"{sequence.campaignName}: Chapter {data.FarthestCampaignIndex + 1} - {sequence.chapterNames[data.FarthestCampaignIndex]} {data.TimeStamp}";
+            
+            if (data.IsCompleted) {
+                dataString += " - COMPLETE";
+            }
+
+            return dataString;
         }
 
         private void Awake() {
@@ -125,6 +148,7 @@ namespace Assets.Scripts.Campaign {
             CurrentCampaignSequence = newSequence;
             CurrentCampaignIndex = 0;
             FarthestCampaignIndex = 0;
+            IsCompleted = false;
             LoadCampaignChapterMenu();
         }
 
@@ -132,6 +156,7 @@ namespace Assets.Scripts.Campaign {
             CurrentCampaignSequence = NamesToCampaignSequences[data.CampaignName];
             CurrentCampaignIndex = data.CurrentCampaignIndex;
             FarthestCampaignIndex = data.FarthestCampaignIndex;
+            IsCompleted = data.IsCompleted;
             LoadCampaignChapterMenu();
         }
 
@@ -179,6 +204,8 @@ namespace Assets.Scripts.Campaign {
             CampaignDataFileHandler.DeleteCampaignData(data);
             
             data.CurrentCampaignIndex = CurrentCampaignIndex;
+            data.FarthestCampaignIndex = FarthestCampaignIndex;
+            data.IsCompleted = IsCompleted;
 
             CampaignDataFileHandler.SaveCampaignData(data);
 

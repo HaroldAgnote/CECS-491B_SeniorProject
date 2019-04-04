@@ -36,12 +36,12 @@ namespace Assets.Scripts.Campaign {
                 if (selectedGameObject != null) {
                     var selectedButton = selectedGameObject.GetComponent<Image>();
                     selectedButton.color = UNSELECTED_COLOR;
-                    campaignSaveButton.interactable = true;
                 }
                 selectedSaveSlot = null;
                 selectedGameObject = campaignCreateNewDataButton.gameObject;
                 var buttonImage = selectedGameObject.GetComponent<Image>();
                 buttonImage.color = SELECTED_COLOR;
+                campaignSaveButton.interactable = true;
             });
     
             var allSlots = CampaignManager.instance.CampaignDataSlots
