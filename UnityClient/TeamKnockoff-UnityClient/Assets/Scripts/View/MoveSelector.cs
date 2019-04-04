@@ -119,11 +119,16 @@ namespace Assets.Scripts.View {
         /// </summary>
         private IEnumerable<Vector2Int> currentSkillLocations;
 
+        private IEnumerable<Vector2Int> currentItemLocations;
+
         /// <summary>
         /// Set of Skills where each Skill is mapped to possible locations they can be used at
         /// </summary>
         private Dictionary<ActiveSkill, HashSet<Vector2Int>> skillsToLocations;
 
+
+        private Dictionary<ConsumableItem, HashSet<Vector2Int>> itemToLocations;
+        
         /// <summary>
         /// The current highlighter for hovered tiles
         /// </summary>
@@ -169,6 +174,10 @@ namespace Assets.Scripts.View {
         /// </summary>
         private bool waitingForSkillMove;
 
+        private bool waitingForItemChoice;
+
+        private bool waitingForItemMove;
+
         /// <summary>
         /// The starting position of the Unit
         /// </summary>
@@ -189,7 +198,9 @@ namespace Assets.Scripts.View {
         /// </summary>
         private Vector2Int skillPoint;
 
-        #region Unit Menu Options
+        private Vector2Int itemPoint;
+ 
+            #region Unit Menu Options
 
         /// <summary>
         /// Possible Options that can be on the Main Menu
@@ -269,6 +280,8 @@ namespace Assets.Scripts.View {
             waitingForAttack = false;
             waitingForSkillChoice = false;
             waitingForSkillMove = false;
+            waitingForItemChoice = false;
+            waitingForItemMove = false;
 
             selectedUnit = gameViewModel.SelectedSquare.Unit;
             selectedSkill = null;
@@ -277,6 +290,7 @@ namespace Assets.Scripts.View {
             startPoint = NULL_VECTOR;
             movedPoint = NULL_VECTOR;
             skillPoint = NULL_VECTOR;
+            itemPoint = NULL_VECTOR;
             attackPoint = NULL_VECTOR;
 
             // Menu options initialize
@@ -299,6 +313,7 @@ namespace Assets.Scripts.View {
             // Retrieve and show available attack locations (including damage skills)
             attackLocations = gameViewModel.AttacksForUnit;
             skillsToLocations = gameViewModel.SkillsForUnit;
+            itemToLocations = gameViewModel.ItemsForUnits;
             var attackSkillLocations = skillsToLocations
                                     .Where(sk => sk.Key is SingleDamageSkill)
                                     .SelectMany(sk => sk.Value);
@@ -577,7 +592,7 @@ namespace Assets.Scripts.View {
         private void CheckSkillPositionClick(Vector2Int cursorPosition) {
 
             // Don't do anything unless there is an enemy or ally at this position 
-            if (gameViewModel.EnemyAtPoint(cursorPosition) || gameViewModel.AllyAPoint(cursorPosition)) {
+            if (gameViewModel.EnemyAtPoint(cursorPosition) || gameViewModel.AllyAtPoint(cursorPosition)) {
 
                 // Clicking for the first time
                 // or clicking another valid skill location (switching targets)
@@ -909,6 +924,7 @@ namespace Assets.Scripts.View {
         /// Show Item Sub Menu
         /// </summary>
         private void ItemMenu() {
+
             unitMenu.CreateSubMenu();
             unitMenu.SwitchtoSubMenu();
 
@@ -950,17 +966,117 @@ namespace Assets.Scripts.View {
                         itemButton.interactable = true;
                     }
                 }
+                
+                if (item is ITargetConsumable && itemPoint == NULL_VECTOR && itemToLocations.ContainsKey(item))
+                {
+                    var targetItem = item as ITargetConsumable;
+                    var locs = itemToLocations[item];
+                    if (locs.All(pos => !gameViewModel.ItemUsableOnTarget(item, pos)))
+                    {
+                        itemButton.interactable = false;
+                    }
+                }
             }
-            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Apply Item Move to Game
         /// </summary>
-        private void ItemMove() {
-            throw new NotImplementedException();
+        private void ApplyItemMove() {
+            if (startPoint != movedPoint)
+            {
+                ApplyMoveUnit();
+            }
+
+            Debug.Log("Item");
+            CurrentGameMove = new GameMove(movedPoint, attackPoint, selectedItem);
+            gameViewModel.ApplyMove(CurrentGameMove);
+            ExitState();
         }
 
+        private void CheckItemOptions()
+        {
+            if (itemPoint == NULL_VECTOR)
+            {
+                waitingForItemMove = true;
+                waitingForItemChoice = false;
+
+                foreach (GameObject highlight in moveLocationHighlights)
+                {
+                    Destroy(highlight);
+                }
+
+                foreach (GameObject highlight in attackLocationHighlights)
+                {
+                    Destroy(highlight);
+                }
+
+                foreach (var highlight in allyLocationHighlights)
+                {
+                    Destroy(highlight);
+                }
+
+                allyLocationHighlights = new List<GameObject>();
+
+                attackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, (selectedItem as ITargetConsumable).GetRange());
+
+                foreach (Vector2Int loc in attackLocations)
+                {
+                    GameObject highlight;
+                    var point = new Vector3Int(loc.x, loc.y, 0);
+                    highlight = Instantiate(allyLocationPrefab, point, Quaternion.identity, gameObject.transform);
+                    attackLocationHighlights.Add(highlight);
+                }
+
+                currentItemLocations = currentItemLocations
+                                            .Where(pos =>
+                                                gameViewModel.ItemUsableOnTarget(selectedItem, pos));
+            }
+            else
+            {
+                ApplyItemMove();
+            }
+        }
+
+        private void CheckItemPositionClick(Vector2Int cursorPosition)
+        {
+            if (gameViewModel.AllyAtPoint(cursorPosition))
+            {
+                if((!waitingForMove && !waitingForItemChoice && !waitingForItemMove) ||
+                    (waitingForMove && itemPoint != NULL_VECTOR && itemPoint != cursorPosition))
+                {
+                    itemPoint = cursorPosition;
+
+                    startPoint = gameViewModel.SelectedSquare.Position;
+                    pathLocations = gameViewModel.GetShortestPathToItem(cursorPosition);
+                    movedPoint = pathLocations.Last();
+
+                    RefreshPathHighlighters();
+
+                    if (selectedUnit.Items.Count > 0)
+                    {
+                        currentMenuOptions.Add(UnitMenuOptions.Items);
+                    }
+                    SetupMainUnitMenu();
+                    WaitForChoice();
+                }
+            }
+            else
+            {
+                if (waitingForItemChoice)
+                {
+                    ItemMenu();
+                }
+                if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition))
+                {
+                    if (waitingForItemMove)
+                    {
+                        itemPoint = cursorPosition;
+                        ApplyItemMove();
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Apply Wait Move to Game
         /// </summary>

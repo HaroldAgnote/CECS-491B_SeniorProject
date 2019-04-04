@@ -139,6 +139,7 @@ namespace Assets.Scripts.Model.Units {
             ExperiencePoints = 0;
             UnitEffects = new HashSet<UnitEffect>();
             MainWeapon = new Weapon(1, 1, 100, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            Items.Add(new Potion());
         }
 
         public void StartTurn() {

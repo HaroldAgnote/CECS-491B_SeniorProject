@@ -6,7 +6,7 @@ namespace Assets.Scripts.Model.Items
 {
     public class ConsumableItem : Item
     {
-        public ConsumableItem(string itemName, int range) : base(itemName)
+        public ConsumableItem(string itemName) : base(itemName)
         {
 
         }

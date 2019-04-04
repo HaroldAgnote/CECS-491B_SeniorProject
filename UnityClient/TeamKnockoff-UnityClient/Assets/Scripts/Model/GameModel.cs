@@ -930,6 +930,59 @@ namespace Assets.Scripts.Model {
 
             return itemLocations;
         }
+
+        public Dictionary<ConsumableItem, HashSet<Vector2Int>> GetPossibleUnitItemLocations(Unit unit)
+        {
+            var itemToLocations = new Dictionary<ConsumableItem, HashSet<Vector2Int>>();
+
+            var consumableItems = unit.Items
+                                    .Where(it => it != null)
+                                    .Select(it => it as ConsumableItem);
+
+            foreach (var consumableItem in consumableItems)
+            {
+                var itemLocations = new HashSet<Vector2Int>();
+                itemLocations.AddRange(GetPossibleUnitItemLocations(unit, consumableItem));
+                itemToLocations.Add(consumableItem, itemLocations);
+            }
+
+            return itemToLocations;
+        }
+
+        public HashSet<Vector2Int> GetPossibleUnitItemLocations(Unit unit, ConsumableItem item)
+        {
+            var consumableItem = item as ITargetConsumable;
+            var moveLocations = GetPossibleUnitMoveLocations(unit);
+            var itemLocations = GetUnitItemLocations(unit, item)
+                                    .Where(pos =>
+                                        !TileIsOccupied(pos)
+                                        || (TileIsOccupied(pos) && consumableItem.CanUseOn(unit, GetUnitAtPosition(pos))));
+
+            var filteredItemLocations = new HashSet<Vector2Int>();
+            
+            foreach (var location in itemLocations)
+            {
+                var surroundingLocations = GetSurroundingAttackLocationsAtPoint(location, consumableItem.GetRange());
+                var itemPoints = surroundingLocations.Where(iLoc => moveLocations.Contains(iLoc));
+                if (itemPoints.Count() > 0)
+                {
+                    filteredItemLocations.Add(location);
+                }
+            }
+
+            return filteredItemLocations;
+        }
+
+        public bool ItemIsUsableOnTarget(Unit usingUnit, Unit targetUnit, ConsumableItem item)
+        {
+            if (targetUnit != null && usingUnit == targetUnit)
+            {
+                return (item as ISelfConsumable).CanUse(usingUnit) && (item as ITargetConsumable).CanUseOn(usingUnit, targetUnit);
+            }
+
+            return targetUnit != null && (item as ITargetConsumable).CanUseOn(usingUnit, targetUnit);
+        }
+
         #endregion
 
         #region Shortest Path Calculations
@@ -1053,6 +1106,53 @@ namespace Assets.Scripts.Model {
             return shortestDistanceToAttack.Path;
         }
 
+        public List<Vector2Int> GetShortestPathToItem(Unit unit, Vector2Int startPoint, Vector2Int targetPoint)
+        {
+            var unitCosts = GetUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var availableAttackLocations = GetUnitMoveLocations(unit);
+
+            var bestItemRange = unit.Items.Where(it => it is ITargetConsumable).Select(it => (it as ITargetConsumable).GetRange()).Max();
+
+            var possibleItemLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, bestItemRange);
+
+            possibleItemLocations = possibleItemLocations.Where(pos =>
+                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
+                                        .Where(pos => availableAttackLocations.Contains(pos))
+                                        .ToHashSet();
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var itemDistances = distances.Where(pos => possibleItemLocations.Contains(pos.Vertex));
+
+            var shortestDistanceToItem = itemDistances.Min();
+
+            return shortestDistanceToItem.Path;
+        }
+
+        public List<Vector2Int> GetShortestPathToItem(Unit unit, Vector2Int startPoint, Vector2Int targetPoint, ConsumableItem item)
+        {
+            var unitCosts = GetUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var availableAttackLocations = GetUnitMoveLocations(unit);
+
+            var possibleItemLocations = GetSurroundingAttackLocationsAtPoint(targetPoint, (item as ITargetConsumable).GetRange());
+
+            possibleItemLocations = possibleItemLocations.Where(pos =>
+                                        (!TileIsOccupied(pos) || GetUnitAtPosition(pos) == unit))
+                                        .Where(pos => availableAttackLocations.Contains(pos))
+                                        .ToHashSet();
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var attackDistances = distances.Where(pos => possibleItemLocations.Contains(pos.Vertex));
+
+            var shortestDistanceToItem = attackDistances.Min();
+
+            return shortestDistanceToItem.Path;
+        }
         #endregion
 
         #endregion 
@@ -1076,7 +1176,47 @@ namespace Assets.Scripts.Model {
         /// <param name="move">The GameMove that will be used to have the Unit use the item</param>
 
         private void ItemUnit(GameMove move) {
-            throw new NotImplementedException();
+
+            var item = move.UsedItem;
+
+            var usingUnit = GetUnitAtPosition(move.StartPosition);
+            
+            if (item is ITargetConsumable)
+            {
+                ApplyItemToTarget(move);
+            }
+            else if (item is ISelfConsumable)
+            {
+                ApplyItemToSelf(move);
+            }
+
+            usingUnit.HasMoved = true;
+        }
+
+        private void ApplyItemToTarget(GameMove move)
+        {
+            var usingUnit = GetUnitAtPosition(move.StartPosition);
+            var targetUnit = GetUnitAtPosition(move.EndPosition);
+
+            var item = move.UsedItem as ITargetConsumable;
+            item.UseItemOn(usingUnit, targetUnit);
+
+            Debug.Log($"{usingUnit.Name} uses {move.UsedItem.Name} on {targetUnit.Name}");
+
+            Debug.Log(usingUnit.UnitInformation + "\n\n");
+            Debug.Log(targetUnit.UnitInformation);
+        }
+
+        private void ApplyItemToSelf(GameMove move)
+        {
+            var unit = GetUnitAtPosition(move.StartPosition);
+
+            var item = move.UsedItem as ISelfConsumable;
+            item.UseItem(unit);
+
+            Debug.Log($"{unit.Name} uses {move.UsedItem.Name} on self");
+
+            Debug.Log(unit.UnitInformation);
         }
 
         /// <summary>
@@ -1192,6 +1332,7 @@ namespace Assets.Scripts.Model {
         /// <param name="move">The GameMove containing the Skill and position it will be used</param>
 
         private void ApplySingleDamageSkill(GameMove move) {
+            //throw new NotImplementedException();
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
@@ -1199,7 +1340,7 @@ namespace Assets.Scripts.Model {
 
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks with {usedSkill.SkillName} on {defendingUnit.Name}");
-            defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetSkillDamage(attackingUnit, defendingUnit, usedSkill);
+            //defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetSkillDamage(attackingUnit, defendingUnit, usedSkill);
             if (defendingUnit.IsAlive) //check if unit is alive 
                                                 //TODO CHECK RANGE OF UNIT COUNTER
             {
