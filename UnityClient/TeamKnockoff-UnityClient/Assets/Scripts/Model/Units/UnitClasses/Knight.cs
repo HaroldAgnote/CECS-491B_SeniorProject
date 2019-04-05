@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Weapons;
 
 namespace Assets.Scripts.Model.Units {
+    [Serializable]
     public class Knight : ArmoredUnit {
         const int MAX_HEALTH_POINTS = 100;
 

@@ -9,6 +9,7 @@ using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Weapons;
 
 namespace Assets.Scripts.Model.Units {
+    [Serializable]
     public class SampleUnit : Unit, IMover {
 
         public static SampleUnit CreateSampleUnit() {

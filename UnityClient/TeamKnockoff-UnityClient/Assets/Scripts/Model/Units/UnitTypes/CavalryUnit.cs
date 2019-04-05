@@ -6,6 +6,7 @@ using UnityEngine;
 using Assets.Scripts.Model.Tiles;
 
 namespace Assets.Scripts.Model.Units {
+    [Serializable]
     public abstract class CavalryUnit : Unit {
 
         const string UNIT_TYPE = "Cavalry";

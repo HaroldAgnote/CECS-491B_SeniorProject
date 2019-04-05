@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,8 @@ using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Skills;
 
 namespace Assets.Scripts.Model.Units {
-    public class Thief : InfantryUnit
-    {
+    [Serializable]
+    public class Thief : InfantryUnit {
         const int MAX_HEALTH_POINTS = 100;
 
         const int INITIAL_LEVEL = 1;
@@ -59,10 +60,6 @@ namespace Assets.Scripts.Model.Units {
             var newWeapon = new Weapon(7, 1, 95, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
             EquipWeapon(newWeapon);
             LearnSkill(new MediumSpeedBoost());
-        }
-
-        public Thief(string name) {
-            Name = name;
         }
     }
 }
