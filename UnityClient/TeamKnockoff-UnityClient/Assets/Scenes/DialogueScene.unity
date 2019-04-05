@@ -1171,13 +1171,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c9b4d4ff6e19745be99bf259bc79b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 0}
-  dialogueText: {fileID: 0}
+  nameText: {fileID: 28757623}
+  dialogueText: {fileID: 742337248}
   typingSpeed: 0
-  startButton: {fileID: 0}
-  autoTextButton: {fileID: 0}
-  continueButton: {fileID: 0}
-  prevButton: {fileID: 0}
+  startButton: {fileID: 2134279601}
+  autoTextButton: {fileID: 237754199}
+  continueButton: {fileID: 916761404}
+  prevButton: {fileID: 1664963023}
 --- !u!114 &1711789953
 MonoBehaviour:
   m_ObjectHideFlags: 0
