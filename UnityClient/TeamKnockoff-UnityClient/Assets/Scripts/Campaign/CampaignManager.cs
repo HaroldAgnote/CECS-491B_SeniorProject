@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 using Assets.Scripts.Application;
+using Assets.Scripts.Model;
 using Assets.Scripts.Utilities.FileHandling;
 
 namespace Assets.Scripts.Campaign {
@@ -13,7 +14,19 @@ namespace Assets.Scripts.Campaign {
         public static CampaignManager instance;
 
         public List<CampaignSequence> availableCampaigns;
-        public CampaignSequence CurrentCampaignSequence { get; set; }
+
+        public CampaignSequence CurrentCampaignSequence { get; private set; }
+
+        private bool mCurrentCampaignIsCompleted;
+
+        public bool IsCompleted {
+            get { return mCurrentCampaignIsCompleted; }
+            set {
+                if (mCurrentCampaignIsCompleted != value) {
+                    mCurrentCampaignIsCompleted = value;
+                }
+            }
+        }
 
         private int mCurrentCampaignIndex;
 
@@ -22,6 +35,12 @@ namespace Assets.Scripts.Campaign {
             set {
                 if (mCurrentCampaignIndex != value) {
                     mCurrentCampaignIndex = value;
+                }
+                
+                // Ensure chapter stays at last chapter
+                if (mCurrentCampaignIndex == CurrentCampaignSequence.numberOfChapters) {
+                    mCurrentCampaignIndex = CurrentCampaignSequence.numberOfChapters - 1;
+                    IsCompleted = true;
                 }
 
                 if (mCurrentCampaignIndex > FarthestCampaignIndex) {
@@ -51,6 +70,8 @@ namespace Assets.Scripts.Campaign {
 
         private CampaignEvent currentCampaignEvent;
 
+        public Player CampaignPlayerData { get; set; }
+
         public List<CampaignData> CampaignDataSlots { get; private set; }
         public SortedDictionary<string, CampaignSequence> NamesToCampaignSequences { get; private set; }
 
@@ -62,8 +83,13 @@ namespace Assets.Scripts.Campaign {
 
         public static string DataToString(CampaignData data) {
             var sequence = instance.NamesToCampaignSequences[data.CampaignName];
-            return
-                $"{sequence.campaignName}: Chapter {data.FarthestCampaignIndex + 1} - {sequence.chapterNames[data.FarthestCampaignIndex]}";
+            var dataString = $"{sequence.campaignName}: Chapter {data.FarthestCampaignIndex + 1} - {sequence.chapterNames[data.FarthestCampaignIndex]} {data.TimeStamp}";
+            
+            if (data.IsCompleted) {
+                dataString += " - COMPLETE";
+            }
+
+            return dataString;
         }
 
         private void Awake() {
@@ -129,15 +155,16 @@ namespace Assets.Scripts.Campaign {
             CurrentCampaignSequence = newSequence;
             CurrentCampaignIndex = 0;
             FarthestCampaignIndex = 0;
-            //TODO matt instead load first dialogue sequence
+
+            IsCompleted = false;
             LoadOpeningDialogue();
-            //LoadCampaignChapterMenu();
         }
 
         public void LoadCampaign(CampaignData data) {
             CurrentCampaignSequence = NamesToCampaignSequences[data.CampaignName];
             CurrentCampaignIndex = data.CurrentCampaignIndex;
             FarthestCampaignIndex = data.FarthestCampaignIndex;
+            IsCompleted = data.IsCompleted;
             LoadCampaignChapterMenu();
         }
 
@@ -182,7 +209,7 @@ namespace Assets.Scripts.Campaign {
         }
 
         public CampaignData SaveNewCampaign() {
-            var newData = new CampaignData(CurrentCampaignSequence.campaignName, CurrentCampaignIndex, FarthestCampaignIndex);
+            var newData = new CampaignData(CurrentCampaignSequence.campaignName, CurrentCampaignIndex, FarthestCampaignIndex, IsCompleted, CampaignPlayerData);
             CampaignDataSlots.Add(newData);
 
             CampaignDataFileHandler.SaveCampaignData(newData);
@@ -194,8 +221,12 @@ namespace Assets.Scripts.Campaign {
 
             // Overwrite existing data
             CampaignDataFileHandler.DeleteCampaignData(data);
-            
+
+            data.CampaignName = CurrentCampaignSequence.campaignName;
             data.CurrentCampaignIndex = CurrentCampaignIndex;
+            data.FarthestCampaignIndex = FarthestCampaignIndex;
+            data.IsCompleted = IsCompleted;
+            data.PlayerData = CampaignPlayerData;
 
             CampaignDataFileHandler.SaveCampaignData(data);
 

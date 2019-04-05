@@ -9,6 +9,7 @@ using Assets.Scripts.Model.UnitEffects;
 using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
 
 namespace Assets.Scripts.Model.Skills {
+    [Serializable]
     public class Gravity : SingleDamageSkill {
         class GravityEffect : Debuff {
             public const string EFFECT_NAME = "Gravity";
@@ -73,7 +74,7 @@ namespace Assets.Scripts.Model.Skills {
 
         public override int GetHitChance(Unit attacker, Unit defender)
         {
-            double hitRate = attacker.MainWeapon.Hit + HIT_RATE;
+            double hitRate = attacker.MainWeapon.HitRate + HIT_RATE;
             double evasionRate = defender.Speed.Value + defender.Luck.Value;
             return (int)(hitRate - evasionRate);
         }

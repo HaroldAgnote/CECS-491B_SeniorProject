@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.Skills {
+    [Serializable]
     public class SmallSpeedBoost : FieldSkill {
         const string SKILL_NAME = "Speed +3";
         const int STAT_BOOST = 3;
@@ -18,6 +19,7 @@ namespace Assets.Scripts.Model.Skills {
         }
     }
 
+    [Serializable]
     public class MediumSpeedBoost : FieldSkill {
         const string SKILL_NAME = "Speed +5";
         const int STAT_BOOST = 5;
@@ -29,6 +31,7 @@ namespace Assets.Scripts.Model.Skills {
         }
     }
 
+    [Serializable]
     public class LargeSpeedBoost : FieldSkill {
         const string SKILL_NAME = "Speed +10";
         const int STAT_BOOST = 10;
