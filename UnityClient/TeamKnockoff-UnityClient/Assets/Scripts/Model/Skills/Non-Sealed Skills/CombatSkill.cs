@@ -12,5 +12,7 @@ namespace Assets.Scripts.Model.Skills {
         public CombatSkill(string skillName) : base(skillName) { }
 
         public abstract void ApplyCombatSkill(Unit unit);
+
+        //public abstract Skill Generate();
     }
 }

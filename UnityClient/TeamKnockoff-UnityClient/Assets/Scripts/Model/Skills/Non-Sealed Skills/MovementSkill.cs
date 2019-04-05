@@ -12,5 +12,7 @@ namespace Assets.Scripts.Model.Skills {
         public MovementSkill(string skillName) : base(skillName) { }
 
         public abstract void ApplyMovementSkill(Unit unit);
+
+        //public abstract Skill Generate();
     }
 }

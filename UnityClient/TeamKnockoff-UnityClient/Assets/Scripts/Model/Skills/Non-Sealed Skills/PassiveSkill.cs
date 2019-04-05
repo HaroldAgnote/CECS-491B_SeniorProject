@@ -11,5 +11,7 @@ namespace Assets.Scripts.Model.Skills {
         public PassiveSkill(string skillName) 
             : base(skillName) {
         }
+
+        //public abstract Skill Generate();
     }
 }

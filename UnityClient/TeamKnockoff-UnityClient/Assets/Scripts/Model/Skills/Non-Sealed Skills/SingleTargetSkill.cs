@@ -23,6 +23,8 @@ namespace Assets.Scripts.Model.Skills {
         }
 
         public abstract bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit);
+
+        //public abstract Skill Generate();
     }
 }
 

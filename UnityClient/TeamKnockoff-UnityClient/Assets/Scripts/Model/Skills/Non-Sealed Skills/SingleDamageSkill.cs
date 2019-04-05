@@ -26,6 +26,8 @@ namespace Assets.Scripts.Model.Skills {
         public abstract int GetCritRate(Unit attacker, Unit defender);
 
         public abstract void ApplyDamageSkill(Unit attacker, Unit defender);
+
+        //public abstract Skill Generate();
     }
 }
 

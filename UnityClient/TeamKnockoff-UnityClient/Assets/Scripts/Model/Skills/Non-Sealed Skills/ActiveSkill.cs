@@ -24,8 +24,6 @@ namespace Assets.Scripts.Model.Skills {
             return usingUnit.HealthPoints > SkillCost;
         }
 
-        public override Skill Generate() {
-            return new Gravity();
-        }
+        //public abstract Skill Generate();
     }
 }

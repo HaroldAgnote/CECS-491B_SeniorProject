@@ -10,5 +10,7 @@ namespace Assets.Scripts.Model.Skills {
         }
 
         public abstract void ApplySupportSkill(Unit usingUnit, Unit targetUnit);
+
+        //public abstract Skill Generate();
     }
 }

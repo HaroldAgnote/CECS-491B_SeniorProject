@@ -12,5 +12,7 @@ namespace Assets.Scripts.Model.Skills {
         public FieldSkill(string skillName) : base(skillName) { }
 
         public abstract void ApplyFieldSkill(Unit unit);
+
+        //public abstract Skill Generate();
     }
 }
