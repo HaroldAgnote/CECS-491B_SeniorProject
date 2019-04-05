@@ -143,10 +143,11 @@ namespace Assets.Scripts.Campaign {
                     LoadCampaignChapterMenu();
                     break;
                 case CampaignEvent.ChapterMenu:
-                    // TODO: Use Opening Dialogue Call and remove Map Call
-                    // LoadOpeningDialogue();
-                    // comment out below when LoadOpeningDialogue is opened
-                    LoadNextMap();
+                    if (CurrentCampaignIndex == FarthestCampaignIndex) {
+                        LoadOpeningDialogue();
+                    } else {
+                        LoadNextMap();
+                    }
                     break;
             }
         }
@@ -187,8 +188,6 @@ namespace Assets.Scripts.Campaign {
             currentCampaignEvent = CampaignEvent.OpeningDialogue;
             var nextDialogue = CurrentCampaignSequence.preMapDialogueSequence[CurrentCampaignIndex].text;
             SceneLoader.SetParam(SceneLoader.LOAD_DIALOGUE_PARAM, nextDialogue);
-            SceneLoader.SetParam(SceneLoader.GAME_TYPE_PARAM, GameManager.SINGLEPLAYER_GAME_TYPE);
-            SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM, GameManager.CAMPAIGN_GAME_TYPE);
             SceneLoader.instance.GoToDialogue();
             //throw new NotImplementedException();
         }
@@ -197,8 +196,6 @@ namespace Assets.Scripts.Campaign {
             currentCampaignEvent = CampaignEvent.ClosingDialogue;
             var nextDialogue = CurrentCampaignSequence.postMapDialogueSequence[CurrentCampaignIndex].text;
             SceneLoader.SetParam(SceneLoader.LOAD_DIALOGUE_PARAM, nextDialogue);
-            SceneLoader.SetParam(SceneLoader.GAME_TYPE_PARAM, GameManager.SINGLEPLAYER_GAME_TYPE);
-            SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM, GameManager.CAMPAIGN_GAME_TYPE);
             SceneLoader.instance.GoToDialogue();
             //throw new NotImplementedException();
         }
