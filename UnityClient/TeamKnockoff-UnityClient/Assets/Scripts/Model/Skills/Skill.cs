@@ -1,14 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Model.Skills
-{
+namespace Assets.Scripts.Model.Skills {
+    [Serializable]
     public abstract class Skill {
-        public string SkillName { get; }
+
+        [SerializeField]
+        private readonly string mSkillName;
+
+        public string SkillName { get { return mSkillName; } }
 
         public Skill(string skillName) {
-            SkillName = skillName;
+            mSkillName = skillName;
         }
     }
 }

@@ -127,17 +127,17 @@ MonoBehaviour:
   numberOfChapters: 3
   chapterNames:
   - The First One
-  - The Second ONe
+  - The Second One
   - The Third One
   mapSequence:
   - {fileID: 4900000, guid: 6536e8d24e335164fbea19ba8b3a76f3, type: 3}
   - {fileID: 4900000, guid: c54bd6a940ba5a941ad707337ac5f019, type: 3}
   - {fileID: 4900000, guid: 276066747876d8445883a15f889b8040, type: 3}
   preMapDialogueSequence:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 4900000, guid: e32e1ffb5f19ba246bb2070a04436228, type: 3}
+  - {fileID: 4900000, guid: e32e1ffb5f19ba246bb2070a04436228, type: 3}
+  - {fileID: 4900000, guid: e32e1ffb5f19ba246bb2070a04436228, type: 3}
   postMapDialogueSequence:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 4900000, guid: 0b89d2f0e86833e42a76eac99fbf307d, type: 3}
+  - {fileID: 4900000, guid: 0b89d2f0e86833e42a76eac99fbf307d, type: 3}
+  - {fileID: 4900000, guid: 0b89d2f0e86833e42a76eac99fbf307d, type: 3}

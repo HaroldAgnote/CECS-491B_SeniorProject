@@ -5,21 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+using Assets.Scripts.Model;
 using Assets.Scripts.Utilities.DateTime;
 
 namespace Assets.Scripts.Campaign {
 
     [Serializable]
-    public class CampaignData {
+    public class CampaignData : IComparable<CampaignData> {
         
         [SerializeField]
         private string mCampaignName;
 
         public string CampaignName {
             get { return mCampaignName; }
-            private set {
+            set {
                 if (mCampaignName != value) {
                     mCampaignName = value;
+                }
+            }
+        }
+
+        [SerializeField]
+        private bool mIsCompleted;
+
+        public bool IsCompleted {
+            get { return mIsCompleted; }
+            set {
+                if (mIsCompleted != value) {
+                    mIsCompleted = value;
                 }
             }
         }
@@ -48,10 +61,21 @@ namespace Assets.Scripts.Campaign {
 
         public int FarthestCampaignIndex {
             get { return mFarthestCampaignIndex; }
-
-            private set {
+            set {
                 if (mFarthestCampaignIndex != value) {
                     mFarthestCampaignIndex = value;
+                }
+            }
+        }
+
+        [SerializeField]
+        private Player mPlayerData;
+
+        public Player PlayerData {
+            get { return mPlayerData; }
+            set {
+                if (mPlayerData != value) {
+                    mPlayerData = value;
                 }
             }
         }
@@ -69,20 +93,34 @@ namespace Assets.Scripts.Campaign {
         }
 
         public CampaignData(string campaignName) {
-            CampaignName = campaignName;
-            CurrentCampaignIndex = 0;
-            FarthestCampaignIndex = 0;
+            mCampaignName = campaignName;
+            mCurrentCampaignIndex = 0;
+            mFarthestCampaignIndex = 0;
+            mIsCompleted = false;
+            mPlayerData = new Player("Hero");
         }
 
         public CampaignData(string campaignName, int currentIndex) {
-            CampaignName = campaignName;
-            CurrentCampaignIndex = currentIndex;
+            mCampaignName = campaignName;
+            mCurrentCampaignIndex = currentIndex;
         }
 
         public CampaignData(string campaignName, int currentIndex, int farthestIndex) {
-            CampaignName = campaignName;
-            CurrentCampaignIndex = currentIndex;
-            FarthestCampaignIndex = farthestIndex;
+            mCampaignName = campaignName;
+            mCurrentCampaignIndex = currentIndex;
+            mFarthestCampaignIndex = farthestIndex;
+        }
+
+        public CampaignData(string campaignName, int currentIndex, int farthestIndex, bool isCompleted, Player playerData) {
+            mCampaignName = campaignName;
+            mCurrentCampaignIndex = currentIndex;
+            mFarthestCampaignIndex = farthestIndex;
+            mIsCompleted = isCompleted;
+            mPlayerData = playerData;
+        }
+
+        public int CompareTo(CampaignData other) {
+            return this.mTimeStamp.CompareTo(other.mTimeStamp);
         }
     }
 }

@@ -1466,26 +1466,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6648202356864797477, guid: 8ee35bfe6a5cb4745ab94d64d6a23062,
-        type: 3}
-      propertyPath: chapterNames.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648202356864797477, guid: 8ee35bfe6a5cb4745ab94d64d6a23062,
-        type: 3}
-      propertyPath: chapterNames.Array.data[0]
-      value: The First
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648202356864797477, guid: 8ee35bfe6a5cb4745ab94d64d6a23062,
-        type: 3}
-      propertyPath: chapterNames.Array.data[1]
-      value: The Second
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648202356864797477, guid: 8ee35bfe6a5cb4745ab94d64d6a23062,
-        type: 3}
-      propertyPath: chapterNames.Array.data[2]
-      value: The Third
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ee35bfe6a5cb4745ab94d64d6a23062, type: 3}
 --- !u!1 &2120085940
@@ -1776,8 +1756,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

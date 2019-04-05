@@ -8,8 +8,9 @@ using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.UnitEffects;
 
 namespace Assets.Scripts.Model.Skills {
-    public class BuffStrength : SingleSupportSkill {
 
+    [Serializable]
+    public class BuffStrength : SingleSupportSkill {
         private const string SKILL_NAME = "Buff Strength";
         private const int SKILL_COST = 10;
         private const int RANGE = 1;

@@ -1,18 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 using Assets.Scripts.Model.Units;
 
-namespace Assets.Scripts.Model.Skills
-{
+namespace Assets.Scripts.Model.Skills {
+    [Serializable]
     public class ActiveSkill : Skill {
-        public int SkillCost { get; }
+
+        [SerializeField]
+        private int mSkillCost;
+
+        public int SkillCost { get { return mSkillCost; } }
 
         public ActiveSkill(string skillName, int skillCost) 
             : base(skillName) {
-            SkillCost = skillCost;
+            mSkillCost = skillCost;
         }
 
         public bool CanUse(Unit usingUnit) {

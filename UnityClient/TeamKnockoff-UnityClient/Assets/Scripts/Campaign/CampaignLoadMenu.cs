@@ -44,10 +44,10 @@ namespace Assets.Scripts.Campaign {
                     selectedGameObject = button.gameObject;
                     var buttonImage = selectedGameObject.GetComponent<Image>();
                     buttonImage.color = SELECTED_COLOR;
+                    campaignActionButton.interactable = true;
                 });
                 var actionLabel = campaignActionButton.gameObject.GetComponentInChildren<TextMeshProUGUI>();
                 actionLabel.text = "Start";
-                campaignActionButton.interactable = true;
                 campaignActionButton.onClick.AddListener(() => {
                     SceneLoader.instance.GoToCampaignNewStoryMenu();
                 });

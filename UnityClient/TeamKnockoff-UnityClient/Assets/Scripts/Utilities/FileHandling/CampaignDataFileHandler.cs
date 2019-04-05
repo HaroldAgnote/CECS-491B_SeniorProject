@@ -16,7 +16,7 @@ namespace Assets.Scripts.Utilities.FileHandling {
 
         public static void SaveCampaignData(CampaignData data) {
             data.TimeStamp = new SerializableDateTime(System.DateTime.Now);
-            var filePath = $"{campaignFolderPath}{data.TimeStamp}.txt";
+            var filePath = $"{campaignFolderPath}{data.TimeStamp.ToFileString()}.txt";
 
             try {
                 Directory.CreateDirectory(campaignFolderPath);
@@ -54,7 +54,7 @@ namespace Assets.Scripts.Utilities.FileHandling {
         }
 
         public static void DeleteCampaignData(CampaignData data) {
-            var filePath = $"{campaignFolderPath}{data.TimeStamp}.txt";
+            var filePath = $"{campaignFolderPath}{data.TimeStamp.ToFileString()}.txt";
             try {
                 var fileInfo = new FileInfo(filePath);
                 File.Delete(filePath);

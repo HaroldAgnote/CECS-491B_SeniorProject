@@ -10,6 +10,7 @@ using Assets.Scripts.Model.UnitEffects;
 using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.Skills {
+    [Serializable]
     public class Renewal : FieldSkill {
         public class RenewalEffect : PassiveEffect, IApplicableEffect {
 

@@ -26,21 +26,43 @@ namespace Assets.Scripts.Model.Units {
         private Dictionary<string, UnitFactoryWrapper> unitMapper; 
 
         class UnitFactoryWrapper {
-            public GameObject UnitPrefab;
-            public Texture2D UnitTexture;
-            public Sprite[] UnitSprites;
-            public string UnitsResourcePath;
+            public GameObject UnitPrefab { get; }
+            public Texture2D UnitTexture { get;  }
+            public Sprite[] UnitSprites { get;  }
+            public string UnitsResourcePath { get;  }
 
-            public Func<GameObject, Sprite, Vector3, Transform, GameObject> CreateUnitHandler;
+            private Func<Unit> mGenerateUnitFunction;
 
             // TODO: Create delegate to load Unit from existing data
 
-            public UnitFactoryWrapper(GameObject unitPrefab, Texture2D unitTexture, Func<GameObject, Sprite, Vector3, Transform, GameObject> createGameObjectMethod) {
+            public UnitFactoryWrapper(GameObject unitPrefab, Texture2D unitTexture, Func<Unit> generateUnitFunction) {
                 UnitPrefab = unitPrefab;
                 UnitTexture = unitTexture;
                 UnitsResourcePath = $"{RESOURCE_PATH}{UnitTexture.name}";
                 UnitSprites = Resources.LoadAll<Sprite> (UnitsResourcePath);
-                CreateUnitHandler = createGameObjectMethod;
+                mGenerateUnitFunction = generateUnitFunction;
+            }
+
+            public Tuple<Unit, GameObject> InstantiateUnit(TileData tileData, Transform parent) {
+                var tilePos = new Vector3(tileData.Column, tileData.Row, 0f);
+
+                const char DELIMITER = '_';
+
+                // Parse Unit Data
+                var unitData = tileData.UnitData;
+                var split_string = unitData.Split(DELIMITER);
+                var unitType = split_string.First<string>();
+                var spriteIndex = Int32.Parse(split_string.Last<string>());
+
+                var unitPrefab = UnitPrefab;
+                var unitSprite = UnitSprites[spriteIndex];
+
+                var newUnitObject = Instantiate(UnitPrefab, tilePos, Quaternion.identity, parent) as GameObject;
+                newUnitObject.GetComponent<SpriteRenderer>().sprite = UnitSprites[spriteIndex];
+
+                var newUnit = mGenerateUnitFunction();
+
+                return new Tuple<Unit, GameObject>(newUnit, newUnitObject);
             }
         }
 
@@ -70,24 +92,18 @@ namespace Assets.Scripts.Model.Units {
 
         }
 
-        public GameObject CreateUnit(TileData tileData, Transform parent) {
+        public Tuple<Unit, GameObject> CreateUnit(TileData tileData, Transform parent) {
             var tilePos = new Vector3(tileData.Column, tileData.Row, 0f);
 
             const char DELIMITER = '_';
 
             var unitData = tileData.UnitData;
             var split_string = unitData.Split(DELIMITER);
-            var unitType = split_string.First<string>();
-            var spriteIndex = Int32.Parse(split_string.Last<string>());
 
+            var unitType = split_string.First<string>();
             var unitFactoryWrapper = unitMapper[unitType];
 
-            var unitPrefab = unitFactoryWrapper.UnitPrefab;
-            var unitSprite = unitFactoryWrapper.UnitSprites[spriteIndex];
-
-            var newUnit = unitFactoryWrapper.CreateUnitHandler(unitPrefab, unitSprite, tilePos, parent);
-
-            return newUnit;
+            return unitFactoryWrapper.InstantiateUnit(tileData, parent);
         }
     }
 }

@@ -204,8 +204,9 @@ namespace Assets.Scripts.Application {
 
                 // If Tile contains Player data, initialize Unit Model/View
                 if (tile.Player != 0) {
-                    var newUnitObject = unitFactory.CreateUnit(tile, view.gameObject.transform);
-                    var newUnitModel = newUnitObject.GetComponent<Unit>();
+                    var newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                    var newUnitModel = newUnitTuple.Item1;
+                    var newUnitObject = newUnitTuple.Item2;
 
                     var newUnitView= new UnitView(newUnitObject);
 
@@ -289,12 +290,10 @@ namespace Assets.Scripts.Application {
 
                 if (singleplayerGameType == SingleplayerGameType.Campaign) {
                     if (ControllingPlayer.HasAliveUnit()) {
-                        if (!CampaignManager.instance.CurrentCampaignIsFinished) {
-                            CampaignManager.instance.LoadNextCampaignEvent();
-                        }
-                        else {
-                            SceneLoader.instance.GoToCampaignMenu();
-                        }
+                        CampaignManager.instance.CampaignPlayerData = ControllingPlayer;
+                        CampaignManager.instance.LoadNextCampaignEvent();
+                    } else {
+                        SceneLoader.instance.GoToCampaignMenu();
                     }
                 }
             }
