@@ -41,5 +41,8 @@ namespace Assets.Scripts.Model.Skills {
         public override void ApplyFieldSkill(Unit unit) {
             unit.UnitEffects.Add(new RenewalEffect());
         }
+        public override Skill Generate() {
+            return new Renewal();
+        }
     }
 }

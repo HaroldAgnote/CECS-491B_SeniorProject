@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Utilities.Generator;
 
 namespace Assets.Scripts.Model.Skills {
     [Serializable]
-    public abstract class Skill {
+    public abstract class Skill:IGenerator<Skill> {
 
         [SerializeField]
         private readonly string mSkillName;
@@ -15,5 +16,7 @@ namespace Assets.Scripts.Model.Skills {
         public Skill(string skillName) {
             mSkillName = skillName;
         }
+
+        public abstract Skill Generate(); 
     }
 }

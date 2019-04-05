@@ -27,5 +27,9 @@ namespace Assets.Scripts.Model.Skills {
             strengthBoost.ApplyEffect(target);
             target.UnitEffects.Add(strengthBoost);
         }
+
+        public override Skill Generate() {
+            return new BuffStrength();
+        }
     }
 }

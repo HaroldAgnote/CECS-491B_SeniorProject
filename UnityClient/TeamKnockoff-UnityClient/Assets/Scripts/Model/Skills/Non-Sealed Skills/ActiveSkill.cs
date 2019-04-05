@@ -8,7 +8,7 @@ using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.Skills {
     [Serializable]
-    public class ActiveSkill : Skill {
+    public abstract class ActiveSkill : Skill {
 
         [SerializeField]
         private int mSkillCost;
@@ -22,6 +22,10 @@ namespace Assets.Scripts.Model.Skills {
 
         public bool CanUse(Unit usingUnit) {
             return usingUnit.HealthPoints > SkillCost;
+        }
+
+        public override Skill Generate() {
+            return new Gravity();
         }
     }
 }

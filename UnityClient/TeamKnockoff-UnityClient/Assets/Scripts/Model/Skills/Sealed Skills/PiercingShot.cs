@@ -56,6 +56,10 @@ namespace Assets.Scripts.Model.Skills {
         public override bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit) {
             return true;
         }
+
+        public override Skill Generate() {
+            return new PiercingShot();
+        }
     }
 }
 
