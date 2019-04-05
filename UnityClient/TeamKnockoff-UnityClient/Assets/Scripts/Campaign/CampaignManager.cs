@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 using Assets.Scripts.Application;
+using Assets.Scripts.Model;
 using Assets.Scripts.Utilities.FileHandling;
 
 namespace Assets.Scripts.Campaign {
@@ -14,7 +15,7 @@ namespace Assets.Scripts.Campaign {
 
         public List<CampaignSequence> availableCampaigns;
 
-        public CampaignSequence CurrentCampaignSequence { get; set; }
+        public CampaignSequence CurrentCampaignSequence { get; private set; }
 
         private bool mCurrentCampaignIsCompleted;
 
@@ -68,6 +69,8 @@ namespace Assets.Scripts.Campaign {
         }
 
         private CampaignEvent currentCampaignEvent;
+
+        public Player CampaignPlayerData { get; set; }
 
         public List<CampaignData> CampaignDataSlots { get; private set; }
         public SortedDictionary<string, CampaignSequence> NamesToCampaignSequences { get; private set; }
@@ -190,7 +193,7 @@ namespace Assets.Scripts.Campaign {
         }
 
         public CampaignData SaveNewCampaign() {
-            var newData = new CampaignData(CurrentCampaignSequence.campaignName, CurrentCampaignIndex, FarthestCampaignIndex);
+            var newData = new CampaignData(CurrentCampaignSequence.campaignName, CurrentCampaignIndex, FarthestCampaignIndex, IsCompleted, CampaignPlayerData);
             CampaignDataSlots.Add(newData);
 
             CampaignDataFileHandler.SaveCampaignData(newData);
@@ -202,10 +205,12 @@ namespace Assets.Scripts.Campaign {
 
             // Overwrite existing data
             CampaignDataFileHandler.DeleteCampaignData(data);
-            
+
+            data.CampaignName = CurrentCampaignSequence.campaignName;
             data.CurrentCampaignIndex = CurrentCampaignIndex;
             data.FarthestCampaignIndex = FarthestCampaignIndex;
             data.IsCompleted = IsCompleted;
+            data.PlayerData = CampaignPlayerData;
 
             CampaignDataFileHandler.SaveCampaignData(data);
 

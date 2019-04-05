@@ -1,22 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 
-namespace Assets.Scripts.Model.Skills
-{
+namespace Assets.Scripts.Model.Skills {
+    [Serializable]
     public abstract class SingleTargetSkill : ActiveSkill {
+        [SerializeField]
+        private int mRange;
+
+        [SerializeField]
+        private bool mCanTargetSelf;
         
-        public int Range { get; }
-        public bool CanTargetSelf { get; }
+        public int Range { get { return mRange; } }
+        public bool CanTargetSelf { get { return mCanTargetSelf; } }
 
         public SingleTargetSkill(string skillName, int skillCost, int range, bool targetSelf) 
             : base(skillName, skillCost) {
 
-            Range = range;
-            CanTargetSelf = targetSelf;
+            mRange = range;
+            mCanTargetSelf = targetSelf;
         }
 
         public abstract bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit);

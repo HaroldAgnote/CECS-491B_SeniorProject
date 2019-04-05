@@ -28,45 +28,37 @@ namespace Assets.Scripts.Model.Units {
 
         // TODO: Set up constants for growth rate
 
-        public static GameObject CreateArcher(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos, Transform parent) {
-            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
-            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
-
-            newUnit.AddComponent<Archer>();
-
-            var unit = newUnit.GetComponent<Archer>();
-
-            // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints.Base = Archer.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints.Value;
-
-            unit.Level = Archer.INITIAL_LEVEL;
-            unit.ExperiencePoints = Archer.INITIAL_EXPERIENCE_POINTS;
-
-            unit.Strength.Base = Archer.INITIAL_STRENGTH;
-            unit.Magic.Base = Archer.INITIAL_MAGIC;
-
-            unit.Defense.Base = Archer.INITIAL_DEFENSE;
-            unit.Resistance.Base = Archer.INITIAL_RESISTANCE;
-
-            unit.Speed.Base = Archer.INITIAL_SPEED;
-            unit.Skill.Base = Archer.INITIAL_SKILL;
-
-            unit.Luck.Base = Archer.INITIAL_LUCK;
-            unit.Movement.Base = Archer.MOVEMENT_RANGE;
-
-            unit.Name = Archer.CLASS_NAME;
-            unit.Class = Archer.CLASS_NAME;
-
-            var testWeapon = new Weapon(8, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-
-            unit.EquipWeapon(testWeapon);
-            unit.Skills.Add(new PiercingShot());
-
-            return newUnit;
+        public static Unit CreateArcher() {
+            return new Archer();
         }
 
-        public Archer() {
+        public Archer() : base() {
+            // Set Max Health Points and initial stats here
+            MaxHealthPoints.Base = Archer.MAX_HEALTH_POINTS;
+            HealthPoints = MaxHealthPoints.Value;
+
+            Level = Archer.INITIAL_LEVEL;
+            ExperiencePoints = Archer.INITIAL_EXPERIENCE_POINTS;
+
+            Strength.Base = Archer.INITIAL_STRENGTH;
+            Magic.Base = Archer.INITIAL_MAGIC;
+
+            Defense.Base = Archer.INITIAL_DEFENSE;
+            Resistance.Base = Archer.INITIAL_RESISTANCE;
+
+            Speed.Base = Archer.INITIAL_SPEED;
+            Skill.Base = Archer.INITIAL_SKILL;
+
+            Luck.Base = Archer.INITIAL_LUCK;
+            Movement.Base = Archer.MOVEMENT_RANGE;
+
+            Name = Archer.CLASS_NAME;
+            Class = Archer.CLASS_NAME;
+
+            var testWeapon = new Weapon(8, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            EquipWeapon(testWeapon);
+
+            LearnSkill(new PiercingShot());
         }
     }
 }

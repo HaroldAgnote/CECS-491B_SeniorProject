@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.Skills {
+    [Serializable]
     public abstract class MovementSkill : PassiveSkill {
         public MovementSkill(string skillName) : base(skillName) { }
 

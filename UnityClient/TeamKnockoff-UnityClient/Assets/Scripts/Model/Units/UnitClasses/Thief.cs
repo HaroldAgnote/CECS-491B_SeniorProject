@@ -29,46 +29,36 @@ namespace Assets.Scripts.Model.Units {
 
         // TODO: Set up constants for Growth Rate
 
-        public static GameObject CreateThief(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos, Transform parent) {
-            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity, parent) as GameObject;
-            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
-
-            newUnit.AddComponent<Thief>();
-
-            var unit = newUnit.GetComponent<Thief>();
-
-            // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints.Base = Thief.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints.Value;
-
-            unit.Level = Thief.INITIAL_LEVEL;
-            unit.ExperiencePoints = Thief.INITIAL_EXPERIENCE_POINTS;
-
-            unit.Strength.Base = Thief.INITIAL_STRENGTH;
-            unit.Magic.Base = Thief.INITIAL_MAGIC;
-
-            unit.Defense.Base = Thief.INITIAL_DEFENSE;
-            unit.Resistance.Base = Thief.INITIAL_RESISTANCE;
-
-            unit.Speed.Base = Thief.INITIAL_SPEED;
-            unit.Skill.Base = Thief.INITIAL_SKILL;
-
-            unit.Luck.Base = Thief.INITIAL_LUCK;
-            unit.Movement.Base = Thief.MOVEMENT_RANGE;
-
-            unit.Name = Thief.CLASS_NAME;
-            unit.Class = Thief.CLASS_NAME;
-
-            var newWeapon = new Weapon(7, 1, 95, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-            unit.EquipWeapon(newWeapon);
-            unit.Skills = new List<Skill>() {
-                new MediumSpeedBoost()
-            };
-
-            return newUnit;
+        public static Thief CreateThief() {
+            return new Thief();
         }
 
-        public Thief() {
+        public Thief(): base()  {
+            // Set Max Health Points and initial stats here
+            MaxHealthPoints.Base = Thief.MAX_HEALTH_POINTS;
+            HealthPoints = MaxHealthPoints.Value;
+
+            Level = Thief.INITIAL_LEVEL;
+            ExperiencePoints = Thief.INITIAL_EXPERIENCE_POINTS;
+
+            Strength.Base = Thief.INITIAL_STRENGTH;
+            Magic.Base = Thief.INITIAL_MAGIC;
+
+            Defense.Base = Thief.INITIAL_DEFENSE;
+            Resistance.Base = Thief.INITIAL_RESISTANCE;
+
+            Speed.Base = Thief.INITIAL_SPEED;
+            Skill.Base = Thief.INITIAL_SKILL;
+
+            Luck.Base = Thief.INITIAL_LUCK;
+            Movement.Base = Thief.MOVEMENT_RANGE;
+
+            Name = Thief.CLASS_NAME;
+            Class = Thief.CLASS_NAME;
+
+            var newWeapon = new Weapon(7, 1, 95, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            EquipWeapon(newWeapon);
+            LearnSkill(new MediumSpeedBoost());
         }
 
         public Thief(string name) {

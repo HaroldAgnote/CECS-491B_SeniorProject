@@ -28,44 +28,37 @@ namespace Assets.Scripts.Model.Units {
 
         // TODO: Create constants for growth rate
 
-        public static GameObject CreatePegasusKnight(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos, Transform parent) {
-            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity, parent) as GameObject;
-            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+        public static PegasusKnight CreatePegasusKnight() {
 
-            newUnit.AddComponent<PegasusKnight>();
-
-            var unit = newUnit.GetComponent<PegasusKnight>();
-
-            // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints.Base = PegasusKnight.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints.Value;
-
-            unit.Level = PegasusKnight.INITIAL_LEVEL;
-            unit.ExperiencePoints = PegasusKnight.INITIAL_EXPERIENCE_POINTS;
-
-            unit.Strength.Base = PegasusKnight.INITIAL_STRENGTH;
-            unit.Magic.Base = PegasusKnight.INITIAL_MAGIC;
-
-            unit.Defense.Base = PegasusKnight.INITIAL_DEFENSE;
-            unit.Resistance.Base = PegasusKnight.INITIAL_RESISTANCE;
-
-            unit.Speed.Base = PegasusKnight.INITIAL_SPEED;
-            unit.Skill.Base = PegasusKnight.INITIAL_SKILL;
-
-            unit.Luck.Base = PegasusKnight.INITIAL_LUCK;
-            unit.Movement.Base = PegasusKnight.MOVEMENT_RANGE;
-
-            unit.Name = PegasusKnight.CLASS_NAME;
-            unit.Class = PegasusKnight.CLASS_NAME;
-
-            var newWeapon = new Weapon(8, 1, 80, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-            unit.EquipWeapon(newWeapon);
-            unit.Skills = new List<Skill>();
-
-            return newUnit;
+            return new PegasusKnight();
         }
 
-        public PegasusKnight() {
+        public PegasusKnight(): base()  {
+            // Set Max Health Points and initial stats here
+            MaxHealthPoints.Base = PegasusKnight.MAX_HEALTH_POINTS;
+            HealthPoints = MaxHealthPoints.Value;
+
+            Level = PegasusKnight.INITIAL_LEVEL;
+            ExperiencePoints = PegasusKnight.INITIAL_EXPERIENCE_POINTS;
+
+            Strength.Base = PegasusKnight.INITIAL_STRENGTH;
+            Magic.Base = PegasusKnight.INITIAL_MAGIC;
+
+            Defense.Base = PegasusKnight.INITIAL_DEFENSE;
+            Resistance.Base = PegasusKnight.INITIAL_RESISTANCE;
+
+            Speed.Base = PegasusKnight.INITIAL_SPEED;
+            Skill.Base = PegasusKnight.INITIAL_SKILL;
+
+            Luck.Base = PegasusKnight.INITIAL_LUCK;
+            Movement.Base = PegasusKnight.MOVEMENT_RANGE;
+
+            Name = PegasusKnight.CLASS_NAME;
+            Class = PegasusKnight.CLASS_NAME;
+
+            var newWeapon = new Weapon(8, 1, 80, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+
+            EquipWeapon(newWeapon);
         }
     }
 }

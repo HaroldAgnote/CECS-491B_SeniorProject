@@ -28,50 +28,40 @@ namespace Assets.Scripts.Model.Units {
 
         // TODO: Create constants for growth rate
 
-        public static GameObject CreateCleric(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos, Transform parent) {
-            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity, parent) as GameObject;
-            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+        public static Cleric CreateCleric() {
+            return new Cleric();
+        }
 
-            newUnit.AddComponent<Cleric>();
-
-            var unit = newUnit.GetComponent<Cleric>();
-
+        public Cleric(): base()  {
             // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints.Base = Cleric.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints.Value;
+            MaxHealthPoints.Base = Cleric.MAX_HEALTH_POINTS;
+            HealthPoints = MaxHealthPoints.Value;
 
-            unit.Level = Cleric.INITIAL_LEVEL;
-            unit.ExperiencePoints = Cleric.INITIAL_EXPERIENCE_POINTS;
+            Level = Cleric.INITIAL_LEVEL;
+            ExperiencePoints = Cleric.INITIAL_EXPERIENCE_POINTS;
 
-            unit.Strength.Base = Cleric.INITIAL_STRENGTH;
-            unit.Magic.Base = Cleric.INITIAL_MAGIC;
+            Strength.Base = Cleric.INITIAL_STRENGTH;
+            Magic.Base = Cleric.INITIAL_MAGIC;
 
-            unit.Defense.Base = Cleric.INITIAL_DEFENSE;
-            unit.Resistance.Base = Cleric.INITIAL_RESISTANCE;
+            Defense.Base = Cleric.INITIAL_DEFENSE;
+            Resistance.Base = Cleric.INITIAL_RESISTANCE;
 
-            unit.Speed.Base = Cleric.INITIAL_SPEED;
-            unit.Skill.Base = Cleric.INITIAL_SKILL;
+            Speed.Base = Cleric.INITIAL_SPEED;
+            Skill.Base = Cleric.INITIAL_SKILL;
 
-            unit.Luck.Base = Cleric.INITIAL_LUCK;
-            unit.Movement.Base = Cleric.MOVEMENT_RANGE;
+            Luck.Base = Cleric.INITIAL_LUCK;
+            Movement.Base = Cleric.MOVEMENT_RANGE;
 
-            unit.Name = Cleric.CLASS_NAME;
-            unit.Class = Cleric.CLASS_NAME;
+            Name = Cleric.CLASS_NAME;
+            Class = Cleric.CLASS_NAME;
 
             var testWeapon = new Weapon(10, 2, 75, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
 
-            unit.EquipWeapon(testWeapon);
+            EquipWeapon(testWeapon);
 
-            unit.Skills = new List<Skill>() {
-                new Heal(),
-                new BuffStrength(),
-                new Renewal()
-            };
-
-            return newUnit;
-        }
-
-        public Cleric() {
+            LearnSkill(new Heal());
+            LearnSkill(new BuffStrength());
+            LearnSkill(new Renewal());
         }
     }
 }
