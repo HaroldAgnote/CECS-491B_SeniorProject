@@ -13,6 +13,7 @@ namespace Assets.Scripts.Application {
         public const string GAME_TYPE_PARAM = "GameType";
         public const string SINGLEPLAYER_GAME_TYPE_PARAM = "SinglePlayerGameType";
         public const string MULTIPLAYER_GAME_TYPE_PARAM = "MultiPlayerGameType";
+        public const string LOAD_DIALOGUE_PARAM = "LoadDialogue";
 
         const int START_MENU_INDEX = 0;
         const int MAIN_MENU_INDEX = 1;
@@ -150,6 +151,10 @@ namespace Assets.Scripts.Application {
 
         public void GoToMap() {
             Load(GAME_INDEX, instance.parameters);
+        }
+
+        public void GoToDialogue() {
+            Load(DIALOGUE_INDEX, instance.parameters);
         }
 
         public void ReloadMap() {

@@ -123,14 +123,17 @@ namespace Assets.Scripts.Campaign {
             switch (currentCampaignEvent) {
                 case CampaignEvent.OpeningDialogue:
                     LoadNextMap();
+                    //LoadOpeningDialogue();
                     break;
                 case CampaignEvent.CampaignMap:
                     // TODO: Change to Load Closing Dialogue
                     // and remove complete and save menu call
 
                     // LoadClosingDialogue();
-                    CompleteCurrentCampaignMap();
-                    LoadCampaignSaveMenu();
+                    // once I get Load Closing dialogue to work, comment out 2 below lines
+                    //CompleteCurrentCampaignMap();
+                    LoadClosingDialogue();
+                    //LoadCampaignSaveMenu();
                     break;
                 case CampaignEvent.ClosingDialogue:
                     CompleteCurrentCampaignMap();
@@ -142,6 +145,7 @@ namespace Assets.Scripts.Campaign {
                 case CampaignEvent.ChapterMenu:
                     // TODO: Use Opening Dialogue Call and remove Map Call
                     // LoadOpeningDialogue();
+                    // comment out below when LoadOpeningDialogue is opened
                     LoadNextMap();
                     break;
             }
@@ -151,8 +155,9 @@ namespace Assets.Scripts.Campaign {
             CurrentCampaignSequence = newSequence;
             CurrentCampaignIndex = 0;
             FarthestCampaignIndex = 0;
+
             IsCompleted = false;
-            LoadCampaignChapterMenu();
+            LoadOpeningDialogue();
         }
 
         public void LoadCampaign(CampaignData data) {
@@ -178,13 +183,24 @@ namespace Assets.Scripts.Campaign {
         }
 
         private void LoadOpeningDialogue() {
+            //THIS IS WEHRE Matthews LOGIC COMES IN
             currentCampaignEvent = CampaignEvent.OpeningDialogue;
-            throw new NotImplementedException();
+            var nextDialogue = CurrentCampaignSequence.preMapDialogueSequence[CurrentCampaignIndex].text;
+            SceneLoader.SetParam(SceneLoader.LOAD_DIALOGUE_PARAM, nextDialogue);
+            SceneLoader.SetParam(SceneLoader.GAME_TYPE_PARAM, GameManager.SINGLEPLAYER_GAME_TYPE);
+            SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM, GameManager.CAMPAIGN_GAME_TYPE);
+            SceneLoader.instance.GoToDialogue();
+            //throw new NotImplementedException();
         }
 
         private void LoadClosingDialogue() {
             currentCampaignEvent = CampaignEvent.ClosingDialogue;
-            throw new NotImplementedException();
+            var nextDialogue = CurrentCampaignSequence.postMapDialogueSequence[CurrentCampaignIndex].text;
+            SceneLoader.SetParam(SceneLoader.LOAD_DIALOGUE_PARAM, nextDialogue);
+            SceneLoader.SetParam(SceneLoader.GAME_TYPE_PARAM, GameManager.SINGLEPLAYER_GAME_TYPE);
+            SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM, GameManager.CAMPAIGN_GAME_TYPE);
+            SceneLoader.instance.GoToDialogue();
+            //throw new NotImplementedException();
         }
 
         private void LoadCampaignSaveMenu() {
