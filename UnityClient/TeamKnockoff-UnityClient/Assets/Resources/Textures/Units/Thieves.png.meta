@@ -2,7 +2,7 @@ fileFormatVersion: 2
 guid: a907b4ec076c7dc428c97d807ddfc1fb
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Thieves_0
+    21300000: Thieves_0_Robin
     21300002: Thieves_1
   externalObjects: {}
   serializedVersion: 9
@@ -108,7 +108,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Thieves_0
+      name: Thieves_0_Robin
       rect:
         serializedVersion: 2
         x: 51
@@ -116,7 +116,7 @@ TextureImporter:
         width: 58
         height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -136,7 +136,7 @@ TextureImporter:
         width: 58
         height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

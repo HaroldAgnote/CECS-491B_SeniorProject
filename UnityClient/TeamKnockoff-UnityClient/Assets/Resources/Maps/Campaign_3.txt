@@ -5730,7 +5730,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Cavaliers_0"
+            "UnitData": "Cavaliers_0_Eres"
         },
         {
             "Column": 15,
@@ -6470,7 +6470,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Archers_0"
+            "UnitData": "Archers_0_Yew"
         },
         {
             "Column": 17,
@@ -7210,7 +7210,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Mages_0"
+            "UnitData": "Mages_0_Morgan"
         },
         {
             "Column": 19,

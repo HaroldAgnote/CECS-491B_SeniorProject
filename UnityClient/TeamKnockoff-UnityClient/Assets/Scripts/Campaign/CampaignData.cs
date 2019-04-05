@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 using Assets.Scripts.Model;
+using Assets.Scripts.Model.Units;
 using Assets.Scripts.Utilities.DateTime;
 
 namespace Assets.Scripts.Campaign {
@@ -81,6 +82,19 @@ namespace Assets.Scripts.Campaign {
         }
 
         [SerializeField]
+        private List<UnitWrapper> mUnitWrapperData;
+
+        public List<UnitWrapper> UnitWrapperData {
+            get { return mUnitWrapperData; }
+            set {
+                if (mUnitWrapperData != value) {
+                    mUnitWrapperData = value;
+                }
+            }
+        }
+
+
+        [SerializeField]
         private SerializableDateTime mTimeStamp;
 
         public SerializableDateTime TimeStamp {
@@ -117,6 +131,7 @@ namespace Assets.Scripts.Campaign {
             mFarthestCampaignIndex = farthestIndex;
             mIsCompleted = isCompleted;
             mPlayerData = playerData;
+            mUnitWrapperData = mPlayerData.Units.Select(unit => new UnitWrapper(unit)).ToList();
         }
 
         public int CompareTo(CampaignData other) {

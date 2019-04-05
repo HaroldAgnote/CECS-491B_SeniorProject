@@ -6,13 +6,12 @@ using UnityEngine;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Skills;
 
+using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
+
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Archer : InfantryUnit {
         const int MAX_HEALTH_POINTS = 100;
-
-        const int INITIAL_LEVEL = 1;
-        const int INITIAL_EXPERIENCE_POINTS = 0;
 
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
@@ -30,37 +29,55 @@ namespace Assets.Scripts.Model.Units {
 
         // TODO: Set up constants for growth rate
 
-        public static Unit CreateArcher() {
+        public static Archer CreateArcher() {
             return new Archer();
         }
 
-        public Archer() : base() {
-            // Set Max Health Points and initial stats here
-            MaxHealthPoints.Base = Archer.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints.Value;
+        public static Archer CreateArcher(string unitName) {
+            return new Archer(unitName);
+        }
 
-            Level = Archer.INITIAL_LEVEL;
-            ExperiencePoints = Archer.INITIAL_EXPERIENCE_POINTS;
+        public static Archer ImportArcher(UnitWrapper unitWrapper) {
+            return new Archer(unitWrapper);
+        }
 
-            Strength.Base = Archer.INITIAL_STRENGTH;
-            Magic.Base = Archer.INITIAL_MAGIC;
+        public Archer() 
+            : base(CLASS_NAME, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
 
-            Defense.Base = Archer.INITIAL_DEFENSE;
-            Resistance.Base = Archer.INITIAL_RESISTANCE;
-
-            Speed.Base = Archer.INITIAL_SPEED;
-            Skill.Base = Archer.INITIAL_SKILL;
-
-            Luck.Base = Archer.INITIAL_LUCK;
-            Movement.Base = Archer.MOVEMENT_RANGE;
-
-            Name = Archer.CLASS_NAME;
-            Class = Archer.CLASS_NAME;
-
-            var testWeapon = new Weapon(8, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            var testWeapon = new Weapon(8, 2, 90, 0, DamageType.Physical);
             EquipWeapon(testWeapon);
 
             LearnSkill(new PiercingShot());
         }
+
+        public Archer(string unitName) 
+            : base(unitName, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
+
+            var testWeapon = new Weapon(8, 2, 90, 0, DamageType.Physical);
+            EquipWeapon(testWeapon);
+
+            LearnSkill(new PiercingShot());
+        }
+
+        public Archer(UnitWrapper wrapper) : base(wrapper) { }
+
     }
 }

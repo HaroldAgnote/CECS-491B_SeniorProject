@@ -11,9 +11,6 @@ namespace Assets.Scripts.Model.Units {
     public class PegasusKnight : FlyingUnit {
         const int MAX_HEALTH_POINTS = 100;
 
-        const int INITIAL_LEVEL = 1;
-        const int INITIAL_EXPERIENCE_POINTS = 0;
-
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
 
@@ -35,32 +32,49 @@ namespace Assets.Scripts.Model.Units {
             return new PegasusKnight();
         }
 
-        public PegasusKnight(): base()  {
-            // Set Max Health Points and initial stats here
-            MaxHealthPoints.Base = PegasusKnight.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints.Value;
+        public static PegasusKnight CreatePegasusKnight(string unitName) {
 
-            Level = PegasusKnight.INITIAL_LEVEL;
-            ExperiencePoints = PegasusKnight.INITIAL_EXPERIENCE_POINTS;
+            return new PegasusKnight(unitName);
+        }
 
-            Strength.Base = PegasusKnight.INITIAL_STRENGTH;
-            Magic.Base = PegasusKnight.INITIAL_MAGIC;
+        public static PegasusKnight ImportPegasusKnight(UnitWrapper unitWrapper) {
+            return new PegasusKnight(unitWrapper);
+        }
 
-            Defense.Base = PegasusKnight.INITIAL_DEFENSE;
-            Resistance.Base = PegasusKnight.INITIAL_RESISTANCE;
-
-            Speed.Base = PegasusKnight.INITIAL_SPEED;
-            Skill.Base = PegasusKnight.INITIAL_SKILL;
-
-            Luck.Base = PegasusKnight.INITIAL_LUCK;
-            Movement.Base = PegasusKnight.MOVEMENT_RANGE;
-
-            Name = PegasusKnight.CLASS_NAME;
-            Class = PegasusKnight.CLASS_NAME;
+        public PegasusKnight() 
+            : base(CLASS_NAME, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
 
             var newWeapon = new Weapon(8, 1, 80, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
 
             EquipWeapon(newWeapon);
         }
+
+        public PegasusKnight(string unitName) 
+            : base(unitName, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
+
+            var newWeapon = new Weapon(8, 1, 80, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+
+            EquipWeapon(newWeapon);
+        }
+
+        public PegasusKnight(UnitWrapper unitWrapper) : base(unitWrapper) { }
     }
 }

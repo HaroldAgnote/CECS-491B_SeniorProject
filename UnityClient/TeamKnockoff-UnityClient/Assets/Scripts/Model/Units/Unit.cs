@@ -18,66 +18,12 @@ namespace Assets.Scripts.Model.Units {
     [Serializable]
     public abstract class Unit : IMover {
 
-        [Serializable]
-        public class Stat {
-            [SerializeField]
-            private int mBase;
+        #region Constants
 
-            [SerializeField]
-            private int mModifier;
+        public const int INITIAL_LEVEL = 1;
+        public const int INITIAL_EXPERIENCE_POINTS = 0;
 
-            public int Base {
-                get {
-                    return mBase;
-                }
-
-                protected internal set {
-                    if (mBase != value) {
-                        mBase = value;
-                    }
-                }
-            }
-
-            public int Modifier {
-                get {
-                    return mModifier;
-                }
-
-                protected internal set {
-                    if (mModifier != value) {
-                        mModifier = value;
-                    }
-                }
-            }
-
-            public Stat() {
-                Base = 0;
-                Modifier = 0;
-            }
-
-            public Stat(int baseStat) {
-                Base = baseStat;
-                Modifier = 0;
-            }
-
-            public Stat(int baseStat, int initialModifier) {
-                Base = baseStat;
-                Modifier = initialModifier;
-            }
-
-            public int Value => Base + Modifier;
-
-            public override string ToString() {
-                if (Modifier == 0) {
-                    return $"{Base}";
-                } else if (Modifier > 0) {
-                    return $"{Base} +{Modifier}";
-                } else {
-                    return $"{Base} {Modifier}";
-                }
-            }
-
-        }
+        #endregion
 
         #region Fields
 
@@ -389,6 +335,61 @@ namespace Assets.Scripts.Model.Units {
             mSkills = new List<Skill>();
             mItems = new List<Item>();
             mMainWeapon = new Weapon(1, 1, 100, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+        }
+
+        public Unit(string unitName, string unitType, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) {
+            mName = unitName;
+            mType = unitType;
+            mClass = unitClass;
+
+            mMaxHealthPoints = new Stat(maxHealth);
+            mCurrentHealthPoints = mMaxHealthPoints.Value;
+            mStrength = new Stat(strength);
+            mMagic = new Stat(magic);
+            mDefense = new Stat(defense);
+            mResistance = new Stat(resistance);
+            mSpeed = new Stat(speed);
+            mSkill = new Stat(skill);
+            mLuck = new Stat(luck);
+            mMovement = new Stat(movement);
+
+            mLevel = INITIAL_LEVEL;
+            mExperiencePoints = INITIAL_EXPERIENCE_POINTS;
+
+            mUnitEffects = new HashSet<UnitEffect>();
+            mSkills = new List<Skill>();
+            mItems = new List<Item>();
+            mMainWeapon = new Weapon(1, 1, 10, 1, DamageType.Physical);
+        }
+
+        public Unit (UnitWrapper unitWrapper) {
+            mName = unitWrapper.unitName;
+            mType = unitWrapper.unitType;
+            mClass = unitWrapper.unitClass;
+
+            mMaxHealthPoints = unitWrapper.unitMaxHealthPoints;
+            mCurrentHealthPoints = mMaxHealthPoints.Value;
+            mStrength = unitWrapper.unitStrength;
+            mMagic = unitWrapper.unitMagic;
+            mDefense = unitWrapper.unitDefense;
+            mResistance = unitWrapper.unitResistance;
+            mSpeed = unitWrapper.unitSpeed;
+            mSkill = unitWrapper.unitSkill;
+            mLuck = unitWrapper.unitLuck;
+            mMovement = unitWrapper.unitMovement;
+
+            mLevel = unitWrapper.unitLevel;
+            mExperiencePoints = unitWrapper.unitExperiencePoints;
+
+            // TODO: Re-add weapon using WeaponFactory
+            mMainWeapon = new Weapon(1, 1, 10, 1, DamageType.Physical);
+
+            mUnitEffects = new HashSet<UnitEffect>();
+            // TODO: Re-add skills using SkillFactory
+            mSkills = new List<Skill>();
+
+            // TODO: Re-add items using ItemFactory
+            mItems = new List<Item>();
         }
 
         public void StartTurn() {

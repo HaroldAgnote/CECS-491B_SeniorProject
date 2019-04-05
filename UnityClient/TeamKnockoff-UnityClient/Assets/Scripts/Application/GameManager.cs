@@ -98,6 +98,8 @@ namespace Assets.Scripts.Application {
         /// </summary>
         public Player ControllingPlayer;
 
+        public List<UnitWrapper> unitWrappers;
+
         /// <summary>
         /// The TileFactory to generate the model and view representation of a Tile
         /// </summary>
@@ -138,6 +140,8 @@ namespace Assets.Scripts.Application {
 
             if (selectedMap != "") {
                 mapData = MapLoader.instance.GetMapAsset(selectedMap);
+            } else {
+                throw new Exception("Map not set!");
             }
 
             var gameTypeString = SceneLoader.GetParam(SceneLoader.GAME_TYPE_PARAM);
@@ -147,16 +151,23 @@ namespace Assets.Scripts.Application {
             } else if (gameTypeString == GameManager.MULTIPLAYER_GAME_TYPE) {
                 gameType = GameType.Multiplayer;
             } else {
-                gameType = GameType.Singleplayer;
+                throw new Exception("Game Type not set!");
             }
 
-            var singleGameTypeString = SceneLoader.GetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM);
-            if (singleGameTypeString == GameManager.CAMPAIGN_GAME_TYPE) {
-                singleplayerGameType = SingleplayerGameType.Campaign;
-            } else if (singleGameTypeString == GameManager.PRACTICE_GAME_TYPE) {
-                singleplayerGameType = SingleplayerGameType.Practice;
-            } else {
-                singleplayerGameType = SingleplayerGameType.Practice;
+            if (gameType == GameType.Singleplayer) {
+                var singleGameTypeString = SceneLoader.GetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM);
+
+                if (singleGameTypeString == GameManager.CAMPAIGN_GAME_TYPE) {
+                    singleplayerGameType = SingleplayerGameType.Campaign;
+                    unitWrappers = CampaignManager.instance.CampaignPlayerUnitData;
+
+                } else if (singleGameTypeString == GameManager.PRACTICE_GAME_TYPE) {
+                    singleplayerGameType = SingleplayerGameType.Practice;
+                } else {
+                    throw new Exception("Singleplayer Game Type not set!");
+                }
+            } else if (gameType == GameType.Multiplayer) {
+                throw new NotImplementedException();
             }
 
             // Read map data from text file to get columns and rows
@@ -195,6 +206,8 @@ namespace Assets.Scripts.Application {
 
             var newObjectViews = new Dictionary<Vector2Int, ObjectView>();
 
+            Tuple<Unit, GameObject> newUnitTuple = null;
+
             // Initializing Model/View component of the map with Tiles/Units
             foreach(var tile in tileData.tileData) {
 
@@ -204,14 +217,49 @@ namespace Assets.Scripts.Application {
 
                 // If Tile contains Player data, initialize Unit Model/View
                 if (tile.Player != 0) {
-                    var newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                    if (gameType == GameType.Singleplayer) {
+                        if (singleplayerGameType == SingleplayerGameType.Campaign) {
+                            if (tile.Player == 1 && unitWrappers != null && unitWrappers.Count > 0) {
+                                const char DELIMITER = '_';
+                                const int UNIT_NAME_INDEX = 2;
+
+                                // Parse Unit Data
+                                var unitData = tile.UnitData;
+                                var split_string = unitData.Split(DELIMITER);
+
+                                if (split_string.Length == 3) {
+                                    // Named Unit
+                                    var unitName = split_string[UNIT_NAME_INDEX];
+                                    var unitWrapper = unitWrappers.SingleOrDefault(wrapper => wrapper.unitName == unitName);
+                                    if (unitWrapper != null) {
+                                        newUnitTuple = unitFactory.ImportUnit(tile, view.gameObject.transform, unitWrapper);
+                                    } else {
+                                        newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                                    }
+                                } else {
+                                    throw new NotImplementedException();
+                                }
+
+                            } else {
+                                newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                            }
+
+                        } else if (singleplayerGameType == SingleplayerGameType.Practice) {
+                            newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                        } else {
+                            throw new Exception("Singleplayer Game Type not set");
+                        }
+                    } else if (gameType == GameType.Multiplayer) {
+
+                    } else {
+                        throw new Exception("Game Type not set");
+                    }
+
                     var newUnitModel = newUnitTuple.Item1;
                     var newUnitObject = newUnitTuple.Item2;
 
                     var newUnitView= new UnitView(newUnitObject);
-
                     newObjectViews.Add(new Vector2Int(tile.Column, tile.Row), newUnitView);
-
                     model.AddUnit(newUnitModel, tile.Player, tile.Column, tile.Row);
                 }
             }
@@ -291,6 +339,7 @@ namespace Assets.Scripts.Application {
                 if (singleplayerGameType == SingleplayerGameType.Campaign) {
                     if (ControllingPlayer.HasAliveUnit()) {
                         CampaignManager.instance.CampaignPlayerData = ControllingPlayer;
+                        CampaignManager.instance.CampaignPlayerUnitData = ControllingPlayer.Units.Select(unit => new UnitWrapper(unit)).ToList();
                         CampaignManager.instance.LoadNextCampaignEvent();
                     } else {
                         SceneLoader.instance.GoToCampaignMenu();

@@ -11,9 +11,6 @@ namespace Assets.Scripts.Model.Units {
     public class Thief : InfantryUnit {
         const int MAX_HEALTH_POINTS = 100;
 
-        const int INITIAL_LEVEL = 1;
-        const int INITIAL_EXPERIENCE_POINTS = 0;
-
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
 
@@ -34,32 +31,48 @@ namespace Assets.Scripts.Model.Units {
             return new Thief();
         }
 
-        public Thief(): base()  {
-            // Set Max Health Points and initial stats here
-            MaxHealthPoints.Base = Thief.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints.Value;
+        public static Thief CreateThief(string unitName) {
+            return new Thief(unitName);
+        }
 
-            Level = Thief.INITIAL_LEVEL;
-            ExperiencePoints = Thief.INITIAL_EXPERIENCE_POINTS;
+        public static Thief ImportThief(UnitWrapper unitWrapper) {
+            return new Thief(unitWrapper);
+        }
 
-            Strength.Base = Thief.INITIAL_STRENGTH;
-            Magic.Base = Thief.INITIAL_MAGIC;
-
-            Defense.Base = Thief.INITIAL_DEFENSE;
-            Resistance.Base = Thief.INITIAL_RESISTANCE;
-
-            Speed.Base = Thief.INITIAL_SPEED;
-            Skill.Base = Thief.INITIAL_SKILL;
-
-            Luck.Base = Thief.INITIAL_LUCK;
-            Movement.Base = Thief.MOVEMENT_RANGE;
-
-            Name = Thief.CLASS_NAME;
-            Class = Thief.CLASS_NAME;
+        public Thief() 
+            : base(CLASS_NAME, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
 
             var newWeapon = new Weapon(7, 1, 95, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
             EquipWeapon(newWeapon);
             LearnSkill(new MediumSpeedBoost());
         }
+
+        public Thief(string unitName) 
+            : base(unitName, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
+
+            var newWeapon = new Weapon(7, 1, 95, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            EquipWeapon(newWeapon);
+            LearnSkill(new MediumSpeedBoost());
+        }
+
+        public Thief(UnitWrapper unitWrapper) : base(unitWrapper) { }
     }
 }

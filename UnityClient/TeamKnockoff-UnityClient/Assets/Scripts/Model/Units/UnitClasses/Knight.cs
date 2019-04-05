@@ -11,9 +11,6 @@ namespace Assets.Scripts.Model.Units {
     public class Knight : ArmoredUnit {
         const int MAX_HEALTH_POINTS = 100;
 
-        const int INITIAL_LEVEL = 17;
-        const int INITIAL_EXPERIENCE_POINTS = 90;
-
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
 
@@ -34,31 +31,26 @@ namespace Assets.Scripts.Model.Units {
             return new Knight();
         }
 
-        public Knight(): base()  {
-            // Set Max Health Points and initial stats here
-            MaxHealthPoints.Base = Knight.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints.Value;
+        public static Knight CreateKnight(string unitName) {
+            return new Knight(unitName);
+        }
 
-            Level = Knight.INITIAL_LEVEL;
-            ExperiencePoints = Knight.INITIAL_EXPERIENCE_POINTS;
+        public static Knight ImportKnight(UnitWrapper unitWrapper) {
+            return new Knight(unitWrapper);
+        }
 
-            Strength.Base = Knight.INITIAL_STRENGTH;
-            Magic.Base = Knight.INITIAL_MAGIC;
+        public Knight() 
+            : base(CLASS_NAME, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
 
-            Defense.Base = Knight.INITIAL_DEFENSE;
-            Resistance.Base = Knight.INITIAL_RESISTANCE;
-
-            Speed.Base = Knight.INITIAL_SPEED;
-            Skill.Base = Knight.INITIAL_SKILL;
-
-            Luck.Base = Knight.INITIAL_LUCK;
-            Movement.Base = Knight.MOVEMENT_RANGE;
-
-            Name = Knight.CLASS_NAME;
-            Class = Knight.CLASS_NAME;
-
-            ExperiencePoints = INITIAL_EXPERIENCE_POINTS;
-            Level = INITIAL_LEVEL;
 
             var newWeapon = new Weapon(12, 1, 70, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
             EquipWeapon(newWeapon);
@@ -66,5 +58,27 @@ namespace Assets.Scripts.Model.Units {
             LearnSkill(new Bash());
 
         }
+
+        public Knight(string unitName) 
+            : base(unitName, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
+
+
+            var newWeapon = new Weapon(12, 1, 70, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+            EquipWeapon(newWeapon);
+
+            LearnSkill(new Bash());
+
+        }
+
+        public Knight(UnitWrapper unitWrapper) : base(unitWrapper) { }
     }
 }

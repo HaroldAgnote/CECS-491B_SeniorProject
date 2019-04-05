@@ -11,9 +11,6 @@ namespace Assets.Scripts.Model.Units {
     public class Cavalier : CavalryUnit {
         const int MAX_HEALTH_POINTS = 100;
 
-        const int INITIAL_LEVEL = 5;
-        const int INITIAL_EXPERIENCE_POINTS = 50;
-
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
 
@@ -34,32 +31,48 @@ namespace Assets.Scripts.Model.Units {
             return new Cavalier();
         }
 
-        public Cavalier(): base()  {
-            // Set Max Health Points and initial stats here
-            MaxHealthPoints.Base = Cavalier.MAX_HEALTH_POINTS;
-            HealthPoints = MaxHealthPoints.Value;
+        public static Cavalier CreateCavalier(string unitName) {
+            return new Cavalier(unitName);
+        }
 
-            Level = Cavalier.INITIAL_LEVEL;
-            ExperiencePoints = Cavalier.INITIAL_EXPERIENCE_POINTS;
+        public static Cavalier ImportCavalier(UnitWrapper unitWrapper) {
+            return new Cavalier(unitWrapper);
+        }
 
-            Strength.Base = Cavalier.INITIAL_STRENGTH;
-            Magic.Base = Cavalier.INITIAL_MAGIC;
-
-            Defense.Base = Cavalier.INITIAL_DEFENSE;
-            Resistance.Base = Cavalier.INITIAL_RESISTANCE;
-
-            Speed.Base = Cavalier.INITIAL_SPEED;
-            Skill.Base = Cavalier.INITIAL_SKILL;
-
-            Luck.Base = Cavalier.INITIAL_LUCK;
-            Movement.Base = Cavalier.MOVEMENT_RANGE;
-
-            Name = Cavalier.CLASS_NAME;
-            Class = Cavalier.CLASS_NAME;
+        public Cavalier() 
+            : base(CLASS_NAME, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
 
             var testWeapon = new Weapon(7, 1, 90, 10, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
 
             EquipWeapon(testWeapon);
         }
+
+        public Cavalier(string unitName) 
+            : base(unitName, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
+
+            var testWeapon = new Weapon(7, 1, 90, 10, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
+
+            EquipWeapon(testWeapon);
+        }
+
+        public Cavalier(UnitWrapper unitWrapper) : base(unitWrapper) { }
     }
 }

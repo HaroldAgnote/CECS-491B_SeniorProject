@@ -31,28 +31,67 @@ namespace Assets.Scripts.Model.Units {
             public Sprite[] UnitSprites { get;  }
             public string UnitsResourcePath { get;  }
 
-            private Func<Unit> mGenerateUnitFunction;
+            private readonly Func<Unit> mCreateUnitFunction;
+            private readonly Func<string, Unit> mCreateNamedUnitFunction;
+            private readonly Func<UnitWrapper, Unit> mImportUnitFunction;
 
             // TODO: Create delegate to load Unit from existing data
 
-            public UnitFactoryWrapper(GameObject unitPrefab, Texture2D unitTexture, Func<Unit> generateUnitFunction) {
+            public UnitFactoryWrapper(GameObject unitPrefab, Texture2D unitTexture, Func<Unit> createUnitFunction, Func<string, Unit> createNamedUnitFunction, Func<UnitWrapper, Unit> importUnitFunction) {
                 UnitPrefab = unitPrefab;
                 UnitTexture = unitTexture;
                 UnitsResourcePath = $"{RESOURCE_PATH}{UnitTexture.name}";
                 UnitSprites = Resources.LoadAll<Sprite> (UnitsResourcePath);
-                mGenerateUnitFunction = generateUnitFunction;
+                mCreateUnitFunction = createUnitFunction;
+                mCreateNamedUnitFunction = createNamedUnitFunction;
+                mImportUnitFunction = importUnitFunction;
             }
 
-            public Tuple<Unit, GameObject> InstantiateUnit(TileData tileData, Transform parent) {
+            public Tuple<Unit, GameObject> CreateUnit(TileData tileData, Transform parent) {
+                const char DELIMITER = '_';
+                const int UNIT_NAME_INDEX = 2;
+
+                // Parse Unit Data
+                var unitData = tileData.UnitData;
+                var split_string = unitData.Split(DELIMITER);
+
+                Unit newUnitModel = null;
+
+                if (split_string.Length == 2) {
+                    // Nameless Unit
+                    newUnitModel = mCreateUnitFunction();
+                } else if (split_string.Length == 3) {
+                    // Named Unit
+                    var unitName = split_string[UNIT_NAME_INDEX];
+                    newUnitModel = mCreateNamedUnitFunction(unitName);
+                } else {
+                    throw new NotImplementedException();
+                }
+
+                var newUnitObject = InstantiateUnit(tileData, parent);
+
+                return new Tuple<Unit, GameObject>(newUnitModel, newUnitObject);
+            }
+
+            public Tuple<Unit, GameObject> ImportUnit(TileData tileData, Transform parent, UnitWrapper unitWrapper) {
+                var importedUnitModel = mImportUnitFunction(unitWrapper);
+                var newUnitObject = InstantiateUnit(tileData, parent);
+
+                return new Tuple<Unit, GameObject>(importedUnitModel, newUnitObject);
+            }
+
+            public GameObject InstantiateUnit(TileData tileData, Transform parent) {
+
                 var tilePos = new Vector3(tileData.Column, tileData.Row, 0f);
 
                 const char DELIMITER = '_';
+                const int UNIT_SPRITE_INDEX = 1;
 
                 // Parse Unit Data
                 var unitData = tileData.UnitData;
                 var split_string = unitData.Split(DELIMITER);
                 var unitType = split_string.First<string>();
-                var spriteIndex = Int32.Parse(split_string.Last<string>());
+                var spriteIndex = Int32.Parse(split_string[UNIT_SPRITE_INDEX]);
 
                 var unitPrefab = UnitPrefab;
                 var unitSprite = UnitSprites[spriteIndex];
@@ -60,27 +99,22 @@ namespace Assets.Scripts.Model.Units {
                 var newUnitObject = Instantiate(UnitPrefab, tilePos, Quaternion.identity, parent) as GameObject;
                 newUnitObject.GetComponent<SpriteRenderer>().sprite = UnitSprites[spriteIndex];
 
-                var newUnit = mGenerateUnitFunction();
-
-                return new Tuple<Unit, GameObject>(newUnit, newUnitObject);
+                return newUnitObject;
             }
         }
 
         public void Start() {
 
-            var landUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, landUnitTexture, SampleUnit.CreateSampleUnit);
-
-            var thiefUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, thiefUnitTexture, Thief.CreateThief);
-            var archerUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, archerUnitTexture, Archer.CreateArcher);
-            var mageUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, mageUnitTexture, Mage.CreateMage);
-            var clericUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, clericUnitTexture, Cleric.CreateCleric);
-            var knightUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, knightUnitTexture, Knight.CreateKnight);
-            var cavalierUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, cavalierUnitTexture, Cavalier.CreateCavalier);
-            var pegasusKnightsUnitsWrapper = new UnitFactoryWrapper(flyingUnitPrefab, pegasusKnightUnitTexture, PegasusKnight.CreatePegasusKnight);
+            var thiefUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, thiefUnitTexture, Thief.CreateThief, Thief.CreateThief, Thief.ImportThief);
+            var archerUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, archerUnitTexture, Archer.CreateArcher, Archer.CreateArcher, Archer.ImportArcher);
+            var mageUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, mageUnitTexture, Mage.CreateMage, Mage.CreateMage, Mage.ImportMage);
+            var clericUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, clericUnitTexture, Cleric.CreateCleric, Cleric.CreateCleric, Cleric.ImportCleric);
+            var knightUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, knightUnitTexture, Knight.CreateKnight, Knight.CreateKnight, Knight.ImportKnight);
+            var cavalierUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, cavalierUnitTexture, Cavalier.CreateCavalier, Cavalier.CreateCavalier, Cavalier.ImportCavalier);
+            var pegasusKnightsUnitsWrapper = new UnitFactoryWrapper(flyingUnitPrefab, pegasusKnightUnitTexture, PegasusKnight.CreatePegasusKnight, PegasusKnight.CreatePegasusKnight, PegasusKnight.ImportPegasusKnight);
 
             // Use constant strings rather than hardcoding
             unitMapper = new Dictionary<string, UnitFactoryWrapper>() {
-                { "LandUnits", landUnitsWrapper },
                 { "Thieves", thiefUnitsWrapper },
                 { "Archers", archerUnitsWrapper },
                 { "Mages", mageUnitsWrapper },
@@ -103,7 +137,21 @@ namespace Assets.Scripts.Model.Units {
             var unitType = split_string.First<string>();
             var unitFactoryWrapper = unitMapper[unitType];
 
-            return unitFactoryWrapper.InstantiateUnit(tileData, parent);
+            return unitFactoryWrapper.CreateUnit(tileData, parent);
+        }
+
+        public Tuple<Unit, GameObject> ImportUnit(TileData tileData, Transform parent, UnitWrapper unitWrapper) {
+            var tilePos = new Vector3(tileData.Column, tileData.Row, 0f);
+
+            const char DELIMITER = '_';
+
+            var unitData = tileData.UnitData;
+            var split_string = unitData.Split(DELIMITER);
+
+            var unitType = split_string.First<string>();
+            var unitFactoryWrapper = unitMapper[unitType];
+
+            return unitFactoryWrapper.ImportUnit(tileData, parent, unitWrapper);
         }
     }
 }
