@@ -1356,10 +1356,10 @@ MonoBehaviour:
   nameText: {fileID: 28757623}
   dialogueText: {fileID: 742337248}
   typingSpeed: 0
-  startButton: {fileID: 2134279601}
-  autoTextButton: {fileID: 237754199}
-  continueButton: {fileID: 916761404}
-  prevButton: {fileID: 1664963023}
+  startButton: {fileID: 0}
+  autoTextButton: {fileID: 0}
+  continueButton: {fileID: 0}
+  prevButton: {fileID: 0}
 --- !u!224 &2101384275
 RectTransform:
   m_ObjectHideFlags: 0

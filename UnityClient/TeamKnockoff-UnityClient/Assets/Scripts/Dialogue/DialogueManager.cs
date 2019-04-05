@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
 using TMPro;
+using Assets.Scripts.Campaign;
+using Assets.Scripts.Application;
 //using UnityEngine.UI;
 
 
@@ -62,11 +64,17 @@ public class DialogueManager : MonoBehaviour {
     }
     public void NextSentence() {
         //continueButton.SetActive(false);
+        if (index == sentences.Count - 1) {
+            Debug.Log("about to return");
+            CampaignManager.instance.LoadNextCampaignEvent();
+        }
+
         if (index < sentences.Count - 1) {
             index++;
             StopAllCoroutines();
             StartCoroutine(DisplaySentence());
         }
+
     }
 
     public void AutoText() {
@@ -108,12 +116,29 @@ public class DialogueManager : MonoBehaviour {
 
 
     public void ReadFile(string path) {
-        StreamReader reader = new StreamReader(path);
+        //StreamReader reader = new StreamReader(path);
+        //string line;
+
+        //while ((line = reader.ReadLine()) != null) {
+        //    string[] parts = line.Split(':');
+        //    sentences.Add(new Dialogue(parts[0], parts[1]));
+        //}
+
+        string text = SceneLoader.GetParam(SceneLoader.LOAD_DIALOGUE_PARAM);
+        //CampaignManager.instance.LoadNextCampaignEvent();
+        Debug.Log(text);
         string line;
-        
-        while ((line = reader.ReadLine()) != null) {
-            string[] parts = line.Split(':');
-            sentences.Add(new Dialogue(parts[0], parts[1]));
+        using (StringReader reader = new StringReader(text.ToString())) {
+            while ((line = reader.ReadLine()) != null) {
+                string[] parts = line.Split(':');
+                sentences.Add(new Dialogue(parts[0], parts[1]));
+            }
         }
+
+        //while ((line = reader.ReadLine()) != null) {
+        //    string[] parts = line.Split(':');
+        //    sentences.Add(new Dialogue(parts[0], parts[1]));
+        //}
+
     }
 }
