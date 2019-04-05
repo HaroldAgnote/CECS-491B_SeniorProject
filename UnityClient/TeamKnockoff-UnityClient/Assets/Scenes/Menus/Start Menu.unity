@@ -1418,5 +1418,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6648202356864797477, guid: 8ee35bfe6a5cb4745ab94d64d6a23062,
+        type: 3}
+      propertyPath: preMapDialogueSequence.Array.data[0]
+      value: 
+      objectReference: {fileID: 4900000, guid: 0b89d2f0e86833e42a76eac99fbf307d, type: 3}
+    - target: {fileID: 6648202356864797477, guid: 8ee35bfe6a5cb4745ab94d64d6a23062,
+        type: 3}
+      propertyPath: postMapDialogueSequence.Array.data[0]
+      value: 
+      objectReference: {fileID: 4900000, guid: e32e1ffb5f19ba246bb2070a04436228, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ee35bfe6a5cb4745ab94d64d6a23062, type: 3}
