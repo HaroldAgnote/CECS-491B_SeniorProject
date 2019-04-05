@@ -11,12 +11,12 @@ using Assets.Scripts.Application;
 
 
 public class DialogueManager : MonoBehaviour {
+    public static DialogueManager instance;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
     private List<Dialogue> sentences;
     private int index;
     public float typingSpeed;
-    public GameObject startButton;
     public GameObject autoTextButton;
     public GameObject continueButton;
     public GameObject prevButton;
@@ -26,16 +26,39 @@ public class DialogueManager : MonoBehaviour {
 
     private string path;
 
+    private void Awake() {
+        //Check if instance already exists
+        if (instance == null) {
+            //if not, set instance to this
+            instance = this;
+        }
+
+        //If instance already exists and it's not this:
+        else if (instance != this) {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start() {
         sentences = new List<Dialogue>();
-        path = "Assets/Scripts/Dialogue/Dialogue1.txt";
-        ReadFile(path);
+
+        string text = SceneLoader.GetParam(SceneLoader.LOAD_DIALOGUE_PARAM);
+        
+        Debug.Log(text);
+        string line;
+        using (StringReader reader = new StringReader(text.ToString())) {
+            while ((line = reader.ReadLine()) != null) {
+                string[] parts = line.Split(':');
+                sentences.Add(new Dialogue(parts[0], parts[1]));
+            }
+        }
+
         index = 0;
         //InvokeRepeating("DisplaySentence", 3, 3);//2.0f, 2.0f);
+        Debug.Log("HELLO");
         StartDialogue();
-        //Debug.Log(dialogueText.text);
-        //Debug.Log(sentences[index]);
     }
 
     void Update() {
@@ -124,16 +147,6 @@ public class DialogueManager : MonoBehaviour {
         //    sentences.Add(new Dialogue(parts[0], parts[1]));
         //}
 
-        string text = SceneLoader.GetParam(SceneLoader.LOAD_DIALOGUE_PARAM);
-        //CampaignManager.instance.LoadNextCampaignEvent();
-        Debug.Log(text);
-        string line;
-        using (StringReader reader = new StringReader(text.ToString())) {
-            while ((line = reader.ReadLine()) != null) {
-                string[] parts = line.Split(':');
-                sentences.Add(new Dialogue(parts[0], parts[1]));
-            }
-        }
 
         //while ((line = reader.ReadLine()) != null) {
         //    string[] parts = line.Split(':');
