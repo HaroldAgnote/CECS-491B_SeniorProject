@@ -13,7 +13,19 @@ namespace Assets.Scripts.Model.Weapons {
     [Serializable]
     public class Weapon : IGenerator<Weapon> {
 
+        public static Weapon FISTS = new Weapon() {
+            mName = "Fists",
+            mRange = 1,
+            mMight = 1,
+            mWeight = 0,
+            mHitRate = 1,
+            mCritRate = 0,
+            mDamageType = DamageType.Physical,
+            mWeaponType = WeaponType.Fists,
+        };
+
         public enum WeaponType {
+            Fists,
             Sword,
             Spear,
             Axe,
@@ -137,6 +149,10 @@ namespace Assets.Scripts.Model.Weapons {
         }
 
         #endregion
+
+        public Weapon() {
+
+        }
 
         public Weapon(string name,
                         int range,

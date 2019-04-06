@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Skills;
+using Assets.Scripts.Model.Weapons;
 
-using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
+using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
 
 namespace Assets.Scripts.Model.Units {
     [Serializable]
@@ -40,6 +40,10 @@ namespace Assets.Scripts.Model.Units {
 
         public static Archer ImportArcher(UnitWrapper unitWrapper) {
             return new Archer(unitWrapper);
+        }
+
+        public override Unit Generate(UnitWrapper unitWrapper) {
+            return Archer.ImportArcher(unitWrapper);
         }
 
         public Archer() 
@@ -79,6 +83,26 @@ namespace Assets.Scripts.Model.Units {
         }
 
         public Archer(UnitWrapper wrapper) : base(wrapper) { }
+
+        public override bool CanUse(Weapon weapon) {
+            var weaponType = weapon.WeapType;
+            switch (weaponType) {
+                case WeaponType.Sword:
+                    return false;
+                case WeaponType.Spear:
+                    return false;
+                case WeaponType.Axe:
+                    return false;
+                case WeaponType.Bow:
+                    return true;
+                case WeaponType.Book:
+                    return false;
+                case WeaponType.Staff:
+                    return false;
+                default:
+                    return false;
+            }
+        }
 
     }
 }

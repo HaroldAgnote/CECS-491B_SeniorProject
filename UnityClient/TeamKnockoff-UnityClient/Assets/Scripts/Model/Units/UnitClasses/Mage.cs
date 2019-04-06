@@ -6,6 +6,8 @@ using UnityEngine;
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Weapons;
 
+using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
+
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Mage : InfantryUnit {
@@ -38,6 +40,10 @@ namespace Assets.Scripts.Model.Units {
 
         public static Mage ImportMage(UnitWrapper unitWrapper) {
             return new Mage(unitWrapper);
+        }
+
+        public override Unit Generate(UnitWrapper unitWrapper) {
+            return Mage.ImportMage(unitWrapper);
         }
 
         public Mage() 
@@ -75,5 +81,26 @@ namespace Assets.Scripts.Model.Units {
         }
 
         public Mage(UnitWrapper unitWrapper) : base (unitWrapper) { }
+
+        public override bool CanUse(Weapon weapon) {
+            var weaponType = weapon.WeapType;
+            switch (weaponType) {
+                case WeaponType.Sword:
+                    return false;
+                case WeaponType.Spear:
+                    return false;
+                case WeaponType.Axe:
+                    return false;
+                case WeaponType.Bow:
+                    return false;
+                case WeaponType.Book:
+                    return true;
+                case WeaponType.Staff:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
     }
 }

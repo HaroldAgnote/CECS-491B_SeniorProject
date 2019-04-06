@@ -6,6 +6,8 @@ using UnityEngine;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Skills;
 
+using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
+
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Cavalier : CavalryUnit {
@@ -38,6 +40,10 @@ namespace Assets.Scripts.Model.Units {
 
         public static Cavalier ImportCavalier(UnitWrapper unitWrapper) {
             return new Cavalier(unitWrapper);
+        }
+
+        public override Unit Generate(UnitWrapper unitWrapper) {
+            return Cavalier.ImportCavalier(unitWrapper);
         }
 
         public Cavalier() 
@@ -73,5 +79,26 @@ namespace Assets.Scripts.Model.Units {
         }
 
         public Cavalier(UnitWrapper unitWrapper) : base(unitWrapper) { }
+
+        public override bool CanUse(Weapon weapon) {
+            var weaponType = weapon.WeapType;
+            switch (weaponType) {
+                case WeaponType.Sword:
+                    return true;
+                case WeaponType.Spear:
+                    return true;
+                case WeaponType.Axe:
+                    return false;
+                case WeaponType.Bow:
+                    return false;
+                case WeaponType.Book:
+                    return false;
+                case WeaponType.Staff:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
     }
 }

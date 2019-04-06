@@ -28,6 +28,7 @@ namespace Assets.Scripts.Application {
         const int SETTINGS_MENU_INDEX = 10;
         const int GAME_INDEX = 11;
         const int DIALOGUE_INDEX = 12;
+        const int CAMPAIGN_EQUIP_MENU_INDEX = 13;
 
         private Dictionary<string, string> parameters;
         private int lastMenu;
@@ -159,6 +160,10 @@ namespace Assets.Scripts.Application {
 
         public void GoToDialogue() {
             Load(DIALOGUE_INDEX, instance.parameters);
+        }
+
+        public void GoToEquipmentMenu() {
+            Load(CAMPAIGN_EQUIP_MENU_INDEX);
         }
 
         public void ReloadMap() {

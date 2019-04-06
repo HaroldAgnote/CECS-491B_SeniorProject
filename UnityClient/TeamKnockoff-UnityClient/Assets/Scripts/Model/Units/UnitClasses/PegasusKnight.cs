@@ -6,6 +6,8 @@ using UnityEngine;
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Weapons;
 
+using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
+
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class PegasusKnight : FlyingUnit {
@@ -42,6 +44,10 @@ namespace Assets.Scripts.Model.Units {
             return new PegasusKnight(unitWrapper);
         }
 
+        public override Unit Generate(UnitWrapper unitWrapper) {
+            return PegasusKnight.ImportPegasusKnight(unitWrapper);
+        }
+
         public PegasusKnight() 
             : base(CLASS_NAME, CLASS_NAME, 
                   MAX_HEALTH_POINTS, 
@@ -75,5 +81,26 @@ namespace Assets.Scripts.Model.Units {
         }
 
         public PegasusKnight(UnitWrapper unitWrapper) : base(unitWrapper) { }
+
+        public override bool CanUse(Weapon weapon) {
+            var weaponType = weapon.WeapType;
+            switch (weaponType) {
+                case WeaponType.Sword:
+                    return false;
+                case WeaponType.Spear:
+                    return true;
+                case WeaponType.Axe:
+                    return false;
+                case WeaponType.Bow:
+                    return true;
+                case WeaponType.Book:
+                    return false;
+                case WeaponType.Staff:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
     }
 }

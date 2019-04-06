@@ -165,7 +165,14 @@ namespace Assets.Scripts.Campaign {
             FarthestCampaignIndex = data.FarthestCampaignIndex;
             CurrentCampaignIsCompleted = data.IsCompleted;
             CampaignPlayerData = data.PlayerData;
-            CampaignPlayerUnitData = data.UnitWrapperData;
+
+            // Prevent adding duplicate units
+            CampaignPlayerData.Units.Clear();
+            foreach (var unitWrapper in data.UnitWrapperData) {
+                var unit = UnitFactory.instance.GenerateUnit(unitWrapper);
+                CampaignPlayerData.AddUnit(unit);
+            }
+
             LoadCampaignChapterMenu();
         }
 
@@ -200,9 +207,13 @@ namespace Assets.Scripts.Campaign {
             //throw new NotImplementedException();
         }
 
-        private void LoadCampaignSaveMenu() {
+        public void LoadCampaignSaveMenu() {
             currentCampaignEvent = CampaignEvent.SaveMenu;
             SceneLoader.instance.GoToCampaignSaveMenu();
+        }
+
+        public void LoadCampaignEquipmentMenu() {
+            SceneLoader.instance.GoToEquipmentMenu();
         }
 
         public CampaignData SaveNewCampaign() {

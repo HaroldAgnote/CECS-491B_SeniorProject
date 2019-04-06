@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 using Assets.Scripts.Model.Tiles;
@@ -26,6 +27,8 @@ namespace Assets.Scripts.Model.Units {
         public Texture2D pegasusKnightUnitTexture;
 
         private Dictionary<string, UnitFactoryWrapper> unitMapper; 
+        private Dictionary<string, Sprite> spriteMapper;
+        private Dictionary<string, Func<UnitWrapper, Unit>> unitGenerator;
 
         class UnitFactoryWrapper {
             public GameObject UnitPrefab { get; }
@@ -122,7 +125,6 @@ namespace Assets.Scripts.Model.Units {
         }
 
         public void Start() {
-
             var thiefUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, thiefUnitTexture, Thief.CreateThief, Thief.CreateThief, Thief.ImportThief);
             var archerUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, archerUnitTexture, Archer.CreateArcher, Archer.CreateArcher, Archer.ImportArcher);
             var mageUnitsWrapper = new UnitFactoryWrapper(landUnitPrefab, mageUnitTexture, Mage.CreateMage, Mage.CreateMage, Mage.ImportMage);
@@ -142,6 +144,40 @@ namespace Assets.Scripts.Model.Units {
                 { "PegasusKnights", pegasusKnightsUnitsWrapper },
             };
 
+            spriteMapper = new Dictionary<string, Sprite>();
+            var sprites = new List<Sprite>();
+
+            sprites.AddRange(thiefUnitsWrapper.UnitSprites);
+            sprites.AddRange(archerUnitsWrapper.UnitSprites);
+            sprites.AddRange(mageUnitsWrapper.UnitSprites);
+            sprites.AddRange(clericUnitsWrapper.UnitSprites);
+            sprites.AddRange(knightUnitsWrapper.UnitSprites);
+            sprites.AddRange(cavalierUnitsWrapper.UnitSprites);
+            sprites.AddRange(pegasusKnightsUnitsWrapper.UnitSprites);
+
+            const char DELIMITER = '_';
+            const int UNIT_NAME_INDEX = 2;
+
+            foreach (var sprite in sprites) {
+                var split_string = sprite.name.Split(DELIMITER);
+                if (split_string.Length == 3) {
+                    var name = split_string[UNIT_NAME_INDEX];
+                    spriteMapper.Add(name, sprite);
+                }
+            }
+
+            unitGenerator = new Dictionary<string, Func<UnitWrapper, Unit>>();
+
+            List<Unit> units = new List<Unit>();
+            foreach (Type type in
+                Assembly.GetAssembly(typeof(Unit)).GetTypes()
+                    .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Unit)))) {
+                units.Add((Unit) Activator.CreateInstance(type));
+            }
+
+            foreach (var unit in units) {
+                unitGenerator.Add(unit.Class, unit.Generate);
+            }
         }
 
         public Tuple<Unit, GameObject> CreateUnit(TileData tileData, Transform parent) {
@@ -170,6 +206,15 @@ namespace Assets.Scripts.Model.Units {
             var unitFactoryWrapper = unitMapper[unitType];
 
             return unitFactoryWrapper.ImportUnit(tileData, parent, unitWrapper);
+        }
+
+        public Sprite GetUnitSprite(string unitName) {
+            return spriteMapper[unitName];
+        }
+
+        public Unit GenerateUnit(UnitWrapper unitWrapper) {
+            var unitClass = unitWrapper.unitClass;
+            return unitGenerator[unitClass].Invoke(unitWrapper);
         }
     }
 }

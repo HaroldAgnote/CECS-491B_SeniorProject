@@ -6,6 +6,8 @@ using UnityEngine;
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Weapons;
 
+using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
+
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Knight : ArmoredUnit {
@@ -38,6 +40,10 @@ namespace Assets.Scripts.Model.Units {
 
         public static Knight ImportKnight(UnitWrapper unitWrapper) {
             return new Knight(unitWrapper);
+        }
+
+        public override Unit Generate(UnitWrapper unitWrapper) {
+            return Knight.ImportKnight(unitWrapper);
         }
 
         public Knight() 
@@ -81,5 +87,26 @@ namespace Assets.Scripts.Model.Units {
         }
 
         public Knight(UnitWrapper unitWrapper) : base(unitWrapper) { }
+
+        public override bool CanUse(Weapon weapon) {
+            var weaponType = weapon.WeapType;
+            switch (weaponType) {
+                case WeaponType.Sword:
+                    return true;
+                case WeaponType.Spear:
+                    return true;
+                case WeaponType.Axe:
+                    return true;
+                case WeaponType.Bow:
+                    return false;
+                case WeaponType.Book:
+                    return false;
+                case WeaponType.Staff:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
     }
 }

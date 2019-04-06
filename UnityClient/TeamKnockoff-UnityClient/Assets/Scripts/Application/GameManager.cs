@@ -9,6 +9,7 @@ using Assets.Scripts.Campaign;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
+using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.ViewModel;
 using Assets.Scripts.View;
 
@@ -344,6 +345,12 @@ namespace Assets.Scripts.Application {
                         CampaignManager.instance.CampaignPlayerData = ControllingPlayer;
                         CampaignManager.instance.CampaignPlayerUnitData = ControllingPlayer.Units.Select(unit => new UnitWrapper(unit)).ToList();
                         CampaignManager.instance.LoadNextCampaignEvent();
+                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Iron Sword"));
+                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Iron Spear"));
+                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Iron Axe"));
+                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Iron Bow"));
+                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Dark Book"));
+                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Wooden Staff"));
                     } else {
                         SceneLoader.instance.GoToCampaignMenu();
                     }

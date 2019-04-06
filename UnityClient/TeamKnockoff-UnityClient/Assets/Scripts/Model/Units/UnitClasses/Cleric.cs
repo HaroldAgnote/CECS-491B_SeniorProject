@@ -6,6 +6,8 @@ using UnityEngine;
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Weapons;
 
+using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
+
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Cleric : InfantryUnit {
@@ -38,6 +40,10 @@ namespace Assets.Scripts.Model.Units {
 
         public static Cleric ImportCleric(UnitWrapper unitWrapper) {
             return new Cleric(unitWrapper);
+        }
+
+        public override Unit Generate(UnitWrapper unitWrapper) {
+            return Cleric.ImportCleric(unitWrapper);
         }
 
         public Cleric() 
@@ -82,5 +88,26 @@ namespace Assets.Scripts.Model.Units {
         }
 
         public Cleric(UnitWrapper unitWrapper) : base(unitWrapper) { }
+
+        public override bool CanUse(Weapon weapon) {
+            var weaponType = weapon.WeapType;
+            switch (weaponType) {
+                case WeaponType.Sword:
+                    return false;
+                case WeaponType.Spear:
+                    return false;
+                case WeaponType.Axe:
+                    return false;
+                case WeaponType.Bow:
+                    return false;
+                case WeaponType.Book:
+                    return false;
+                case WeaponType.Staff:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
     }
 }

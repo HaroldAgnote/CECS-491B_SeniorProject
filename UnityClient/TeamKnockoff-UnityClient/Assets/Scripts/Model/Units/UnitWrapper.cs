@@ -49,7 +49,7 @@ namespace Assets.Scripts.Model.Units {
 
             unitWeapon = unit.MainWeapon.Name;
             unitSkills = new List<string>();
-            unitSkills.AddRange(unit.Skills.Select(skill => skill.SkillName));
+            unitSkills.AddRange(unit.Skills.Where(skill => !unit.MainWeapon.Skills.Contains(skill)).Select(skill => skill.SkillName));
         }
     }
 }

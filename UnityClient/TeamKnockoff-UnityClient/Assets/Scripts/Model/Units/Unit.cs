@@ -11,6 +11,7 @@ using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.UnitEffects;
 using Assets.Scripts.Utilities.ExtensionMethods;
+using Assets.Scripts.Utilities.Generator;
 
 using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
 
@@ -317,6 +318,8 @@ namespace Assets.Scripts.Model.Units {
         // Abstract methods that must be overridden by Unit sub classes
         public abstract bool CanMove(Tile tile);
         public abstract int MoveCost(Tile tile);
+        public abstract bool CanUse(Weapon weapon);
+        public abstract Unit Generate(UnitWrapper unitWrapper);
 
         public Unit() {
             mMaxHealthPoints = new Stat();
@@ -361,7 +364,7 @@ namespace Assets.Scripts.Model.Units {
             mItems = new List<Item>();
         }
 
-        public Unit (UnitWrapper unitWrapper) {
+        public Unit(UnitWrapper unitWrapper) {
             mName = unitWrapper.unitName;
             mType = unitWrapper.unitType;
             mClass = unitWrapper.unitClass;
@@ -458,7 +461,6 @@ namespace Assets.Scripts.Model.Units {
             mSpeed.Modifier += mMainWeapon.Weight;
 
             var weapon = mMainWeapon;
-            mMainWeapon = null;
             return weapon;
         }
 
