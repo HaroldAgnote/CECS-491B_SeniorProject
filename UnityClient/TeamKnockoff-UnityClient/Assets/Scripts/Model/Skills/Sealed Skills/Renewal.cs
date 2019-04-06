@@ -34,7 +34,7 @@ namespace Assets.Scripts.Model.Skills {
             }
         }
 
-        public const string SKILL_NAME = "RENEWAL";
+        public const string SKILL_NAME = "Renewal";
 
         public Renewal() : base(SKILL_NAME) { }
 

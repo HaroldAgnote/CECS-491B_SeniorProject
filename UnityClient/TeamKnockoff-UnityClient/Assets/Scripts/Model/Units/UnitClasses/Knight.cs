@@ -24,6 +24,7 @@ namespace Assets.Scripts.Model.Units {
         const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Knight";
+        const string DEFAULT_WEAPON = "Iron Axe";
 
         // TODO: Create constants for growth rate
 
@@ -52,8 +53,8 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) { 
 
 
-            var newWeapon = new Weapon(12, 1, 70, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-            EquipWeapon(newWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
 
             LearnSkill(new Bash());
 
@@ -72,8 +73,8 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) { 
 
 
-            var newWeapon = new Weapon(12, 1, 70, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-            EquipWeapon(newWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
 
             LearnSkill(new Bash());
 

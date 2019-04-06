@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Assets.Scripts.Model.Skills;
+using Assets.Scripts.Utilities.ExtensionMethods;
+using Assets.Scripts.Utilities.Generator;
 using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
 
 namespace Assets.Scripts.Model.Weapons {
 
     [Serializable]
-    public class Weapon {
+    public class Weapon : IGenerator<Weapon> {
 
         public enum WeaponType {
             Sword,
@@ -19,6 +21,8 @@ namespace Assets.Scripts.Model.Weapons {
             Book,
             Staff
         }
+
+        #region Fields
 
         [SerializeField]
         private string mName;
@@ -55,6 +59,10 @@ namespace Assets.Scripts.Model.Weapons {
 
         [SerializeField]
         private HashSet<Skill> mSkills;
+
+        #endregion
+
+        #region Properties
 
         public string Name {
             get {
@@ -128,14 +136,12 @@ namespace Assets.Scripts.Model.Weapons {
             }
         }
 
-        public Weapon() {
-            // TODO: This is a default weapon
-            mRange = 1;
-        }
+        #endregion
 
         public Weapon(string name,
                         int range,
                         int weight,
+                        int might,
                         int hitRate,
                         int critRate,
                         int rarity,
@@ -147,6 +153,7 @@ namespace Assets.Scripts.Model.Weapons {
             mName = name;
             mRange = range;
             mWeight = weight;
+            mMight = might;
             mHitRate = hitRate;
             mCritRate = critRate;
             mRarity = rarity;
@@ -156,15 +163,48 @@ namespace Assets.Scripts.Model.Weapons {
             mDamageType = damageType;
             mSkills = new HashSet<Skill>();
         }
-                        
 
-        public Weapon(int might, int range, int hitRate, int critRate, DamageType damageType) {
-            // TODO: Change how this is initialized
-            mMight = might;
+        public Weapon(string name,
+                        int range,
+                        int weight,
+                        int might,
+                        int hitRate,
+                        int critRate,
+                        int rarity,
+                        int buyingPrice,
+                        int sellingPrice,
+                        WeaponType weaponType,
+                        DamageType damageType,
+                        IEnumerable<Skill> skills) {
+
+            mName = name;
             mRange = range;
+            mWeight = weight;
+            mMight = might;
             mHitRate = hitRate;
             mCritRate = critRate;
+            mRarity = rarity;
+            mBuyingPrice = buyingPrice;
+            mSellingPrice = sellingPrice;
+            mWeaponType = weaponType;
             mDamageType = damageType;
+            mSkills = new HashSet<Skill>();
+            mSkills.AddRange(skills);
+        }
+
+        public Weapon Generate() {
+            return new Weapon(mName,
+                            mRange,
+                            mWeight,
+                            mMight,
+                            mHitRate,
+                            mCritRate,
+                            mRarity,
+                            mBuyingPrice,
+                            mSellingPrice,
+                            mWeaponType,
+                            mDamageType,
+                            mSkills);
         }
     }
 }

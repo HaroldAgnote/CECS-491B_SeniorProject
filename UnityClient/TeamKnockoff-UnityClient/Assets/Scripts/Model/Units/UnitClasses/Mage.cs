@@ -24,6 +24,7 @@ namespace Assets.Scripts.Model.Units {
         const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Mage";
+        private const string DEFAULT_WEAPON = "Dark Book";
 
         // TODO: Create constants for growth rate
 
@@ -52,11 +53,8 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) { 
 
             
-            var newWeapon = new Weapon(25, 2, 95, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
-
-            EquipWeapon(newWeapon);
-
-            LearnSkill(new Gravity());
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
         }
 
         public Mage(string unitName) 
@@ -72,11 +70,8 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) { 
 
             
-            var newWeapon = new Weapon(25, 2, 95, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
-
-            EquipWeapon(newWeapon);
-
-            LearnSkill(new Gravity());
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
         }
 
         public Mage(UnitWrapper unitWrapper) : base (unitWrapper) { }

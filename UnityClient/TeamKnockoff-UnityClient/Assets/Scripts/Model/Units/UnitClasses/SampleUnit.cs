@@ -20,9 +20,6 @@ namespace Assets.Scripts.Model.Units {
             Name = "Sample Unit";
             MaxHealthPoints.Base = 100;
             Movement.Base = 5;
-            var newWeapon = new Weapon(1000, 1, 100, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-            EquipWeapon(newWeapon);
-
         }
 
         public override bool CanMove(Tile tile) {

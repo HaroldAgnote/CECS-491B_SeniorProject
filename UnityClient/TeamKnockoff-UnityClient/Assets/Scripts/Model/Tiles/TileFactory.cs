@@ -12,6 +12,8 @@ namespace Assets.Scripts.Model.Tiles {
         const string RESOURCE_PATH = "Textures/Tiles/";
         const char DELIMITER = '_';
 
+        public static TileFactory instance;
+
         public GameObject floorTilePrefab;
         public GameObject wallTilePrefab;
         public GameObject obstacleTilePrefab;
@@ -31,6 +33,22 @@ namespace Assets.Scripts.Model.Tiles {
                 SpriteResourcePath = $"{RESOURCE_PATH}{SpriteTexture.name}";
                 TileSprites = Resources.LoadAll<Sprite>(SpriteResourcePath);
             }
+        }
+
+        void Awake() {
+            //Check if instance already exists
+            if (instance == null) {
+                //if not, set instance to this
+                instance = this;
+            }
+
+            //If instance already exists and it's not this:
+            else if (instance != this) {
+                //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+                Destroy(gameObject);
+            }
+
+            DontDestroyOnLoad(this.gameObject);
         }
 
         public void Start() {

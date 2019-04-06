@@ -24,6 +24,7 @@ namespace Assets.Scripts.Model.Units {
         const int MOVEMENT_RANGE = 7;
 
         const string CLASS_NAME = "Cavalier";
+        private const string DEFAULT_WEAPON = "Iron Spear";
 
         // TODO: Add growth rate constants
 
@@ -51,9 +52,8 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var testWeapon = new Weapon(7, 1, 90, 10, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-
-            EquipWeapon(testWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
         }
 
         public Cavalier(string unitName) 
@@ -68,9 +68,8 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var testWeapon = new Weapon(7, 1, 90, 10, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-
-            EquipWeapon(testWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
         }
 
         public Cavalier(UnitWrapper unitWrapper) : base(unitWrapper) { }

@@ -41,7 +41,7 @@ namespace Assets.Scripts.Model.Skills {
             }
         }
 
-        private const string SKILL_NAME = "GRAVITY";
+        private const string SKILL_NAME = "Gravity";
         private const int SKILL_COST = 25;
         private const int RANGE = 3;
         private const bool TARGET_SELF = false;

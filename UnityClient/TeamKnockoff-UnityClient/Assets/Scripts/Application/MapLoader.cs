@@ -34,7 +34,7 @@ namespace Assets.Scripts.Application {
             DontDestroyOnLoad(this.gameObject);
         }
 
-        private void Start() {
+        public void Start() {
             
             stringsToMapAsset = new Dictionary<string, TextAsset>();
 

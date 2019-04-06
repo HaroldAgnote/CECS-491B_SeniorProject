@@ -106,7 +106,7 @@ namespace Assets.Scripts.Campaign {
             DontDestroyOnLoad(this.gameObject);
         }
 
-        void Start() {
+        public void Start() {
             NamesToCampaignSequences = new SortedDictionary<string, CampaignSequence>();
             foreach (var availableCampaign in availableCampaigns) {
                 NamesToCampaignSequences.Add(availableCampaign.campaignName, availableCampaign);

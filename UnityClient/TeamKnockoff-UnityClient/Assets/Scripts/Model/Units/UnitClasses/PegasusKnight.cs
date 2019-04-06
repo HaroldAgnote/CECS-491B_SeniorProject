@@ -9,21 +9,22 @@ using Assets.Scripts.Model.Weapons;
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class PegasusKnight : FlyingUnit {
-        const int MAX_HEALTH_POINTS = 100;
+        private const int MAX_HEALTH_POINTS = 100;
 
-        const int INITIAL_STRENGTH = 1;
-        const int INITIAL_MAGIC = 1;
+        private const int INITIAL_STRENGTH = 1;
+        private const int INITIAL_MAGIC = 1;
 
-        const int INITIAL_DEFENSE = 1;
-        const int INITIAL_RESISTANCE = 1;
+        private const int INITIAL_DEFENSE = 1;
+        private const int INITIAL_RESISTANCE = 1;
 
-        const int INITIAL_SPEED = 1;
-        const int INITIAL_SKILL = 1;
+        private const int INITIAL_SPEED = 1;
+        private const int INITIAL_SKILL = 1;
 
-        const int INITIAL_LUCK = 1;
-        const int MOVEMENT_RANGE = 7;
+        private const int INITIAL_LUCK = 1;
+        private const int MOVEMENT_RANGE = 7;
 
-        const string CLASS_NAME = "Pegasus Knight";
+        private const string CLASS_NAME = "Pegasus Knight";
+        private const string DEFAULT_WEAPON = "Iron Spear";
 
         // TODO: Create constants for growth rate
 
@@ -53,9 +54,8 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var newWeapon = new Weapon(8, 1, 80, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-
-            EquipWeapon(newWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
         }
 
         public PegasusKnight(string unitName) 
@@ -70,9 +70,8 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var newWeapon = new Weapon(8, 1, 80, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-
-            EquipWeapon(newWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
         }
 
         public PegasusKnight(UnitWrapper unitWrapper) : base(unitWrapper) { }

@@ -24,6 +24,7 @@ namespace Assets.Scripts.Model.Units {
         const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Cleric";
+        private const string DEFAULT_WEAPON = "Wooden Staff";
 
         // TODO: Create constants for growth rate
 
@@ -51,9 +52,9 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var testWeapon = new Weapon(10, 2, 75, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
 
-            EquipWeapon(testWeapon);
 
             LearnSkill(new Heal());
             LearnSkill(new BuffStrength());
@@ -72,9 +73,8 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var testWeapon = new Weapon(10, 2, 75, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
-
-            EquipWeapon(testWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
 
             LearnSkill(new Heal());
             LearnSkill(new BuffStrength());

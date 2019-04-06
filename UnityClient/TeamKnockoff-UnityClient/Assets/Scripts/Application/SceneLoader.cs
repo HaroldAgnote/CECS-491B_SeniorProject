@@ -48,6 +48,10 @@ namespace Assets.Scripts.Application {
             DontDestroyOnLoad(this.gameObject);
         }
 
+        public void Start() {
+            parameters = new Dictionary<string, string>();
+        }
+
         public static void Load(string sceneName, Dictionary<string, string> parameters = null) {
             instance.parameters = parameters;
             SceneManager.LoadScene(sceneName);

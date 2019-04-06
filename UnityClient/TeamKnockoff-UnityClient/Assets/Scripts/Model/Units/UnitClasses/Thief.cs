@@ -24,6 +24,7 @@ namespace Assets.Scripts.Model.Units {
         const int MOVEMENT_RANGE = 5;
 
         const string CLASS_NAME = "Thief";
+        const string DEFAULT_WEAPON = "Iron Sword";
 
         // TODO: Set up constants for Growth Rate
 
@@ -51,8 +52,9 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var newWeapon = new Weapon(7, 1, 95, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-            EquipWeapon(newWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
+
             LearnSkill(new MediumSpeedBoost());
         }
 
@@ -68,8 +70,9 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var newWeapon = new Weapon(7, 1, 95, 50, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-            EquipWeapon(newWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
+
             LearnSkill(new MediumSpeedBoost());
         }
 

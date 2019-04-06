@@ -26,6 +26,7 @@ namespace Assets.Scripts.Model.Units {
         const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Archer";
+        const string DEFAULT_WEAPON = "Iron Bow";
 
         // TODO: Set up constants for growth rate
 
@@ -51,10 +52,10 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_SPEED, 
                   INITIAL_SKILL, 
                   INITIAL_LUCK, 
-                  MOVEMENT_RANGE) { 
+                  MOVEMENT_RANGE) {
 
-            var testWeapon = new Weapon(8, 2, 90, 0, DamageType.Physical);
-            EquipWeapon(testWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
 
             LearnSkill(new PiercingShot());
         }
@@ -71,9 +72,9 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) { 
 
-            var testWeapon = new Weapon(8, 2, 90, 0, DamageType.Physical);
-            EquipWeapon(testWeapon);
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
 
+            EquipWeapon(defaultWeapon);
             LearnSkill(new PiercingShot());
         }
 

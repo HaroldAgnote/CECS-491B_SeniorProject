@@ -271,7 +271,8 @@ namespace Assets.Scripts.Model.Units {
 
         public List<Skill> Skills {
             get {
-                return mSkills;
+                var combinedSkills = mSkills.Union(mMainWeapon.Skills);
+                return combinedSkills.ToList();
             }
         }
 
@@ -334,7 +335,6 @@ namespace Assets.Scripts.Model.Units {
             mUnitEffects = new HashSet<UnitEffect>();
             mSkills = new List<Skill>();
             mItems = new List<Item>();
-            mMainWeapon = new Weapon(1, 1, 100, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
         }
 
         public Unit(string unitName, string unitType, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) {
@@ -359,7 +359,6 @@ namespace Assets.Scripts.Model.Units {
             mUnitEffects = new HashSet<UnitEffect>();
             mSkills = new List<Skill>();
             mItems = new List<Item>();
-            mMainWeapon = new Weapon(1, 1, 10, 1, DamageType.Physical);
         }
 
         public Unit (UnitWrapper unitWrapper) {
@@ -382,11 +381,21 @@ namespace Assets.Scripts.Model.Units {
             mExperiencePoints = unitWrapper.unitExperiencePoints;
 
             // TODO: Re-add weapon using WeaponFactory
-            mMainWeapon = new Weapon(1, 1, 10, 1, DamageType.Physical);
+            var weaponName = unitWrapper.unitWeapon;
+
+            // No need to call equip since modifier is already applied
+            mMainWeapon = WeaponFactory.instance.GenerateWeapon(weaponName);
 
             mUnitEffects = new HashSet<UnitEffect>();
+
             // TODO: Re-add skills using SkillFactory
             mSkills = new List<Skill>();
+
+            var skillNames = unitWrapper.unitSkills;
+            foreach (var skillName in skillNames) {
+                var skill = SkillFactory.instance.GenerateSkill(skillName);
+                mSkills.Add(skill);
+            }
 
             // TODO: Re-add items using ItemFactory
             mItems = new List<Item>();
@@ -433,6 +442,8 @@ namespace Assets.Scripts.Model.Units {
                 mMagic.Modifier += mMainWeapon.Might;
             }
 
+            mSpeed.Modifier -= mMainWeapon.Weight;
+
         }
 
         public Weapon UnequipWeapon() {
@@ -443,6 +454,9 @@ namespace Assets.Scripts.Model.Units {
             if (mMainWeapon.DamageType == DamageType.Magical) {
                 mMagic.Modifier -= mMainWeapon.Might;
             }
+
+            mSpeed.Modifier += mMainWeapon.Weight;
+
             var weapon = mMainWeapon;
             mMainWeapon = null;
             return weapon;

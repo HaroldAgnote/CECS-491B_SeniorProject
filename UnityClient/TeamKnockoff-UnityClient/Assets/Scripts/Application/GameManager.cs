@@ -103,12 +103,12 @@ namespace Assets.Scripts.Application {
         /// <summary>
         /// The TileFactory to generate the model and view representation of a Tile
         /// </summary>
-        public TileFactory tileFactory;
+        private TileFactory tileFactory;
 
         /// <summary>
         /// The UnitFactory to generate the model and view representation of a Unit
         /// </summary>
-        public UnitFactory unitFactory;
+        private UnitFactory unitFactory;
 
         #endregion
 
@@ -136,6 +136,9 @@ namespace Assets.Scripts.Application {
         /// Initializes the Game with configured settings.
         /// </summary>
         private void Start() {
+            tileFactory = TileFactory.instance;
+            unitFactory = UnitFactory.instance;
+
             var selectedMap = SceneLoader.GetParam(SceneLoader.LOAD_MAP_PARAM);
 
             if (selectedMap != "") {
