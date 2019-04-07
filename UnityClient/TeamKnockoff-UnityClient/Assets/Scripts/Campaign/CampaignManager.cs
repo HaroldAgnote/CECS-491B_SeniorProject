@@ -167,7 +167,7 @@ namespace Assets.Scripts.Campaign {
             CurrentCampaignIndex = data.CurrentCampaignIndex;
             FarthestCampaignIndex = data.FarthestCampaignIndex;
             CurrentCampaignIsCompleted = data.IsCompleted;
-            CampaignPlayerData = data.PlayerData;
+            CampaignPlayerData = data.PlayerData.Clone();
 
             // Regenerate Units with Skills
             CampaignPlayerData.CampaignUnits.Clear();
@@ -175,6 +175,8 @@ namespace Assets.Scripts.Campaign {
                 var unit = UnitFactory.instance.GenerateUnit(unitWrapper);
                 CampaignPlayerData.AddCampaignUnit(unit);
             }
+
+            CampaignPlayerUnitData = CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
 
             CampaignPlayerData.Weapons.Clear();
             foreach (var weaponWrapper in data.WeaponWrapperData) {

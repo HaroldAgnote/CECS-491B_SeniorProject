@@ -70,11 +70,17 @@ namespace Assets.Scripts.Campaign {
         private List<GameObject> availableUnitObjects;
         private List<GameObject> unitSkillObjects;
 
+        private GameObject selectedUnitGameObject;
+        private GameObject selectedWeaponGameObject;
+
         private Unit selectedUnit;
         private Weapon selectedWeapon;
 
         private bool isBuying;
         private bool isSelling;
+
+        private Color SELECTED_COLOR = Color.blue;
+        private Color UNSELECTED_COLOR = Color.white;
 
         void Start() {
             availableWeaponObjects = new List<GameObject>();
@@ -113,8 +119,10 @@ namespace Assets.Scripts.Campaign {
             if (equipped) {
                 buttonLabel.text += " - EQUIPPED";
                 actionButton.onClick.AddListener(() => {
-                    buttonLabel.text = unit.Name.ToUpper();
-                    UpdateUnitInformation(unit);
+                    if (isSelling) {
+                        buttonLabel.text = unit.Name.ToUpper();
+                        UpdateUnitInformation(unit);
+                    }
                 });
             }
 
@@ -143,6 +151,15 @@ namespace Assets.Scripts.Campaign {
                 var weaponNamePrice = $"{weapon.Name} - {weapon.BuyingPrice}";
                 var button = CreateWeaponButton(weaponNamePrice);
                 button.onClick.AddListener(() => {
+                    if (selectedWeaponGameObject != null) {
+                        var selectedButton = selectedWeaponGameObject.GetComponent<Image>();
+                        selectedButton.color = UNSELECTED_COLOR;
+                    }
+
+                    selectedWeaponGameObject = button.gameObject;
+                    var buttonImage = selectedWeaponGameObject.GetComponent<Image>();
+                    buttonImage.color = SELECTED_COLOR;
+
                     selectedWeapon = weapon;
                     UpdateWeaponInformation(weapon);
                     UpdateUnitButtons();
@@ -154,7 +171,7 @@ namespace Assets.Scripts.Campaign {
         }
 
         private bool PlayerCanBuy(Weapon weapon) {
-            return CampaignManager.instance.CampaignPlayerData.Money > weapon.BuyingPrice;
+            return CampaignManager.instance.CampaignPlayerData.Money >= weapon.BuyingPrice;
         }
 
         private void SwitchToSellingMenu() {
@@ -168,8 +185,8 @@ namespace Assets.Scripts.Campaign {
             var actionButtonLabel = actionButton.GetComponentInChildren<TextMeshProUGUI>();
             actionButtonLabel.text = "Sell";
 
-            var inventory = CampaignManager.instance.CampaignPlayerData.Weapons;
-
+            var inventory = new List<Weapon>();
+            inventory.AddRange(CampaignManager.instance.CampaignPlayerData.Weapons);
             inventory.AddRange(CampaignManager.instance.CampaignPlayerData.CampaignUnits
                 .Where(unit => unit.MainWeapon.IsSellable)
                 .Select(unit => unit.MainWeapon).ToList());
@@ -178,6 +195,15 @@ namespace Assets.Scripts.Campaign {
                 var weaponNamePrice = $"{weapon.Name} - {weapon.SellingPrice}";
                 var button = CreateWeaponButton(weaponNamePrice);
                 button.onClick.AddListener(() => {
+                    if (selectedWeaponGameObject != null) {
+                        var selectedButton = selectedWeaponGameObject.GetComponent<Image>();
+                        selectedButton.color = UNSELECTED_COLOR;
+                    }
+
+                    selectedWeaponGameObject = button.gameObject;
+                    var buttonImage = selectedWeaponGameObject.GetComponent<Image>();
+                    buttonImage.color = SELECTED_COLOR;
+
                     selectedWeapon = weapon;
                     UpdateWeaponInformation(weapon);
                     UpdateUnitButtons();
@@ -230,6 +256,8 @@ namespace Assets.Scripts.Campaign {
 
             availableUnitObjects = new List<GameObject>();
 
+            selectedUnit = null;
+
             var possibleUnits =
                 CampaignManager.instance.CampaignPlayerData.CampaignUnits.Where(unit => unit.CanUse(selectedWeapon));
 
@@ -239,8 +267,16 @@ namespace Assets.Scripts.Campaign {
 
                 var button = CreateUnitButton(possibleUnit, equipped);
                 button.onClick.AddListener(() => {
+                    if (selectedUnitGameObject != null) {
+                        var selectedUnitButton = selectedUnitGameObject.GetComponent<Image>();
+                        selectedUnitButton.color = UNSELECTED_COLOR;
+                    }
                     selectedUnit = possibleUnit;
                     UpdateUnitInformation(possibleUnit);
+
+                    selectedUnitGameObject = button.gameObject;
+                    var buttonImage = selectedUnitGameObject.GetComponent<Image>();
+                    buttonImage.color = SELECTED_COLOR;
                 });
             }
         }

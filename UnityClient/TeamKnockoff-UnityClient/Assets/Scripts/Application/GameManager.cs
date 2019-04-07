@@ -99,8 +99,6 @@ namespace Assets.Scripts.Application {
         /// </summary>
         public Player ControllingPlayer;
 
-        public List<UnitWrapper> unitWrappers;
-
         /// <summary>
         /// The TileFactory to generate the model and view representation of a Tile
         /// </summary>
@@ -163,7 +161,6 @@ namespace Assets.Scripts.Application {
 
                 if (singleGameTypeString == GameManager.CAMPAIGN_GAME_TYPE) {
                     singleplayerGameType = SingleplayerGameType.Campaign;
-                    unitWrappers = CampaignManager.instance.CampaignPlayerUnitData;
 
                 } else if (singleGameTypeString == GameManager.PRACTICE_GAME_TYPE) {
                     singleplayerGameType = SingleplayerGameType.Practice;
@@ -233,7 +230,7 @@ namespace Assets.Scripts.Application {
                 if (tile.Player != 0) {
                     if (gameType == GameType.Singleplayer) {
                         if (singleplayerGameType == SingleplayerGameType.Campaign) {
-                            if (tile.Player == 1 && unitWrappers != null && unitWrappers.Count > 0) {
+                            if (tile.Player == 1) {
                                 const char DELIMITER = '_';
                                 const int UNIT_NAME_INDEX = 2;
 
@@ -244,10 +241,12 @@ namespace Assets.Scripts.Application {
                                 if (split_string.Length == 3) {
                                     // Named Unit
                                     var unitName = split_string[UNIT_NAME_INDEX];
-                                    var unitWrapper = unitWrappers.SingleOrDefault(wrapper => wrapper.unitName == unitName);
+                                    var existingUnit =
+                                        CampaignManager.instance.CampaignPlayerData.CampaignUnits.SingleOrDefault(
+                                            campaignUnit => campaignUnit.Name == unitName);
 
-                                    if (unitWrapper != null) {
-                                        newUnitTuple = unitFactory.ImportUnit(tile, view.gameObject.transform, unitWrapper);
+                                    if (existingUnit != null) {
+                                        newUnitTuple = unitFactory.ImportUnit(tile, view.gameObject.transform, existingUnit);
                                     } else {
                                         newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
                                     }
@@ -358,6 +357,10 @@ namespace Assets.Scripts.Application {
                         CampaignManager.instance.CampaignPlayerData.CampaignUnits.AddRange(newUnits);
                         CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance
                             .CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
+
+                        // TODO: Make better reward system
+                        CampaignManager.instance.CampaignPlayerData.Money += 1000;
+
                         CampaignManager.instance.LoadNextCampaignEvent();
                     } else {
                         SceneLoader.instance.GoToCampaignMenu();

@@ -208,6 +208,19 @@ namespace Assets.Scripts.Model.Units {
             return unitFactoryWrapper.ImportUnit(tileData, parent, unitWrapper);
         }
 
+        public Tuple<Unit, GameObject> ImportUnit(TileData tileData, Transform parent, Unit unit) {
+            const char DELIMITER = '_';
+
+            var unitData = tileData.UnitData;
+            var split_string = unitData.Split(DELIMITER);
+
+            var unitType = split_string.First<string>();
+            var unitFactoryWrapper = unitMapper[unitType];
+
+            var unitObject = unitFactoryWrapper.InstantiateUnit(tileData, parent);
+            return new Tuple<Unit, GameObject>(unit, unitObject);
+        }
+
         public Sprite GetUnitSprite(string unitName) {
             return spriteMapper[unitName];
         }

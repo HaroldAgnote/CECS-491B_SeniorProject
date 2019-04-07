@@ -62,8 +62,14 @@ namespace Assets.Scripts.Campaign {
         public List<GameObject> availableWeaponObjects;
         public List<GameObject> unitSkillObjects;
 
+        public GameObject selectedUnitGameObject;
+        public GameObject selectedWeaponGameObject;
+
         private Unit selectedUnit;
         private Weapon selectedWeapon;
+
+        private Color SELECTED_COLOR = Color.blue;
+        private Color UNSELECTED_COLOR = Color.white;
 
         // Start is called before the first frame update
         void Start() {
@@ -73,8 +79,25 @@ namespace Assets.Scripts.Campaign {
             foreach (var unit in units) {
                 var button = CreateUnitButton(unit);
                 button.onClick.AddListener(() => {
+                    if (selectedUnitGameObject != null) {
+                        var selectedUnitButton = selectedUnitGameObject.GetComponent<Image>();
+                        selectedUnitButton.color = UNSELECTED_COLOR;
+                    }
                     selectedUnit = unit;
                     UpdateUnitInformation(unit);
+
+                    selectedUnitGameObject = button.gameObject;
+                    var buttonImage = selectedUnitGameObject.GetComponent<Image>();
+                    buttonImage.color = SELECTED_COLOR;
+
+                    if (selectedWeapon != null) {
+                        if (!unit.CanUse(selectedWeapon)) {
+                            selectedWeapon = null;
+                            selectedWeaponGameObject = null;
+                            equipButton.interactable = false;
+                            ClearWeaponInformation();
+                        }
+                    }
                 });
             }
 
@@ -181,6 +204,15 @@ namespace Assets.Scripts.Campaign {
                 var equippedWeaponButton = CreateWeaponButton($"{equippedWeapon.Name} - Equipped");
 
                 equippedWeaponButton.onClick.AddListener(() => {
+                    if (selectedWeaponGameObject != null) {
+                        var selectedButton = selectedWeaponGameObject.GetComponent<Image>();
+                        selectedButton.color = UNSELECTED_COLOR;
+                    }
+
+                    selectedWeaponGameObject = equippedWeaponButton.gameObject;
+                    var buttonImage = selectedWeaponGameObject.GetComponent<Image>();
+                    buttonImage.color = SELECTED_COLOR;
+                    
                     selectedWeapon = null;
                     UpdateWeaponInformation(equippedWeapon);
                     unequipButton.interactable = true;
@@ -193,6 +225,15 @@ namespace Assets.Scripts.Campaign {
                 var weaponButton = CreateWeaponButton(weapon.Name);
 
                 weaponButton.onClick.AddListener(() => {
+                    if (selectedWeaponGameObject != null) {
+                        var selectedButton = selectedWeaponGameObject.GetComponent<Image>();
+                        selectedButton.color = UNSELECTED_COLOR;
+                    }
+
+                    selectedWeaponGameObject = weaponButton.gameObject;
+                    var buttonImage = selectedWeaponGameObject.GetComponent<Image>();
+                    buttonImage.color = SELECTED_COLOR;
+                    
                     selectedWeapon = weapon;
                     UpdateWeaponInformation(weapon);
                     unequipButton.interactable = false;
@@ -210,6 +251,17 @@ namespace Assets.Scripts.Campaign {
             selectedWeaponDamageType.text = weapon.DamageType.ToString();
             selectedWeaponHitRate.text = weapon.HitRate.ToString();
             selectedWeaponCritRate.text = weapon.CritRate.ToString();
+        }
+
+        private void ClearWeaponInformation() {
+            selectedWeaponName.text = "";
+            selectedWeaponType.text = "";
+            selectedWeaponRange.text = "";
+            selectedWeaponWeight.text = "";
+            selectedWeaponMight.text = "";
+            selectedWeaponDamageType.text = "";
+            selectedWeaponHitRate.text = "";
+            selectedWeaponCritRate.text = "";
         }
 
         private Button CreateWeaponButton(string weaponName) {

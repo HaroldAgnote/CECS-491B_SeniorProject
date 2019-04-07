@@ -6,11 +6,12 @@ using UnityEngine;
 
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Weapons;
+using Assets.Scripts.Utilities.Cloneable;
 
 namespace Assets.Scripts.Model {
 
     [Serializable]
-    public class Player {
+    public class Player : ICloneable<Player> {
         [SerializeField]
         private string mName;
 
@@ -77,6 +78,15 @@ namespace Assets.Scripts.Model {
         public bool HasAliveUnit() {
             return mUnits.Any(unit => unit.IsAlive);
         }
-        
+
+        public Player Clone() {
+            return new Player() {
+                mName = this.mName,
+                mCampaignUnits = this.mCampaignUnits,
+                mMoney = this.mMoney,
+                mUnits = this.mUnits,
+                mWeapons = this.mWeapons
+            };
+        }
     }
 }
