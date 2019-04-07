@@ -312,8 +312,7 @@ namespace Assets.Scripts.Campaign {
 
         private void GoBack() {
             CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance.CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
-
-            SceneLoader.instance.GoToCampaignChapterMenu();
+            CampaignManager.instance.LoadCampaignChapterMenu();
         }
     }
 }

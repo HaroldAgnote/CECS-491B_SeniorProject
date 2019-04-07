@@ -185,7 +185,7 @@ namespace Assets.Scripts.Campaign {
             LoadCampaignChapterMenu();
         }
 
-        private void LoadCampaignChapterMenu() {
+        public void LoadCampaignChapterMenu() {
             currentCampaignEvent = CampaignEvent.ChapterMenu;
             SceneLoader.instance.GoToCampaignChapterMenu();
         }
