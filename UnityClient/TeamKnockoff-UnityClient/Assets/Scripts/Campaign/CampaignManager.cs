@@ -156,6 +156,8 @@ namespace Assets.Scripts.Campaign {
             CurrentCampaignIndex = 0;
             FarthestCampaignIndex = 0;
 
+            CampaignPlayerData = new Player("Hero");
+
             CurrentCampaignIsCompleted = false;
             LoadOpeningDialogue();
         }
@@ -168,10 +170,10 @@ namespace Assets.Scripts.Campaign {
             CampaignPlayerData = data.PlayerData;
 
             // Regenerate Units with Skills
-            CampaignPlayerData.Units.Clear();
+            CampaignPlayerData.CampaignUnits.Clear();
             foreach (var unitWrapper in data.UnitWrapperData) {
                 var unit = UnitFactory.instance.GenerateUnit(unitWrapper);
-                CampaignPlayerData.AddUnit(unit);
+                CampaignPlayerData.AddCampaignUnit(unit);
             }
 
             CampaignPlayerData.Weapons.Clear();
@@ -242,7 +244,7 @@ namespace Assets.Scripts.Campaign {
             data.FarthestCampaignIndex = FarthestCampaignIndex;
             data.IsCompleted = CurrentCampaignIsCompleted;
             data.PlayerData = CampaignPlayerData;
-            data.UnitWrapperData = CampaignPlayerData.Units.Select(unit => new UnitWrapper(unit)).ToList();
+            data.UnitWrapperData = CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
             data.WeaponWrapperData = CampaignPlayerData.Weapons.Select(weapon => new WeaponWrapper(weapon)).ToList();
 
             CampaignDataFileHandler.SaveCampaignData(data);

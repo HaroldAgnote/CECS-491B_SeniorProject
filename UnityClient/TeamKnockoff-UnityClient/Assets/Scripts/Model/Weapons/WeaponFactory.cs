@@ -43,6 +43,7 @@ namespace Assets.Scripts.Model.Weapons {
 
             WeaponBank = new HashSet<Weapon>();
             weaponGenerator = new Dictionary<string, Func<Weapon>>();
+            WeaponBank.Add(Weapon.FISTS);
 
             //Read file to add weapons to WeaponGenerator
             var reader = new StringReader(weaponTextAsset.text);

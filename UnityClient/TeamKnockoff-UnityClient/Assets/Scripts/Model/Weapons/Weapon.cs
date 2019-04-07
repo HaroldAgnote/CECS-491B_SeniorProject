@@ -11,17 +11,20 @@ using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
 namespace Assets.Scripts.Model.Weapons {
 
     [Serializable]
-    public class Weapon : IGenerator<Weapon> {
+    public class Weapon : IGenerator<Weapon>, IComparable<Weapon>, IEquatable<Weapon> {
 
         public static Weapon FISTS = new Weapon() {
             mName = "Fists",
             mRange = 1,
-            mMight = 1,
+            mMight = 0,
             mWeight = 0,
-            mHitRate = 1,
+            mHitRate = 10,
             mCritRate = 0,
+            mBuyingPrice = 0,
+            mSellingPrice = 0,
             mDamageType = DamageType.Physical,
             mWeaponType = WeaponType.Fists,
+            mSkills =  new HashSet<Skill>()
         };
 
         public enum WeaponType {
@@ -76,83 +79,35 @@ namespace Assets.Scripts.Model.Weapons {
 
         #region Properties
 
-        public string Name {
-            get {
-                return mName;
-            }
-        }
+        public string Name { get { return mName; } }
 
-        public int Might {
-            get {
-                return mMight;
-            }
-        }
+        public int Might { get { return mMight; } }
 
-        public int Range {
-            get {
-                return mRange;
-            }
-        }
+        public int Range { get { return mRange; } }
 
-        public int Weight {
-            get {
-                return mWeight;
-            }
-        }
+        public int Weight { get { return mWeight; } }
 
-        public int HitRate {
-            get {
-                return mHitRate;
-            }
-        }
+        public int HitRate { get { return mHitRate; } }
 
-        public int CritRate {
-            get {
-                return mCritRate;
-            }
-        }
+        public int CritRate { get { return mCritRate; } }
 
-        public int Rarity {
-            get {
-                return mRarity;
-            }
-        }
+        public int Rarity { get { return mRarity; } }
 
-        public int BuyingPrice {
-            get {
-                return mBuyingPrice;
-            }
-        }
+        public int BuyingPrice { get { return mBuyingPrice; } }
 
-        public int SellingPrice {
-            get {
-                return mSellingPrice;
-            }
-        }
+        public int SellingPrice { get { return mSellingPrice; } }
 
-        public WeaponType WeapType {
-            get {
-                return mWeaponType;
-            }
-        }
+        public bool IsSellable => mSellingPrice > 0;
 
-        public DamageType DamageType {
-            get {
-                return mDamageType;
-            }
-        }
+        public WeaponType WeapType { get { return mWeaponType; } }
 
-        public HashSet<Skill> Skills {
-            get {
-                return mSkills;
-            }
-        }
+        public DamageType DamageType { get { return mDamageType; } }
+
+        public HashSet<Skill> Skills { get { return mSkills; } }
 
         #endregion
 
-        public Weapon() {
-
-        }
+        public Weapon() { }
 
         public Weapon(string name,
                         int range,
@@ -221,6 +176,14 @@ namespace Assets.Scripts.Model.Weapons {
                             mWeaponType,
                             mDamageType,
                             mSkills);
+        }
+
+        public bool Equals(Weapon other) {
+            return this.mName == other.mName;
+        }
+
+        public int CompareTo(Weapon other) {
+            return this.mName.CompareTo(other.Name);
         }
     }
 }

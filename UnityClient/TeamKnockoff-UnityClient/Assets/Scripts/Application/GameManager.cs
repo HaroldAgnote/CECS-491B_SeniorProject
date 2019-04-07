@@ -186,7 +186,17 @@ namespace Assets.Scripts.Application {
                 Player newPlayer = null;
 
                 if (gameType == GameType.Singleplayer) {
-                    newPlayer = new Player($"Player {player}");
+                    if (singleplayerGameType == SingleplayerGameType.Practice) {
+                        newPlayer = new Player($"Player {player}");
+                    } else if (singleplayerGameType == SingleplayerGameType.Campaign) {
+                        if (player == 1) {
+                            newPlayer = CampaignManager.instance.CampaignPlayerData;
+                        } else {
+                            newPlayer = new Player($"Player {player}");
+                        }
+                    } else {
+                        throw new Exception($"Error setting up Player {player}");
+                    }
                 }
 
                 if (gameType == GameType.Multiplayer) {
@@ -235,6 +245,7 @@ namespace Assets.Scripts.Application {
                                     // Named Unit
                                     var unitName = split_string[UNIT_NAME_INDEX];
                                     var unitWrapper = unitWrappers.SingleOrDefault(wrapper => wrapper.unitName == unitName);
+
                                     if (unitWrapper != null) {
                                         newUnitTuple = unitFactory.ImportUnit(tile, view.gameObject.transform, unitWrapper);
                                     } else {
@@ -342,15 +353,12 @@ namespace Assets.Scripts.Application {
 
                 if (singleplayerGameType == SingleplayerGameType.Campaign) {
                     if (ControllingPlayer.HasAliveUnit()) {
-                        CampaignManager.instance.CampaignPlayerData = ControllingPlayer;
-                        CampaignManager.instance.CampaignPlayerUnitData = ControllingPlayer.Units.Select(unit => new UnitWrapper(unit)).ToList();
+                        var campaignUnits = CampaignManager.instance.CampaignPlayerData.CampaignUnits;
+                        var newUnits = ControllingPlayer.Units.Where(unit => !campaignUnits.Contains(unit));
+                        CampaignManager.instance.CampaignPlayerData.CampaignUnits.AddRange(newUnits);
+                        CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance
+                            .CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
                         CampaignManager.instance.LoadNextCampaignEvent();
-                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Iron Sword"));
-                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Iron Spear"));
-                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Iron Axe"));
-                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Iron Bow"));
-                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Dark Book"));
-                        CampaignManager.instance.CampaignPlayerData.Weapons.Add(WeaponFactory.instance.GenerateWeapon("Wooden Staff"));
                     } else {
                         SceneLoader.instance.GoToCampaignMenu();
                     }

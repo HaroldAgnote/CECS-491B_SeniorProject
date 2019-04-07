@@ -67,9 +67,9 @@ namespace Assets.Scripts.Campaign {
 
         // Start is called before the first frame update
         void Start() {
-            backButton.onClick.AddListener(SceneLoader.instance.GoToCampaignChapterMenu);
+            backButton.onClick.AddListener(GoBack);
 
-            var units = CampaignManager.instance.CampaignPlayerData.Units;
+            var units = CampaignManager.instance.CampaignPlayerData.CampaignUnits;
             foreach (var unit in units) {
                 var button = CreateUnitButton(unit);
                 button.onClick.AddListener(() => {
@@ -107,24 +107,26 @@ namespace Assets.Scripts.Campaign {
             selectedUnitHealthPoints.text = $"{unit.MaxHealthPoints}";
             selectedUnitLevel.text = $"{unit.Level}";
             selectedUnitExperiencePoints.text = $"{unit.ExperiencePoints}";
-            selectedUnitStrength.text = $"{unit.Strength.Value}";
-            selectedUnitMagic.text = $"{unit.Magic.Value}";
-            selectedUnitDefense.text = $"{unit.Defense.Value}";
-            selectedUnitResistance.text = $"{unit.Resistance.Value}";
-            selectedUnitSpeed.text = $"{unit.Speed.Value}";
-            selectedUnitSkill.text = $"{unit.Skill.Value}";
-            selectedUnitLuck.text = $"{unit.Luck.Value}";
-            selectedUnitMovement.text = $"{unit.Movement.Value}";
+            selectedUnitStrength.text = $"{unit.Strength}";
+            selectedUnitMagic.text = $"{unit.Magic}";
+            selectedUnitDefense.text = $"{unit.Defense}";
+            selectedUnitResistance.text = $"{unit.Resistance}";
+            selectedUnitSpeed.text = $"{unit.Speed}";
+            selectedUnitSkill.text = $"{unit.Skill}";
+            selectedUnitLuck.text = $"{unit.Luck}";
+            selectedUnitMovement.text = $"{unit.Movement}";
 
-            var unitWeapon = unit.MainWeapon;
-            selectedUnitWeaponName.text = unitWeapon.Name;
-            selectedUnitWeaponType.text = unitWeapon.WeapType.ToString();
-            selectedUnitWeaponRange.text = $"{unitWeapon.Range}";
-            selectedUnitWeaponWeight.text = $"{unitWeapon.Weight}";
-            selectedUnitWeaponMight.text = $"{unitWeapon.Might}";
-            selectedUnitWeaponDamageType.text = unitWeapon.DamageType.ToString();
-            selectedUnitWeaponHitRate.text = $"{unitWeapon.HitRate}";
-            selectedUnitWeaponCritRate.text = $"{unitWeapon.CritRate}";
+            if (selectedUnit.MainWeapon != null) {
+                var unitWeapon = unit.MainWeapon;
+                selectedUnitWeaponName.text = unitWeapon.Name;
+                selectedUnitWeaponType.text = unitWeapon.WeapType.ToString();
+                selectedUnitWeaponRange.text = $"{unitWeapon.Range}";
+                selectedUnitWeaponWeight.text = $"{unitWeapon.Weight}";
+                selectedUnitWeaponMight.text = $"{unitWeapon.Might}";
+                selectedUnitWeaponDamageType.text = unitWeapon.DamageType.ToString();
+                selectedUnitWeaponHitRate.text = $"{unitWeapon.HitRate}";
+                selectedUnitWeaponCritRate.text = $"{unitWeapon.CritRate}";
+            }
 
             foreach (var skillObject in unitSkillObjects) {
                 Destroy(skillObject);
@@ -144,7 +146,7 @@ namespace Assets.Scripts.Campaign {
         }
 
         private void EquipWeapon() {
-            if (selectedUnit.MainWeapon != null) {
+            if (!selectedUnit.MainWeapon.Equals(Weapon.FISTS)) {
                 var unequippedWeapon = selectedUnit.UnequipWeapon();
                 CampaignManager.instance.CampaignPlayerData.Weapons.Add(unequippedWeapon);
             }
@@ -153,6 +155,8 @@ namespace Assets.Scripts.Campaign {
 
             UpdateWeaponButtons();
             UpdateUnitInformation(selectedUnit);
+            equipButton.interactable = false;
+            unequipButton.interactable = false;
         }
 
         private void UnequipWeapon() {
@@ -161,6 +165,8 @@ namespace Assets.Scripts.Campaign {
 
             UpdateWeaponButtons();
             UpdateUnitInformation(selectedUnit);
+            equipButton.interactable = false;
+            unequipButton.interactable = false;
         }
 
         private void UpdateWeaponButtons() {
@@ -170,14 +176,17 @@ namespace Assets.Scripts.Campaign {
 
             availableWeaponObjects = new List<GameObject>();
 
-            var equippedWeapon = selectedUnit.MainWeapon;
-            var equippedWeaponButton = CreateWeaponButton($"{equippedWeapon.Name} - Equipped");
+            if (!selectedUnit.MainWeapon.Equals(Weapon.FISTS)) {
+                var equippedWeapon = selectedUnit.MainWeapon;
+                var equippedWeaponButton = CreateWeaponButton($"{equippedWeapon.Name} - Equipped");
 
-            equippedWeaponButton.onClick.AddListener(() => {
-                unequipButton.interactable = true;
-                equipButton.interactable = false;
-            });
-
+                equippedWeaponButton.onClick.AddListener(() => {
+                    selectedWeapon = null;
+                    UpdateWeaponInformation(equippedWeapon);
+                    unequipButton.interactable = true;
+                    equipButton.interactable = false;
+                });
+            }
 
             var unitPossibleWeapons = CampaignManager.instance.CampaignPlayerData.Weapons.Where(weapon => selectedUnit.CanUse(weapon));
             foreach (var weapon in unitPossibleWeapons) {
@@ -212,6 +221,12 @@ namespace Assets.Scripts.Campaign {
 
             var buttonComponent = buttonObject.GetComponent<Button>();
             return buttonComponent;
+        }
+
+        private void GoBack() {
+            CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance.CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
+
+            SceneLoader.instance.GoToCampaignChapterMenu();
         }
     }
 }

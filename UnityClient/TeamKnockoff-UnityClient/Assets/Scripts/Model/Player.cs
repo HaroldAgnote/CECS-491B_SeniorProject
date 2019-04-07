@@ -25,6 +25,10 @@ namespace Assets.Scripts.Model {
 
         public List<Unit> Units { get { return mUnits; } }
 
+        private List<Unit> mCampaignUnits;
+
+        public List<Unit> CampaignUnits { get { return mCampaignUnits; } }
+
         private List<Weapon> mWeapons;
 
         public List<Weapon> Weapons { get { return mWeapons; } }
@@ -33,6 +37,7 @@ namespace Assets.Scripts.Model {
             mName = "Hero";
             mMoney = 1000;
             mUnits = new List<Unit>();
+            mCampaignUnits = new List<Unit>();
             mWeapons = new List<Weapon>();
         }
 
@@ -40,11 +45,19 @@ namespace Assets.Scripts.Model {
             mName = name;
             mMoney = 1000;
             mUnits = new List<Unit>();
+            mCampaignUnits = new List<Unit>();
             mWeapons = new List<Weapon>();
         }
 
         public void AddUnit(Unit unit) {
+            if (mUnits == null) {
+                mUnits = new List<Unit>();
+            }
             mUnits.Add(unit);
+        }
+
+        public void AddCampaignUnit(Unit unit) {
+            mCampaignUnits.Add(unit);
         }
 
         public void StartTurn() {

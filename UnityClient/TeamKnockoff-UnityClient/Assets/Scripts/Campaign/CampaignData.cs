@@ -144,7 +144,7 @@ namespace Assets.Scripts.Campaign {
             mFarthestCampaignIndex = farthestIndex;
             mIsCompleted = isCompleted;
             mPlayerData = playerData;
-            mUnitWrapperData = mPlayerData.Units.Select(unit => new UnitWrapper(unit)).ToList();
+            mUnitWrapperData = mPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
             mWeaponWrapperData = mPlayerData.Weapons.Select(weapon => new WeaponWrapper(weapon)).ToList();
         }
 

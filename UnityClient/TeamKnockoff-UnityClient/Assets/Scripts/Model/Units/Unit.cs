@@ -17,7 +17,7 @@ using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
 
 namespace Assets.Scripts.Model.Units {
     [Serializable]
-    public abstract class Unit : IMover {
+    public abstract class Unit : IMover, IEquatable<Unit> {
 
         #region Constants
 
@@ -86,7 +86,7 @@ namespace Assets.Scripts.Model.Units {
         #endregion
 
         #region Properties
-
+        
         public string Name {
             get { return mName; }
             set {
@@ -461,7 +461,9 @@ namespace Assets.Scripts.Model.Units {
             mSpeed.Modifier += mMainWeapon.Weight;
 
             var weapon = mMainWeapon;
-            mMainWeapon = null;
+
+            mMainWeapon = Weapon.FISTS;
+
             return weapon;
         }
 
@@ -480,6 +482,10 @@ namespace Assets.Scripts.Model.Units {
                 mExperiencePoints -= 100;
                 mLevel += 1;
             }
+        }
+
+        public bool Equals(Unit other) {
+            return this.mName == other.mName;
         }
 
         #endregion
