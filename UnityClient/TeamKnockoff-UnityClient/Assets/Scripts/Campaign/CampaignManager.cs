@@ -8,6 +8,7 @@ using UnityEngine;
 using Assets.Scripts.Application;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
+using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Utilities.FileHandling;
 
 namespace Assets.Scripts.Campaign {
@@ -166,11 +167,17 @@ namespace Assets.Scripts.Campaign {
             CurrentCampaignIsCompleted = data.IsCompleted;
             CampaignPlayerData = data.PlayerData;
 
-            // Prevent adding duplicate units
+            // Regenerate Units with Skills
             CampaignPlayerData.Units.Clear();
             foreach (var unitWrapper in data.UnitWrapperData) {
                 var unit = UnitFactory.instance.GenerateUnit(unitWrapper);
                 CampaignPlayerData.AddUnit(unit);
+            }
+
+            CampaignPlayerData.Weapons.Clear();
+            foreach (var weaponWrapper in data.WeaponWrapperData) {
+                var weapon = WeaponFactory.instance.GenerateWeapon(weaponWrapper.WeaponName);
+                CampaignPlayerData.Weapons.Add(weapon);
             }
 
             LoadCampaignChapterMenu();
@@ -236,6 +243,7 @@ namespace Assets.Scripts.Campaign {
             data.IsCompleted = CurrentCampaignIsCompleted;
             data.PlayerData = CampaignPlayerData;
             data.UnitWrapperData = CampaignPlayerData.Units.Select(unit => new UnitWrapper(unit)).ToList();
+            data.WeaponWrapperData = CampaignPlayerData.Weapons.Select(weapon => new WeaponWrapper(weapon)).ToList();
 
             CampaignDataFileHandler.SaveCampaignData(data);
 

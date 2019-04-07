@@ -21,12 +21,10 @@ namespace Assets.Scripts.Model {
 
         public int Money { get { return mMoney; } }
 
-        [SerializeField]
         private List<Unit> mUnits;
 
         public List<Unit> Units { get { return mUnits; } }
 
-        [SerializeField]
         private List<Weapon> mWeapons;
 
         public List<Weapon> Weapons { get { return mWeapons; } }

@@ -461,6 +461,7 @@ namespace Assets.Scripts.Model.Units {
             mSpeed.Modifier += mMainWeapon.Weight;
 
             var weapon = mMainWeapon;
+            mMainWeapon = null;
             return weapon;
         }
 

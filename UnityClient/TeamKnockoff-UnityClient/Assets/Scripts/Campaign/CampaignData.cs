@@ -7,6 +7,7 @@ using UnityEngine;
 
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
+using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Utilities.DateTime;
 
 namespace Assets.Scripts.Campaign {
@@ -93,6 +94,18 @@ namespace Assets.Scripts.Campaign {
             }
         }
 
+        [SerializeField]
+        private List<WeaponWrapper> mWeaponWrapperData;
+
+        public List<WeaponWrapper> WeaponWrapperData {
+            get { return mWeaponWrapperData; }
+            set {
+                if (mWeaponWrapperData != value) {
+                    mWeaponWrapperData = value;
+                }
+            }
+        }
+
 
         [SerializeField]
         private SerializableDateTime mTimeStamp;
@@ -132,6 +145,7 @@ namespace Assets.Scripts.Campaign {
             mIsCompleted = isCompleted;
             mPlayerData = playerData;
             mUnitWrapperData = mPlayerData.Units.Select(unit => new UnitWrapper(unit)).ToList();
+            mWeaponWrapperData = mPlayerData.Weapons.Select(weapon => new WeaponWrapper(weapon)).ToList();
         }
 
         public int CompareTo(CampaignData other) {

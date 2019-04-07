@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DialogueScene.unity
     guid: c8fea2fbd3fc23a4d85e4dbcc9faa0dd
+  - enabled: 1
+    path: Assets/Scenes/Menus/Campaign/Campaign Equipment Menu.unity
+    guid: 5b9a3f79201ac6249b27f336ce520550
   m_configObjects: {}

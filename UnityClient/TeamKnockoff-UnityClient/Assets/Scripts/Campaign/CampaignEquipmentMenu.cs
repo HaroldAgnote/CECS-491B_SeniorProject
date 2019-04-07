@@ -74,7 +74,6 @@ namespace Assets.Scripts.Campaign {
                 var button = CreateUnitButton(unit);
                 button.onClick.AddListener(() => {
                     selectedUnit = unit;
-                    RefreshInformation();
                     UpdateUnitInformation(unit);
                 });
             }
@@ -105,7 +104,7 @@ namespace Assets.Scripts.Campaign {
         private void UpdateUnitInformation(Unit unit) {
             selectedUnitName.text = unit.Name;
             selectedUnitTypeClass.text = $"{unit.Type} - {unit.Class}";
-            selectedUnitHealthPoints.text = $"{unit.MaxHealthPoints.Value}";
+            selectedUnitHealthPoints.text = $"{unit.MaxHealthPoints}";
             selectedUnitLevel.text = $"{unit.Level}";
             selectedUnitExperiencePoints.text = $"{unit.ExperiencePoints}";
             selectedUnitStrength.text = $"{unit.Strength.Value}";
@@ -127,8 +126,13 @@ namespace Assets.Scripts.Campaign {
             selectedUnitWeaponHitRate.text = $"{unitWeapon.HitRate}";
             selectedUnitWeaponCritRate.text = $"{unitWeapon.CritRate}";
 
-            var unitSkills = unit.Skills;
+            foreach (var skillObject in unitSkillObjects) {
+                Destroy(skillObject);
+            }
+
             unitSkillObjects = new List<GameObject>();
+            var unitSkills = unit.Skills;
+
             foreach (var skill in unitSkills) {
                 var skillObject = Instantiate(unitSkillPrefab, selectedUnitSkillsContent.transform);
                 unitSkillObjects.Add(skillObject);
@@ -140,12 +144,13 @@ namespace Assets.Scripts.Campaign {
         }
 
         private void EquipWeapon() {
-            if (selectedUnit.MainWeapon != Weapon.FISTS) {
+            if (selectedUnit.MainWeapon != null) {
                 var unequippedWeapon = selectedUnit.UnequipWeapon();
                 CampaignManager.instance.CampaignPlayerData.Weapons.Add(unequippedWeapon);
             }
             selectedUnit.EquipWeapon(selectedWeapon);
             CampaignManager.instance.CampaignPlayerData.Weapons.Remove(selectedWeapon);
+
             UpdateWeaponButtons();
             UpdateUnitInformation(selectedUnit);
         }
@@ -153,6 +158,7 @@ namespace Assets.Scripts.Campaign {
         private void UnequipWeapon() {
             var unequippedWeapon = selectedUnit.UnequipWeapon();
             CampaignManager.instance.CampaignPlayerData.Weapons.Add(unequippedWeapon);
+
             UpdateWeaponButtons();
             UpdateUnitInformation(selectedUnit);
         }
@@ -163,6 +169,7 @@ namespace Assets.Scripts.Campaign {
             }
 
             availableWeaponObjects = new List<GameObject>();
+
             var equippedWeapon = selectedUnit.MainWeapon;
             var equippedWeaponButton = CreateWeaponButton($"{equippedWeapon.Name} - Equipped");
 
@@ -205,14 +212,6 @@ namespace Assets.Scripts.Campaign {
 
             var buttonComponent = buttonObject.GetComponent<Button>();
             return buttonComponent;
-        }
-
-
-        private void RefreshInformation() {
-            foreach (var skillObject in unitSkillObjects) {
-                Destroy(skillObject);
-            }
-
         }
     }
 }
