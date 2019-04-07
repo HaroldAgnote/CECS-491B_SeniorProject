@@ -16,6 +16,7 @@ namespace Assets.Scripts.Campaign {
         public Button goButton;
         public Button saveMenuButton;
         public Button equipmentMenuButton;
+        public Button shopMenuButton;
 
         private int selectedIndex;
 
@@ -42,6 +43,7 @@ namespace Assets.Scripts.Campaign {
 
             saveMenuButton.onClick.AddListener(CampaignManager.instance.LoadCampaignSaveMenu);
             equipmentMenuButton.onClick.AddListener(CampaignManager.instance.LoadCampaignEquipmentMenu);
+            shopMenuButton.onClick.AddListener(CampaignManager.instance.LoadCampaignShopMenu);
         }
 
         private void UpdateSelectedCampaignChapter() {

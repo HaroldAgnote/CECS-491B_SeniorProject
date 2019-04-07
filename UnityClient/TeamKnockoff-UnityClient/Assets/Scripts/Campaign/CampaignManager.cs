@@ -225,6 +225,10 @@ namespace Assets.Scripts.Campaign {
             SceneLoader.instance.GoToEquipmentMenu();
         }
 
+        public void LoadCampaignShopMenu() {
+            SceneLoader.instance.GoToShopMenu();
+        }
+
         public CampaignData SaveNewCampaign() {
             var newData = new CampaignData(CurrentCampaignSequence.campaignName, CurrentCampaignIndex, FarthestCampaignIndex, CurrentCampaignIsCompleted, CampaignPlayerData);
             CampaignDataSlots.Add(newData);

@@ -29,6 +29,7 @@ namespace Assets.Scripts.Application {
         const int GAME_INDEX = 11;
         const int DIALOGUE_INDEX = 12;
         const int CAMPAIGN_EQUIP_MENU_INDEX = 13;
+        const int CAMPAIGN_SHOP_MENU_INDEX = 14;
 
         private Dictionary<string, string> parameters;
         private int lastMenu;
@@ -164,6 +165,10 @@ namespace Assets.Scripts.Application {
 
         public void GoToEquipmentMenu() {
             Load(CAMPAIGN_EQUIP_MENU_INDEX);
+        }
+
+        public void GoToShopMenu() {
+            Load(CAMPAIGN_SHOP_MENU_INDEX);
         }
 
         public void ReloadMap() {

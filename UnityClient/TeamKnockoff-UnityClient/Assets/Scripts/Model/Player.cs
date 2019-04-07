@@ -19,7 +19,15 @@ namespace Assets.Scripts.Model {
         [SerializeField]
         private int mMoney;
 
-        public int Money { get { return mMoney; } }
+        public int Money {
+            get {
+                return mMoney;
+            } set {
+                if (mMoney != value) {
+                    mMoney = value;
+                }
+            }
+        }
 
         private List<Unit> mUnits;
 

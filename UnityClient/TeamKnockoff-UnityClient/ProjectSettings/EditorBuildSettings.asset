@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menus/Campaign/Campaign Equipment Menu.unity
     guid: 5b9a3f79201ac6249b27f336ce520550
+  - enabled: 1
+    path: Assets/Scenes/Menus/Campaign/Campaign Shop Menu.unity
+    guid: 2ef8b3654dba33143b0bdf018dc9d38c
   m_configObjects: {}
