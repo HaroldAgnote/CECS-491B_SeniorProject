@@ -1256,20 +1256,10 @@ namespace Assets.Scripts.Model {
                 Debug.Log("COUNTERATTACKING");
                 AttackUnit(defendingUnit, attackingUnit);
             }
-            if (!defendingUnit.IsAlive) 
-            {
-                Debug.Log($"{defendingUnit.Name} has been defeated");
-                KillUnit(defendingUnit);
-            }
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
             //Debug.Log(defendingUnit.UnitInformation);
 
             attackingUnit.HasMoved = true;
-
-            if (!attackingUnit.IsAlive) {
-                Debug.Log($"{attackingUnit.Name} has been defeated");
-                KillUnit(attackingUnit);
-            }
         }
 
         /// <summary>
@@ -1282,24 +1272,26 @@ namespace Assets.Scripts.Model {
         {
             int hitChance = DamageCalculator.GetHitChance(attackingUnit, defendingUnit);
             Debug.Log("Rolling for hit");
-            if (DamageCalculator.DiceRoll(hitChance))
-            {
+            if (DamageCalculator.DiceRoll(hitChance)) {
                 int critChance = DamageCalculator.GetCritRate(attackingUnit, defendingUnit);
                 Debug.Log("Rolling for Crit");
-                if (DamageCalculator.DiceRoll(critChance))
-                {
+                if (DamageCalculator.DiceRoll(critChance)) {
                     Debug.Log($"{attackingUnit.Name} crits {defendingUnit.Name}");
                     defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetCritDamage(attackingUnit, defendingUnit);
-                }
-                else
-                {
+                } else {
                     Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
                     defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
                 }
 
-            }
-            else
-            {
+                if (!defendingUnit.IsAlive) {
+                    Debug.Log($"{defendingUnit.Name} has been defeated");
+                    KillUnit(defendingUnit);
+                    attackingUnit.GainExperience(defendingUnit);
+                } else {
+                    attackingUnit.GainExperience(defendingUnit);
+                }
+
+            } else {
                 Debug.Log($"{attackingUnit.Name} missed.");
             }
         }
@@ -1352,11 +1344,6 @@ namespace Assets.Scripts.Model {
                 //attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
                 AttackUnit(defendingUnit, attackingUnit);
             } 
-
-            if (!attackingUnit.IsAlive) {
-                Debug.Log($"{attackingUnit.Name} has been defeated");
-                KillUnit(attackingUnit);
-            }
 
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
