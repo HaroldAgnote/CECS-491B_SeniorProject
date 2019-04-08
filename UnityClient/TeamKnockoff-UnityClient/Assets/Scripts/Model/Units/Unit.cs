@@ -339,8 +339,7 @@ namespace Assets.Scripts.Model.Units {
             mSkills = new List<Skill>();
             mItems = new List<Item>();
         }
-
-<<<<<<< HEAD
+        
         public Unit(string unitName, string unitType, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) {
             mName = unitName;
             mType = unitType;
