@@ -1255,16 +1255,6 @@ namespace Assets.Scripts.Model {
             {
                 Debug.Log("COUNTERATTACKING");
                 AttackUnit(defendingUnit, attackingUnit);
-
-                if (!attackingUnit.IsAlive) {
-                    Debug.Log($"{attackingUnit.Name} has been defeated");
-                    KillUnit(attackingUnit);
-                }
-            }
-            if (!defendingUnit.IsAlive) 
-            {
-                Debug.Log($"{defendingUnit.Name} has been defeated");
-                KillUnit(defendingUnit);
             }
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
             //Debug.Log(defendingUnit.UnitInformation);
@@ -1282,24 +1272,26 @@ namespace Assets.Scripts.Model {
         {
             int hitChance = DamageCalculator.GetHitChance(attackingUnit, defendingUnit);
             Debug.Log("Rolling for hit");
-            if (DamageCalculator.DiceRoll(hitChance))
-            {
+            if (DamageCalculator.DiceRoll(hitChance)) {
                 int critChance = DamageCalculator.GetCritRate(attackingUnit, defendingUnit);
                 Debug.Log("Rolling for Crit");
-                if (DamageCalculator.DiceRoll(critChance))
-                {
+                if (DamageCalculator.DiceRoll(critChance)) {
                     Debug.Log($"{attackingUnit.Name} crits {defendingUnit.Name}");
                     defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetCritDamage(attackingUnit, defendingUnit);
-                }
-                else
-                {
+                } else {
                     Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
                     defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
                 }
 
-            }
-            else
-            {
+                if (!defendingUnit.IsAlive) {
+                    Debug.Log($"{defendingUnit.Name} has been defeated");
+                    KillUnit(defendingUnit);
+                    attackingUnit.GainExperience(defendingUnit);
+                } else {
+                    attackingUnit.GainExperience(defendingUnit);
+                }
+
+            } else {
                 Debug.Log($"{attackingUnit.Name} missed.");
             }
         }
@@ -1340,6 +1332,9 @@ namespace Assets.Scripts.Model {
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks with {usedSkill.SkillName} on {defendingUnit.Name}");
             ApplySingleDamageSkill(attackingUnit, defendingUnit, usedSkill);
+
+            usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
+
             var defendingUnitAttackLocations = GetSurroundingAttackLocationsAtPoint(move.EndPosition, defendingUnit.MainWeapon.Range);
             if (defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition)) //check if unit is alive 
                                                 //TODO CHECK RANGE OF UNIT COUNTER
@@ -1348,13 +1343,7 @@ namespace Assets.Scripts.Model {
                 //instead of Skill[0] of we probably need selected skill or something
                 //attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
                 AttackUnit(defendingUnit, attackingUnit);
-                if (!attackingUnit.IsAlive) {
-                    Debug.Log($"{attackingUnit.Name} has been defeated");
-                    KillUnit(attackingUnit);
-                }
             } 
-
-            usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
 
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
