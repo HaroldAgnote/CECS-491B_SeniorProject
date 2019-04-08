@@ -124,7 +124,7 @@ namespace Assets.Scripts.Campaign {
             mCurrentCampaignIndex = 0;
             mFarthestCampaignIndex = 0;
             mIsCompleted = false;
-            mPlayerData = new Player("Hero");
+            mPlayerData = new Player("Hero", 1);
         }
 
         public CampaignData(string campaignName, int currentIndex) {

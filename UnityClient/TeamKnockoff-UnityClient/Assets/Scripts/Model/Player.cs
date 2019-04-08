@@ -18,6 +18,20 @@ namespace Assets.Scripts.Model {
         public string Name { get { return mName; } }
 
         [SerializeField]
+        private int mPlayerNumber;
+
+        public int PlayerNumber {
+            get {
+                return mPlayerNumber;
+            }
+            private set {
+                if (mPlayerNumber != value) {
+                    mPlayerNumber = value;
+                }
+            }
+        }
+
+        [SerializeField]
         private int mMoney;
 
         public int Money {
@@ -42,18 +56,20 @@ namespace Assets.Scripts.Model {
 
         public List<Weapon> Weapons { get { return mWeapons; } }
 
-        public Player() {
+        public Player(int playerNum) {
             mName = "Hero";
             mMoney = 1000;
+            mPlayerNumber = playerNum;
             mUnits = new List<Unit>();
             mCampaignUnits = new List<Unit>();
             mWeapons = new List<Weapon>();
         }
 
-        public Player(string name) {
+        public Player(string name, int playerNum) {
             mName = name;
             mMoney = 1000;
             mUnits = new List<Unit>();
+            mPlayerNumber = playerNum;
             mCampaignUnits = new List<Unit>();
             mWeapons = new List<Weapon>();
         }
@@ -62,6 +78,7 @@ namespace Assets.Scripts.Model {
             if (mUnits == null) {
                 mUnits = new List<Unit>();
             }
+            unit.PlayerNumber = mPlayerNumber;
             mUnits.Add(unit);
         }
 
@@ -79,8 +96,12 @@ namespace Assets.Scripts.Model {
             return mUnits.Any(unit => unit.IsAlive);
         }
 
+        public bool OwnsUnit(Unit unit) {
+            return unit.PlayerNumber == mPlayerNumber;
+        }
+
         public Player Clone() {
-            return new Player() {
+            return new Player(mPlayerNumber) {
                 mName = this.mName,
                 mCampaignUnits = this.mCampaignUnits,
                 mMoney = this.mMoney,

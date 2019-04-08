@@ -37,6 +37,9 @@ namespace Assets.Scripts.Model.Units {
         [SerializeField]
         private string mClass;
 
+        [SerializeField]
+        private int mPlayerNumber;
+
         private int mCurrentHealthPoints;
 
         [SerializeField]
@@ -110,6 +113,15 @@ namespace Assets.Scripts.Model.Units {
             set {
                 if (mClass != value) {
                     mClass = value;
+                }
+            }
+        }
+
+        public int PlayerNumber {
+            get { return mPlayerNumber; }
+            set {
+                if (mPlayerNumber != value) {
+                    mPlayerNumber = value;
                 }
             }
         }

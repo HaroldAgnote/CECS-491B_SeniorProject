@@ -179,20 +179,20 @@ namespace Assets.Scripts.Application {
             // Set up Players
             var players = new List<Player>();
 
-            for (int player = 1; player <= numberOfPlayers; player++) {
+            for (int playerNum = 1; playerNum <= numberOfPlayers; playerNum++) {
                 Player newPlayer = null;
 
                 if (gameType == GameType.Singleplayer) {
                     if (singleplayerGameType == SingleplayerGameType.Practice) {
-                        newPlayer = new Player($"Player {player}");
+                        newPlayer = new Player($"Player {playerNum}", playerNum);
                     } else if (singleplayerGameType == SingleplayerGameType.Campaign) {
-                        if (player == 1) {
+                        if (playerNum == 1) {
                             newPlayer = CampaignManager.instance.CampaignPlayerData;
                         } else {
-                            newPlayer = new Player($"Player {player}");
+                            newPlayer = new Player($"Player {playerNum}", playerNum);
                         }
                     } else {
-                        throw new Exception($"Error setting up Player {player}");
+                        throw new Exception($"Error setting up Player {playerNum}");
                     }
                 }
 

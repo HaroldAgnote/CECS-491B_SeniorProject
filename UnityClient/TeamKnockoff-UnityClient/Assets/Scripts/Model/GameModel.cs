@@ -297,7 +297,7 @@ namespace Assets.Scripts.Model {
         /// </returns>
 
         public bool DoesUnitBelongToCurrentPlayer(Unit unit) {
-            return CurrentPlayer.Units.Contains(unit);
+            return CurrentPlayer.OwnsUnit(unit);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace Assets.Scripts.Model {
 
         public bool EnemyAtLocation(Vector2Int location) {
             var unit = GetUnitAtPosition(location);
-            return unit != null && unit.IsAlive && !CurrentPlayer.Units.Contains(unit);
+            return unit != null && unit.IsAlive && !CurrentPlayer.OwnsUnit(unit);
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace Assets.Scripts.Model {
 
         public bool AllyAtLocation(Vector2Int location) {
             var unit = GetUnitAtPosition(location);
-            return unit != null && unit.IsAlive && CurrentPlayer.Units.Contains(unit);
+            return unit != null && unit.IsAlive && CurrentPlayer.OwnsUnit(unit);
         }
         
 

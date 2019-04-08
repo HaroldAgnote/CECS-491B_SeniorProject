@@ -156,7 +156,7 @@ namespace Assets.Scripts.Campaign {
             CurrentCampaignIndex = 0;
             FarthestCampaignIndex = 0;
 
-            CampaignPlayerData = new Player("Hero");
+            CampaignPlayerData = new Player("Hero", 1);
 
             CurrentCampaignIsCompleted = false;
             LoadOpeningDialogue();
