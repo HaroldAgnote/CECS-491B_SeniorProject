@@ -46,15 +46,37 @@ namespace Assets.Scripts.Model {
 
         private List<Unit> mUnits;
 
-        public List<Unit> Units { get { return mUnits; } }
+        public List<Unit> Units {
+            get { return mUnits; }
+            set {
+                if (mUnits != value) {
+                    mUnits = value;
+                }
+            }
+        }
 
         private List<Unit> mCampaignUnits;
 
-        public List<Unit> CampaignUnits { get { return mCampaignUnits; } }
+        public List<Unit> CampaignUnits {
+            get { return mCampaignUnits; }
+            set {
+                if (mCampaignUnits != value) {
+                    mCampaignUnits = value;
+                }
+            }
+        }
 
         private List<Weapon> mWeapons;
 
-        public List<Weapon> Weapons { get { return mWeapons; } }
+        public List<Weapon> Weapons {
+            get { return mWeapons; }
+            set {
+                if (mWeapons != value) {
+                    mWeapons = value;
+                }
+            }
+        }
+
 
         public Player(int playerNum) {
             mName = "Hero";
