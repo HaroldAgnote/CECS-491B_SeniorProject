@@ -2,7 +2,7 @@ fileFormatVersion: 2
 guid: ecc67bd9a78812e46ba237a53d2caa90
 TextureImporter:
   fileIDToRecycleName:
-    21300000: PegasusKnights_0
+    21300000: PegasusKnights_0_Amelia
     21300002: PegasusKnights_1
   externalObjects: {}
   serializedVersion: 9
@@ -108,7 +108,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PegasusKnights_0
+      name: PegasusKnights_0_Amelia
       rect:
         serializedVersion: 2
         x: 46
@@ -116,7 +116,7 @@ TextureImporter:
         width: 128
         height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -136,7 +136,7 @@ TextureImporter:
         width: 128
         height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

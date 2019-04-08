@@ -1,16 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Weapons;
 
+using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
+
 namespace Assets.Scripts.Model.Units {
+    [Serializable]
     public class Mage : InfantryUnit {
         const int MAX_HEALTH_POINTS = 100;
-
-        const int INITIAL_LEVEL = 1;
-        const int INITIAL_EXPERIENCE_POINTS = 0;
 
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
@@ -25,52 +26,81 @@ namespace Assets.Scripts.Model.Units {
         const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Mage";
+        private const string DEFAULT_WEAPON = "Dark Book";
 
         // TODO: Create constants for growth rate
 
-        public static GameObject CreateMage(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos, Transform parent) {
-            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity, parent) as GameObject;
-            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
+        public static Mage CreateMage() {
+            return new Mage();
+        }
 
-            newUnit.AddComponent<Mage>();
+        public static Mage CreateMage(string unitName) {
+            return new Mage(unitName);
+        }
 
-            var unit = newUnit.GetComponent<Mage>();
+        public static Mage ImportMage(UnitWrapper unitWrapper) {
+            return new Mage(unitWrapper);
+        }
 
-            // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints.Base = Mage.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints.Value;
+        public override Unit Generate(UnitWrapper unitWrapper) {
+            return Mage.ImportMage(unitWrapper);
+        }
 
-            unit.Level = Mage.INITIAL_LEVEL;
-            unit.ExperiencePoints = Mage.INITIAL_EXPERIENCE_POINTS;
-
-            unit.Strength.Base = Mage.INITIAL_STRENGTH;
-            unit.Magic.Base = Mage.INITIAL_MAGIC;
-
-            unit.Defense.Base = Mage.INITIAL_DEFENSE;
-            unit.Resistance.Base = Mage.INITIAL_RESISTANCE;
-
-            unit.Speed.Base = Mage.INITIAL_SPEED;
-            unit.Skill.Base = Mage.INITIAL_SKILL;
-
-            unit.Luck.Base = Mage.INITIAL_LUCK;
-            unit.Movement.Base = Mage.MOVEMENT_RANGE;
-
-            unit.Name = Mage.CLASS_NAME;
-            unit.Class = Mage.CLASS_NAME;
+        public Mage() 
+            : base(CLASS_NAME, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
 
             
-            var newWeapon = new Weapon(25, 2, 95, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Magical);
-
-            unit.EquipWeapon(newWeapon);
-
-            unit.Skills = new List<Skill>() {
-                new Gravity()
-            };
-
-            return newUnit;
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
         }
 
-        public Mage() {
+        public Mage(string unitName) 
+            : base(unitName, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
+
+            
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
         }
+
+        public Mage(UnitWrapper unitWrapper) : base (unitWrapper) { }
+
+        public override bool CanUse(Weapon weapon) {
+            var weaponType = weapon.WeapType;
+            switch (weaponType) {
+                case WeaponType.Sword:
+                    return false;
+                case WeaponType.Spear:
+                    return false;
+                case WeaponType.Axe:
+                    return false;
+                case WeaponType.Bow:
+                    return false;
+                case WeaponType.Book:
+                    return true;
+                case WeaponType.Staff:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
     }
 }

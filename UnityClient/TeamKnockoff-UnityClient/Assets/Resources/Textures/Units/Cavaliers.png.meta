@@ -2,7 +2,7 @@ fileFormatVersion: 2
 guid: 9c96f243b8c171e43a494873436bc037
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Cavaliers_0
+    21300000: Cavaliers_0_Eres
     21300002: Cavaliers_1
   externalObjects: {}
   serializedVersion: 9
@@ -108,7 +108,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cavaliers_0
+      name: Cavaliers_0_Eres
       rect:
         serializedVersion: 2
         x: 60
@@ -116,7 +116,7 @@ TextureImporter:
         width: 106
         height: 101
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -136,7 +136,7 @@ TextureImporter:
         width: 106
         height: 101
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -1254,12 +1254,6 @@ namespace Assets.Scripts.Model {
             {
                 Debug.Log("COUNTERATTACKING");
                 AttackUnit(defendingUnit, attackingUnit);
-
-                if (!attackingUnit.IsAlive) {
-                    Debug.Log($"{attackingUnit.Name} has been defeated");
-                    KillUnit(attackingUnit);
-                }
-
             }
             if (!defendingUnit.IsAlive) 
             {
@@ -1346,22 +1340,42 @@ namespace Assets.Scripts.Model {
             {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
                 //instead of Skill[0] of we probably need selected skill or something
-                attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
-                if (!attackingUnit.IsAlive)
-                {
-                    KillUnit(attackingUnit);
-                    Debug.Log($"{attackingUnit.Name} has been defeated");
-                }
-            } else
-            {
-                Debug.Log($"{defendingUnit.Name} has been defeated");
-                KillUnit(defendingUnit);
-            }
+                //attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
+                AttackUnit(defendingUnit, attackingUnit);
+            } 
 
             usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
 
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
+        }
+
+        private void ApplySingleDamageSkill(Unit attackingUnit, Unit defendingUnit, SingleDamageSkill skill) {
+            int hitChance = skill.GetHitChance(attackingUnit, defendingUnit);
+            Debug.Log($"Rolling for {skill.SkillName} hit");
+            if (DamageCalculator.DiceRoll(hitChance)) {
+                int critChance = skill.GetCritRate(attackingUnit, defendingUnit);
+                Debug.Log($"Rolling for {skill.SkillName} Crit");
+                if (DamageCalculator.DiceRoll(critChance)) {
+                    Debug.Log($"{attackingUnit.Name} crits with {skill.SkillName} on {defendingUnit.Name}");
+                    defendingUnit.HealthPoints -= skill.GetCritDamage(attackingUnit, defendingUnit);
+                } else {
+                    Debug.Log($"{attackingUnit.Name} uses {skill.SkillName} on {defendingUnit.Name}");
+                    defendingUnit.HealthPoints -= skill.GetDamage(attackingUnit, defendingUnit);
+
+                }
+
+                if (!defendingUnit.IsAlive) {
+                    Debug.Log($"{defendingUnit.Name} has been defeated");
+                    KillUnit(defendingUnit);
+                }
+
+                attackingUnit.GainExperience(defendingUnit);
+
+
+            } else {
+                Debug.Log($"{attackingUnit.Name} missed {skill.SkillName}.");
+            }
         }
 
         /// <summary>

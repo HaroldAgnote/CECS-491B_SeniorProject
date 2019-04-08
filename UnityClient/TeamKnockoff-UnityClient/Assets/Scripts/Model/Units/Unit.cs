@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,15 +11,108 @@ using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.UnitEffects;
 using Assets.Scripts.Utilities.ExtensionMethods;
+using Assets.Scripts.Utilities.Generator;
+
+using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
 
 namespace Assets.Scripts.Model.Units {
-    public abstract class Unit : MonoBehaviour, IMover {
+    [Serializable]
+    public abstract class Unit : IMover, IEquatable<Unit> {
 
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public string Class { get; set; }
+        #region Constants
+
+        public const int INITIAL_LEVEL = 1;
+        public const int INITIAL_EXPERIENCE_POINTS = 0;
+
+        #endregion
+
+        #region Fields
+
+        [SerializeField]
+        private string mName;
+
+        [SerializeField]
+        private string mType;
+
+        [SerializeField]
+        private string mClass;
 
         private int mCurrentHealthPoints;
+
+        [SerializeField]
+        private int mLevel;
+
+        [SerializeField]
+        private int mExperiencePoints;
+
+        [SerializeField]
+        private Stat mMaxHealthPoints;
+
+        [SerializeField]
+        private Stat mStrength;
+
+        [SerializeField]
+        private Stat mMagic;
+
+        [SerializeField]
+        private Stat mDefense;
+
+        [SerializeField]
+        private Stat mResistance;
+
+        [SerializeField]
+        private Stat mSpeed;
+
+        [SerializeField]
+        private Stat mSkill;
+
+        [SerializeField]
+        private Stat mLuck;
+
+        [SerializeField]
+        private Stat mMovement;
+
+        [SerializeField]
+        private Weapon mMainWeapon;
+
+        [SerializeField]
+        private List<Skill> mSkills;
+
+        [SerializeField]
+        private List<Item> mItems;
+
+        private HashSet<UnitEffect> mUnitEffects;
+
+        #endregion
+
+        #region Properties
+        
+        public string Name {
+            get { return mName; }
+            set {
+                if (mName != value) {
+                    mName = value;
+                }
+            }
+        }
+
+        public string Type {
+            get { return mType; }
+            set {
+                if (mType != value) {
+                    mType = value;
+                }
+            }
+        }
+
+        public string Class {
+            get { return mClass; }
+            set {
+                if (mClass != value) {
+                    mClass = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Health Points are the life points of the Unit. 
@@ -32,10 +125,10 @@ namespace Assets.Scripts.Model.Units {
             }
             set {
                 // Prevent HP from exceeding above Max Health Points
-                if (value > MaxHealthPoints.Value ) {
+                if (value > MaxHealthPoints.Value) {
                     mCurrentHealthPoints = MaxHealthPoints.Value;
 
-                // Prevent HP from exceeding below zero
+                    // Prevent HP from exceeding below zero
                 } else if (value < 0) {
                     mCurrentHealthPoints = 0;
                 } else {
@@ -48,154 +141,153 @@ namespace Assets.Scripts.Model.Units {
             get {
                 return HealthPoints > 0;
             }
-        } 
-
-        public void GainExperience(Unit defender)
-        {
-            
-            if(!defender.IsAlive) //if unit is dead
-            {
-                ExperiencePoints += 20;
-            }
-
-            else
-            {
-                ExperiencePoints += 3;
-            }
-            //exp logic
-            //some bullshit event handler that calls levelUP
-        }
-
-        public void LevelUp()
-        {
-
         }
 
         public bool HasMoved { get; set; }
 
-        public int Level { get; protected set; }
-        public int ExperiencePoints { get; protected set; }
-
-        public class Stat {
-            public int Base { get; protected internal set; }
-            public int Modifier { get; protected internal set; }
-
-            public Stat() {
-                Base = 0;
-                Modifier = 0;
+        public int Level {
+            get {
+                return mLevel;
             }
-
-            public Stat(int baseStat) {
-                Base = baseStat;
-                Modifier = 0;
-            }
-
-            public Stat(int baseStat, int initialModifier) {
-                Base = baseStat;
-                Modifier = initialModifier;
-            }
-
-            public int Value => Base + Modifier;
-
-            public override string ToString() {
-                if (Modifier == 0) {
-                    return $"{Base}";
-                } else if (Modifier > 0) {
-                    return $"{Base} +{Modifier}";
-                } else {
-                    return $"{Base} {Modifier}";
+            protected set {
+                if (mLevel != value) {
+                    mLevel = value;
                 }
             }
-
         }
 
-        public Stat MaxHealthPoints { get; protected internal set; } = new Stat();
-        public Stat Strength { get; protected internal set; } = new Stat();
-        public Stat Magic { get; protected internal set; } = new Stat();
-        public Stat Defense { get; protected internal set; } = new Stat();
-        public Stat Resistance { get; protected internal set; } = new Stat();
-        public Stat Speed { get; protected internal set; } = new Stat();
-        public Stat Skill { get; protected internal set; } = new Stat();
-        public Stat Luck { get; protected internal set; } = new Stat();
-        public Stat Movement { get; protected internal set; } = new Stat();
+        public int ExperiencePoints {
+            get {
+                return mExperiencePoints;
+            }
+            protected set {
+                if (mExperiencePoints != value) {
+                    mExperiencePoints = value;
+                }
+            }
+        }
 
-        public Weapon MainWeapon { get; private set; }
 
-        public List<Skill> Skills { get; protected set; }
+        public Stat MaxHealthPoints {
+            get {
+                return mMaxHealthPoints;
+            }
+            protected internal set {
+                if (mMaxHealthPoints != value) {
+                    mMaxHealthPoints = value;
+                }
+            }
+        }
+        public Stat Strength {
+            get {
+                return mStrength;
+            }
+            protected internal set {
+                if (mStrength != value) {
+                    mStrength = value;
+                }
+            }
+        }
+        public Stat Magic {
+            get {
+                return mMagic;
+            }
+            protected internal set {
+                if (mMagic != value) {
+                    mMagic = value;
+                }
+            }
+        }
+        public Stat Defense {
+            get {
+                return mDefense;
+            }
+            protected internal set {
+                if (mDefense != value) {
+                    mDefense = value;
+                }
+            }
+        }
+
+        public Stat Resistance {
+            get {
+                return mResistance;
+            }
+            protected internal set {
+                if (mResistance != value) {
+                    mResistance = value;
+                }
+            }
+        }
+
+        public Stat Speed {
+            get {
+                return mSpeed;
+            }
+            protected internal set {
+                if (mSpeed != value) {
+                    mSpeed = value;
+                }
+            }
+        }
+
+        public Stat Skill {
+            get {
+                return mSkill;
+            }
+            protected internal set {
+                if (mSkill != value) {
+                    mSkill = value;
+                }
+            }
+        }
+
+        public Stat Luck {
+            get {
+                return mLuck;
+            }
+            protected internal set {
+                if (mLuck != value) {
+                    mLuck = value;
+                }
+            }
+        }
+
+        public Stat Movement {
+            get {
+                return mMovement;
+            }
+            protected internal set {
+                if (mMovement != value) {
+                    mMovement = value;
+                }
+            }
+        }
+
+        public Weapon MainWeapon {
+            get {
+                return mMainWeapon;
+            }
+        }
+
+        public List<Skill> Skills {
+            get {
+                var combinedSkills = mSkills.Union(mMainWeapon.Skills);
+                return combinedSkills.ToList();
+            }
+        }
 
         // TODO: Add Item Properties
-        public List<Item> Items { get; protected set; }
-
-        public HashSet<UnitEffect> UnitEffects { get; protected set; }
-
-        // Abstract methods that must be overridden by Unit sub classes
-        public abstract bool CanMove(Tile tile);
-        public abstract int MoveCost(Tile tile);
-
-        void Awake() {
-            Skills = new List<Skill>();
-            Items = new List<Item>();
-            Level = 1;
-            ExperiencePoints = 0;
-            UnitEffects = new HashSet<UnitEffect>();
-            MainWeapon = new Weapon(1, 1, 100, 1, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-            Items.Add(new Potion());
+        public List<Item> Items {
+            get {
+                return mItems;
+            }
         }
 
-        public void StartTurn() {
-
-            HasMoved = IsAlive ? false : true;
-
-            var removeList = new List<UnitEffect>();
-
-            foreach (var effect in UnitEffects) {
-                if (effect is IApplicableEffect) {
-                    var applicableEffect = effect as IApplicableEffect;
-                    if (applicableEffect.IsApplicable()) {
-                        applicableEffect.ApplyEffect(this);
-                    }
-                }
-
-                if (effect is IRemovableEffect) {
-                    var removableEffect = effect as IRemovableEffect;
-                    if (removableEffect.IsRemovable()) {
-                        removableEffect.RemoveEffect(this);
-                        removeList.Add(effect);
-                    }
-                }
-
-                if (effect is ITurnEffect) {
-                    (effect as ITurnEffect).UpdateTurns();
-                }
+        public HashSet<UnitEffect> UnitEffects {
+            get {
+                return mUnitEffects;
             }
-
-            UnitEffects.RemoveRange(removeList);
-        }
-
-        public void EquipWeapon(Weapon newWeapon) {
-            MainWeapon = newWeapon;
-
-            if (MainWeapon.DamageType == Assets.Scripts.Model.DamageCalculator.DamageType.Physical) {
-                Strength.Modifier += MainWeapon.Might;
-            }
-
-            if (MainWeapon.DamageType == Assets.Scripts.Model.DamageCalculator.DamageType.Magical) {
-                Magic.Modifier += MainWeapon.Might;
-            }
-
-        }
-
-        public Weapon UnequipWeapon() {
-            if (MainWeapon.DamageType == Assets.Scripts.Model.DamageCalculator.DamageType.Physical) {
-                Strength.Modifier -= MainWeapon.Might;
-            }
-
-            if (MainWeapon.DamageType == Assets.Scripts.Model.DamageCalculator.DamageType.Magical) {
-                Magic.Modifier -= MainWeapon.Might;
-            }
-            var weapon = MainWeapon;
-            MainWeapon = null;
-            return weapon;
         }
 
         public string UnitInformation {
@@ -218,5 +310,188 @@ namespace Assets.Scripts.Model.Units {
                 return info;
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        // Abstract methods that must be overridden by Unit sub classes
+        public abstract bool CanMove(Tile tile);
+        public abstract int MoveCost(Tile tile);
+        public abstract bool CanUse(Weapon weapon);
+        public abstract Unit Generate(UnitWrapper unitWrapper);
+
+        public Unit() {
+            mMaxHealthPoints = new Stat();
+            mStrength = new Stat();
+            mMagic = new Stat();
+            mDefense = new Stat();
+            mResistance = new Stat();
+            mSpeed = new Stat();
+            mSkill = new Stat();
+            mLuck = new Stat();
+            mMovement = new Stat();
+
+            mLevel = 1;
+            mExperiencePoints = 0;
+
+            mUnitEffects = new HashSet<UnitEffect>();
+            mSkills = new List<Skill>();
+            mItems = new List<Item>();
+        }
+
+<<<<<<< HEAD
+        public Unit(string unitName, string unitType, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) {
+            mName = unitName;
+            mType = unitType;
+            mClass = unitClass;
+
+            mMaxHealthPoints = new Stat(maxHealth);
+            mCurrentHealthPoints = mMaxHealthPoints.Value;
+            mStrength = new Stat(strength);
+            mMagic = new Stat(magic);
+            mDefense = new Stat(defense);
+            mResistance = new Stat(resistance);
+            mSpeed = new Stat(speed);
+            mSkill = new Stat(skill);
+            mLuck = new Stat(luck);
+            mMovement = new Stat(movement);
+
+            mLevel = INITIAL_LEVEL;
+            mExperiencePoints = INITIAL_EXPERIENCE_POINTS;
+
+            mUnitEffects = new HashSet<UnitEffect>();
+            mSkills = new List<Skill>();
+            mItems = new List<Item>();
+            Items.Add(new Potion());
+        }
+
+        public Unit(UnitWrapper unitWrapper) {
+            mName = unitWrapper.unitName;
+            mType = unitWrapper.unitType;
+            mClass = unitWrapper.unitClass;
+
+            mMaxHealthPoints = unitWrapper.unitMaxHealthPoints;
+            mCurrentHealthPoints = mMaxHealthPoints.Value;
+            mStrength = unitWrapper.unitStrength;
+            mMagic = unitWrapper.unitMagic;
+            mDefense = unitWrapper.unitDefense;
+            mResistance = unitWrapper.unitResistance;
+            mSpeed = unitWrapper.unitSpeed;
+            mSkill = unitWrapper.unitSkill;
+            mLuck = unitWrapper.unitLuck;
+            mMovement = unitWrapper.unitMovement;
+
+            mLevel = unitWrapper.unitLevel;
+            mExperiencePoints = unitWrapper.unitExperiencePoints;
+
+            // TODO: Re-add weapon using WeaponFactory
+            var weaponName = unitWrapper.unitWeapon;
+
+            // No need to call equip since modifier is already applied
+            mMainWeapon = WeaponFactory.instance.GenerateWeapon(weaponName);
+
+            mUnitEffects = new HashSet<UnitEffect>();
+
+            // TODO: Re-add skills using SkillFactory
+            mSkills = new List<Skill>();
+
+            var skillNames = unitWrapper.unitSkills;
+            foreach (var skillName in skillNames) {
+                var skill = SkillFactory.instance.GenerateSkill(skillName);
+                mSkills.Add(skill);
+            }
+
+            // TODO: Re-add items using ItemFactory
+            mItems = new List<Item>();
+            Items.Add(new Potion());
+        }
+
+        public void StartTurn() {
+
+            HasMoved = IsAlive ? false : true;
+
+            var removeList = new List<UnitEffect>();
+
+            foreach (var effect in mUnitEffects) {
+                if (effect is IApplicableEffect) {
+                    var applicableEffect = effect as IApplicableEffect;
+                    if (applicableEffect.IsApplicable()) {
+                        applicableEffect.ApplyEffect(this);
+                    }
+                }
+
+                if (effect is IRemovableEffect) {
+                    var removableEffect = effect as IRemovableEffect;
+                    if (removableEffect.IsRemovable()) {
+                        removableEffect.RemoveEffect(this);
+                        removeList.Add(effect);
+                    }
+                }
+
+                if (effect is ITurnEffect) {
+                    (effect as ITurnEffect).UpdateTurns();
+                }
+            }
+
+            mUnitEffects.RemoveRange(removeList);
+        }
+
+        public void EquipWeapon(Weapon newWeapon) {
+            mMainWeapon = newWeapon;
+
+            if (mMainWeapon.DamageType == DamageType.Physical) {
+                mStrength.Modifier += mMainWeapon.Might;
+            }
+
+            if (mMainWeapon.DamageType == DamageType.Magical) {
+                mMagic.Modifier += mMainWeapon.Might;
+            }
+
+            mSpeed.Modifier -= mMainWeapon.Weight;
+
+        }
+
+        public Weapon UnequipWeapon() {
+            if (mMainWeapon.DamageType == DamageType.Physical) {
+                mStrength.Modifier -= mMainWeapon.Might;
+            }
+
+            if (mMainWeapon.DamageType == DamageType.Magical) {
+                mMagic.Modifier -= mMainWeapon.Might;
+            }
+
+            mSpeed.Modifier += mMainWeapon.Weight;
+
+            var weapon = mMainWeapon;
+
+            mMainWeapon = Weapon.FISTS;
+
+            return weapon;
+        }
+
+        public void LearnSkill(Skill newSkill) {
+            mSkills.Add(newSkill);
+        }
+
+        public void GainExperience(Unit defendingUnit) {
+            if (!defendingUnit.IsAlive) {
+                mExperiencePoints += 20;
+            } else {
+                mExperiencePoints += 3;
+            }
+
+            if (ExperiencePoints >= 100) {
+                mExperiencePoints -= 100;
+                mLevel += 1;
+            }
+        }
+
+        public bool Equals(Unit other) {
+            return this.mName == other.mName;
+        }
+
+        #endregion
+
     }
 }
