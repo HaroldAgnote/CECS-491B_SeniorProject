@@ -285,6 +285,7 @@ namespace Assets.Scripts.View {
 
             selectedUnit = gameViewModel.SelectedSquare.Unit;
             selectedSkill = null;
+            selectedItem = null;
 
             // All vectors start at NULL
             startPoint = NULL_VECTOR;
@@ -434,9 +435,11 @@ namespace Assets.Scripts.View {
 
             if ((!moveLocations.Contains(cursorPosition)
                 && !attackLocations.Contains(cursorPosition)
-                && !skillsToLocations.Any(sk => sk.Value.Contains(cursorPosition)))
+                && !skillsToLocations.Any(sk => sk.Value.Contains(cursorPosition))
+                && !itemToLocations.Any(it => it.Value.Contains(cursorPosition)))
                 || (waitingForAttack && !attackLocations.Contains(cursorPosition))
-                || (waitingForSkillMove && !currentSkillLocations.Contains(cursorPosition))) {
+                || (waitingForSkillMove && !currentSkillLocations.Contains(cursorPosition))
+                || (waitingForItemMove && !currentItemLocations.Contains(cursorPosition))) {
 
                 // Cancel Move since player clicked outside all usable locations
                 CancelMove();
@@ -453,6 +456,10 @@ namespace Assets.Scripts.View {
 
                 // Skill Action
                 CheckSkillPositionClick(cursorPosition);
+            } else if (itemToLocations.Values.Any(locs => locs.Contains(cursorPosition)))
+            {
+                // Item Action
+                CheckItemPositionClick(cursorPosition);
             }
         }
 
@@ -561,6 +568,7 @@ namespace Assets.Scripts.View {
 
                     // If a Unit has at least one Item, add Item option
                     if (selectedUnit.Items.Count > 0) {
+                        itemPoint = cursorPosition;
                         currentMenuOptions.Add(UnitMenuOptions.Items);
                     }
 
@@ -617,6 +625,7 @@ namespace Assets.Scripts.View {
                     currentMenuOptions.Add(UnitMenuOptions.Skills);
 
                     if (selectedUnit.Items.Count > 0) {
+                        itemPoint = cursorPosition;
                         currentMenuOptions.Add(UnitMenuOptions.Items);
                     }
                     SetupMainUnitMenu();
@@ -712,7 +721,7 @@ namespace Assets.Scripts.View {
                 // Create new attack highlighters on surrounding attack positions
                 attackLocationHighlights = new List<GameObject>();
 
-                attackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, selectedUnit.MainWeapon.Range);
+                attackLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, selectedUnit.MainWeapon.Range);
 
                 foreach (Vector2Int loc in attackLocations) {
                     GameObject highlight;
@@ -838,7 +847,7 @@ namespace Assets.Scripts.View {
                 // Create new attack highlighters on surrounding attack positions based on skill range
                 attackLocationHighlights = new List<GameObject>();
 
-                currentSkillLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, (selectedSkill as SingleTargetSkill).Range);
+                currentSkillLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedSkill as SingleTargetSkill).Range);
 
                 foreach (Vector2Int loc in currentSkillLocations) {
                     GameObject highlight;
@@ -886,13 +895,13 @@ namespace Assets.Scripts.View {
                 // Create new support highlighters on surrounding attack positions based on skill range
                 allyLocationHighlights = new List<GameObject>();
 
-                currentSkillLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, (selectedSkill as SingleTargetSkill).Range);
+                currentSkillLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedSkill as SingleTargetSkill).Range);
 
                 foreach (Vector2Int loc in currentSkillLocations) {
                     GameObject highlight;
                     var point = new Vector3Int(loc.x, loc.y, 0);
                     highlight = Instantiate(allyLocationPrefab, point, Quaternion.identity, gameObject.transform);
-                    attackLocationHighlights.Add(highlight);
+                    allyLocationHighlights.Add(highlight);
                 }
 
                 // Use only positions where a Skill is usable on a target
@@ -929,7 +938,7 @@ namespace Assets.Scripts.View {
             unitMenu.SwitchtoSubMenu();
 
             waitingForMove = true;
-            waitingForSkillChoice = true;
+            waitingForItemChoice = true;
 
             var availableItems = selectedUnit.Items
                                     .Where(it => it is ConsumableItem && (it is ISelfConsumable || it is ITargetConsumable))
@@ -960,8 +969,7 @@ namespace Assets.Scripts.View {
                 if(item is ITargetConsumable)
                 {
                     var consumableItem = item as ITargetConsumable;
-                    //I don't think this is okay
-                    if (consumableItem.CanUseOn(selectedUnit, gameViewModel.HoveredSquare.Unit))
+                    if (gameViewModel.ItemUsableOnTarget(item, itemPoint))
                     {
                         itemButton.interactable = true;
                     }
@@ -969,11 +977,10 @@ namespace Assets.Scripts.View {
                 
                 if (item is ITargetConsumable && itemPoint == NULL_VECTOR && itemToLocations.ContainsKey(item))
                 {
-                    var targetItem = item as ITargetConsumable;
                     var locs = itemToLocations[item];
-                    if (locs.All(pos => !gameViewModel.ItemUsableOnTarget(item, pos)))
+                    if (locs.Any(pos => gameViewModel.ItemUsableOnTarget(item, pos)))
                     {
-                        itemButton.interactable = false;
+                        itemButton.interactable = true;
                     }
                 }
             }
@@ -989,7 +996,7 @@ namespace Assets.Scripts.View {
             }
 
             Debug.Log("Item");
-            CurrentGameMove = new GameMove(movedPoint, attackPoint, selectedItem);
+            CurrentGameMove = new GameMove(movedPoint, itemPoint, selectedItem);
             gameViewModel.ApplyMove(CurrentGameMove);
             ExitState();
         }
@@ -998,6 +1005,7 @@ namespace Assets.Scripts.View {
         {
             if (itemPoint == NULL_VECTOR)
             {
+                waitingForAttack = false;
                 waitingForItemMove = true;
                 waitingForItemChoice = false;
 
@@ -1018,14 +1026,14 @@ namespace Assets.Scripts.View {
 
                 allyLocationHighlights = new List<GameObject>();
 
-                attackLocations = gameViewModel.GetSurroundingAttackLocationsAtPoint(movedPoint, (selectedItem as ITargetConsumable).GetRange());
+                currentItemLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedItem as ITargetConsumable).GetRange());
 
-                foreach (Vector2Int loc in attackLocations)
+                foreach (Vector2Int loc in currentItemLocations)
                 {
                     GameObject highlight;
                     var point = new Vector3Int(loc.x, loc.y, 0);
                     highlight = Instantiate(allyLocationPrefab, point, Quaternion.identity, gameObject.transform);
-                    attackLocationHighlights.Add(highlight);
+                    allyLocationHighlights.Add(highlight);
                 }
 
                 currentItemLocations = currentItemLocations
@@ -1037,7 +1045,7 @@ namespace Assets.Scripts.View {
                 ApplyItemMove();
             }
         }
-
+        //
         private void CheckItemPositionClick(Vector2Int cursorPosition)
         {
             if (gameViewModel.AllyAtPoint(cursorPosition))
@@ -1060,19 +1068,19 @@ namespace Assets.Scripts.View {
                     SetupMainUnitMenu();
                     WaitForChoice();
                 }
-            }
-            else
-            {
-                if (waitingForItemChoice)
+                else
                 {
-                    ItemMenu();
-                }
-                if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition))
-                {
-                    if (waitingForItemMove)
+                    if (waitingForItemChoice)
                     {
-                        itemPoint = cursorPosition;
-                        ApplyItemMove();
+                        ItemMenu();
+                    }
+                    if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition))
+                    {
+                        if (waitingForItemMove)
+                        {
+                            itemPoint = cursorPosition;
+                            ApplyItemMove();
+                        }
                     }
                 }
             }

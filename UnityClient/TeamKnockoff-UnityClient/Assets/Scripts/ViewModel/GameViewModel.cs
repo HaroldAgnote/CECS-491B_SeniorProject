@@ -449,7 +449,7 @@ namespace Assets.Scripts.ViewModel {
         /// <returns>
         /// List of Positions that can be attacked with the range
         /// </returns>
-        public IEnumerable<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
+        public IEnumerable<Vector2Int> GetSurroundingLocationsAtPoint(Vector2Int attackPoint, int range) {
             return model.GetSurroundingAttackLocationsAtPoint(attackPoint, range);
         }
 
