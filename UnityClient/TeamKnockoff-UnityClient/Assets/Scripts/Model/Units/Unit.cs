@@ -418,6 +418,10 @@ namespace Assets.Scripts.Model.Units {
             Items.Add(new Potion());
         }
 
+        public void StartGame() {
+            mCurrentHealthPoints = MaxHealthPoints.Value;
+        }
+
         public void StartTurn() {
 
             HasMoved = IsAlive ? false : true;

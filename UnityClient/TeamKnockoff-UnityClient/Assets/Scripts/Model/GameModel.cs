@@ -130,6 +130,7 @@ namespace Assets.Scripts.Model {
         public void StartGame() {
             foreach (var player in mPlayers) {
                 foreach (var unit in player.Units) {
+                    unit.StartGame();
                     var passiveSkills = unit.Skills
                                             .Where(skill => skill is FieldSkill)
                                             .Select(skill => skill as FieldSkill);
