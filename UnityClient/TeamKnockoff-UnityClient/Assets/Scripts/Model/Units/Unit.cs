@@ -37,6 +37,9 @@ namespace Assets.Scripts.Model.Units {
         [SerializeField]
         private string mClass;
 
+        [SerializeField]
+        private int mPlayerNumber;
+
         private int mCurrentHealthPoints;
 
         [SerializeField]
@@ -110,6 +113,15 @@ namespace Assets.Scripts.Model.Units {
             set {
                 if (mClass != value) {
                     mClass = value;
+                }
+            }
+        }
+
+        public int PlayerNumber {
+            get { return mPlayerNumber; }
+            set {
+                if (mPlayerNumber != value) {
+                    mPlayerNumber = value;
                 }
             }
         }
@@ -404,6 +416,10 @@ namespace Assets.Scripts.Model.Units {
             // TODO: Re-add items using ItemFactory
             mItems = new List<Item>();
             Items.Add(new Potion());
+        }
+
+        public void StartGame() {
+            mCurrentHealthPoints = MaxHealthPoints.Value;
         }
 
         public void StartTurn() {
