@@ -340,6 +340,7 @@ namespace Assets.Scripts.Model.Units {
             mItems = new List<Item>();
         }
 
+<<<<<<< HEAD
         public Unit(string unitName, string unitType, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) {
             mName = unitName;
             mType = unitType;
@@ -362,6 +363,7 @@ namespace Assets.Scripts.Model.Units {
             mUnitEffects = new HashSet<UnitEffect>();
             mSkills = new List<Skill>();
             mItems = new List<Item>();
+            Items.Add(new Potion());
         }
 
         public Unit(UnitWrapper unitWrapper) {
@@ -402,6 +404,7 @@ namespace Assets.Scripts.Model.Units {
 
             // TODO: Re-add items using ItemFactory
             mItems = new List<Item>();
+            Items.Add(new Potion());
         }
 
         public void StartTurn() {
