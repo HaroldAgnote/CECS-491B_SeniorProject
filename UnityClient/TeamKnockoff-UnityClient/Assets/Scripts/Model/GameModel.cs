@@ -1255,11 +1255,6 @@ namespace Assets.Scripts.Model {
             {
                 Debug.Log("COUNTERATTACKING");
                 AttackUnit(defendingUnit, attackingUnit);
-
-                if (!attackingUnit.IsAlive) {
-                    Debug.Log($"{attackingUnit.Name} has been defeated");
-                    KillUnit(attackingUnit);
-                }
             }
             if (!defendingUnit.IsAlive) 
             {
@@ -1270,6 +1265,11 @@ namespace Assets.Scripts.Model {
             //Debug.Log(defendingUnit.UnitInformation);
 
             attackingUnit.HasMoved = true;
+
+            if (!attackingUnit.IsAlive) {
+                Debug.Log($"{attackingUnit.Name} has been defeated");
+                KillUnit(attackingUnit);
+            }
         }
 
         /// <summary>
@@ -1340,6 +1340,9 @@ namespace Assets.Scripts.Model {
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks with {usedSkill.SkillName} on {defendingUnit.Name}");
             ApplySingleDamageSkill(attackingUnit, defendingUnit, usedSkill);
+
+            usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
+
             var defendingUnitAttackLocations = GetSurroundingAttackLocationsAtPoint(move.EndPosition, defendingUnit.MainWeapon.Range);
             if (defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition)) //check if unit is alive 
                                                 //TODO CHECK RANGE OF UNIT COUNTER
@@ -1348,13 +1351,12 @@ namespace Assets.Scripts.Model {
                 //instead of Skill[0] of we probably need selected skill or something
                 //attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
                 AttackUnit(defendingUnit, attackingUnit);
-                if (!attackingUnit.IsAlive) {
-                    Debug.Log($"{attackingUnit.Name} has been defeated");
-                    KillUnit(attackingUnit);
-                }
             } 
 
-            usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
+            if (!attackingUnit.IsAlive) {
+                Debug.Log($"{attackingUnit.Name} has been defeated");
+                KillUnit(attackingUnit);
+            }
 
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
