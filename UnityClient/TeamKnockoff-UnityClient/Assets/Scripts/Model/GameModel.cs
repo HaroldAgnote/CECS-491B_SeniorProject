@@ -1226,11 +1226,8 @@ namespace Assets.Scripts.Model {
         /// <param name="unit">The Unit that will be killed</param>
 
         private void KillUnit(Unit unit) {
-            var unitOwner = mPlayers.SingleOrDefault(player => player.Units.Contains(unit));
             var unitPos = GridForUnit(unit);
-
             mUnits[unitPos.x, unitPos.y] = null;
-
         }
 
 
