@@ -428,11 +428,15 @@ namespace Assets.Scripts.Model {
                     break;
             }
 
-            // If game hasn't ended yet, check if Current Player has no moves and switch if so
-            if (!GameHasEnded && CurrentPlayerHasNoMoves) {
-                SwitchPlayer();
-            } else if (GameHasEnded) {
+            // Stop game if Game Has ended
+            if (GameHasEnded) {
                 Debug.Log("Game Over");
+                return;
+            }
+
+            // If game hasn't ended yet, check if Current Player has no moves and switch if so
+            if (CurrentPlayerHasNoMoves) {
+                SwitchPlayer();
             }
         }
 
