@@ -42,9 +42,9 @@ namespace Assets.Scripts.Utilities.FileHandling {
 
             try {
                 foreach (var campaignFile in Directory.EnumerateFiles(campaignFolderPath, "*.txt")) {
-                        var campaignDataFileContents = File.ReadAllText(campaignFile);
-                        var campaignData = JsonUtility.FromJson<CampaignData>(campaignDataFileContents);
-                        loadedCampaignData.Add(campaignData);
+                    var campaignDataFileContents = File.ReadAllText(campaignFile);
+                    var campaignData = JsonUtility.FromJson<CampaignData>(campaignDataFileContents);
+                    loadedCampaignData.Add(campaignData);
                 }
             } catch {
                 Debug.Log($"Error reading directory");

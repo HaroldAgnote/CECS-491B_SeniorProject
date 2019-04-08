@@ -170,7 +170,7 @@ namespace Assets.Scripts.Campaign {
             CampaignPlayerData = data.PlayerData.Clone();
 
             // Regenerate Units with Skills
-            CampaignPlayerData.CampaignUnits.Clear();
+            CampaignPlayerData.CampaignUnits = new List<Unit>();
             foreach (var unitWrapper in data.UnitWrapperData) {
                 var unit = UnitFactory.instance.GenerateUnit(unitWrapper);
                 CampaignPlayerData.AddCampaignUnit(unit);
@@ -178,7 +178,7 @@ namespace Assets.Scripts.Campaign {
 
             CampaignPlayerUnitData = CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
 
-            CampaignPlayerData.Weapons.Clear();
+            CampaignPlayerData.Weapons = new List<Weapon>();
             foreach (var weaponWrapper in data.WeaponWrapperData) {
                 var weapon = WeaponFactory.instance.GenerateWeapon(weaponWrapper.WeaponName);
                 CampaignPlayerData.Weapons.Add(weapon);
@@ -195,6 +195,7 @@ namespace Assets.Scripts.Campaign {
         private void LoadNextMap() {
             currentCampaignEvent = CampaignEvent.CampaignMap;
             var nextMap = CurrentCampaignSequence.mapSequence[CurrentCampaignIndex].name;
+            CampaignPlayerData.Units = new List<Unit>();
             SceneLoader.SetParam(SceneLoader.LOAD_MAP_PARAM, nextMap);
             SceneLoader.SetParam(SceneLoader.GAME_TYPE_PARAM, GameManager.SINGLEPLAYER_GAME_TYPE);
             SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM, GameManager.CAMPAIGN_GAME_TYPE);
