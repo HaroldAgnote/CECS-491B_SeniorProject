@@ -13,6 +13,11 @@ namespace Assets.Scripts.Model.Skills {
 
         public abstract void ApplyFieldSkill(Unit unit);
 
+        // TODO: Sebastian:
+        // Uncomment this when all field skills override this method
+
+        // public abstract void RevertFieldSkill(Unit unit);
+
         //public abstract Skill Generate();
     }
 }

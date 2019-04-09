@@ -285,6 +285,9 @@ namespace Assets.Scripts.Model.Units {
         public List<Skill> Skills {
             get {
                 var combinedSkills = mSkills.Union(mMainWeapon.Skills);
+                // TODO: Sebastian
+                // Union this with each item's Field Skill
+
                 return combinedSkills.ToList();
             }
         }

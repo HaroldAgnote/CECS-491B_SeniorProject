@@ -62,6 +62,7 @@ namespace Assets.Scripts.Model.Units {
             EquipWeapon(defaultWeapon);
 
             LearnSkill(new PiercingShot());
+            LearnSkill(new MediumSpeedBoost());
         }
 
         public Archer(string unitName) 
@@ -80,6 +81,7 @@ namespace Assets.Scripts.Model.Units {
 
             EquipWeapon(defaultWeapon);
             LearnSkill(new PiercingShot());
+            LearnSkill(new MediumSpeedBoost());
         }
 
         public Archer(UnitWrapper wrapper) : base(wrapper) { }

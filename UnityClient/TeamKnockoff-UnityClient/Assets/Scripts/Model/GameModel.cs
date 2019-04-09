@@ -144,6 +144,9 @@ namespace Assets.Scripts.Model {
             CurrentPlayer.StartTurn();
         }
 
+        // TODO: Sebastian:
+        // Make EndGame() Method to revert field skills
+
         /// <summary>
         /// Adds a Unit to the Game
         /// </summary>

@@ -101,31 +101,9 @@ public class DialogueManager : MonoBehaviour {
     }
 
     public void AutoText() {
-
-        //while (index < sentences.Count) {
-        //    //StopAllCoroutines();
-        //    //semaphore.WaitOne();
-        //    StartCoroutine(DisplaySentence()); //StartCoroutine(AutoDisplaySentence());
-        //    index++;
-        //    //semaphore.Release();
-        //}
         Debug.Log("AutoText clicked");
         isAutoText = true;
-        //InvokeRepeating("DisplaySentence", 3, 3);//2.0f, 2.0f);
     }
-
-    //IEnumerator AutoDisplaySentence() {
-    //    dialogueText.text = "";
-    //    Debug.Log($"Count of queue in Display is {sentences.Count}");
-
-    //    Debug.Log(sentences[index].sentence);
-    //    yield return new WaitForSeconds(2);
-    //    nameText.text = sentences[index].name;//dialogue.name;
-    //    foreach (char letter in sentences[index].sentence) {
-    //        dialogueText.text += letter;
-    //        yield return new WaitForSeconds(typingSpeed);
-    //    }
-    //}
 
     IEnumerator DisplaySentence() {
         dialogueText.text = "";
@@ -136,22 +114,9 @@ public class DialogueManager : MonoBehaviour {
             yield return new WaitForSeconds(typingSpeed);
         }
     }
-
-
-    public void ReadFile(string path) {
-        //StreamReader reader = new StreamReader(path);
-        //string line;
-
-        //while ((line = reader.ReadLine()) != null) {
-        //    string[] parts = line.Split(':');
-        //    sentences.Add(new Dialogue(parts[0], parts[1]));
-        //}
-
-
-        //while ((line = reader.ReadLine()) != null) {
-        //    string[] parts = line.Split(':');
-        //    sentences.Add(new Dialogue(parts[0], parts[1]));
-        //}
-
+    
+    public void SkipDialogue() {
+        index = sentences.Count - 1;
+        NextSentence();
     }
 }
