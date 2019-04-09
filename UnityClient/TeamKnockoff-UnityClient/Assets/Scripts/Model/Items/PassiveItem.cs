@@ -10,5 +10,8 @@ namespace Assets.Scripts.Model.Items
         {
 
         }
+
+        // TODO: Sebastian
+        // PassiveItems now need to have a FieldSkill Field/Property
     }
 }
