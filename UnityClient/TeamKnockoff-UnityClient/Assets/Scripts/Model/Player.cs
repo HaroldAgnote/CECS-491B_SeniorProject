@@ -77,6 +77,10 @@ namespace Assets.Scripts.Model {
             }
         }
 
+        // TODO: Sebastian
+        // Player will now need their own list of items
+        // as inventory to give to units in the
+        // equipment menu
 
         public Player(int playerNum) {
             mName = "Hero";
@@ -85,6 +89,10 @@ namespace Assets.Scripts.Model {
             mUnits = new List<Unit>();
             mCampaignUnits = new List<Unit>();
             mWeapons = new List<Weapon>();
+
+            // TODO: Sebastian
+            // Don't forget to initialize the
+            // Item list here
         }
 
         public Player(string name, int playerNum) {
@@ -94,6 +102,9 @@ namespace Assets.Scripts.Model {
             mPlayerNumber = playerNum;
             mCampaignUnits = new List<Unit>();
             mWeapons = new List<Weapon>();
+            // TODO: Sebastian
+            // Don't forget to initialize the
+            // Item list here
         }
 
         public void AddUnit(Unit unit) {
@@ -129,6 +140,9 @@ namespace Assets.Scripts.Model {
                 mMoney = this.mMoney,
                 mUnits = this.mUnits,
                 mWeapons = this.mWeapons
+
+                // TODO: Sebastian
+                // Clone the items too
             };
         }
     }

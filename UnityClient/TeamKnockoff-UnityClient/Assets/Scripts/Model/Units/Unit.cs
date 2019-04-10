@@ -377,6 +377,8 @@ namespace Assets.Scripts.Model.Units {
             mUnitEffects = new HashSet<UnitEffect>();
             mSkills = new List<Skill>();
             mItems = new List<Item>();
+            // TODO: Sebastian
+            // Remove this when shop system is implemented. :)
             Items.Add(new Potion());
         }
 
@@ -416,8 +418,12 @@ namespace Assets.Scripts.Model.Units {
                 mSkills.Add(skill);
             }
 
-            // TODO: Re-add items using ItemFactory
+            // TODO: Sebastian
+            // Re-add items from unitWrapper using ItemFactory 
             mItems = new List<Item>();
+
+            // TODO: Sebastian
+            // Remove this when shop system is implemented. :)
             Items.Add(new Potion());
         }
 

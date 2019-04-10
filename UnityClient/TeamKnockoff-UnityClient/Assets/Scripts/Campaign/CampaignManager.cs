@@ -184,6 +184,10 @@ namespace Assets.Scripts.Campaign {
                 CampaignPlayerData.Weapons.Add(weapon);
             }
 
+            // TODO: Sebastian
+            // Now you need to regenerate Items using the wrapper data of items that was saved in
+            // Campaign Data. See above for reference!
+
             LoadCampaignChapterMenu();
         }
 
@@ -253,6 +257,10 @@ namespace Assets.Scripts.Campaign {
             data.PlayerData = CampaignPlayerData;
             data.UnitWrapperData = CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
             data.WeaponWrapperData = CampaignPlayerData.Weapons.Select(weapon => new WeaponWrapper(weapon)).ToList();
+
+            // TODO: Sebastian
+            // Don't forget to create the ItemWrapperData when saving!
+            // See above for reference!
 
             CampaignDataFileHandler.SaveCampaignData(data);
 
