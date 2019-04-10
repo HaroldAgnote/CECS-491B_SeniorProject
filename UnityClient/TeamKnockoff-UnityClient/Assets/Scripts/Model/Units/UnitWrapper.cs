@@ -28,6 +28,9 @@ namespace Assets.Scripts.Model.Units {
 
         public string unitWeapon;
         public List<string> unitSkills;
+        
+        // TODO: Sebastian:
+        // Add List<string> for unitItems
 
         public UnitWrapper(Unit unit) {
             unitName = unit.Name;
@@ -50,6 +53,9 @@ namespace Assets.Scripts.Model.Units {
             unitWeapon = unit.MainWeapon.Name;
             unitSkills = new List<string>();
             unitSkills.AddRange(unit.Skills.Where(skill => !unit.MainWeapon.Skills.Contains(skill)).Select(skill => skill.SkillName));
+
+            // TODO: Sebastian:
+            // Populate List of item strings with Unit's equipped items
         }
     }
 }

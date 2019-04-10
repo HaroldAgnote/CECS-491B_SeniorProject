@@ -106,6 +106,10 @@ namespace Assets.Scripts.Campaign {
             }
         }
 
+        // TODO: Sebastian
+        // You now need to save wrapper data for Items!
+        // Add serializable fields of ItemWrapperData so that it
+        // can be saved into a file!
 
         [SerializeField]
         private SerializableDateTime mTimeStamp;
