@@ -16,8 +16,6 @@ namespace Assets.Scripts.Model.Skills {
         // TODO: Sebastian:
         // Uncomment this when all field skills override this method
 
-        // public abstract void RevertFieldSkill(Unit unit);
-
-        //public abstract Skill Generate();
+        public abstract void RevertFieldSkill(Unit unit);
     }
 }

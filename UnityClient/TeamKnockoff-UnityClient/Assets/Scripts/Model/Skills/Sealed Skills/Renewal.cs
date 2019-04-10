@@ -38,9 +38,16 @@ namespace Assets.Scripts.Model.Skills {
 
         public Renewal() : base(SKILL_NAME) { }
 
-        public override void ApplyFieldSkill(Unit unit) {
+        public override void ApplyFieldSkill(Unit unit)
+        {
             unit.UnitEffects.Add(new RenewalEffect());
         }
+
+        public override void RevertFieldSkill(Unit unit)
+        {
+            unit.UnitEffects.Remove(new RenewalEffect());
+        }
+
         public override Skill Generate() {
             return new Renewal();
         }

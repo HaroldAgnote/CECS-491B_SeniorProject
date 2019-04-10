@@ -5,10 +5,8 @@ using UnityEngine;
 using Assets.Scripts.Utilities.Generator;
 
 namespace Assets.Scripts.Model.Skills {
-    [Serializable]
     public abstract class Skill:IGenerator<Skill> {
-
-        [SerializeField]
+        
         private readonly string mSkillName;
 
         public string SkillName { get { return mSkillName; } }

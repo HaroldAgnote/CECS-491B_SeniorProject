@@ -146,6 +146,22 @@ namespace Assets.Scripts.Model {
 
         // TODO: Sebastian:
         // Make EndGame() Method to revert field skills
+        public void EndGame()
+        {
+            foreach (var player in mPlayers)
+            {
+                foreach (var unit in player.Units)
+                {
+                    var passiveSkills = unit.Skills
+                                            .Where(skill => skill is FieldSkill)
+                                            .Select(skill => skill as FieldSkill);
+                    foreach (var skill in passiveSkills)
+                    {
+                        skill.RevertFieldSkill(unit);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Adds a Unit to the Game
@@ -434,6 +450,7 @@ namespace Assets.Scripts.Model {
             // Stop game if Game Has ended
             if (GameHasEnded) {
                 Debug.Log("Game Over");
+                EndGame();
                 return;
             }
 
@@ -944,7 +961,7 @@ namespace Assets.Scripts.Model {
             var itemToLocations = new Dictionary<ConsumableItem, HashSet<Vector2Int>>();
 
             var consumableItems = unit.Items
-                                    .Where(it => it != null)
+                                    .Where(it => it is ConsumableItem)
                                     .Select(it => it as ConsumableItem);
 
             foreach (var consumableItem in consumableItems)
@@ -1209,7 +1226,7 @@ namespace Assets.Scripts.Model {
             var item = move.UsedItem as ITargetConsumable;
             item.UseItemOn(usingUnit, targetUnit);
 
-            Debug.Log($"{usingUnit.Name} uses {move.UsedItem.Name} on {targetUnit.Name}");
+            Debug.Log($"{usingUnit.Name} uses {move.UsedItem.ItemName} on {targetUnit.Name}");
 
             Debug.Log(usingUnit.UnitInformation + "\n\n");
             Debug.Log(targetUnit.UnitInformation);
@@ -1222,7 +1239,7 @@ namespace Assets.Scripts.Model {
             var item = move.UsedItem as ISelfConsumable;
             item.UseItem(unit);
 
-            Debug.Log($"{unit.Name} uses {move.UsedItem.Name} on self");
+            Debug.Log($"{unit.Name} uses {move.UsedItem.ItemName} on self");
 
             Debug.Log(unit.UnitInformation);
         }
