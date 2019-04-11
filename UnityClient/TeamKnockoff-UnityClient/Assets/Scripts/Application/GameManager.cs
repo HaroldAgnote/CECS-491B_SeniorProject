@@ -9,6 +9,7 @@ using Assets.Scripts.Campaign;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
+using Assets.Scripts.Model.Items;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.ViewModel;
 using Assets.Scripts.View;
@@ -355,6 +356,7 @@ namespace Assets.Scripts.Application {
                         var campaignUnits = CampaignManager.instance.CampaignPlayerData.CampaignUnits;
                         var newUnits = ControllingPlayer.Units.Where(unit => !campaignUnits.Contains(unit));
                         CampaignManager.instance.CampaignPlayerData.CampaignUnits.AddRange(newUnits);
+                        CampaignManager.instance.CampaignPlayerData.CampaignUnits[0].Items.Add(new Potion());
                         CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance
                             .CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
 
