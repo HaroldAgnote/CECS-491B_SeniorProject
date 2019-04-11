@@ -28,6 +28,7 @@ namespace Assets.Scripts.Model.Units {
 
         public string unitWeapon;
         public List<string> unitSkills;
+        public List<string> unitItems;
         
         // TODO: Sebastian:
         // Add List<string> for unitItems
@@ -56,6 +57,8 @@ namespace Assets.Scripts.Model.Units {
 
             // TODO: Sebastian:
             // Populate List of item strings with Unit's equipped items
+            unitItems = new List<string>();
+            unitItems.AddRange(unit.Items.Select(item => item.ItemName));
         }
     }
 }

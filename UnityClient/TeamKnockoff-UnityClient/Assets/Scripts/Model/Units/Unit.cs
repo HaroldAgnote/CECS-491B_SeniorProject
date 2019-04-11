@@ -382,10 +382,6 @@ namespace Assets.Scripts.Model.Units {
             mUnitEffects = new HashSet<UnitEffect>();
             mSkills = new List<Skill>();
             mItems = new List<Item>();
-            // TODO: Sebastian
-            // Remove this when shop system is implemented. :)
-            Items.Add(new Potion());
-            Items.Add(new GoldAmulet());
         }
 
         public Unit(UnitWrapper unitWrapper) {
@@ -428,9 +424,13 @@ namespace Assets.Scripts.Model.Units {
             // Re-add items from unitWrapper using ItemFactory 
             mItems = new List<Item>();
 
-            // TODO: Sebastian
-            // Remove this when shop system is implemented. :)
-            Items.Add(new Potion());
+            var itemNames = unitWrapper.unitItems;
+
+            foreach (var itemName in itemNames)
+            {
+                var item = ItemFactory.instance.GenerateItem(itemName);
+                mItems.Add(item);
+            }
         }
 
         public void StartGame() {

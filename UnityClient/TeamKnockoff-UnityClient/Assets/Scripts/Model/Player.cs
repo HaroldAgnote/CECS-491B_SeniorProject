@@ -6,6 +6,7 @@ using UnityEngine;
 
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Weapons;
+using Assets.Scripts.Model.Items;
 using Assets.Scripts.Utilities.Cloneable;
 
 namespace Assets.Scripts.Model {
@@ -77,6 +78,19 @@ namespace Assets.Scripts.Model {
             }
         }
 
+        private List<Item> mItems;
+
+        public List<Item> Items
+        {
+            get { return mItems; }
+            set
+            {
+                if (mItems != value)
+                {
+                    mItems = value;
+                }
+            }
+        }
         // TODO: Sebastian
         // Player will now need their own list of items
         // as inventory to give to units in the
@@ -89,7 +103,7 @@ namespace Assets.Scripts.Model {
             mUnits = new List<Unit>();
             mCampaignUnits = new List<Unit>();
             mWeapons = new List<Weapon>();
-
+            mItems = new List<Item>();
             // TODO: Sebastian
             // Don't forget to initialize the
             // Item list here
@@ -102,10 +116,12 @@ namespace Assets.Scripts.Model {
             mPlayerNumber = playerNum;
             mCampaignUnits = new List<Unit>();
             mWeapons = new List<Weapon>();
-            // TODO: Sebastian
-            // Don't forget to initialize the
-            // Item list here
+            mItems = new List<Item>();
         }
+        // TODO: Sebastian
+        // Don't forget to initialize the
+        // Item list here
+    
 
         public void AddUnit(Unit unit) {
             if (mUnits == null) {
@@ -139,8 +155,8 @@ namespace Assets.Scripts.Model {
                 mCampaignUnits = this.mCampaignUnits,
                 mMoney = this.mMoney,
                 mUnits = this.mUnits,
-                mWeapons = this.mWeapons
-
+                mWeapons = this.mWeapons,
+                mItems = this.mItems
                 // TODO: Sebastian
                 // Clone the items too
             };

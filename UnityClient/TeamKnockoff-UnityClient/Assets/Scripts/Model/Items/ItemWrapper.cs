@@ -5,13 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Assets.Scripts.Model.Items {
-    // TODO: Sebastian
-    // Make this serializable
-    // Reference: SkillWrapper
+    [Serializable]
     public class ItemWrapper {
-        // TODO: Sebastian
-        // Save only one field/property (Item Name)
-        // Only one constructor which takes in an Item
-        // and constructs the ItemWrapper using just the Item's name
+        public string ItemName;
     }
 }

@@ -10,6 +10,7 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Utilities.FileHandling;
+using Assets.Scripts.Model.Items;
 
 namespace Assets.Scripts.Campaign {
     public class CampaignManager : MonoBehaviour {
@@ -187,6 +188,12 @@ namespace Assets.Scripts.Campaign {
             // TODO: Sebastian
             // Now you need to regenerate Items using the wrapper data of items that was saved in
             // Campaign Data. See above for reference!
+            CampaignPlayerData.Items = new List<Item>();
+            foreach (var itemWrapper in data.ItemWrapperData)
+            {
+                var item = ItemFactory.instance.GenerateItem(itemWrapper.ItemName);
+                CampaignPlayerData.Items.Add(item);
+            }
 
             LoadCampaignChapterMenu();
         }
@@ -257,7 +264,6 @@ namespace Assets.Scripts.Campaign {
             data.PlayerData = CampaignPlayerData;
             data.UnitWrapperData = CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
             data.WeaponWrapperData = CampaignPlayerData.Weapons.Select(weapon => new WeaponWrapper(weapon)).ToList();
-
             // TODO: Sebastian
             // Don't forget to create the ItemWrapperData when saving!
             // See above for reference!

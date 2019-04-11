@@ -9,6 +9,7 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Utilities.DateTime;
+using Assets.Scripts.Model.Items;
 
 namespace Assets.Scripts.Campaign {
 
@@ -106,6 +107,20 @@ namespace Assets.Scripts.Campaign {
             }
         }
 
+        [SerializeField]
+        private List<ItemWrapper> mItemWrapperData;
+
+        public List<ItemWrapper> ItemWrapperData
+        {
+            get { return mItemWrapperData; }
+            set
+            {
+                if (mItemWrapperData != value)
+                {
+                    mItemWrapperData = value;
+                }
+            }
+        }
         // TODO: Sebastian
         // You now need to save wrapper data for Items!
         // Add serializable fields of ItemWrapperData so that it
