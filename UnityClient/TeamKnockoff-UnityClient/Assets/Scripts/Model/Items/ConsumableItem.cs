@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Model.Items
 {
-    public class ConsumableItem : Item
+    public abstract class ConsumableItem : Item
     {
         public ConsumableItem(string itemName) : base(itemName)
         {

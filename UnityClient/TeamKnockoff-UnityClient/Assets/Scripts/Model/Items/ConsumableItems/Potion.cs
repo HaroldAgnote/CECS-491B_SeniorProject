@@ -61,6 +61,11 @@ namespace Assets.Scripts.Model.Items
         {
             return RANGE;
         }
+
+        public override Item Generate()
+        {
+            return new Potion();
+        }
     }
 }
 

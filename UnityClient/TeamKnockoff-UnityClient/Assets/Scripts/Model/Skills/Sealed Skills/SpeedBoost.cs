@@ -18,9 +18,16 @@ namespace Assets.Scripts.Model.Skills {
             unit.Speed.Modifier += STAT_BOOST;
         }
 
+        public override void RevertFieldSkill(Unit unit)
+        {
+            unit.Speed.Modifier -= STAT_BOOST;
+        }
+        
         public override Skill Generate() {
             return new SmallSpeedBoost();
         }
+
+        
     }
 
     [Serializable]
@@ -32,6 +39,11 @@ namespace Assets.Scripts.Model.Skills {
 
         public override void ApplyFieldSkill(Unit unit) {
             unit.Speed.Modifier += STAT_BOOST;
+        }
+
+        public override void RevertFieldSkill(Unit unit)
+        {
+            unit.Speed.Modifier -= STAT_BOOST;
         }
 
         public override Skill Generate() {
@@ -48,6 +60,11 @@ namespace Assets.Scripts.Model.Skills {
 
         public override void ApplyFieldSkill(Unit unit) {
             unit.Speed.Modifier += STAT_BOOST;
+        }
+
+        public override void RevertFieldSkill(Unit unit)
+        {
+            unit.Speed.Modifier -= STAT_BOOST;
         }
 
         public override Skill Generate() {

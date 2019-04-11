@@ -946,7 +946,7 @@ namespace Assets.Scripts.View {
 
             foreach (var item in availableItems)
             {
-                var itemButton = unitMenu.CreateButton(item.Name.ToUpper());
+                var itemButton = unitMenu.CreateButton(item.ItemName.ToUpper());
                 itemButton.onClick.AddListener(() =>
                 {
                     selectedItem = item;

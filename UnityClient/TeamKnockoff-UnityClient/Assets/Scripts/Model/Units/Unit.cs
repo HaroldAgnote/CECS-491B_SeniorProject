@@ -287,7 +287,12 @@ namespace Assets.Scripts.Model.Units {
                 var combinedSkills = mSkills.Union(mMainWeapon.Skills);
                 // TODO: Sebastian
                 // Union this with each item's Field Skill
-
+                var passiveItemSkills = mItems
+                           .Where(item => item is PassiveItem)
+                           .Select(item => item as PassiveItem)
+                           .SelectMany(item => item.Effects);
+                combinedSkills = combinedSkills.Union(passiveItemSkills);
+                
                 return combinedSkills.ToList();
             }
         }
@@ -380,6 +385,7 @@ namespace Assets.Scripts.Model.Units {
             // TODO: Sebastian
             // Remove this when shop system is implemented. :)
             Items.Add(new Potion());
+            Items.Add(new GoldAmulet());
         }
 
         public Unit(UnitWrapper unitWrapper) {

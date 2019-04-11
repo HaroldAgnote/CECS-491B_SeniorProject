@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Assets.Scripts.Model.Skills;
+
 namespace Assets.Scripts.Model.Items
 {
-    public class PassiveItem : Item
+    public abstract class PassiveItem : Item
     {
-        PassiveItem(string name) : base(name)
+        public List<FieldSkill> Effects { get; private set; }
+
+        public PassiveItem(string name, List<FieldSkill> mEffects) : base(name)
         {
-
+            Effects = mEffects;
         }
-
+        
         // TODO: Sebastian
         // PassiveItems now need to have a FieldSkill Field/Property
     }
