@@ -2,7 +2,7 @@ fileFormatVersion: 2
 guid: 88b5f11067a361b4f88a067de325dc57
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Mages_0
+    21300000: Mages_0_Morgan
     21300002: Mages_1
   externalObjects: {}
   serializedVersion: 9
@@ -108,7 +108,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mages_0
+      name: Mages_0_Morgan
       rect:
         serializedVersion: 2
         x: 31
@@ -116,7 +116,7 @@ TextureImporter:
         width: 81
         height: 97
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -136,7 +136,7 @@ TextureImporter:
         width: 81
         height: 97
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

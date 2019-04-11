@@ -8,7 +8,7 @@ using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.UnitEffects {
 
-    class StrengthBoost : Buff {
+    public class StrengthBoost : Buff {
         public const string EFFECT_NAME = "Strength +5";
         public const int TURN_DURATION = 0;
         public const int STRENGTH_BOOST = 5;

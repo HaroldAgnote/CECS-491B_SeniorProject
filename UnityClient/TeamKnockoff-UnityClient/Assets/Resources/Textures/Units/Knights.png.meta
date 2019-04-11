@@ -2,7 +2,7 @@ fileFormatVersion: 2
 guid: 23f69b2e23c68e244880925d8cacced6
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Knights_0
+    21300000: Knights_0_Bastion
     21300002: Knights_1
   externalObjects: {}
   serializedVersion: 9
@@ -108,7 +108,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Knights_0
+      name: Knights_0_Bastion
       rect:
         serializedVersion: 2
         x: 47
@@ -116,7 +116,7 @@ TextureImporter:
         width: 88
         height: 132
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -136,7 +136,7 @@ TextureImporter:
         width: 100
         height: 114
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

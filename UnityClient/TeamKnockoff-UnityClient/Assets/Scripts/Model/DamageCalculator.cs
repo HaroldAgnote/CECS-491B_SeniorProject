@@ -106,7 +106,7 @@ namespace Assets.Scripts.Model {
 
         public static int GetHitChance(Unit attacker, Unit defender)
         {
-            double hitRate = attacker.MainWeapon.Hit;// + attacker.Skill * 0.01;
+            double hitRate = attacker.MainWeapon.HitRate;// + attacker.Skill * 0.01;
             double evasionRate = defender.Speed.Value + defender.Luck.Value;
             int hit = (int)(hitRate - evasionRate);
             if (hit > 0)

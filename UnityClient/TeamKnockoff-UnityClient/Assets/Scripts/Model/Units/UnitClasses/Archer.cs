@@ -1,16 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Skills;
+using Assets.Scripts.Model.Weapons;
+
+using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
 
 namespace Assets.Scripts.Model.Units {
+    [Serializable]
     public class Archer : InfantryUnit {
         const int MAX_HEALTH_POINTS = 100;
-
-        const int INITIAL_LEVEL = 1;
-        const int INITIAL_EXPERIENCE_POINTS = 0;
 
         const int INITIAL_STRENGTH = 1;
         const int INITIAL_MAGIC = 1;
@@ -25,48 +26,85 @@ namespace Assets.Scripts.Model.Units {
         const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Archer";
+        const string DEFAULT_WEAPON = "Iron Bow";
 
         // TODO: Set up constants for growth rate
 
-        public static GameObject CreateArcher(GameObject unitPrefab, Sprite unitSprite, Vector3 tilePos, Transform parent) {
-            var newUnit = Instantiate(unitPrefab, tilePos, Quaternion.identity) as GameObject;
-            newUnit.GetComponent<SpriteRenderer>().sprite = unitSprite;
-
-            newUnit.AddComponent<Archer>();
-
-            var unit = newUnit.GetComponent<Archer>();
-
-            // Set Max Health Points and initial stats here
-            unit.MaxHealthPoints.Base = Archer.MAX_HEALTH_POINTS;
-            unit.HealthPoints = unit.MaxHealthPoints.Value;
-
-            unit.Level = Archer.INITIAL_LEVEL;
-            unit.ExperiencePoints = Archer.INITIAL_EXPERIENCE_POINTS;
-
-            unit.Strength.Base = Archer.INITIAL_STRENGTH;
-            unit.Magic.Base = Archer.INITIAL_MAGIC;
-
-            unit.Defense.Base = Archer.INITIAL_DEFENSE;
-            unit.Resistance.Base = Archer.INITIAL_RESISTANCE;
-
-            unit.Speed.Base = Archer.INITIAL_SPEED;
-            unit.Skill.Base = Archer.INITIAL_SKILL;
-
-            unit.Luck.Base = Archer.INITIAL_LUCK;
-            unit.Movement.Base = Archer.MOVEMENT_RANGE;
-
-            unit.Name = Archer.CLASS_NAME;
-            unit.Class = Archer.CLASS_NAME;
-
-            var testWeapon = new Weapon(8, 2, 90, 0, Assets.Scripts.Model.DamageCalculator.DamageType.Physical);
-
-            unit.EquipWeapon(testWeapon);
-            unit.Skills.Add(new PiercingShot());
-
-            return newUnit;
+        public static Archer CreateArcher() {
+            return new Archer();
         }
 
-        public Archer() {
+        public static Archer CreateArcher(string unitName) {
+            return new Archer(unitName);
         }
+
+        public static Archer ImportArcher(UnitWrapper unitWrapper) {
+            return new Archer(unitWrapper);
+        }
+
+        public override Unit Generate(UnitWrapper unitWrapper) {
+            return Archer.ImportArcher(unitWrapper);
+        }
+
+        public Archer() 
+            : base(CLASS_NAME, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) {
+
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+            EquipWeapon(defaultWeapon);
+
+            LearnSkill(new PiercingShot());
+            LearnSkill(new MediumSpeedBoost());
+        }
+
+        public Archer(string unitName) 
+            : base(unitName, CLASS_NAME, 
+                  MAX_HEALTH_POINTS, 
+                  INITIAL_STRENGTH, 
+                  INITIAL_MAGIC, 
+                  INITIAL_DEFENSE, 
+                  INITIAL_RESISTANCE, 
+                  INITIAL_SPEED, 
+                  INITIAL_SKILL, 
+                  INITIAL_LUCK, 
+                  MOVEMENT_RANGE) { 
+
+            var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
+
+            EquipWeapon(defaultWeapon);
+            LearnSkill(new PiercingShot());
+            LearnSkill(new MediumSpeedBoost());
+        }
+
+        public Archer(UnitWrapper wrapper) : base(wrapper) { }
+
+        public override bool CanUse(Weapon weapon) {
+            var weaponType = weapon.WeapType;
+            switch (weaponType) {
+                case WeaponType.Sword:
+                    return false;
+                case WeaponType.Spear:
+                    return false;
+                case WeaponType.Axe:
+                    return false;
+                case WeaponType.Bow:
+                    return true;
+                case WeaponType.Book:
+                    return false;
+                case WeaponType.Staff:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
     }
 }

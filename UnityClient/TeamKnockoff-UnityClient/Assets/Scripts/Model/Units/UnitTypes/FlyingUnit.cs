@@ -6,13 +6,17 @@ using UnityEngine;
 using Assets.Scripts.Model.Tiles;
 
 namespace Assets.Scripts.Model.Units {
+
+    [Serializable]
     public abstract class FlyingUnit : Unit {
 
         const string UNIT_TYPE = "Flying";
 
-        public FlyingUnit() {
-            Type = FlyingUnit.UNIT_TYPE;
-        }
+        public FlyingUnit(string unitName, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) 
+            : base(unitName, UNIT_TYPE, unitClass, maxHealth, strength, magic, defense, resistance, speed, skill, luck, movement)
+            { }
+
+        public FlyingUnit(UnitWrapper unitWrapper) : base (unitWrapper) { }
 
         public override bool CanMove(Tile tile) {
             var tileType = tile.TileType;

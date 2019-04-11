@@ -1,0 +1,231 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6648202356102799859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6648202356102799855}
+  - component: {fileID: 6648202356102799856}
+  - component: {fileID: 6648202356102799857}
+  - component: {fileID: 6648202356102799858}
+  - component: {fileID: 1988313781181989896}
+  - component: {fileID: 2846882811532118539}
+  - component: {fileID: 5655525678105921248}
+  - component: {fileID: 7199241525792333730}
+  - component: {fileID: 100040285}
+  m_Layer: 0
+  m_Name: ClientObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6648202356102799855
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 265.03525, y: -6.5717263, z: 91758.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6648202356864797476}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6648202356102799856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783f4196e6bf4b942b4fa8f9bb30191e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6648202356102799857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26c84f16cdb6f9b43b02dd1c3fe8dfed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableCampaigns:
+  - {fileID: 6648202356864797477}
+--- !u!114 &6648202356102799858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e7e4d4732992f4cbf12af7e8f65520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableMaps:
+  - {fileID: 4900000, guid: 288c3398b88262b4c960187e4effca0c, type: 3}
+  - {fileID: 4900000, guid: ec8aa71105eab004abddcfdb45d28daf, type: 3}
+  - {fileID: 4900000, guid: e11daa9dc978c9a4bb330647925fb1b3, type: 3}
+  - {fileID: 4900000, guid: af1ab0eabb862904699ccd3d3e44cb96, type: 3}
+  - {fileID: 4900000, guid: 6536e8d24e335164fbea19ba8b3a76f3, type: 3}
+  - {fileID: 4900000, guid: c54bd6a940ba5a941ad707337ac5f019, type: 3}
+  - {fileID: 4900000, guid: 276066747876d8445883a15f889b8040, type: 3}
+--- !u!114 &1988313781181989896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fd6dacc7dbc71a45bf53ac5e8add5ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landUnitPrefab: {fileID: 6827402922400584704, guid: cc74bc8688d28f24ea89c28f143bf22d,
+    type: 3}
+  flyingUnitPrefab: {fileID: 6827402922400584704, guid: 8d6bca0c8e4b03c42a3a6dfb4ba34fad,
+    type: 3}
+  landUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
+  thiefUnitTexture: {fileID: 2800000, guid: a907b4ec076c7dc428c97d807ddfc1fb, type: 3}
+  archerUnitTexture: {fileID: 2800000, guid: f3bbbf3410e06204ca4e2ee4dbc46b04, type: 3}
+  mageUnitTexture: {fileID: 2800000, guid: 88b5f11067a361b4f88a067de325dc57, type: 3}
+  clericUnitTexture: {fileID: 2800000, guid: 7aab6263584d56c47a8c0993b4d4b0ab, type: 3}
+  knightUnitTexture: {fileID: 2800000, guid: 23f69b2e23c68e244880925d8cacced6, type: 3}
+  cavalierUnitTexture: {fileID: 2800000, guid: 9c96f243b8c171e43a494873436bc037, type: 3}
+  pegasusKnightUnitTexture: {fileID: 2800000, guid: ecc67bd9a78812e46ba237a53d2caa90,
+    type: 3}
+--- !u!114 &2846882811532118539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 025a3a93b4c9ff4418c3f65125a2d630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorTilePrefab: {fileID: 1656947760461106869, guid: ea238a2f157b8d24d93a3530d1ce4ec4,
+    type: 3}
+  wallTilePrefab: {fileID: 3954138702692462317, guid: e21f0cb57507ac744b52f3e1a8a4af2a,
+    type: 3}
+  obstacleTilePrefab: {fileID: 3234384491356526080, guid: 8168e28d95132174f80bb3a28d1aab4e,
+    type: 3}
+  boundaryTilePrefab: {fileID: 1656947760461106869, guid: 20adaef1be6055e49a5ae74583f5fcbf,
+    type: 3}
+  swampTexture: {fileID: 2800000, guid: aad73f4c2056ec445a465cf772ee842d, type: 3}
+--- !u!114 &5655525678105921248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8be68057ba3d04d4bb80254f664c646a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7199241525792333730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 390c2af9208e13749a55b2a82d8ead9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponTextAsset: {fileID: 4900000, guid: d3c4e738d3420c941844a6571a257b2b, type: 3}
+--- !u!114 &100040285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356102799859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de3482621cb2f54f97128b647b84631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6648202356864797478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6648202356864797476}
+  - component: {fileID: 6648202356864797477}
+  m_Layer: 0
+  m_Name: Test Campaign Sequence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6648202356864797476
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356864797478}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -190.6199, y: 207.39503, z: -82888.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6648202356102799855}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6648202356864797477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648202356864797478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca8701d155c108a4c936049d3bd62b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  campaignName: Test Campaign
+  numberOfChapters: 3
+  chapterNames:
+  - The First One
+  - The Second One
+  - The Third One
+  mapSequence:
+  - {fileID: 4900000, guid: 6536e8d24e335164fbea19ba8b3a76f3, type: 3}
+  - {fileID: 4900000, guid: c54bd6a940ba5a941ad707337ac5f019, type: 3}
+  - {fileID: 4900000, guid: 276066747876d8445883a15f889b8040, type: 3}
+  preMapDialogueSequence:
+  - {fileID: 4900000, guid: e32e1ffb5f19ba246bb2070a04436228, type: 3}
+  - {fileID: 4900000, guid: e32e1ffb5f19ba246bb2070a04436228, type: 3}
+  - {fileID: 4900000, guid: e32e1ffb5f19ba246bb2070a04436228, type: 3}
+  postMapDialogueSequence:
+  - {fileID: 4900000, guid: 0b89d2f0e86833e42a76eac99fbf307d, type: 3}
+  - {fileID: 4900000, guid: 0b89d2f0e86833e42a76eac99fbf307d, type: 3}
+  - {fileID: 4900000, guid: 0b89d2f0e86833e42a76eac99fbf307d, type: 3}

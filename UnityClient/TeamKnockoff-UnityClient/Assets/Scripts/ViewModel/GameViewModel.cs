@@ -12,6 +12,7 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Units;
+using Assets.Scripts.Model.Items;
 using Assets.Scripts.Utilities.ExtensionMethods;
 using Assets.Scripts.Utilities.ObservableList;
 
@@ -110,6 +111,11 @@ namespace Assets.Scripts.ViewModel {
         /// The Current Turn of the Game
         /// </summary>
         private int mCurrentTurn;
+
+        /// <summary>
+        /// Determines if the game is over or not
+        /// </summary>
+        private bool mGameOver;
 
         /// <summary>
         /// The Current Player controlling the Game
@@ -273,6 +279,17 @@ namespace Assets.Scripts.ViewModel {
             get { return GameManager.instance.localPlay || CurrentPlayer == GameManager.instance.ControllingPlayer; }
         }
 
+        public bool IsGameOver {
+            get { return mGameOver; }
+
+            set {
+                if (mGameOver != value) {
+                    mGameOver = value;
+                    OnPropertyChanged(nameof(IsGameOver));
+                }
+            }
+        }
+
         /// <summary>
         /// Determines if the Selected Unit belongs to the Player
         /// </summary>
@@ -300,6 +317,12 @@ namespace Assets.Scripts.ViewModel {
             }
         }
 
+        public Dictionary<ConsumableItem, HashSet<Vector2Int>> ItemsForUnits
+        {
+            get {
+                return model.GetPossibleUnitItemLocations(SelectedSquare.Unit);
+            }
+        }
         /// <summary>
         /// Gets the Possible Skill Positions of the Selected Unit
         /// </summary>
@@ -335,6 +358,8 @@ namespace Assets.Scripts.ViewModel {
         /// Event handler to used when a Property of the ViewModel has changed
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler GameFinished;
 
         /// <summary>
         /// Method used to invoke all methods subscribed to the PropertyChanged event
@@ -424,6 +449,16 @@ namespace Assets.Scripts.ViewModel {
             return model.GetShortestPathToSkill(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint, skill);
         }
 
+        public IEnumerable<Vector2Int> GetShortestPathToItem(Vector2Int endPoint)
+        {
+            return model.GetShortestPathToItem(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+        }
+
+        public IEnumerable<Vector2Int> GetShortestPathToItem(Vector2Int endPoint, ConsumableItem item)
+        {
+            return model.GetShortestPathToItem(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint, item);
+        }
+
         /// <summary>
         /// Uses Model's implementation to get the Surrounding Attack Points of a Position with some range
         /// </summary>
@@ -432,7 +467,7 @@ namespace Assets.Scripts.ViewModel {
         /// <returns>
         /// List of Positions that can be attacked with the range
         /// </returns>
-        public IEnumerable<Vector2Int> GetSurroundingAttackLocationsAtPoint(Vector2Int attackPoint, int range) {
+        public IEnumerable<Vector2Int> GetSurroundingLocationsAtPoint(Vector2Int attackPoint, int range) {
             return model.GetSurroundingAttackLocationsAtPoint(attackPoint, range);
         }
 
@@ -478,7 +513,7 @@ namespace Assets.Scripts.ViewModel {
         /// <returns>
         /// Returns <c>true</c> if there is an Ally at the Point, <c>false</c> otherwise
         /// </returns>
-        public bool AllyAPoint(Vector2Int position) {
+        public bool AllyAtPoint(Vector2Int position) {
             return model.AllyAtLocation(position);
         }
 
@@ -494,6 +529,10 @@ namespace Assets.Scripts.ViewModel {
             return model.SkillIsUsableOnTarget(SelectedSquare.Unit, model.GetUnitAtPosition(targetPos), skill);
         }
 
+        public bool ItemUsableOnTarget(ConsumableItem item, Vector2Int targetPos)
+        {
+            return model.ItemIsUsableOnTarget(SelectedSquare.Unit, model.GetUnitAtPosition(targetPos), item);
+        }
         /// <summary>
         /// Retrieves the Position of a given Unit
         /// </summary>
@@ -554,8 +593,12 @@ namespace Assets.Scripts.ViewModel {
 
             CurrentTurn = model.Turn;
             CurrentPlayer = model.CurrentPlayer;
+            IsGameOver = model.GameHasEnded;
         }
 
+        public void FinishGame() {
+            GameFinished?.Invoke(this, new EventArgs());
+        }
 
         #endregion
     }

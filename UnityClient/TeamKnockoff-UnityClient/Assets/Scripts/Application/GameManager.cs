@@ -5,9 +5,12 @@ using System.Linq;
 using System.Threading;
 using UnityEngine;
 
+using Assets.Scripts.Campaign;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
+using Assets.Scripts.Model.Items;
+using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.ViewModel;
 using Assets.Scripts.View;
 
@@ -17,6 +20,11 @@ namespace Assets.Scripts.Application {
     /// Initializes the Game Scene when a Player starts a Game
     /// </summary>
     public class GameManager: MonoBehaviour {
+
+        public const string SINGLEPLAYER_GAME_TYPE = "SinglePlayer";
+        public const string MULTIPLAYER_GAME_TYPE = "MultiPlayer";
+        public const string CAMPAIGN_GAME_TYPE = "Campaign";
+        public const string PRACTICE_GAME_TYPE = "Practice";
 
         #region Public fields
 
@@ -59,9 +67,22 @@ namespace Assets.Scripts.Application {
         }
 
         /// <summary>
+        /// Available Singleplayer Game Types
+        /// </summary>
+        public enum SingleplayerGameType {
+            Campaign,
+            Practice
+        }
+
+        /// <summary>
         /// The current Game Type that will be set for the Game
         /// </summary>
         public GameType gameType;
+
+        /// <summary>
+        /// The current SinglePlayer Game Type that will be set for the Game
+        /// </summary>
+        public SingleplayerGameType singleplayerGameType;
 
         /// <summary>
         /// Determines if the Game will be played locally on one computer for all Players
@@ -82,12 +103,12 @@ namespace Assets.Scripts.Application {
         /// <summary>
         /// The TileFactory to generate the model and view representation of a Tile
         /// </summary>
-        public TileFactory tileFactory;
+        private TileFactory tileFactory;
 
         /// <summary>
         /// The UnitFactory to generate the model and view representation of a Unit
         /// </summary>
-        public UnitFactory unitFactory;
+        private UnitFactory unitFactory;
 
         #endregion
 
@@ -115,10 +136,40 @@ namespace Assets.Scripts.Application {
         /// Initializes the Game with configured settings.
         /// </summary>
         private void Start() {
+            tileFactory = TileFactory.instance;
+            unitFactory = UnitFactory.instance;
+
             var selectedMap = SceneLoader.GetParam(SceneLoader.LOAD_MAP_PARAM);
 
             if (selectedMap != "") {
                 mapData = MapLoader.instance.GetMapAsset(selectedMap);
+            } else {
+                throw new Exception("Map not set!");
+            }
+
+            var gameTypeString = SceneLoader.GetParam(SceneLoader.GAME_TYPE_PARAM);
+
+            if (gameTypeString == GameManager.SINGLEPLAYER_GAME_TYPE) {
+                gameType = GameType.Singleplayer;
+            } else if (gameTypeString == GameManager.MULTIPLAYER_GAME_TYPE) {
+                gameType = GameType.Multiplayer;
+            } else {
+                throw new Exception("Game Type not set!");
+            }
+
+            if (gameType == GameType.Singleplayer) {
+                var singleGameTypeString = SceneLoader.GetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM);
+
+                if (singleGameTypeString == GameManager.CAMPAIGN_GAME_TYPE) {
+                    singleplayerGameType = SingleplayerGameType.Campaign;
+
+                } else if (singleGameTypeString == GameManager.PRACTICE_GAME_TYPE) {
+                    singleplayerGameType = SingleplayerGameType.Practice;
+                } else {
+                    throw new Exception("Singleplayer Game Type not set!");
+                }
+            } else if (gameType == GameType.Multiplayer) {
+                throw new NotImplementedException();
             }
 
             // Read map data from text file to get columns and rows
@@ -129,11 +180,21 @@ namespace Assets.Scripts.Application {
             // Set up Players
             var players = new List<Player>();
 
-            for (int player = 1; player <= numberOfPlayers; player++) {
+            for (int playerNum = 1; playerNum <= numberOfPlayers; playerNum++) {
                 Player newPlayer = null;
 
                 if (gameType == GameType.Singleplayer) {
-                    newPlayer = new Player($"Player {player}");
+                    if (singleplayerGameType == SingleplayerGameType.Practice) {
+                        newPlayer = new Player($"Player {playerNum}", playerNum);
+                    } else if (singleplayerGameType == SingleplayerGameType.Campaign) {
+                        if (playerNum == 1) {
+                            newPlayer = CampaignManager.instance.CampaignPlayerData;
+                        } else {
+                            newPlayer = new Player($"Player {playerNum}", playerNum);
+                        }
+                    } else {
+                        throw new Exception($"Error setting up Player {playerNum}");
+                    }
                 }
 
                 if (gameType == GameType.Multiplayer) {
@@ -157,6 +218,8 @@ namespace Assets.Scripts.Application {
 
             var newObjectViews = new Dictionary<Vector2Int, ObjectView>();
 
+            Tuple<Unit, GameObject> newUnitTuple = null;
+
             // Initializing Model/View component of the map with Tiles/Units
             foreach(var tile in tileData.tileData) {
 
@@ -166,13 +229,52 @@ namespace Assets.Scripts.Application {
 
                 // If Tile contains Player data, initialize Unit Model/View
                 if (tile.Player != 0) {
-                    var newUnitObject = unitFactory.CreateUnit(tile, view.gameObject.transform);
-                    var newUnitModel = newUnitObject.GetComponent<Unit>();
+                    if (gameType == GameType.Singleplayer) {
+                        if (singleplayerGameType == SingleplayerGameType.Campaign) {
+                            if (tile.Player == 1) {
+                                const char DELIMITER = '_';
+                                const int UNIT_NAME_INDEX = 2;
+
+                                // Parse Unit Data
+                                var unitData = tile.UnitData;
+                                var split_string = unitData.Split(DELIMITER);
+
+                                if (split_string.Length == 3) {
+                                    // Named Unit
+                                    var unitName = split_string[UNIT_NAME_INDEX];
+                                    var existingUnit =
+                                        CampaignManager.instance.CampaignPlayerData.CampaignUnits.SingleOrDefault(
+                                            campaignUnit => campaignUnit.Name == unitName);
+
+                                    if (existingUnit != null) {
+                                        newUnitTuple = unitFactory.ImportUnit(tile, view.gameObject.transform, existingUnit);
+                                    } else {
+                                        newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                                    }
+                                } else {
+                                    throw new NotImplementedException();
+                                }
+
+                            } else {
+                                newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                            }
+
+                        } else if (singleplayerGameType == SingleplayerGameType.Practice) {
+                            newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                        } else {
+                            throw new Exception("Singleplayer Game Type not set");
+                        }
+                    } else if (gameType == GameType.Multiplayer) {
+
+                    } else {
+                        throw new Exception("Game Type not set");
+                    }
+
+                    var newUnitModel = newUnitTuple.Item1;
+                    var newUnitObject = newUnitTuple.Item2;
 
                     var newUnitView= new UnitView(newUnitObject);
-
                     newObjectViews.Add(new Vector2Int(tile.Column, tile.Row), newUnitView);
-
                     model.AddUnit(newUnitModel, tile.Player, tile.Column, tile.Row);
                 }
             }
@@ -185,7 +287,6 @@ namespace Assets.Scripts.Application {
             view.ConstructView(cols, rows, newObjectViews);
 
             StartGame();
-            
         }
 
         /// <summary>
@@ -201,6 +302,8 @@ namespace Assets.Scripts.Application {
             if (model.CurrentPlayer != ControllingPlayer) {
                 viewModel.WaitForOtherMoves();
             }
+
+            viewModel.GameFinished += ViewModel_GameFinished;
         }
 
         #endregion
@@ -225,6 +328,50 @@ namespace Assets.Scripts.Application {
                 if (gameType == GameType.Multiplayer) {
                     throw new NotImplementedException();
                 }
+            }
+        }
+
+        public void SaveGame() {
+            // TODO: Serialize CurrentControllingPlayer Unit Data here
+
+            // TODO: Serialize CurrentCampaignSequence Data here
+        }
+
+        public void RestartGame() {
+            SceneLoader.instance.ReloadMap();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void ViewModel_GameFinished(object sender, EventArgs e) {
+            if (gameType == GameType.Singleplayer) {
+                if (singleplayerGameType == SingleplayerGameType.Practice) {
+                    SceneLoader.instance.GoToLastMenu();
+                }
+
+                if (singleplayerGameType == SingleplayerGameType.Campaign) {
+                    if (ControllingPlayer.HasAliveUnit()) {
+                        var campaignUnits = CampaignManager.instance.CampaignPlayerData.CampaignUnits;
+                        var newUnits = ControllingPlayer.Units.Where(unit => !campaignUnits.Contains(unit));
+                        CampaignManager.instance.CampaignPlayerData.CampaignUnits.AddRange(newUnits);
+                        CampaignManager.instance.CampaignPlayerData.CampaignUnits[0].Items.Add(new Potion());
+                        CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance
+                            .CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
+
+                        // TODO: Make better reward system
+                        CampaignManager.instance.CampaignPlayerData.Money += 1000;
+
+                        CampaignManager.instance.LoadNextCampaignEvent();
+                    } else {
+                        SceneLoader.instance.GoToCampaignMenu();
+                    }
+                }
+            }
+
+            if (gameType == GameType.Multiplayer) {
+                // TODO: Do stuff here
             }
         }
 
