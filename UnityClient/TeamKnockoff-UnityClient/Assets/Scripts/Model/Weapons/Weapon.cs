@@ -97,6 +97,8 @@ namespace Assets.Scripts.Model.Weapons {
 
         public int SellingPrice { get { return mSellingPrice; } }
 
+        public bool IsBuyable => mBuyingPrice > 0;
+
         public bool IsSellable => mSellingPrice > 0;
 
         public WeaponType WeapType { get { return mWeaponType; } }

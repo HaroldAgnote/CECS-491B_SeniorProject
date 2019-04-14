@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Assets.Scripts.Model.Items;
 using Assets.Scripts.Model.Weapons;
 
 namespace Assets.Scripts.Model.Units {
@@ -53,10 +54,8 @@ namespace Assets.Scripts.Model.Units {
 
             unitWeapon = unit.MainWeapon.Name;
             unitSkills = new List<string>();
-            unitSkills.AddRange(unit.Skills.Where(skill => !unit.MainWeapon.Skills.Contains(skill)).Select(skill => skill.SkillName));
+            unitSkills.AddRange(unit.UnitSkills.Select(skill => skill.SkillName));
 
-            // TODO: Sebastian:
-            // Populate List of item strings with Unit's equipped items
             unitItems = new List<string>();
             unitItems.AddRange(unit.Items.Select(item => item.ItemName));
         }

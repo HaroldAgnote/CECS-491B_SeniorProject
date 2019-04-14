@@ -356,7 +356,6 @@ namespace Assets.Scripts.Application {
                         var campaignUnits = CampaignManager.instance.CampaignPlayerData.CampaignUnits;
                         var newUnits = ControllingPlayer.Units.Where(unit => !campaignUnits.Contains(unit));
                         CampaignManager.instance.CampaignPlayerData.CampaignUnits.AddRange(newUnits);
-                        CampaignManager.instance.CampaignPlayerData.CampaignUnits[0].Items.Add(new Potion());
                         CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance
                             .CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
 

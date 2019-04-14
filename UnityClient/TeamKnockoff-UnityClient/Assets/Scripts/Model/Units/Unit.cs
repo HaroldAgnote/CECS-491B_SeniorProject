@@ -23,6 +23,7 @@ namespace Assets.Scripts.Model.Units {
 
         public const int INITIAL_LEVEL = 1;
         public const int INITIAL_EXPERIENCE_POINTS = 0;
+        public const int CONSUMABLE_ITEM_LIMIT = 3;
 
         #endregion
 
@@ -81,8 +82,9 @@ namespace Assets.Scripts.Model.Units {
         [SerializeField]
         private List<Skill> mSkills;
 
-        [SerializeField]
-        private List<Item> mItems;
+        private PassiveItem mPassiveItem;
+
+        private ConsumableItem[] mConsumableItems;
 
         private HashSet<UnitEffect> mUnitEffects;
 
@@ -149,11 +151,7 @@ namespace Assets.Scripts.Model.Units {
             }
         }
 
-        public bool IsAlive {
-            get {
-                return HealthPoints > 0;
-            }
-        }
+        public bool IsAlive => HealthPoints > 0;
 
         public bool HasMoved { get; set; }
 
@@ -282,16 +280,19 @@ namespace Assets.Scripts.Model.Units {
             }
         }
 
+        public IEnumerable<Skill> UnitSkills {
+            get { return mSkills.AsReadOnly(); }
+        }
+
         public List<Skill> Skills {
             get {
                 var combinedSkills = mSkills.Union(mMainWeapon.Skills);
                 // TODO: Sebastian
                 // Union this with each item's Field Skill
-                var passiveItemSkills = mItems
-                           .Where(item => item is PassiveItem)
-                           .Select(item => item as PassiveItem)
-                           .SelectMany(item => item.Effects);
-                combinedSkills = combinedSkills.Union(passiveItemSkills);
+                if (mPassiveItem != null) {
+                    var passiveItemSkills = mPassiveItem.Effects;
+                    combinedSkills = combinedSkills.Union(passiveItemSkills);
+                }
                 
                 return combinedSkills.ToList();
             }
@@ -300,7 +301,13 @@ namespace Assets.Scripts.Model.Units {
         // TODO: Add Item Properties
         public List<Item> Items {
             get {
-                return mItems;
+                var itemList = new List<Item>();
+                if (mPassiveItem != null) {
+                    itemList.Add(mPassiveItem);
+                }
+                itemList.AddRange(mConsumableItems.Where(item => item != null));
+
+                return itemList;
             }
         }
 
@@ -341,25 +348,6 @@ namespace Assets.Scripts.Model.Units {
         public abstract bool CanUse(Weapon weapon);
         public abstract Unit Generate(UnitWrapper unitWrapper);
 
-        public Unit() {
-            mMaxHealthPoints = new Stat();
-            mStrength = new Stat();
-            mMagic = new Stat();
-            mDefense = new Stat();
-            mResistance = new Stat();
-            mSpeed = new Stat();
-            mSkill = new Stat();
-            mLuck = new Stat();
-            mMovement = new Stat();
-
-            mLevel = 1;
-            mExperiencePoints = 0;
-
-            mUnitEffects = new HashSet<UnitEffect>();
-            mSkills = new List<Skill>();
-            mItems = new List<Item>();
-        }
-        
         public Unit(string unitName, string unitType, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) {
             mName = unitName;
             mType = unitType;
@@ -381,7 +369,7 @@ namespace Assets.Scripts.Model.Units {
 
             mUnitEffects = new HashSet<UnitEffect>();
             mSkills = new List<Skill>();
-            mItems = new List<Item>();
+            mConsumableItems = new ConsumableItem[CONSUMABLE_ITEM_LIMIT];
         }
 
         public Unit(UnitWrapper unitWrapper) {
@@ -411,7 +399,6 @@ namespace Assets.Scripts.Model.Units {
 
             mUnitEffects = new HashSet<UnitEffect>();
 
-            // TODO: Re-add skills using SkillFactory
             mSkills = new List<Skill>();
 
             var skillNames = unitWrapper.unitSkills;
@@ -420,16 +407,13 @@ namespace Assets.Scripts.Model.Units {
                 mSkills.Add(skill);
             }
 
-            // TODO: Sebastian
-            // Re-add items from unitWrapper using ItemFactory 
-            mItems = new List<Item>();
+            mConsumableItems = new ConsumableItem[CONSUMABLE_ITEM_LIMIT];
 
             var itemNames = unitWrapper.unitItems;
 
-            foreach (var itemName in itemNames)
-            {
+            foreach (var itemName in itemNames) {
                 var item = ItemFactory.instance.GenerateItem(itemName);
-                mItems.Add(item);
+                EquipItem(item);
             }
         }
 
@@ -498,6 +482,47 @@ namespace Assets.Scripts.Model.Units {
             mMainWeapon = Weapon.FISTS;
 
             return weapon;
+        }
+
+        public void EquipItem(Item item) {
+            if (item is PassiveItem) {
+                mPassiveItem = item as PassiveItem;
+            } else if (item is ConsumableItem) {
+                for (int i = 0; i < mConsumableItems.Length; i++) {
+                    if (mConsumableItems[i] == null) {
+                        mConsumableItems[i] = item as ConsumableItem;
+                        break;
+                    }
+                }
+            } else {
+                throw new Exception("Could not Equip Item");
+            }
+        }
+
+        public Item UnequipItem(Item item) {
+            if (mPassiveItem == item) {
+                var tempItem = mPassiveItem;
+                mPassiveItem = null;
+                return tempItem;
+            }
+
+            for (int i = 0; i < mConsumableItems.Length; i++) {
+                if (mConsumableItems[i] == item) {
+                    var tempItem = mConsumableItems[i];
+                    mConsumableItems[i] = null;
+                    return tempItem;
+                }
+            }
+            throw new Exception("Could not unequip item");
+        }
+
+        public bool CanEquipItem(Item item) {
+            if (item is PassiveItem) {
+                return mPassiveItem == null;
+            } else if (item is ConsumableItem) {
+                return mConsumableItems.Any(it => it == null);
+            }
+            throw new Exception("Could not determine if item can be equipped");
         }
 
         public void LearnSkill(Skill newSkill) {

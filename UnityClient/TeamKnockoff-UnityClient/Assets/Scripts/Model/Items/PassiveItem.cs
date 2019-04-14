@@ -10,12 +10,10 @@ namespace Assets.Scripts.Model.Items
     {
         public List<FieldSkill> Effects { get; private set; }
 
-        public PassiveItem(string name, List<FieldSkill> mEffects) : base(name)
-        {
+        public PassiveItem(string name, int rarity, int buyingPrice, int sellingPrice, List<FieldSkill> mEffects)
+            : base(name, rarity, buyingPrice, sellingPrice) {
+
             Effects = mEffects;
         }
-        
-        // TODO: Sebastian
-        // PassiveItems now need to have a FieldSkill Field/Property
     }
 }
