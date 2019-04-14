@@ -172,8 +172,7 @@ namespace Assets.Scripts.Application {
         }
 
         public void ReloadMap() {
-            var scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+            GoToMap();
         }
 
         public void QuitGame () {

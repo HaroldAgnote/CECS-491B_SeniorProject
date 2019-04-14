@@ -189,6 +189,7 @@ namespace Assets.Scripts.Application {
                     } else if (singleplayerGameType == SingleplayerGameType.Campaign) {
                         if (playerNum == 1) {
                             newPlayer = CampaignManager.instance.CampaignPlayerData;
+                            newPlayer.Units.Clear();
                         } else {
                             newPlayer = new Player($"Player {playerNum}", playerNum);
                         }
