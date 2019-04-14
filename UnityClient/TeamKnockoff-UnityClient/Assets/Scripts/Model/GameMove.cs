@@ -18,6 +18,7 @@ namespace Assets.Scripts.Model {
 
         public Vector2Int StartPosition { get; }
         public Vector2Int EndPosition { get; }
+        public List<Vector2Int> Path { get; }
 
         public GameMoveType MoveType { get; private set; }
 
@@ -29,9 +30,10 @@ namespace Assets.Scripts.Model {
             
         }
 
-        public GameMove(Vector2Int start, Vector2Int end) {
+        public GameMove(Vector2Int start, Vector2Int end, List<Vector2Int> path) {
             StartPosition = start;
             EndPosition = end;
+            Path = path;
 
             if (StartPosition != EndPosition) {
                 MoveType = GameMoveType.Move;

@@ -38,7 +38,7 @@ namespace Assets.Scripts.View
         }
 
         private void ResetLabels() {
-            var playerUnit = gameViewModel.SelectedSquare.Unit;
+            var playerUnit = gameViewModel.SelectedUnit;
             playerNameLabel.text = playerUnit.Name;
             playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
             playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
@@ -70,7 +70,7 @@ namespace Assets.Scripts.View
             //change label depending on info on unit
             if (e.PropertyName == "TargetSquare")
             {
-                var playerUnit = gameViewModel.SelectedSquare.Unit;
+                var playerUnit = gameViewModel.SelectedUnit;
                 var targetSquare = gameViewModel.TargetSquare;
 
                 if (gameViewModel.CombatMode == true) {

@@ -319,6 +319,8 @@ namespace Assets.Scripts.Application {
         public GameMove GetOtherPlayerMove() {
             while (true) {
 
+                while (view.IsUpdating) { }
+
                 // Call and return AI Best Move
                 if (gameType == GameType.Singleplayer) {
                     Debug.Log("Getting CPU Move");

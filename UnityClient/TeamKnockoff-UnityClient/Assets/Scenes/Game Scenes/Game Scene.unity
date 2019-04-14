@@ -99,8 +99,8 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
+    agentSlope: 0
+    agentClimb: 0
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 528940207}
   m_HandleRect: {fileID: 528940206}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7427,7 +7427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameViewModel: {fileID: 521415712}
-  camera: {fileID: 1493605794}
+  mCamera: {fileID: 1493605798}
   tileSelector: {fileID: 2035335358}
   moveSelector: {fileID: 1454420658}
   turnLabel: {fileID: 800648806}
@@ -12709,8 +12709,8 @@ MonoBehaviour:
   numberOfPlayers: 2
   ControllingPlayer:
     mName: Hero
+    mPlayerNumber: 0
     mMoney: 1000
-  unitWrappers: []
 --- !u!1 &2100153859
 GameObject:
   m_ObjectHideFlags: 0

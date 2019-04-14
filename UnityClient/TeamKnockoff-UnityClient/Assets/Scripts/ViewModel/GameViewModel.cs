@@ -142,6 +142,8 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         private bool mCombatMode;
 
+        private bool mMoveState;
+
         /// <summary>
         /// List of Game Squares in the Game
         /// </summary>
@@ -151,6 +153,8 @@ namespace Assets.Scripts.ViewModel {
         /// Last Move that was applied onto the Game
         /// </summary>
         private GameMove mLastMove;
+
+        private Unit mSelectedUnit;
 
         #endregion
 
@@ -225,6 +229,16 @@ namespace Assets.Scripts.ViewModel {
             set {
                 mTargetSquare = value;
                 OnPropertyChanged(nameof(TargetSquare));
+            }
+        }
+
+        public Unit SelectedUnit {
+            get {
+                return mSelectedUnit;
+            }
+            set {
+                mSelectedUnit = value;
+                OnPropertyChanged(nameof(SelectedUnit));
             }
         }
 
@@ -304,7 +318,7 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public IEnumerable<Vector2Int> MovesForUnit {
             get {
-                return model.GetPossibleUnitMoveLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitMoveLocations(SelectedUnit);
             }
         }
 
@@ -313,14 +327,14 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public IEnumerable<Vector2Int> AttacksForUnit {
             get {
-                return model.GetPossibleUnitAttackLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitAttackLocations(SelectedUnit);
             }
         }
 
         public Dictionary<ConsumableItem, HashSet<Vector2Int>> ItemsForUnits
         {
             get {
-                return model.GetPossibleUnitItemLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitItemLocations(SelectedUnit);
             }
         }
         /// <summary>
@@ -328,7 +342,7 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public Dictionary<ActiveSkill, HashSet<Vector2Int>> SkillsForUnit {
             get {
-                return model.GetUnitPossibleSkillLocations(SelectedSquare.Unit); 
+                return model.GetUnitPossibleSkillLocations(SelectedUnit); 
             }
         }
 
@@ -337,7 +351,7 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public IEnumerable<Vector2Int> DamageSkillsForUnit {
             get {
-                return model.GetPossibleUnitDamageSkillLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitDamageSkillLocations(SelectedUnit);
             }
         }
 
@@ -346,7 +360,7 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public IEnumerable<Vector2Int> SupportSkillsForUnit {
             get {
-                return model.GetPossibleUnitSupportSkillLocations(SelectedSquare.Unit);
+                return model.GetPossibleUnitSupportSkillLocations(SelectedUnit);
             }
         }
 
@@ -526,12 +540,12 @@ namespace Assets.Scripts.ViewModel {
         /// Returns <c>true</c> if the Skill is usable, <c>false</c> otherwise
         /// </returns>
         public bool SkillUsableOnTarget(SingleTargetSkill skill, Vector2Int targetPos) {
-            return model.SkillIsUsableOnTarget(SelectedSquare.Unit, model.GetUnitAtPosition(targetPos), skill);
+            return model.SkillIsUsableOnTarget(SelectedUnit, model.GetUnitAtPosition(targetPos), skill);
         }
 
         public bool ItemUsableOnTarget(ConsumableItem item, Vector2Int targetPos)
         {
-            return model.ItemIsUsableOnTarget(SelectedSquare.Unit, model.GetUnitAtPosition(targetPos), item);
+            return model.ItemIsUsableOnTarget(SelectedUnit, model.GetUnitAtPosition(targetPos), item);
         }
         /// <summary>
         /// Retrieves the Position of a given Unit
@@ -585,6 +599,7 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public void RebindState() {
             var newSquares = VectorExtension.GetRectangularPositions(model.Columns, model.Rows);
+
             int i = 0;
             foreach (var pos in newSquares) {
                 mGameSquares[i].Unit = model.GetUnitAtPosition(pos);

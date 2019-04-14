@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -199,6 +200,8 @@ namespace Assets.Scripts.View {
         private Vector2Int skillPoint;
 
         private Vector2Int itemPoint;
+
+        private List<Vector2Int> movePath;
  
             #region Unit Menu Options
 
@@ -380,7 +383,7 @@ namespace Assets.Scripts.View {
             Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
 
-            if (hit) {
+            if (!gameView.IsUpdating && hit) {
                 var point = hit.collider.gameObject.transform.position;
 
                 // Debug.Log($"Hovering at Point: ({point.x}, {point.y})");
@@ -691,7 +694,7 @@ namespace Assets.Scripts.View {
         /// </summary>
         private void ApplyMoveUnit() {
             Debug.Log("Move");
-            CurrentGameMove = new GameMove(startPoint, movedPoint);
+            CurrentGameMove = new GameMove(startPoint, movedPoint, pathLocations.ToList());
             gameViewModel.ApplyMove(CurrentGameMove);
         }
 
@@ -738,11 +741,14 @@ namespace Assets.Scripts.View {
         /// <summary>
         /// Apply Attack Move to Game
         /// </summary>
-        private void ApplyAttackMove() {
+        private async void ApplyAttackMove() {
 
             // Move Unit first to move position before attacking
             if (startPoint != movedPoint) {
                 ApplyMoveUnit();
+                await Task.Run(() => {
+                    while (gameView.IsUpdating) { }
+                });
             }
 
             Debug.Log("Attack");
@@ -917,10 +923,13 @@ namespace Assets.Scripts.View {
         /// <summary>
         /// Apply Skill Move to Game
         /// </summary>
-        private void ApplySkillMove() {
+        private async void ApplySkillMove() {
             // Move Unit first to move position before using Skill
             if (startPoint != movedPoint) {
                 ApplyMoveUnit();
+                await Task.Run(() => {
+                    while (gameView.IsUpdating) { }
+                });
             }
 
             Debug.Log("Use Skill");
@@ -989,10 +998,13 @@ namespace Assets.Scripts.View {
         /// <summary>
         /// Apply Item Move to Game
         /// </summary>
-        private void ApplyItemMove() {
+        private async void ApplyItemMove() {
             if (startPoint != movedPoint)
             {
                 ApplyMoveUnit();
+                await Task.Run(() => {
+                    while (gameView.IsUpdating) { }
+                });
             }
 
             Debug.Log("Item");
@@ -1088,11 +1100,14 @@ namespace Assets.Scripts.View {
         /// <summary>
         /// Apply Wait Move to Game
         /// </summary>
-        private void ApplyWaitMove() {
+        private async void ApplyWaitMove() {
             
             // Move Unit first to move position before Wait
             if (startPoint != movedPoint) {
                 ApplyMoveUnit();
+                await Task.Run(() => {
+                    while (gameView.IsUpdating) { }
+                });
             }
 
             Debug.Log("Wait");
