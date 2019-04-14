@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 using Assets.Scripts.Application;
@@ -27,6 +28,12 @@ namespace Assets.Scripts.View {
         public CombatForecast combatForecast;
 
         public GameOverScreen gameOverScreen;
+
+        public PauseMenu mPauseMenu;
+
+        public Button mPauseButton;
+
+        public Button mEndTurnButton;
 
         private Dictionary<Vector2Int, ObjectView> mVectorToObjectViews;
 
@@ -53,22 +60,75 @@ namespace Assets.Scripts.View {
 
             gameOverScreen.ConstructGameOverScreen();
 
+            mPauseMenu.ConstructPauseMenu();
+
             turnLabel.text = $"Turn {gameViewModel.CurrentTurn}";
+
+            mPauseButton.onClick.AddListener(PauseGame);
+            mEndTurnButton.onClick.AddListener(EndTurn);
 
             gameViewModel.PropertyChanged += GameViewModel_PropertyChanged;
         }
 
+        public void EndTurn() {
+            var units = gameViewModel.ControllingPlayer.Units;
+            foreach(var unit in units) {
+                var unitPos = gameViewModel.GetPositionOfUnit(unit);
+                var gameMove = new GameMove(unitPos, unitPos, GameMove.GameMoveType.Wait);
+                gameViewModel.ApplyMove(gameMove);
+            }
+        }
+
+        public void PauseGame() {
+            mPauseButton.interactable = false;
+            mPauseMenu.gameObject.SetActive(true);
+            tileSelector.gameObject.SetActive(false);
+            moveSelector.gameObject.SetActive(false);
+            LockCamera();
+            gameViewModel.PauseGame();
+        }
+
+        public void UnpauseGame() {
+            mPauseButton.interactable = true;
+            mPauseMenu.gameObject.SetActive(false);
+            tileSelector.gameObject.SetActive(true);
+            moveSelector.gameObject.SetActive(true);
+            UnlockCamera();
+            gameViewModel.UnpauseGame();
+        }
+
+        public void FullLockCamera() {
+            mCamera.LockMoveCamera();
+            mCamera.LockZoomCamera();
+        }
+
+        public void FullUnlockCamera() {
+            mCamera.UnlockMoveCamera();
+            mCamera.UnlockZoomCamera();
+        }
+
         public void LockCamera() {
-            mCamera.LockCamera();
+            mCamera.LockMoveCamera();
         }
 
         public void UnlockCamera() {
-            mCamera.UnlockCamera();
+            mCamera.UnlockMoveCamera();
         }
 
         private async void GameViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            if (e.PropertyName == "CurrentPlayer") {
+                if (gameViewModel.CurrentPlayer != gameViewModel.ControllingPlayer) {
+                    mPauseButton.interactable = false;
+                    mEndTurnButton.interactable = false;
+                } else {
+                    mPauseButton.interactable = true;
+                    mEndTurnButton.interactable = true;
+                }
+                turnLabel.text = $"{gameViewModel.CurrentPlayer.Name} - Turn {gameViewModel.CurrentTurn}";
+            }
+
             if (e.PropertyName == "CurrentTurn") {
-                turnLabel.text = $"Turn {gameViewModel.CurrentTurn}";
+                turnLabel.text = $"{gameViewModel.CurrentPlayer.Name} - Turn {gameViewModel.CurrentTurn}";
             }
 
             if (e.PropertyName == "Squares") {

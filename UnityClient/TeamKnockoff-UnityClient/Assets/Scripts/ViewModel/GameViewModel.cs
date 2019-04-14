@@ -156,6 +156,8 @@ namespace Assets.Scripts.ViewModel {
 
         private Unit mSelectedUnit;
 
+        private bool mGamePaused;
+
         #endregion
 
         #region Properties
@@ -415,8 +417,8 @@ namespace Assets.Scripts.ViewModel {
         /// Initializing more properties at start of game
         /// </summary>
         public void StartGame() {
-            CurrentTurn = model.Turn;
             CurrentPlayer = model.CurrentPlayer;
+            CurrentTurn = model.Turn;
         }
 
         /// <summary>
@@ -606,9 +608,17 @@ namespace Assets.Scripts.ViewModel {
                 i++;
             }
 
-            CurrentTurn = model.Turn;
             CurrentPlayer = model.CurrentPlayer;
+            CurrentTurn = model.Turn;
             IsGameOver = model.GameHasEnded;
+        }
+
+        public void PauseGame() {
+            mGamePaused = true;
+        }
+
+        public void UnpauseGame() {
+            mGamePaused = false;
         }
 
         public void FinishGame() {

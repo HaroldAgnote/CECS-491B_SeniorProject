@@ -31,8 +31,8 @@ namespace Assets.Scripts.View
         public GameView gameView;
         private GameViewModel gameViewModel;
   
-        public void ConstructCombatForecast()
-        {
+        public void ConstructCombatForecast() {
+            this.gameObject.SetActive(false);
             gameViewModel = gameView.gameViewModel;
             gameViewModel.PropertyChanged += GameViewModel_PropertyChanged;
         }
