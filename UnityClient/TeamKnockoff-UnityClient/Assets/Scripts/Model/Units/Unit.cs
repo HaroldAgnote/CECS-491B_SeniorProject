@@ -86,10 +86,26 @@ namespace Assets.Scripts.Model.Units {
 
         private HashSet<UnitEffect> mUnitEffects;
 
+        [SerializeField]
+        protected int mHealthGrowthRate;
+        [SerializeField]
+        protected int mStrenthGrowthRate;
+        [SerializeField]
+        protected int mMagicGrowthRate;
+        [SerializeField]
+        protected int mDefenseGrowthRate;
+        [SerializeField]
+        protected int mResistanceGrowthRate;
+        [SerializeField]
+        protected int mSpeedGrowthRate;
+        [SerializeField]
+        protected int mSkillGrowthRate;
+        [SerializeField]
+        protected int mLuckGrowthRate;
         #endregion
 
         #region Properties
-        
+
         public string Name {
             get { return mName; }
             set {
@@ -505,21 +521,82 @@ namespace Assets.Scripts.Model.Units {
         }
 
         public void GainExperience(Unit defendingUnit) {
+            const int RATINGTHRESHOLD = 10;
+            //if ratingDif is pos, self is stronger than defendingUnit
+            int ratingDif = Rating() - defendingUnit.Rating();
+
             if (!defendingUnit.IsAlive) {
-                mExperiencePoints += 20;
+                if(ratingDif > RATINGTHRESHOLD) {
+                    mExperiencePoints += 7;
+                }
+                else if(ratingDif < -(RATINGTHRESHOLD)) {
+                    mExperiencePoints += 110;
+                }
+                else { //threshold -20 <= x <= 20
+                    mExperiencePoints += 20;
+                }
+                
             } else {
                 mExperiencePoints += 3;
             }
 
             if (ExperiencePoints >= 100) {
                 mExperiencePoints -= 100;
-                mLevel += 1;
+                LevelUp();
+                //mLevel += 1;
             }
         }
 
         public bool Equals(Unit other) {
             return this.mName == other.mName;
         }
+
+        public int Rating() {
+            return mMaxHealthPoints.Value +
+                mStrength.Value +
+                mMagic.Value +
+                mDefense.Value +
+                mResistance.Value +
+                mSpeed.Value +
+                mSkill.Value +
+                mLuck.Value;
+                //mMovement.Value;
+        }
+
+        public void LevelUp() {
+            mLevel += 1;
+            int chance = UnityEngine.Random.Range(0, 100);
+            //int chance = 29;
+            Debug.Log($"This is chance: {chance}");
+            //I could reroll for every stat but this should technically work - Matthew
+            if(mHealthGrowthRate > chance) {
+                mMaxHealthPoints.Base += 1;
+            }
+            if (mStrenthGrowthRate > chance) {
+                mStrength.Base += 1;
+            }
+            if (mMagicGrowthRate > chance) {
+                mMagic.Base += 1;
+            }
+            if (mDefenseGrowthRate > chance) {
+                mDefense.Base += 1;
+            }
+            if (mResistanceGrowthRate > chance) {
+                mResistance.Base += 1;
+            }
+            if (mSpeedGrowthRate > chance) {
+                mSpeed.Base += 1;
+            }
+            if (mSkillGrowthRate > chance) {
+                mSkill.Base += 1;
+            }
+            if (mLuckGrowthRate > chance) {
+                mLuck.Base += 1;
+            }
+
+
+        }
+
 
         #endregion
 
