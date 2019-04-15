@@ -11,6 +11,7 @@ using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Mage : InfantryUnit {
+        #region const Stats
         const int MAX_HEALTH_POINTS = 100;
 
         const int INITIAL_STRENGTH = 1;
@@ -27,8 +28,17 @@ namespace Assets.Scripts.Model.Units {
 
         const string CLASS_NAME = "Mage";
         private const string DEFAULT_WEAPON = "Dark Book";
-
-        // TODO: Create constants for growth rate
+        #endregion
+        #region Growth Rates
+        const int GROWTH_HEALTH = 85;
+        const int GROWTH_STRENGTH = 20;
+        const int GROWTH_MAGIC = 55;
+        const int GROWTH_DEFENCE = 35;
+        const int GROWTH_RESISTANCE = 35;
+        const int GROWTH_SPEED = 50;
+        const int GROWTH_SKILL = 50;
+        const int GROWTH_LUCK = 65;
+        #endregion  
 
         public static Mage CreateMage() {
             return new Mage();
@@ -56,9 +66,9 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_SPEED, 
                   INITIAL_SKILL, 
                   INITIAL_LUCK, 
-                  MOVEMENT_RANGE) { 
+                  MOVEMENT_RANGE) {
 
-            
+            InitGrowthRates();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
         }
@@ -73,14 +83,16 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_SPEED, 
                   INITIAL_SKILL, 
                   INITIAL_LUCK, 
-                  MOVEMENT_RANGE) { 
+                  MOVEMENT_RANGE) {
 
-            
+            InitGrowthRates();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
         }
 
-        public Mage(UnitWrapper unitWrapper) : base (unitWrapper) { }
+        public Mage(UnitWrapper unitWrapper) : base (unitWrapper) {
+            InitGrowthRates();
+        }
 
         public override bool CanUse(Weapon weapon) {
             var weaponType = weapon.WeapType;
@@ -102,5 +114,15 @@ namespace Assets.Scripts.Model.Units {
             }
         }
 
+        public void InitGrowthRates() {
+            mHealthGrowthRate = GROWTH_HEALTH;
+            mStrenthGrowthRate = GROWTH_STRENGTH;
+            mMagicGrowthRate = GROWTH_MAGIC;
+            mDefenseGrowthRate = GROWTH_DEFENCE;
+            mResistanceGrowthRate = GROWTH_RESISTANCE;
+            mSpeedGrowthRate = GROWTH_SPEED;
+            mSkillGrowthRate = GROWTH_SKILL;
+            mLuckGrowthRate = GROWTH_LUCK;
+        }
     }
 }
