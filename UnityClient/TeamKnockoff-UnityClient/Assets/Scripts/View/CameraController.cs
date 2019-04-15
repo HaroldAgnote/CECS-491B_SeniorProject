@@ -64,6 +64,7 @@ namespace Assets.Scripts.View {
                 } else if (Input.GetKeyUp(KeyCode.LeftShift)) {
                     speed /= 2;
                 }
+                /*
                 //Move camera
                 if ((Input.mousePosition.x > screenWidth - offset) && transform.position.x < minMaxXPosition.y) {
                     cameraMove.x += MoveSpeed();
@@ -78,6 +79,23 @@ namespace Assets.Scripts.View {
                 }
 
                 if ((Input.mousePosition.y < offset) && transform.position.y > minMaxYPosition.x) {
+                    cameraMove.y -= MoveSpeed();
+                }
+                */
+                //Move camera with WASD
+                if ((Input.GetKey(KeyCode.D))) {
+                    cameraMove.x += MoveSpeed();
+                }
+
+                if ((Input.GetKey(KeyCode.A))) {
+                    cameraMove.x -= MoveSpeed();
+                }
+
+                if ((Input.GetKey(KeyCode.W))) {
+                    cameraMove.y += MoveSpeed();
+                }
+
+                if ((Input.GetKey(KeyCode.S))) {
                     cameraMove.y -= MoveSpeed();
                 }
 
