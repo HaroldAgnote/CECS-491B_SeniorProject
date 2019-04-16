@@ -16,6 +16,8 @@ namespace Assets.Scripts.ComputerOpponent
     public class ComputerOpponent : MonoBehaviour { 
 
         public static Vector2Int NULL_VECTOR = new Vector2Int(-1, -1);
+        //attacking utility weights
+        public static int ATTACK_DISTANCE_WEIGHT = 10;
 
         public GameModel model;
         private Random RNG;
@@ -29,6 +31,7 @@ namespace Assets.Scripts.ComputerOpponent
         private bool hasDecidedMove;
         private bool hasMoved;
         private bool attacking;
+        private bool supporting;
 
         private void Start() {
             currentUnitIndex = 0;
@@ -38,7 +41,7 @@ namespace Assets.Scripts.ComputerOpponent
 
         //Cycle through units, attack nearest enemy
         public GameMove FindBestMove() {
-
+            throw new NotImplementedException();
             // CPU has not decided a move to perform yet
             if (!hasDecidedMove) {
                 // Set the CPU to the Current Model's Player and Units
@@ -61,6 +64,18 @@ namespace Assets.Scripts.ComputerOpponent
                 // Set the Controlling Unit
                 CurrentControllingUnit = PlayerUnits[currentUnitIndex];
 
+                //Determine whether supporting or attacking
+                //Prioritize supporting (healing or buff)
+                foreach (var skill in CurrentControllingUnit.Skills)
+                {
+                    if(skill.SkillName == "Heal")
+                    {
+                        //check and select whether a unit can be healed
+
+                    }
+
+                }
+
                 // Determine if there is a location for the Controlling Unit to attack
                 var attackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit);
                 attacking = attackLocations.Any(loc => model.EnemyAtLocation(loc));
@@ -79,15 +94,37 @@ namespace Assets.Scripts.ComputerOpponent
                     var possibleAttackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit)
                                                     .Where(loc => model.EnemyAtLocation(loc));
 
-                    //Go through possible attack locations and return the closest one
-                    var currentDijkstraDistance = new WeightedGraph.DijkstraDistance(new Vector2Int(), Double.MaxValue);
+                    //Go through possible attack locations, return the optimal choice
+                    var minDijkstraDistance = double.MaxValue;
+                    var maxDijkstraDistance = double.MinValue;
+                    var maxAttackUtility = 0;
+                    Dictionary<Vector2Int, double> unitsUtility = new Dictionary<Vector2Int, double>();
+
                     foreach (var pos in possibleAttackLocations)
                     {
                         var tempDijkstraDistance = model.GetShortestPathToAttack(CurrentControllingUnit, model.GridForUnit(CurrentControllingUnit), pos);
-                        if (tempDijkstraDistance.CurrentDistance < currentDijkstraDistance.CurrentDistance)
+                        if (tempDijkstraDistance.CurrentDistance < minDijkstraDistance)
                         {
-                            currentDijkstraDistance = tempDijkstraDistance;
-                            attackReadyLocation = pos;
+                            minDijkstraDistance = tempDijkstraDistance.CurrentDistance;
+                        }
+                        if (tempDijkstraDistance.CurrentDistance > maxDijkstraDistance)
+                        {
+                            maxDijkstraDistance = tempDijkstraDistance.CurrentDistance;
+                        }
+                        unitsUtility.Add(pos, tempDijkstraDistance.CurrentDistance);
+                    }
+
+                    //Normalize distance utility score, add unit utility value, select position with highest utility score 
+                    foreach (KeyValuePair<Vector2Int, double> pos in unitsUtility)
+                    {
+                        //TODO: add unit utility score
+                        unitsUtility[pos.Key] = ATTACK_DISTANCE_WEIGHT 
+                            * (1 - Normalize(minDijkstraDistance, maxDijkstraDistance, pos.Value));
+
+                        //Highest utility
+                        if (unitsUtility[pos.Key] > maxAttackUtility)
+                        {
+                            attackReadyLocation = pos.Key;
                         }
                     }
                 }
@@ -106,14 +143,16 @@ namespace Assets.Scripts.ComputerOpponent
                 }
 
             } else {
-                // Unit was not able to find an attack location and will now move towards the closest enemy unit
+                // Unit was not able to find an attack location or support location
+                // Unit moves towards enemy or ally unit depending on type
 
-                // Unit has not moved to the closest enemy unit yet
-                if (!hasMoved) {
-                    //Iterate through closest enemy unit path 
+                // Unit has not moved to the closest enemy unit 
+                if (!hasMoved && !(CurrentControllingUnit.Class == "Cleric"))
+                {
+                    //Iterate through average enemy unit path 
                     //Find farthest point unit can move to 
                     var startPosition = model.GridForUnit(CurrentControllingUnit);
-                    var enemyUnitPath = GetClosestEnemyUnit().Path;
+                    var enemyUnitPath = GetAverageEnemyPosition().Path;
                     var counter = enemyUnitPath.Count - 1;
                     var movePosition = enemyUnitPath[counter];
                     var movePositions = model.GetPossibleUnitMoveLocations(CurrentControllingUnit).ToList();
@@ -126,7 +165,30 @@ namespace Assets.Scripts.ComputerOpponent
                     // Set hasMoved flag to true and return move 
                     hasMoved = true;
                     return new GameMove(startPosition, movePosition, GameMove.GameMoveType.Move);
-                } else {
+                }
+                else if(!hasMoved && (CurrentControllingUnit.Class == "Cleric"))
+                {
+                    //Iterate through average ally unit path 
+                    //Find farthest point unit can move to 
+                    var startPosition = model.GridForUnit(CurrentControllingUnit);
+                    var enemyUnitPath = GetAverageAllyPosition().Path;
+                    var counter = enemyUnitPath.Count - 1;
+                    var movePosition = enemyUnitPath[counter];
+                    var movePositions = model.GetPossibleUnitMoveLocations(CurrentControllingUnit).ToList();
+                    while (!movePositions.Contains(movePosition))
+                    {
+                        counter--;
+                        movePosition = enemyUnitPath[counter];
+                    }
+
+                    // Set hasMoved flag to true and return move 
+                    hasMoved = true;
+                    return new GameMove(startPosition, movePosition, GameMove.GameMoveType.Move);
+
+                }
+
+                if (hasMoved)
+                {
                     // Unit is done moving, so end their turn
 
                     // Reset flag to decide next move for next Unit
@@ -141,14 +203,14 @@ namespace Assets.Scripts.ComputerOpponent
         }
 
         /// <summary>
-        /// Gets the closest ally unit to a unit 
+        /// Finds the best unit to attack based on healt
         /// </summary>
         /// <param name="unit">The Unit who's being checked upon</param>
         /// <returns>
-        /// Returns closest ally unit
+        /// Returns location of the unit
         /// </returns>
 
-        public WeightedGraph.DijkstraDistance GetClosestAllyUnit(Unit unit)
+        public WeightedGraph.DijkstraDistance OptimalAttack(Unit unit)
         {
             var unitLocation = model.GridForUnit(unit);
             var allAlliesPositions = CurrentPlayer.Units
@@ -168,14 +230,46 @@ namespace Assets.Scripts.ComputerOpponent
         }
 
         /// <summary>
-        /// Gets the closest enemy unit to a unit 
+        /// Normalize a double
+        /// </summary>
+        /// <param name="unit">The Unit who's being checked upon</param>
+        /// <returns>
+        /// Returns a normalized double
+        /// </returns>
+
+        public double Normalize(double min, double max, double var)
+        {
+            return (var - min) / (max - min);
+        }
+
+        /// <summary>
+        /// Gets average position of ally units
+        /// </summary>
+        /// <param name="unit">The Unit who's being checked upon</param>
+        /// <returns>
+        /// Returns path to average position of allies
+        /// </returns>
+
+        public WeightedGraph.DijkstraDistance GetAverageAllyPosition()
+        {
+            var allAllyPositions = CurrentPlayer.Units
+                .Where(un => un.IsAlive)
+                .Select(un => model.GridForUnit(un));
+
+            var averagePoint = allAllyPositions.Average();
+            var distance = model.GetShortestPathAll(CurrentControllingUnit, model.GridForUnit(CurrentControllingUnit), averagePoint);
+            return distance;
+        }
+
+        /// <summary>
+        /// Gets average position of enemy units
         /// </summary>
         /// <param name="unit">The Unit who's being checked upon</param>
         /// <returns>
         /// Returns closest enemy unit
         /// </returns>
 
-        public WeightedGraph.DijkstraDistance GetClosestEnemyUnit()
+        public WeightedGraph.DijkstraDistance GetAverageEnemyPosition()
         {
             var allEnemyPositions = model.Players.Where(player => player != CurrentPlayer)
                 .Select(player => player.Units)
