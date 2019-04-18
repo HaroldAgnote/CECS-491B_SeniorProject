@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6827402922400584717}
   - component: {fileID: 6827402922400584707}
+  - component: {fileID: 7001750542170225751}
   m_Layer: 0
   m_Name: LandUnit
   m_TagString: Untagged
@@ -66,7 +67,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1860401071
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d0702b7ef0a95f2448096c99d47ffe76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -79,3 +80,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7001750542170225751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6827402922400584704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34a8c8d3ba74fe44867c5ac8cbfda07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

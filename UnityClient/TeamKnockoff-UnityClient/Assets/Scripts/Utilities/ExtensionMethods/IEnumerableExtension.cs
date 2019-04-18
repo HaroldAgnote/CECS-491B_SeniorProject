@@ -13,5 +13,13 @@ namespace Assets.Scripts.Utilities.ExtensionMethods {
             }
             return hashSet;
         }
+
+        public static Queue<T> ToQueue<T>(this IEnumerable<T> ts) {
+            Queue<T> queue = new Queue<T>();
+            foreach (var element in ts) {
+                queue.Enqueue(element);
+            }
+            return queue;
+        }
     }
 }

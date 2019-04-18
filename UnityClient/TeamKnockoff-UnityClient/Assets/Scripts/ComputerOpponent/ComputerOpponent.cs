@@ -82,9 +82,10 @@ namespace Assets.Scripts.ComputerOpponent
                 // CPU has not moved towards closest attack position yet
                 if (!hasMoved) {
                     var startPosition = model.GridForUnit(CurrentControllingUnit);
-                    var movePoint = model.GetShortestPathToAttack(CurrentControllingUnit, startPosition, attackReadyLocation).Last();
+                    var path = model.GetShortestPathToAttack(CurrentControllingUnit, startPosition, attackReadyLocation);
+                    var movePoint = path.Last();
                     hasMoved = true;
-                    return new GameMove(startPosition, movePoint, GameMove.GameMoveType.Move);
+                    return new GameMove(startPosition, movePoint, path);
                 } else {
                     // CPU has moved and is now ready to attack Unit at target position
                     hasDecidedMove = false;
@@ -105,9 +106,11 @@ namespace Assets.Scripts.ComputerOpponent
                     var movePositions = model.GetPossibleUnitMoveLocations(CurrentControllingUnit).ToList();
                     Vector2Int randomPosition = movePositions[RNG.Next(movePositions.Count)];
 
+                    var path = model.GetShortestPath(CurrentControllingUnit, startPosition, randomPosition);
+
                     // Set hasMoved flag to true and return move 
                     hasMoved = true;
-                    return new GameMove(model.GridForUnit(CurrentControllingUnit), randomPosition, GameMove.GameMoveType.Move);
+                    return new GameMove(model.GridForUnit(CurrentControllingUnit), randomPosition, path);
                 } else {
                     // Unit is done moving, so end their turn
 

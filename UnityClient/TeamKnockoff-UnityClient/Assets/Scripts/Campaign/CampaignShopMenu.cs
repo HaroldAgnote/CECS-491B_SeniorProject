@@ -8,16 +8,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Assets.Scripts.Application;
-using Assets.Scripts.Model.Units;
+using Assets.Scripts.Model.Items;
 using Assets.Scripts.Model.Weapons;
-using UnityEditor.Profiling.Memory.Experimental;
+using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Campaign {
     public class CampaignShopMenu : MonoBehaviour {
 
         public GameObject equipmentButtonPrefab;
         public GameObject unitEquipmentMenuPrefab;
-        public GameObject unitSkillPrefab;
+        public GameObject unitSubItemPrefab;
 
         public Button backButton;
         public Button buyMenuButton;
@@ -50,6 +50,7 @@ namespace Assets.Scripts.Campaign {
         public TextMeshProUGUI selectedUnitWeaponHitRate;
         public TextMeshProUGUI selectedUnitWeaponCritRate;
 
+        public GameObject selectedWeaponInformation;
         public TextMeshProUGUI selectedWeaponName;
         public TextMeshProUGUI selectedWeaponType;
         public TextMeshProUGUI selectedWeaponPrice;
@@ -62,19 +63,29 @@ namespace Assets.Scripts.Campaign {
         public TextMeshProUGUI selectedWeaponCritRate;
         public TextMeshProUGUI selectedWeaponDescription;
 
-        public GameObject availableUnitsContent;
-        public GameObject availableWeaponsContent;
-        public GameObject selectedUnitSkillsContent;
+        public GameObject selectedItemInformation;
+        public TextMeshProUGUI selectedItemName;
+        public TextMeshProUGUI selectedItemPrice;
+        public TextMeshProUGUI selectedItemInventory;
+        public TextMeshProUGUI selectedItemDescription;
 
-        private List<GameObject> availableWeaponObjects;
+        public GameObject availableUnitsContent;
+        public GameObject availableMerchandiseContent;
+        public GameObject selectedUnitSkillsContent;
+        public GameObject selectedUnitItemsContent;
+
+        private List<GameObject> availableMerchandiseObjects;
         private List<GameObject> availableUnitObjects;
         private List<GameObject> unitSkillObjects;
+        private List<GameObject> unitItemObjects;
 
         private GameObject selectedUnitGameObject;
-        private GameObject selectedWeaponGameObject;
+        private GameObject selectedMerchObject;
+        private GameObject selectedItemGameObject;
 
         private Unit selectedUnit;
         private Weapon selectedWeapon;
+        private Item selectedItem;
 
         private bool isBuying;
         private bool isSelling;
@@ -83,9 +94,10 @@ namespace Assets.Scripts.Campaign {
         private Color UNSELECTED_COLOR = Color.white;
 
         void Start() {
-            availableWeaponObjects = new List<GameObject>();
+            availableMerchandiseObjects = new List<GameObject>();
             availableUnitObjects = new List<GameObject>();
             unitSkillObjects = new List<GameObject>();
+            unitItemObjects = new List<GameObject>();
 
             playerLabel.text = CampaignManager.instance.CampaignPlayerData.Name;
 
@@ -97,9 +109,9 @@ namespace Assets.Scripts.Campaign {
             backButton.onClick.AddListener(GoBack);
         }
 
-        private Button CreateWeaponButton(string weaponName) {
-            var buttonObject = Instantiate(equipmentButtonPrefab, availableWeaponsContent.transform);
-            availableWeaponObjects.Add(buttonObject);
+        private Button CreateMerchSlotButton(string weaponName) {
+            var buttonObject = Instantiate(equipmentButtonPrefab, availableMerchandiseContent.transform);
+            availableMerchandiseObjects.Add(buttonObject);
             var buttonLabel = buttonObject.GetComponentInChildren<TextMeshProUGUI>();
             buttonLabel.text = weaponName.ToUpper();
 
@@ -136,74 +148,138 @@ namespace Assets.Scripts.Campaign {
         }
 
         private void SwitchToBuyingMenu() {
-            foreach (var availableWeaponObject in availableWeaponObjects) {
+            foreach (var availableWeaponObject in availableMerchandiseObjects) {
                 Destroy(availableWeaponObject);
             }
-            availableWeaponObjects = new List<GameObject>();
+            availableMerchandiseObjects = new List<GameObject>();
 
             isBuying = true;
             isSelling = false;
             var actionButtonLabel = actionButton.GetComponentInChildren<TextMeshProUGUI>();
             actionButtonLabel.text = "Buy";
 
-            var weaponBank = WeaponFactory.instance.WeaponBank.Where(weapon => weapon != Weapon.FISTS);
-            foreach (var weapon in weaponBank) {
-                var weaponNamePrice = $"{weapon.Name} - {weapon.BuyingPrice}";
-                var button = CreateWeaponButton(weaponNamePrice);
-                button.onClick.AddListener(() => {
-                    if (selectedWeaponGameObject != null) {
-                        var selectedButton = selectedWeaponGameObject.GetComponent<Image>();
-                        selectedButton.color = UNSELECTED_COLOR;
-                    }
+            for (int rarity = 1; rarity <= 3; rarity++) {
+                var itemBank = ItemFactory.instance.ItemBank.Where(item => item.IsBuyable && item.ItemRarity == rarity);
+                foreach (var item in itemBank) {
+                    var itemNamePrice = $"{item.ItemName} - {item.BuyingPrice}";
+                    var button = CreateMerchSlotButton(itemNamePrice);
+                    button.onClick.AddListener(() => {
+                        if (selectedMerchObject != null) {
+                            var selectedButton = selectedMerchObject.GetComponent<Image>();
+                            selectedButton.color = UNSELECTED_COLOR;
+                        }
 
-                    selectedWeaponGameObject = button.gameObject;
-                    var buttonImage = selectedWeaponGameObject.GetComponent<Image>();
-                    buttonImage.color = SELECTED_COLOR;
+                        selectedMerchObject = button.gameObject;
+                        var buttonImage = selectedMerchObject.GetComponent<Image>();
+                        buttonImage.color = SELECTED_COLOR;
 
-                    selectedWeapon = weapon;
-                    UpdateWeaponInformation(weapon);
-                    UpdateUnitButtons();
-                    if (PlayerCanBuy(weapon)) {
-                        actionButton.interactable = true;
-                    }
-                });
+                        selectedWeapon = null;
+                        selectedItem = item;
+                        UpdateItemInformation(item);
+                        UpdateUnitButtons();
+                        if (PlayerCanBuyItem(item)) {
+                            actionButton.interactable = true;
+                        }
+                    });
+                }
+
+
+                var weaponBank = WeaponFactory.instance.WeaponBank.Where(weapon => weapon != Weapon.FISTS
+                                                                                   && weapon.IsBuyable
+                                                                                   && weapon.Rarity == rarity);
+
+                foreach (var weapon in weaponBank) {
+                    var weaponNamePrice = $"{weapon.Name} - {weapon.BuyingPrice}";
+                    var button = CreateMerchSlotButton(weaponNamePrice);
+                    button.onClick.AddListener(() => {
+                        if (selectedMerchObject != null) {
+                            var selectedButton = selectedMerchObject.GetComponent<Image>();
+                            selectedButton.color = UNSELECTED_COLOR;
+                        }
+
+                        selectedMerchObject = button.gameObject;
+                        var buttonImage = selectedMerchObject.GetComponent<Image>();
+                        buttonImage.color = SELECTED_COLOR;
+
+                        selectedItem = null;
+                        selectedWeapon = weapon;
+                        UpdateWeaponInformation(weapon);
+                        UpdateUnitButtons();
+                        if (PlayerCanBuyWeapon(weapon)) {
+                            actionButton.interactable = true;
+                        }
+                    });
+                }
             }
+
         }
 
-        private bool PlayerCanBuy(Weapon weapon) {
+        private bool PlayerCanBuyItem(Item item) {
+            return CampaignManager.instance.CampaignPlayerData.Money >= item.BuyingPrice;
+        }
+
+        private bool PlayerCanBuyWeapon(Weapon weapon) {
             return CampaignManager.instance.CampaignPlayerData.Money >= weapon.BuyingPrice;
         }
 
         private void SwitchToSellingMenu() {
-            foreach (var availableWeaponObject in availableWeaponObjects) {
+            foreach (var availableWeaponObject in availableMerchandiseObjects) {
                 Destroy(availableWeaponObject);
             }
 
-            availableWeaponObjects = new List<GameObject>();
+            availableMerchandiseObjects = new List<GameObject>();
             isBuying = false;
             isSelling = true;
             var actionButtonLabel = actionButton.GetComponentInChildren<TextMeshProUGUI>();
             actionButtonLabel.text = "Sell";
 
-            var inventory = new List<Weapon>();
-            inventory.AddRange(CampaignManager.instance.CampaignPlayerData.Weapons);
-            inventory.AddRange(CampaignManager.instance.CampaignPlayerData.CampaignUnits
-                .Where(unit => unit.MainWeapon.IsSellable)
-                .Select(unit => unit.MainWeapon).ToList());
+            var itemInventory = new List<Item>();
+            itemInventory.AddRange(CampaignManager.instance.CampaignPlayerData.Items);
+            itemInventory.AddRange(CampaignManager.instance.CampaignPlayerData.CampaignUnits
+                .SelectMany(unit => unit.Items)
+                .Where(item => item.IsSellable).ToList());
 
-            foreach (var weapon in inventory) {
-                var weaponNamePrice = $"{weapon.Name} - {weapon.SellingPrice}";
-                var button = CreateWeaponButton(weaponNamePrice);
+            foreach (var item in itemInventory) {
+                var itemNamePrice = $"{item.ItemName} - {item.SellingPrice}";
+                var button = CreateMerchSlotButton(itemNamePrice);
                 button.onClick.AddListener(() => {
-                    if (selectedWeaponGameObject != null) {
-                        var selectedButton = selectedWeaponGameObject.GetComponent<Image>();
+                    if (selectedMerchObject != null) {
+                        var selectedButton = selectedMerchObject.GetComponent<Image>();
                         selectedButton.color = UNSELECTED_COLOR;
                     }
 
-                    selectedWeaponGameObject = button.gameObject;
-                    var buttonImage = selectedWeaponGameObject.GetComponent<Image>();
+                    selectedMerchObject = button.gameObject;
+                    var buttonImage = selectedMerchObject.GetComponent<Image>();
                     buttonImage.color = SELECTED_COLOR;
 
+                    selectedWeapon = null;
+                    selectedItem = item;
+                    UpdateItemInformation(item);
+                    UpdateUnitButtons();
+                    actionButton.interactable = true;
+                });
+            }
+
+            var weaponInventory = new List<Weapon>();
+            weaponInventory.AddRange(CampaignManager.instance.CampaignPlayerData.Weapons);
+            weaponInventory.AddRange(CampaignManager.instance.CampaignPlayerData.CampaignUnits
+                .Where(unit => unit.MainWeapon.IsSellable)
+                .Select(unit => unit.MainWeapon).ToList());
+
+            foreach (var weapon in weaponInventory) {
+                var weaponNamePrice = $"{weapon.Name} - {weapon.SellingPrice}";
+                var button = CreateMerchSlotButton(weaponNamePrice);
+                button.onClick.AddListener(() => {
+                    if (selectedMerchObject != null) {
+                        var selectedButton = selectedMerchObject.GetComponent<Image>();
+                        selectedButton.color = UNSELECTED_COLOR;
+                    }
+
+                    selectedMerchObject = button.gameObject;
+                    var buttonImage = selectedMerchObject.GetComponent<Image>();
+                    buttonImage.color = SELECTED_COLOR;
+
+                    selectedItem = null;
                     selectedWeapon = weapon;
                     UpdateWeaponInformation(weapon);
                     UpdateUnitButtons();
@@ -214,28 +290,73 @@ namespace Assets.Scripts.Campaign {
 
         private void ActionButton() {
             if (isBuying) {
-                BuyItem();
+                if (selectedItem != null) {
+                    BuyItem();
+                    UpdateItemInformation(selectedItem);
+                    if (!PlayerCanBuyItem(selectedItem)) {
+                        selectedItem = null;
+                        actionButton.interactable = false;
+                    }
+                } else if (selectedWeapon != null) {
+                    BuyWeapon();
+                    UpdateWeaponInformation(selectedWeapon);
+                    if (!PlayerCanBuyWeapon(selectedWeapon)) {
+                        selectedWeapon = null;
+                        actionButton.interactable = false;
+                    }
+                }
             } else if (isSelling) {
-                SellItem();
+                if (selectedItem != null) {
+                    SellItem();
+                    UpdateItemInformation(selectedItem);
+                } else if (selectedWeapon != null) {
+                    SellWeapon();
+                    UpdateWeaponInformation(selectedWeapon);
+                }
+
+                selectedWeapon = null;
+                selectedItem = null;
+                actionButton.interactable = false;
+
                 SwitchToSellingMenu();
             }
             UpdateMoney();
-            UpdateWeaponInformation(selectedWeapon);
-            selectedWeapon = null;
-            actionButton.interactable = false;
         }
 
         private void BuyItem() {
+            var boughtItem = selectedItem;
+            CampaignManager.instance.CampaignPlayerData.Items.Add(boughtItem);
+            CampaignManager.instance.CampaignPlayerData.Money -= boughtItem.BuyingPrice;
+        }
+
+        private void SellItem() {
+            var soldItem = selectedItem;
+            var equippedUnit =
+                CampaignManager.instance.CampaignPlayerData.CampaignUnits
+                .SingleOrDefault(
+                    unit => unit.Items.Any(
+                        item => System.Object.ReferenceEquals(item, soldItem)));
+
+            if (equippedUnit != null) {
+                equippedUnit.Items.Remove(soldItem);
+            }
+
+            CampaignManager.instance.CampaignPlayerData.Items.Remove(soldItem);
+            CampaignManager.instance.CampaignPlayerData.Money += soldItem.SellingPrice;
+        }
+
+        private void BuyWeapon() {
             var boughtWeapon = selectedWeapon;
             CampaignManager.instance.CampaignPlayerData.Weapons.Add(boughtWeapon);
             CampaignManager.instance.CampaignPlayerData.Money -= boughtWeapon.BuyingPrice;
         }
 
-        private void SellItem() {
+        private void SellWeapon() {
             var soldWeapon = selectedWeapon;
             var equippedUnit =
-                CampaignManager.instance.CampaignPlayerData.CampaignUnits.SingleOrDefault(unit =>
-                    unit.MainWeapon == soldWeapon);
+                CampaignManager.instance.CampaignPlayerData.CampaignUnits
+                .SingleOrDefault(
+                    unit => System.Object.ReferenceEquals(unit.MainWeapon, soldWeapon));
 
             if (equippedUnit != null) {
                 equippedUnit.UnequipWeapon();
@@ -258,12 +379,19 @@ namespace Assets.Scripts.Campaign {
 
             selectedUnit = null;
 
-            var possibleUnits =
-                CampaignManager.instance.CampaignPlayerData.CampaignUnits.Where(unit => unit.CanUse(selectedWeapon));
+            var possibleUnits = CampaignManager.instance.CampaignPlayerData.CampaignUnits;
+
+            if (selectedItem == null && selectedWeapon != null) {
+                possibleUnits = possibleUnits.Where(unit => unit.CanUse(selectedWeapon)).ToList();
+            }
 
             foreach (var possibleUnit in possibleUnits) {
-
-                var equipped = possibleUnit.MainWeapon == selectedWeapon;
+                bool equipped = false;
+                if (selectedWeapon != null) {
+                    equipped = System.Object.Equals(possibleUnit.MainWeapon, selectedWeapon);
+                } else if (selectedItem != null) {
+                    equipped = possibleUnit.Items.Any(item => System.Object.ReferenceEquals(item, selectedItem));
+                }
 
                 var button = CreateUnitButton(possibleUnit, equipped);
                 button.onClick.AddListener(() => {
@@ -281,7 +409,29 @@ namespace Assets.Scripts.Campaign {
             }
         }
 
+        private void UpdateItemInformation(Item item) {
+            selectedWeaponInformation.SetActive(false);
+            selectedItemInformation.SetActive(true);
+
+            selectedItemName.text = item.ItemName;
+            if (isBuying) {
+                selectedItemPrice.text = $"{item.BuyingPrice}";
+            } else if (isSelling) {
+                selectedItemPrice.text = $"{item.SellingPrice}";
+            }
+
+            int count = CampaignManager.instance.CampaignPlayerData.Items.Count(it => it.Equals(item));
+            count += CampaignManager.instance.CampaignPlayerData.CampaignUnits
+                .SelectMany(unit => unit.Items)
+                .Count(it => it.Equals(item));
+
+            selectedItemInventory.text = $"{count}";
+
+        }
+
         private void UpdateWeaponInformation(Weapon weapon) {
+            selectedItemInformation.SetActive(false);
+            selectedWeaponInformation.SetActive(true);
             selectedWeaponName.text = weapon.Name;
             if (isBuying) {
                 selectedWeaponPrice.text = $"{weapon.BuyingPrice}";
@@ -339,10 +489,24 @@ namespace Assets.Scripts.Campaign {
             var unitSkills = unit.Skills;
 
             foreach (var skill in unitSkills) {
-                var skillObject = Instantiate(unitSkillPrefab, selectedUnitSkillsContent.transform);
+                var skillObject = Instantiate(unitSubItemPrefab, selectedUnitSkillsContent.transform);
                 unitSkillObjects.Add(skillObject);
                 var skillLabel = skillObject.GetComponentInChildren<TextMeshProUGUI>();
                 skillLabel.text = skill.SkillName;
+            }
+
+            foreach (var itemObject in unitItemObjects) {
+                Destroy(itemObject);
+            }
+
+            unitItemObjects = new List<GameObject>();
+            var unitItems = unit.Items;
+
+            foreach (var item in unitItems) {
+                var itemObject = Instantiate(unitSubItemPrefab, selectedUnitItemsContent.transform);
+                unitItemObjects.Add(itemObject);
+                var itemLabel = itemObject.GetComponentInChildren<TextMeshProUGUI>();
+                itemLabel.text = item.ItemName;
             }
         }
 

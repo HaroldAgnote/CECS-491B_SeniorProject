@@ -7,10 +7,16 @@ using Assets.Scripts.Application;
 namespace Assets.Scripts.View {
     public class CameraController : MonoBehaviour
     {
-        private bool locked;
+        private bool moveLocked;
+        private bool zoomLocked;
 
         public float offset;
         public float speed;
+        public float zoomSpeed;
+        public float targetOrtho;
+        public float smoothSpeed = 2.0f;
+        public float minOrtho = 1.0f;
+        public float maxOrtho = 20.0f;
 
         //x - min y - max
         public Vector2 minMaxXPosition;
@@ -22,31 +28,43 @@ namespace Assets.Scripts.View {
 
         // Use this for initialization
         void Start() {
-            locked = false;
+            moveLocked = false;
+            zoomLocked = false;
             screenWidth = Screen.width;
             screenHeight = Screen.height;
+
+            targetOrtho = Camera.main.orthographicSize;
 
             cameraMove.x = transform.position.x;
             cameraMove.y = transform.position.y;
             cameraMove.z = transform.position.z;
         }
 
-        public void LockCamera() {
-            locked = true;
+        public void LockMoveCamera() {
+            moveLocked = true;
         }
 
-        public void UnlockCamera() {
-            locked = false;
+        public void UnlockMoveCamera() {
+            moveLocked = false;
+        }
+
+        public void LockZoomCamera() {
+            zoomLocked = true;
+        }
+
+        public void UnlockZoomCamera() {
+            zoomLocked = false;
         }
 
         // Update is called once per frame
         void Update() {
-            if (!locked) {
+            if (!moveLocked) {
                 if (Input.GetKeyDown(KeyCode.LeftShift)) {
                     speed *= 2;
                 } else if (Input.GetKeyUp(KeyCode.LeftShift)) {
                     speed /= 2;
                 }
+                /*
                 //Move camera
                 if ((Input.mousePosition.x > screenWidth - offset) && transform.position.x < minMaxXPosition.y) {
                     cameraMove.x += MoveSpeed();
@@ -63,8 +81,34 @@ namespace Assets.Scripts.View {
                 if ((Input.mousePosition.y < offset) && transform.position.y > minMaxYPosition.x) {
                     cameraMove.y -= MoveSpeed();
                 }
+                */
+                //Move camera with WASD
+                if ((Input.GetKey(KeyCode.D))) {
+                    cameraMove.x += MoveSpeed();
+                }
+
+                if ((Input.GetKey(KeyCode.A))) {
+                    cameraMove.x -= MoveSpeed();
+                }
+
+                if ((Input.GetKey(KeyCode.W))) {
+                    cameraMove.y += MoveSpeed();
+                }
+
+                if ((Input.GetKey(KeyCode.S))) {
+                    cameraMove.y -= MoveSpeed();
+                }
 
                 transform.position = cameraMove;
+            }
+
+            if (!zoomLocked) {
+                float scroll = Input.GetAxis("Mouse ScrollWheel");
+                if (scroll != 0.0f) {
+                    targetOrtho -= scroll * zoomSpeed;
+                    targetOrtho = Mathf.Clamp(targetOrtho, minOrtho, maxOrtho);
+                }
+                Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
             }
         }
 

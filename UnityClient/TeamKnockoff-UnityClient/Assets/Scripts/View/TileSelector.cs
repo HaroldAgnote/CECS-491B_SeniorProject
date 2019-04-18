@@ -138,7 +138,7 @@ namespace Assets.Scripts.View {
             Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
 
-            if (hit) {
+            if (!gameView.IsUpdating && hit) {
                 // Don't do anything if hovering over UI element
                 if (!EventSystem.current.IsPointerOverGameObject()) {
                     Vector3 point = hit.collider.gameObject.transform.position;
@@ -166,6 +166,8 @@ namespace Assets.Scripts.View {
                             if (gameViewModel.SelectedUnitBelongsToPlayer 
                                 && !selectedUnit.HasMoved 
                                 && gameViewModel.IsControllingPlayersTurn) {
+
+                                gameViewModel.SelectedUnit = selectedUnit;
 
                                 ExitState();
                             }

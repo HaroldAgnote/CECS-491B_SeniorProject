@@ -12,10 +12,11 @@ namespace Assets.Scripts.Model.Items
         private const int RANGE = 1;
         private const int HEAL_VALUE = 30;
 
-        public Potion() : base(ITEM_NAME)
-        {
+        private const int RARITY = 1;
+        private const int BUY_PRICE = 100;
+        private const int SELL_PRICE = 50;
 
-        }
+        public Potion() : base(ITEM_NAME, RARITY, BUY_PRICE, SELL_PRICE) { }
 
         public bool CanUse(Unit unit)
         {

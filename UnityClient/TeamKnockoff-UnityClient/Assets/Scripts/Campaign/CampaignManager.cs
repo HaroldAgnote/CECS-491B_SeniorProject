@@ -264,9 +264,7 @@ namespace Assets.Scripts.Campaign {
             data.PlayerData = CampaignPlayerData;
             data.UnitWrapperData = CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
             data.WeaponWrapperData = CampaignPlayerData.Weapons.Select(weapon => new WeaponWrapper(weapon)).ToList();
-            // TODO: Sebastian
-            // Don't forget to create the ItemWrapperData when saving!
-            // See above for reference!
+            data.ItemWrapperData = CampaignPlayerData.Items.Select(item => new ItemWrapper(item)).ToList();
 
             CampaignDataFileHandler.SaveCampaignData(data);
 

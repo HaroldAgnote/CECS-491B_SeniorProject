@@ -189,6 +189,7 @@ namespace Assets.Scripts.Application {
                     } else if (singleplayerGameType == SingleplayerGameType.Campaign) {
                         if (playerNum == 1) {
                             newPlayer = CampaignManager.instance.CampaignPlayerData;
+                            newPlayer.Units.Clear();
                         } else {
                             newPlayer = new Player($"Player {playerNum}", playerNum);
                         }
@@ -318,6 +319,8 @@ namespace Assets.Scripts.Application {
         public GameMove GetOtherPlayerMove() {
             while (true) {
 
+                while (view.IsUpdating) { }
+
                 // Call and return AI Best Move
                 if (gameType == GameType.Singleplayer) {
                     Debug.Log("Getting CPU Move");
@@ -356,7 +359,6 @@ namespace Assets.Scripts.Application {
                         var campaignUnits = CampaignManager.instance.CampaignPlayerData.CampaignUnits;
                         var newUnits = ControllingPlayer.Units.Where(unit => !campaignUnits.Contains(unit));
                         CampaignManager.instance.CampaignPlayerData.CampaignUnits.AddRange(newUnits);
-                        CampaignManager.instance.CampaignPlayerData.CampaignUnits[0].Items.Add(new Potion());
                         CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance
                             .CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
 

@@ -28,6 +28,16 @@ namespace Assets.Scripts.Model.Units {
         const string CLASS_NAME = "Archer";
         const string DEFAULT_WEAPON = "Iron Bow";
 
+        #region Growth Rates
+        const int GROWTH_HEALTH = 80;
+        const int GROWTH_STRENGTH = 55;
+        const int GROWTH_MAGIC = 30;
+        const int GROWTH_DEFENCE = 35;
+        const int GROWTH_RESISTANCE = 30;
+        const int GROWTH_SPEED = 60;
+        const int GROWTH_SKILL = 70;
+        const int GROWTH_LUCK = 40;
+        #endregion  
         // TODO: Set up constants for growth rate
 
         public static Archer CreateArcher() {
@@ -58,6 +68,7 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_LUCK, 
                   MOVEMENT_RANGE) {
 
+            InitGrowthRates();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
 
@@ -75,8 +86,9 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_SPEED, 
                   INITIAL_SKILL, 
                   INITIAL_LUCK, 
-                  MOVEMENT_RANGE) { 
+                  MOVEMENT_RANGE) {
 
+            InitGrowthRates();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
 
             EquipWeapon(defaultWeapon);
@@ -84,7 +96,9 @@ namespace Assets.Scripts.Model.Units {
             LearnSkill(new MediumSpeedBoost());
         }
 
-        public Archer(UnitWrapper wrapper) : base(wrapper) { }
+        public Archer(UnitWrapper wrapper) : base(wrapper) {
+            InitGrowthRates();
+        }
 
         public override bool CanUse(Weapon weapon) {
             var weaponType = weapon.WeapType;
@@ -106,5 +120,15 @@ namespace Assets.Scripts.Model.Units {
             }
         }
 
+        public void InitGrowthRates() {
+            mHealthGrowthRate = GROWTH_HEALTH;
+            mStrenthGrowthRate = GROWTH_STRENGTH;
+            mMagicGrowthRate = GROWTH_MAGIC;
+            mDefenseGrowthRate = GROWTH_DEFENCE;
+            mResistanceGrowthRate = GROWTH_RESISTANCE;
+            mSpeedGrowthRate = GROWTH_SPEED;
+            mSkillGrowthRate = GROWTH_SKILL;
+            mLuckGrowthRate = GROWTH_LUCK;
+        }
     }
 }

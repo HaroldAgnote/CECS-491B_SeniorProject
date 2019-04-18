@@ -28,7 +28,16 @@ namespace Assets.Scripts.Model.Units {
         const string CLASS_NAME = "Cavalier";
         private const string DEFAULT_WEAPON = "Iron Spear";
 
-        // TODO: Add growth rate constants
+        #region Growth Rates
+        const int GROWTH_HEALTH = 95;
+        const int GROWTH_STRENGTH = 65;
+        const int GROWTH_MAGIC = 10;
+        const int GROWTH_DEFENCE = 60;
+        const int GROWTH_RESISTANCE = 15;
+        const int GROWTH_SPEED = 50;
+        const int GROWTH_SKILL = 55;
+        const int GROWTH_LUCK = 50;
+        #endregion 
 
         public static Cavalier CreateCavalier() {
             return new Cavalier();
@@ -56,8 +65,9 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_SPEED, 
                   INITIAL_SKILL, 
                   INITIAL_LUCK, 
-                  MOVEMENT_RANGE) { 
+                  MOVEMENT_RANGE) {
 
+            InitGrowthRates();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
         }
@@ -72,13 +82,16 @@ namespace Assets.Scripts.Model.Units {
                   INITIAL_SPEED, 
                   INITIAL_SKILL, 
                   INITIAL_LUCK, 
-                  MOVEMENT_RANGE) { 
+                  MOVEMENT_RANGE) {
 
+            InitGrowthRates();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
         }
 
-        public Cavalier(UnitWrapper unitWrapper) : base(unitWrapper) { }
+        public Cavalier(UnitWrapper unitWrapper) : base(unitWrapper) {
+            InitGrowthRates();
+        }
 
         public override bool CanUse(Weapon weapon) {
             var weaponType = weapon.WeapType;
@@ -99,6 +112,15 @@ namespace Assets.Scripts.Model.Units {
                     return false;
             }
         }
-
+        public void InitGrowthRates() {
+            mHealthGrowthRate = GROWTH_HEALTH;
+            mStrenthGrowthRate = GROWTH_STRENGTH;
+            mMagicGrowthRate = GROWTH_MAGIC;
+            mDefenseGrowthRate = GROWTH_DEFENCE;
+            mResistanceGrowthRate = GROWTH_RESISTANCE;
+            mSpeedGrowthRate = GROWTH_SPEED;
+            mSkillGrowthRate = GROWTH_SKILL;
+            mLuckGrowthRate = GROWTH_LUCK;
+        }
     }
 }
