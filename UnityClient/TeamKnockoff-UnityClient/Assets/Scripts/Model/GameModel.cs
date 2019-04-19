@@ -918,9 +918,11 @@ namespace Assets.Scripts.Model {
 
             foreach (var consumableItem in consumableItems)
             {
-                var itemLocations = new HashSet<Vector2Int>();
-                itemLocations.AddRange(GetUnitItemLocations(unit, consumableItem));
-                itemToLocations.Add(consumableItem, itemLocations);
+                if (!itemToLocations.Keys.Contains(consumableItem)) {
+                    var itemLocations = new HashSet<Vector2Int>();
+                    itemLocations.AddRange(GetUnitItemLocations(unit, consumableItem));
+                    itemToLocations.Add(consumableItem, itemLocations);
+                }
             }
 
             return itemToLocations;
@@ -964,11 +966,12 @@ namespace Assets.Scripts.Model {
                                     .Where(it => it is ConsumableItem)
                                     .Select(it => it as ConsumableItem);
 
-            foreach (var consumableItem in consumableItems)
-            {
-                var itemLocations = new HashSet<Vector2Int>();
-                itemLocations.AddRange(GetPossibleUnitItemLocations(unit, consumableItem));
-                itemToLocations.Add(consumableItem, itemLocations);
+            foreach (var consumableItem in consumableItems) {
+                if (!itemToLocations.Keys.Contains(consumableItem)) {
+                    var itemLocations = new HashSet<Vector2Int>();
+                    itemLocations.AddRange(GetPossibleUnitItemLocations(unit, consumableItem));
+                    itemToLocations.Add(consumableItem, itemLocations);
+                }
             }
 
             return itemToLocations;
@@ -1002,7 +1005,7 @@ namespace Assets.Scripts.Model {
         {
             if (targetUnit != null && usingUnit == targetUnit)
             {
-                return (item as ISelfConsumable).CanUse(usingUnit) && (item as ITargetConsumable).CanUseOn(usingUnit, targetUnit);
+                return (item as ISelfConsumable).CanUse(usingUnit);
             }
 
             return targetUnit != null && (item as ITargetConsumable).CanUseOn(usingUnit, targetUnit);
@@ -1206,14 +1209,16 @@ namespace Assets.Scripts.Model {
 
             var usingUnit = GetUnitAtPosition(move.StartPosition);
             
-            if (item is ITargetConsumable)
+            if (item is ITargetConsumable && move.StartPosition != move.EndPosition)
             {
                 ApplyItemToTarget(move);
             }
-            else if (item is ISelfConsumable)
+            else if (item is ISelfConsumable && move.StartPosition == move.EndPosition)
             {
                 ApplyItemToSelf(move);
             }
+
+            usingUnit.UnequipItem(item);
 
             usingUnit.HasMoved = true;
         }

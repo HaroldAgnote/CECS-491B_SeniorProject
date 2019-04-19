@@ -721,6 +721,12 @@ namespace Assets.Scripts.View {
                     Destroy(highlight);
                 }
 
+                moveLocations = new List<Vector2Int>();
+
+                skillsToLocations = new Dictionary<ActiveSkill, HashSet<Vector2Int>>();
+
+                itemToLocations = new Dictionary<ConsumableItem, HashSet<Vector2Int>>();
+
                 // Create new attack highlighters on surrounding attack positions
                 attackLocationHighlights = new List<GameObject>();
 
@@ -849,6 +855,7 @@ namespace Assets.Scripts.View {
                     Destroy(highlight);
                 }
 
+                moveLocations = new List<Vector2Int>();
 
                 // Create new attack highlighters on surrounding attack positions based on skill range
                 attackLocationHighlights = new List<GameObject>();
@@ -897,6 +904,12 @@ namespace Assets.Scripts.View {
                 foreach (var highlight in allyLocationHighlights) {
                     Destroy(highlight);
                 }
+
+                moveLocations = new List<Vector2Int>();
+
+                attackLocations = new List<Vector2Int>();
+
+                itemToLocations = new Dictionary<ConsumableItem, HashSet<Vector2Int>>();
 
                 // Create new support highlighters on surrounding attack positions based on skill range
                 allyLocationHighlights = new List<GameObject>();
@@ -1038,30 +1051,57 @@ namespace Assets.Scripts.View {
 
                 allyLocationHighlights = new List<GameObject>();
 
-                currentItemLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedItem as ITargetConsumable).GetRange());
+                moveLocations = new List<Vector2Int>();
 
-                foreach (Vector2Int loc in currentItemLocations)
-                {
+                attackLocations = new List<Vector2Int>();
+
+                skillsToLocations = new Dictionary<ActiveSkill, HashSet<Vector2Int>>();
+                
+                currentItemLocations = new List<Vector2Int>();
+
+                if (selectedItem is ISelfConsumable) {
+                    var selfPosition = new List<Vector2Int>() {
+                        movedPoint,
+                    };
+                    currentItemLocations = currentItemLocations.Union(selfPosition);
+                }
+
+                if (selectedItem is ITargetConsumable) {
+                    var targetPositions = gameViewModel
+                        .GetSurroundingLocationsAtPoint(movedPoint, (selectedItem as ITargetConsumable).GetRange())
+                        .ToList();
+                    currentItemLocations = currentItemLocations.Union(targetPositions);
+                }
+
+                foreach (Vector2Int loc in currentItemLocations) {
                     GameObject highlight;
                     var point = new Vector3Int(loc.x, loc.y, 0);
                     highlight = Instantiate(allyLocationPrefab, point, Quaternion.identity, gameObject.transform);
                     allyLocationHighlights.Add(highlight);
                 }
 
-                currentItemLocations = currentItemLocations
-                                            .Where(pos =>
-                                                gameViewModel.ItemUsableOnTarget(selectedItem, pos));
-            }
-            else
-            {
+                if (selectedItem is ITargetConsumable) {
+                    currentItemLocations = currentItemLocations
+                                                .Where(pos => gameViewModel.ItemUsableOnTarget(selectedItem, pos));
+                }
+
+                if (selectedItem is ISelfConsumable) {
+                    var selfPosition = new List<Vector2Int>() {
+                        movedPoint,
+                    };
+                    currentItemLocations = currentItemLocations.Union(selfPosition);
+                }
+
+                var copy = currentItemLocations.ToList();
+
+            } else {
                 ApplyItemMove();
             }
         }
-        //
+
         private void CheckItemPositionClick(Vector2Int cursorPosition)
         {
-            if (gameViewModel.AllyAtPoint(cursorPosition))
-            {
+            if (gameViewModel.AllyAtPoint(cursorPosition)) {
                 if((!waitingForMove && !waitingForItemChoice && !waitingForItemMove) ||
                     (waitingForMove && itemPoint != NULL_VECTOR && itemPoint != cursorPosition))
                 {
@@ -1079,20 +1119,23 @@ namespace Assets.Scripts.View {
                     }
                     SetupMainUnitMenu();
                     WaitForChoice();
-                }
-                else
-                {
-                    if (waitingForItemChoice)
-                    {
+                } else {
+                    if (waitingForItemChoice) {
                         ItemMenu();
                     }
-                    if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition))
-                    {
-                        if (waitingForItemMove)
-                        {
+
+                    if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition)) {
+                        if (waitingForItemMove) {
                             itemPoint = cursorPosition;
                             ApplyItemMove();
                         }
+                    }
+                }
+            } else if (selectedItem is ISelfConsumable) {
+                if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition)) {
+                    if (waitingForItemMove) {
+                        itemPoint = cursorPosition;
+                        ApplyItemMove();
                     }
                 }
             }
