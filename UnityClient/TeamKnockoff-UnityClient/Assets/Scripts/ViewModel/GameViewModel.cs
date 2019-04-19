@@ -607,10 +607,12 @@ namespace Assets.Scripts.ViewModel {
                 mGameSquares[i].Unit = model.GetUnitAtPosition(pos);
                 i++;
             }
-
             CurrentPlayer = model.CurrentPlayer;
             CurrentTurn = model.Turn;
             IsGameOver = model.GameHasEnded;
+
+            OnPropertyChanged(nameof(Squares));
+
         }
 
         public void PauseGame() {

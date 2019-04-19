@@ -272,6 +272,8 @@ namespace Assets.Scripts.View {
         /// </summary>
         public void EnterState() {
 
+            gameView.mEndTurnButton.interactable = false;
+
             this.enabled = true;
 
             // Initialize view model properties in Action State
@@ -508,7 +510,6 @@ namespace Assets.Scripts.View {
                 SetupMainUnitMenu();
                 WaitForChoice();
             } else {
-
                 // Player double clicked position, so just Move and Wait
                 if (cursorPosition == movedPoint) {
                     ApplyWaitMove();
@@ -712,6 +713,8 @@ namespace Assets.Scripts.View {
                 waitingForSkillMove = false;
                 gameViewModel.CombatMode = true;
 
+                unitMenu.SetActive(false);
+
                 // Destroy move and attack highlighters only
                 foreach (GameObject highlight in moveLocationHighlights) {
                     Destroy(highlight);
@@ -769,6 +772,10 @@ namespace Assets.Scripts.View {
         private void SkillMenu() {
             unitMenu.CreateSubMenu();
             unitMenu.SwitchtoSubMenu();
+
+            unitMenu.mBackButton.onClick.AddListener(() => {
+                waitingForSkillChoice = false;
+            });
 
             waitingForMove = true;
             waitingForSkillChoice = true;
@@ -844,6 +851,7 @@ namespace Assets.Scripts.View {
                 waitingForSkillMove = true;
                 waitingForAttack = false;
                 gameViewModel.CombatMode = true;
+                unitMenu.SetActive(false);
                 // TODO: Enable flag that using damage skill for forecasting
 
                 // Destroy move and attack highlighters only
@@ -890,6 +898,7 @@ namespace Assets.Scripts.View {
 
                 waitingForSkillChoice = false;
                 waitingForAttack = false;
+                unitMenu.SetActive(false);
                 // TODO: Enable flag that using support skill for forecasting
 
                 // Destroy move, attack, and ally highlighters only
@@ -958,6 +967,10 @@ namespace Assets.Scripts.View {
 
             unitMenu.CreateSubMenu();
             unitMenu.SwitchtoSubMenu();
+
+            unitMenu.mBackButton.onClick.AddListener(() => {
+                waitingForItemChoice = false;
+            });
 
             waitingForMove = true;
             waitingForItemChoice = true;
@@ -1033,6 +1046,7 @@ namespace Assets.Scripts.View {
                 waitingForAttack = false;
                 waitingForItemMove = true;
                 waitingForItemChoice = false;
+                unitMenu.SetActive(false);
 
                 foreach (GameObject highlight in moveLocationHighlights)
                 {
@@ -1187,6 +1201,7 @@ namespace Assets.Scripts.View {
 
             // Return to Select State
             tileSelector.EnterState();
+            gameView.mEndTurnButton.interactable = true;
         }
 
         /// <summary>
