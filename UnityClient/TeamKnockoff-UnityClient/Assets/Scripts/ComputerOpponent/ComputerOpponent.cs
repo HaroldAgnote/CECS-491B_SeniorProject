@@ -49,12 +49,14 @@ namespace Assets.Scripts.ComputerOpponent
                 }
 
                 // Cycle until CPU finds a unit they can control
-                while (!PlayerUnits[currentUnitIndex].IsAlive || PlayerUnits[currentUnitIndex].HasMoved) {
+                Debug.Log("Finding unit to control...");
+                while (!(PlayerUnits[currentUnitIndex].IsAlive && !PlayerUnits[currentUnitIndex].HasMoved)) {
                     currentUnitIndex++;
                     if (currentUnitIndex == PlayerUnits.Count) {
                         currentUnitIndex = 0;
                     }
                 }
+                Debug.Log($"Unit found! Controlling: {PlayerUnits[currentUnitIndex].Name}");
 
                 // Set the Controlling Unit
                 CurrentControllingUnit = PlayerUnits[currentUnitIndex];
@@ -67,29 +69,36 @@ namespace Assets.Scripts.ComputerOpponent
                 attackReadyLocation = NULL_VECTOR;
                 hasMoved = false;
 
+                Debug.Log("Thinking of move...");
+                // CPU has not found a attack location, so set it to first possible attack position
+                if (attacking) {
+                    var possibleAttackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit)
+                                                    .Where(loc => model.EnemyAtLocation(loc));
+                    attackReadyLocation = possibleAttackLocations.FirstOrDefault();
+                    Debug.Log($"{PlayerUnits[currentUnitIndex].Name} will attack at ({attackReadyLocation.x}, {attackReadyLocation.y})");
+                } else {
+                    Debug.Log("I will move randomly");
+                }
+
                 // CPU now has a move they can make, so set this to true until the move is done
                 hasDecidedMove = true;
             }
 
             if (attacking) {
-                // CPU has not found a attack location
-                if (attackReadyLocation == NULL_VECTOR) {
-                    var possibleAttackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit)
-                                                    .Where(loc => model.EnemyAtLocation(loc));
-                    attackReadyLocation = possibleAttackLocations.FirstOrDefault();
-                }
-
                 // CPU has not moved towards closest attack position yet
                 if (!hasMoved) {
+                    Debug.Log("Moving to Attack Position!");
                     var startPosition = model.GridForUnit(CurrentControllingUnit);
                     var path = model.GetShortestPathToAttack(CurrentControllingUnit, startPosition, attackReadyLocation);
                     var movePoint = path.Last();
                     hasMoved = true;
                     return new GameMove(startPosition, movePoint, path);
                 } else {
+                    Debug.Log("Executing Attack!");
                     // CPU has moved and is now ready to attack Unit at target position
                     hasDecidedMove = false;
                     currentUnitIndex++;
+                    Debug.Log("Done Attacking!");
                     return new GameMove(model.GridForUnit(CurrentControllingUnit), attackReadyLocation, GameMove.GameMoveType.Attack);
                 }
 
@@ -98,6 +107,7 @@ namespace Assets.Scripts.ComputerOpponent
 
                 // Unit has not moved to random position yet
                 if (!hasMoved) {
+                    Debug.Log("Moving to random position!");
 
                     var startPosition = model.GridForUnit(CurrentControllingUnit);
 
@@ -112,6 +122,7 @@ namespace Assets.Scripts.ComputerOpponent
                     hasMoved = true;
                     return new GameMove(model.GridForUnit(CurrentControllingUnit), randomPosition, path);
                 } else {
+                    Debug.Log("Done moving!");
                     // Unit is done moving, so end their turn
 
                     // Reset flag to decide next move for next Unit
