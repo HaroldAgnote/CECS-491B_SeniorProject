@@ -72,7 +72,7 @@ namespace Assets.Scripts.Model.Units {
             EquipWeapon(defaultWeapon);
 
             LearnSkill(new Bash());
-
+            LearnSkill(new Fortify());
         }
 
         public Knight(string unitName) 
@@ -92,7 +92,7 @@ namespace Assets.Scripts.Model.Units {
             EquipWeapon(defaultWeapon);
 
             LearnSkill(new Bash());
-
+            LearnSkill(new Fortify());
         }
 
         public Knight(UnitWrapper unitWrapper) : base(unitWrapper) {

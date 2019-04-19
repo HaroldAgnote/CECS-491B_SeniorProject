@@ -645,6 +645,13 @@ namespace Assets.Scripts.View {
                         }
                     }
                 }
+            } else if (selectedSkill != null && (selectedSkill as SingleTargetSkill).CanTargetSelf) {
+                if (currentSkillLocations != null && currentSkillLocations.Contains(cursorPosition)) {
+                    if (waitingForSkillMove) {
+                        skillPoint = cursorPosition;
+                        ApplySkillMove();
+                    }
+                }
             }
         }
 
@@ -923,7 +930,18 @@ namespace Assets.Scripts.View {
                 // Create new support highlighters on surrounding attack positions based on skill range
                 allyLocationHighlights = new List<GameObject>();
 
-                currentSkillLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedSkill as SingleTargetSkill).Range);
+                currentSkillLocations = new List<Vector2Int>();
+
+                var targetLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedSkill as SingleTargetSkill).Range);
+
+                currentSkillLocations = currentSkillLocations.Union(targetLocations);
+
+                if ((selectedSkill as SingleTargetSkill).CanTargetSelf) {
+                    var selfPosition = new List<Vector2Int>() {
+                        movedPoint,
+                    };
+                    currentSkillLocations = currentSkillLocations.Union(selfPosition);
+                }
 
                 foreach (Vector2Int loc in currentSkillLocations) {
                     GameObject highlight;
@@ -936,6 +954,14 @@ namespace Assets.Scripts.View {
                 currentSkillLocations = currentSkillLocations
                                             .Where(pos => 
                                                 gameViewModel.SkillUsableOnTarget((selectedSkill as SingleTargetSkill), pos));
+
+                if ((selectedSkill as SingleTargetSkill).CanTargetSelf) {
+                    var selfPosition = new List<Vector2Int>() {
+                        movedPoint,
+                    };
+                    currentSkillLocations = currentSkillLocations.Union(selfPosition);
+                }
+
             } else {
                 // Player has already chosen skill position, so use the Skill
                 ApplySkillMove();
@@ -1145,7 +1171,7 @@ namespace Assets.Scripts.View {
                         }
                     }
                 }
-            } else if (selectedItem is ISelfConsumable) {
+            } else if (selectedItem != null && selectedItem is ISelfConsumable) {
                 if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition)) {
                     if (waitingForItemMove) {
                         itemPoint = cursorPosition;
