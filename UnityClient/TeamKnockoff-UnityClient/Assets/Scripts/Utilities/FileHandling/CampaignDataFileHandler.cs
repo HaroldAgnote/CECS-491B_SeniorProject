@@ -62,7 +62,10 @@ namespace Assets.Scripts.Utilities.FileHandling {
         }
 
         public static void DeleteCampaignData(CampaignData data) {
-            var filePath = $"{campaignFolderPath}{data.TimeStamp.ToFileString()}.txt";
+            var fileName = data.TimeStamp.ToFileString();
+            var encodedFileName = Encoding.UTF8.GetBytes(fileName);
+            var encodedFileNameText = Convert.ToBase64String(encodedFileName);
+            var filePath = $"{campaignFolderPath}{encodedFileNameText}.sav";
             try {
                 var fileInfo = new FileInfo(filePath);
                 File.Delete(filePath);
