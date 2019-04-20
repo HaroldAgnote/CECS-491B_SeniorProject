@@ -693,7 +693,7 @@ namespace Assets.Scripts.View {
         /// Lock Camera and enable flag for waiting for move
         /// </summary>
         private void WaitForChoice() {
-            gameView.LockCamera();
+            // gameView.LockCamera();
             waitingForMove = true;
         } 
 
@@ -1223,7 +1223,7 @@ namespace Assets.Scripts.View {
             gameViewModel.CombatMode = false;
             gameViewModel.TargetSquare = null;
 
-            gameView.UnlockCamera();
+            // gameView.UnlockCamera();
 
             // Return to Select State
             tileSelector.EnterState();
