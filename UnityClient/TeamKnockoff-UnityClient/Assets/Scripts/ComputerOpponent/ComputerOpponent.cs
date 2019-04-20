@@ -41,7 +41,6 @@ namespace Assets.Scripts.ComputerOpponent
 
         //Cycle through units, attack nearest enemy
         public GameMove FindBestMove() {
-            throw new NotImplementedException();
             // CPU has not decided a move to perform yet
             if (!hasDecidedMove) {
                 // Set the CPU to the Current Model's Player and Units
@@ -64,6 +63,7 @@ namespace Assets.Scripts.ComputerOpponent
                 // Set the Controlling Unit
                 CurrentControllingUnit = PlayerUnits[currentUnitIndex];
 
+                /*
                 //Determine whether supporting or attacking
                 //Prioritize supporting (healing or buff)
                 foreach (var skill in CurrentControllingUnit.Skills)
@@ -74,7 +74,7 @@ namespace Assets.Scripts.ComputerOpponent
 
                     }
 
-                }
+                }*/
 
                 // Determine if there is a location for the Controlling Unit to attack
                 var attackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit);
@@ -99,6 +99,7 @@ namespace Assets.Scripts.ComputerOpponent
                     var maxDijkstraDistance = double.MinValue;
                     var maxAttackUtility = 0;
                     Dictionary<Vector2Int, double> unitsUtility = new Dictionary<Vector2Int, double>();
+                    Dictionary<Vector2Int, double> tempUnitsUtility = new Dictionary<Vector2Int, double>();
 
                     foreach (var pos in possibleAttackLocations)
                     {
@@ -118,8 +119,20 @@ namespace Assets.Scripts.ComputerOpponent
                     foreach (KeyValuePair<Vector2Int, double> pos in unitsUtility)
                     {
                         //TODO: add unit utility score
-                        unitsUtility[pos.Key] = ATTACK_DISTANCE_WEIGHT 
-                            * (1 - Normalize(minDijkstraDistance, maxDijkstraDistance, pos.Value));
+                        tempUnitsUtility[pos.Key] = ATTACK_DISTANCE_WEIGHT * (1 - Normalize(minDijkstraDistance, maxDijkstraDistance, pos.Value));
+
+                        //Highest utility
+                        if (unitsUtility[pos.Key] > maxAttackUtility)
+                        {
+                            attackReadyLocation = pos.Key;
+                        }
+                    }
+
+                    //Normalize distance utility score, add unit utility value, select position with highest utility score 
+                    foreach (KeyValuePair<Vector2Int, double> pos in tempUnitsUtility)
+                    {
+                        //TODO: add unit utility score
+                        unitsUtility[pos.Key] = ATTACK_DISTANCE_WEIGHT * (1 - Normalize(minDijkstraDistance, maxDijkstraDistance, pos.Value));
 
                         //Highest utility
                         if (unitsUtility[pos.Key] > maxAttackUtility)
@@ -186,19 +199,15 @@ namespace Assets.Scripts.ComputerOpponent
                     return new GameMove(startPosition, movePosition, GameMove.GameMoveType.Move);
 
                 }
+                // Unit is done moving, so end their turn
 
-                if (hasMoved)
-                {
-                    // Unit is done moving, so end their turn
+                // Reset flag to decide next move for next Unit
+                hasDecidedMove = false;
+                currentUnitIndex++;
 
-                    // Reset flag to decide next move for next Unit
-                    hasDecidedMove = false;
-                    currentUnitIndex++;
-
-                    // Return Wait Move to end Unit's turn
-                    var waitPosition = model.GridForUnit(CurrentControllingUnit);
-                    return new GameMove(waitPosition, waitPosition, GameMove.GameMoveType.Wait);
-                }
+                // Return Wait Move to end Unit's turn
+                var waitPosition = model.GridForUnit(CurrentControllingUnit);
+                return new GameMove(waitPosition, waitPosition, GameMove.GameMoveType.Wait);
             }
         }
 
