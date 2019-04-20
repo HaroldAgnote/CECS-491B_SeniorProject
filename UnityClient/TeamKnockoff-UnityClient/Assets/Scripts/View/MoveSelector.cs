@@ -272,6 +272,8 @@ namespace Assets.Scripts.View {
         /// </summary>
         public void EnterState() {
 
+            gameView.mEndTurnButton.interactable = false;
+
             this.enabled = true;
 
             // Initialize view model properties in Action State
@@ -508,7 +510,6 @@ namespace Assets.Scripts.View {
                 SetupMainUnitMenu();
                 WaitForChoice();
             } else {
-
                 // Player double clicked position, so just Move and Wait
                 if (cursorPosition == movedPoint) {
                     ApplyWaitMove();
@@ -644,6 +645,13 @@ namespace Assets.Scripts.View {
                         }
                     }
                 }
+            } else if (selectedSkill != null && (selectedSkill as SingleTargetSkill).CanTargetSelf) {
+                if (currentSkillLocations != null && currentSkillLocations.Contains(cursorPosition)) {
+                    if (waitingForSkillMove) {
+                        skillPoint = cursorPosition;
+                        ApplySkillMove();
+                    }
+                }
             }
         }
 
@@ -685,7 +693,7 @@ namespace Assets.Scripts.View {
         /// Lock Camera and enable flag for waiting for move
         /// </summary>
         private void WaitForChoice() {
-            gameView.LockCamera();
+            // gameView.LockCamera();
             waitingForMove = true;
         } 
 
@@ -712,6 +720,8 @@ namespace Assets.Scripts.View {
                 waitingForSkillMove = false;
                 gameViewModel.CombatMode = true;
 
+                unitMenu.SetActive(false);
+
                 // Destroy move and attack highlighters only
                 foreach (GameObject highlight in moveLocationHighlights) {
                     Destroy(highlight);
@@ -720,6 +730,12 @@ namespace Assets.Scripts.View {
                 foreach (GameObject highlight in attackLocationHighlights) {
                     Destroy(highlight);
                 }
+
+                moveLocations = new List<Vector2Int>();
+
+                skillsToLocations = new Dictionary<ActiveSkill, HashSet<Vector2Int>>();
+
+                itemToLocations = new Dictionary<ConsumableItem, HashSet<Vector2Int>>();
 
                 // Create new attack highlighters on surrounding attack positions
                 attackLocationHighlights = new List<GameObject>();
@@ -763,6 +779,10 @@ namespace Assets.Scripts.View {
         private void SkillMenu() {
             unitMenu.CreateSubMenu();
             unitMenu.SwitchtoSubMenu();
+
+            unitMenu.mBackButton.onClick.AddListener(() => {
+                waitingForSkillChoice = false;
+            });
 
             waitingForMove = true;
             waitingForSkillChoice = true;
@@ -838,6 +858,7 @@ namespace Assets.Scripts.View {
                 waitingForSkillMove = true;
                 waitingForAttack = false;
                 gameViewModel.CombatMode = true;
+                unitMenu.SetActive(false);
                 // TODO: Enable flag that using damage skill for forecasting
 
                 // Destroy move and attack highlighters only
@@ -849,6 +870,7 @@ namespace Assets.Scripts.View {
                     Destroy(highlight);
                 }
 
+                moveLocations = new List<Vector2Int>();
 
                 // Create new attack highlighters on surrounding attack positions based on skill range
                 attackLocationHighlights = new List<GameObject>();
@@ -883,6 +905,7 @@ namespace Assets.Scripts.View {
 
                 waitingForSkillChoice = false;
                 waitingForAttack = false;
+                unitMenu.SetActive(false);
                 // TODO: Enable flag that using support skill for forecasting
 
                 // Destroy move, attack, and ally highlighters only
@@ -898,10 +921,27 @@ namespace Assets.Scripts.View {
                     Destroy(highlight);
                 }
 
+                moveLocations = new List<Vector2Int>();
+
+                attackLocations = new List<Vector2Int>();
+
+                itemToLocations = new Dictionary<ConsumableItem, HashSet<Vector2Int>>();
+
                 // Create new support highlighters on surrounding attack positions based on skill range
                 allyLocationHighlights = new List<GameObject>();
 
-                currentSkillLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedSkill as SingleTargetSkill).Range);
+                currentSkillLocations = new List<Vector2Int>();
+
+                var targetLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedSkill as SingleTargetSkill).Range);
+
+                currentSkillLocations = currentSkillLocations.Union(targetLocations);
+
+                if ((selectedSkill as SingleTargetSkill).CanTargetSelf) {
+                    var selfPosition = new List<Vector2Int>() {
+                        movedPoint,
+                    };
+                    currentSkillLocations = currentSkillLocations.Union(selfPosition);
+                }
 
                 foreach (Vector2Int loc in currentSkillLocations) {
                     GameObject highlight;
@@ -914,6 +954,14 @@ namespace Assets.Scripts.View {
                 currentSkillLocations = currentSkillLocations
                                             .Where(pos => 
                                                 gameViewModel.SkillUsableOnTarget((selectedSkill as SingleTargetSkill), pos));
+
+                if ((selectedSkill as SingleTargetSkill).CanTargetSelf) {
+                    var selfPosition = new List<Vector2Int>() {
+                        movedPoint,
+                    };
+                    currentSkillLocations = currentSkillLocations.Union(selfPosition);
+                }
+
             } else {
                 // Player has already chosen skill position, so use the Skill
                 ApplySkillMove();
@@ -945,6 +993,10 @@ namespace Assets.Scripts.View {
 
             unitMenu.CreateSubMenu();
             unitMenu.SwitchtoSubMenu();
+
+            unitMenu.mBackButton.onClick.AddListener(() => {
+                waitingForItemChoice = false;
+            });
 
             waitingForMove = true;
             waitingForItemChoice = true;
@@ -1020,6 +1072,7 @@ namespace Assets.Scripts.View {
                 waitingForAttack = false;
                 waitingForItemMove = true;
                 waitingForItemChoice = false;
+                unitMenu.SetActive(false);
 
                 foreach (GameObject highlight in moveLocationHighlights)
                 {
@@ -1038,30 +1091,57 @@ namespace Assets.Scripts.View {
 
                 allyLocationHighlights = new List<GameObject>();
 
-                currentItemLocations = gameViewModel.GetSurroundingLocationsAtPoint(movedPoint, (selectedItem as ITargetConsumable).GetRange());
+                moveLocations = new List<Vector2Int>();
 
-                foreach (Vector2Int loc in currentItemLocations)
-                {
+                attackLocations = new List<Vector2Int>();
+
+                skillsToLocations = new Dictionary<ActiveSkill, HashSet<Vector2Int>>();
+                
+                currentItemLocations = new List<Vector2Int>();
+
+                if (selectedItem is ISelfConsumable) {
+                    var selfPosition = new List<Vector2Int>() {
+                        movedPoint,
+                    };
+                    currentItemLocations = currentItemLocations.Union(selfPosition);
+                }
+
+                if (selectedItem is ITargetConsumable) {
+                    var targetPositions = gameViewModel
+                        .GetSurroundingLocationsAtPoint(movedPoint, (selectedItem as ITargetConsumable).GetRange())
+                        .ToList();
+                    currentItemLocations = currentItemLocations.Union(targetPositions);
+                }
+
+                foreach (Vector2Int loc in currentItemLocations) {
                     GameObject highlight;
                     var point = new Vector3Int(loc.x, loc.y, 0);
                     highlight = Instantiate(allyLocationPrefab, point, Quaternion.identity, gameObject.transform);
                     allyLocationHighlights.Add(highlight);
                 }
 
-                currentItemLocations = currentItemLocations
-                                            .Where(pos =>
-                                                gameViewModel.ItemUsableOnTarget(selectedItem, pos));
-            }
-            else
-            {
+                if (selectedItem is ITargetConsumable) {
+                    currentItemLocations = currentItemLocations
+                                                .Where(pos => gameViewModel.ItemUsableOnTarget(selectedItem, pos));
+                }
+
+                if (selectedItem is ISelfConsumable) {
+                    var selfPosition = new List<Vector2Int>() {
+                        movedPoint,
+                    };
+                    currentItemLocations = currentItemLocations.Union(selfPosition);
+                }
+
+                var copy = currentItemLocations.ToList();
+
+            } else {
                 ApplyItemMove();
             }
         }
-        //
+
         private void CheckItemPositionClick(Vector2Int cursorPosition)
         {
-            if (gameViewModel.AllyAtPoint(cursorPosition))
-            {
+            if (gameViewModel.AllyAtPoint(cursorPosition)) {
                 if((!waitingForMove && !waitingForItemChoice && !waitingForItemMove) ||
                     (waitingForMove && itemPoint != NULL_VECTOR && itemPoint != cursorPosition))
                 {
@@ -1079,20 +1159,23 @@ namespace Assets.Scripts.View {
                     }
                     SetupMainUnitMenu();
                     WaitForChoice();
-                }
-                else
-                {
-                    if (waitingForItemChoice)
-                    {
+                } else {
+                    if (waitingForItemChoice) {
                         ItemMenu();
                     }
-                    if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition))
-                    {
-                        if (waitingForItemMove)
-                        {
+
+                    if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition)) {
+                        if (waitingForItemMove) {
                             itemPoint = cursorPosition;
                             ApplyItemMove();
                         }
+                    }
+                }
+            } else if (selectedItem != null && selectedItem is ISelfConsumable) {
+                if (currentItemLocations != null && currentItemLocations.Contains(cursorPosition)) {
+                    if (waitingForItemMove) {
+                        itemPoint = cursorPosition;
+                        ApplyItemMove();
                     }
                 }
             }
@@ -1140,10 +1223,11 @@ namespace Assets.Scripts.View {
             gameViewModel.CombatMode = false;
             gameViewModel.TargetSquare = null;
 
-            gameView.UnlockCamera();
+            // gameView.UnlockCamera();
 
             // Return to Select State
             tileSelector.EnterState();
+            gameView.mEndTurnButton.interactable = true;
         }
 
         /// <summary>

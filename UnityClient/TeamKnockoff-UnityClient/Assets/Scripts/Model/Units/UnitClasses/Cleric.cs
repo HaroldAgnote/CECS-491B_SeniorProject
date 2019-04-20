@@ -75,6 +75,7 @@ namespace Assets.Scripts.Model.Units {
             LearnSkill(new Heal());
             LearnSkill(new BuffStrength());
             LearnSkill(new Renewal());
+            LearnSkill(new Physic());
         }
 
         public Cleric(string unitName) 
@@ -96,6 +97,7 @@ namespace Assets.Scripts.Model.Units {
             LearnSkill(new Heal());
             LearnSkill(new BuffStrength());
             LearnSkill(new Renewal());
+            LearnSkill(new Physic());
         }
 
         public Cleric(UnitWrapper unitWrapper) : base(unitWrapper) {

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 using Assets.Scripts.Campaign;
@@ -16,7 +17,10 @@ namespace Assets.Scripts.Utilities.FileHandling {
 
         public static void SaveCampaignData(CampaignData data) {
             data.TimeStamp = new SerializableDateTime(System.DateTime.Now);
-            var filePath = $"{campaignFolderPath}{data.TimeStamp.ToFileString()}.txt";
+            var fileName = data.TimeStamp.ToFileString();
+            var encodedFileName = Encoding.UTF8.GetBytes(fileName);
+            var encodedFileNameText = Convert.ToBase64String(encodedFileName);
+            var filePath = $"{campaignFolderPath}{encodedFileNameText}.sav";
 
             try {
                 Directory.CreateDirectory(campaignFolderPath);
@@ -28,7 +32,9 @@ namespace Assets.Scripts.Utilities.FileHandling {
             try {
                 var writer = new StreamWriter(filePath, false);
                 string json = JsonUtility.ToJson(data, true);
-                writer.Write(json);
+                var bytesToEncode = Encoding.UTF8.GetBytes(json);
+                var encodedText = Convert.ToBase64String(bytesToEncode);
+                writer.Write(encodedText);
                 writer.Close();
             } catch(Exception e) {
                 Debug.Log("Error saving campaign data");
@@ -41,9 +47,11 @@ namespace Assets.Scripts.Utilities.FileHandling {
             var loadedCampaignData = new List<CampaignData>();
 
             try {
-                foreach (var campaignFile in Directory.EnumerateFiles(campaignFolderPath, "*.txt")) {
+                foreach (var campaignFile in Directory.EnumerateFiles(campaignFolderPath, "*.sav")) {
                     var campaignDataFileContents = File.ReadAllText(campaignFile);
-                    var campaignData = JsonUtility.FromJson<CampaignData>(campaignDataFileContents);
+                    var decodedBytes = Convert.FromBase64String(campaignDataFileContents);
+                    var decodedText = Encoding.UTF8.GetString(decodedBytes);
+                    var campaignData = JsonUtility.FromJson<CampaignData>(decodedText);
                     loadedCampaignData.Add(campaignData);
                 }
             } catch {
@@ -54,7 +62,10 @@ namespace Assets.Scripts.Utilities.FileHandling {
         }
 
         public static void DeleteCampaignData(CampaignData data) {
-            var filePath = $"{campaignFolderPath}{data.TimeStamp.ToFileString()}.txt";
+            var fileName = data.TimeStamp.ToFileString();
+            var encodedFileName = Encoding.UTF8.GetBytes(fileName);
+            var encodedFileNameText = Convert.ToBase64String(encodedFileName);
+            var filePath = $"{campaignFolderPath}{encodedFileNameText}.sav";
             try {
                 var fileInfo = new FileInfo(filePath);
                 File.Delete(filePath);

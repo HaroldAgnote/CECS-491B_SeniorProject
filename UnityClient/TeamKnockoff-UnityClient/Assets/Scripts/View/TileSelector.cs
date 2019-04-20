@@ -68,6 +68,7 @@ namespace Assets.Scripts.View {
             tileHighlight = Instantiate(tileHighlightPrefab, point, Quaternion.identity, gameObject.transform);
             tileHighlight.SetActive(false);
 
+            allyLocationHighlights = new List<GameObject>();
         }
 
         /// <summary>
@@ -85,6 +86,7 @@ namespace Assets.Scripts.View {
             }
 
             gameViewModel = gameView.gameViewModel;
+            RefreshAllyHighlighters();
             EnterState();
         }
 
@@ -97,15 +99,6 @@ namespace Assets.Scripts.View {
         /// </summary>
         public void EnterState() {
             this.enabled = true;
-
-            allyLocationHighlights = new List<GameObject>();
-
-            foreach (var unit in gameViewModel.ControllingPlayer.Units.Where(u => u.IsAlive)) {
-                GameObject highlight;
-                var allyLoc = gameViewModel.GetPositionOfUnit(unit);
-                highlight = Instantiate(allyHighlightPrefab, allyLoc.ToVector3(), Quaternion.identity, gameObject.transform);
-                allyLocationHighlights.Add(highlight);
-            }
         }
 
         /// <summary>
