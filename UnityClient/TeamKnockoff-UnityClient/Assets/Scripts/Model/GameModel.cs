@@ -59,6 +59,8 @@ namespace Assets.Scripts.Model {
         /// </summary>
         public Player CurrentPlayer { get; private set; }
 
+        public List<Player> Players { get { return mPlayers; } }
+
         /// <summary>
         /// Determines if the Current Player has any Units that can move
         /// </summary>
@@ -1025,7 +1027,7 @@ namespace Assets.Scripts.Model {
         /// Returns list of positions in a path for a Unit to move from the start location to the end location
         /// </returns>
 
-        public List<Vector2Int> GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
+        public WeightedGraph.DijkstraDistance GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);
 
@@ -1033,9 +1035,39 @@ namespace Assets.Scripts.Model {
 
             var shortestDistanceToEnd = distances.SingleOrDefault(d => d.Vertex == endPoint);
 
-            return shortestDistanceToEnd.Path;
+            return shortestDistanceToEnd;
         }
-        
+
+        public WeightedGraph.DijkstraDistance GetShortestPathAll(Unit unit, Vector2Int startPoint, Vector2Int endPoint)
+        {
+            var unitCosts = GetAllUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var shortestDistanceToEnd = distances.SingleOrDefault(d => d.Vertex == endPoint);
+
+            return shortestDistanceToEnd;
+        }
+
+        public Dictionary<Vector2Int, int> GetAllUnitMoveCosts(Unit unit)
+        {
+            var moveCosts = new Dictionary<Vector2Int, int>();
+
+            var moveLocations = VectorExtension.GetRectangularPositions(Columns, Rows);
+
+            foreach (var loc in moveLocations)
+            {
+                var tile = mTiles[loc.x, loc.y];
+                if (unit.CanMove(tile))
+                {
+                    moveCosts.Add(loc, unit.MoveCost(tile));
+                }
+            }
+
+            return moveCosts;
+        }
+
         /// <summary>
         /// Gets the shortest path for a Unit to move from one point to the 
         /// point closest to a position where they can attack.
@@ -1047,7 +1079,7 @@ namespace Assets.Scripts.Model {
         /// Returns list of positions in a path for a Unit to move from the start location to the end location
         /// </returns>
 
-        public List<Vector2Int> GetShortestPathToAttack(Unit unit, Vector2Int startPoint, Vector2Int targetPoint) {
+        public WeightedGraph.DijkstraDistance GetShortestPathToAttack(Unit unit, Vector2Int startPoint, Vector2Int targetPoint) {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);
 
@@ -1062,7 +1094,7 @@ namespace Assets.Scripts.Model {
 
             var shortestDistanceToAttack = attackDistances.Min();
 
-            return shortestDistanceToAttack.Path;
+            return shortestDistanceToAttack;
         }
 
         /// <summary>

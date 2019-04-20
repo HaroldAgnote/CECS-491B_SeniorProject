@@ -429,7 +429,7 @@ namespace Assets.Scripts.ViewModel {
         /// Enumerable list of positions of the path to the endpoint
         /// </returns>
         public IEnumerable<Vector2Int> GetShortestPath(Vector2Int endPoint) {
-            return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+            return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint).Path;
         }
         
         /// <summary>
@@ -440,7 +440,7 @@ namespace Assets.Scripts.ViewModel {
         /// Enumerable list of positions of the path to the endpoint closest to the target point
         /// </returns>
         public IEnumerable<Vector2Int> GetShortestPathToAttack(Vector2Int endPoint) {
-            return model.GetShortestPathToAttack(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+            return model.GetShortestPathToAttack(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint).Path;
         }
 
         /// <summary>
