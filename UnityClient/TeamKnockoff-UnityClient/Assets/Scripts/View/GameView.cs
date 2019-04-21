@@ -29,6 +29,8 @@ namespace Assets.Scripts.View {
 
         public GameOverScreen gameOverScreen;
 
+        public LevelUpScreen levelUpScreen;
+
         public PauseMenu mPauseMenu;
 
         public Button mPauseButton;
@@ -60,6 +62,8 @@ namespace Assets.Scripts.View {
 
             gameOverScreen.ConstructGameOverScreen();
 
+            levelUpScreen.ConstructLevelUpScreen();
+
             mPauseMenu.ConstructPauseMenu();
 
             turnLabel.text = $"Turn {gameViewModel.CurrentTurn}";
@@ -71,7 +75,7 @@ namespace Assets.Scripts.View {
         }
 
         public void EndTurn() {
-            var units = gameViewModel.ControllingPlayer.Units;
+            var units = gameViewModel.ControllingPlayer.Units.Where(unit => unit.IsAlive && !unit.HasMoved);
             foreach(var unit in units) {
                 var unitPos = gameViewModel.GetPositionOfUnit(unit);
                 var gameMove = new GameMove(unitPos, unitPos, GameMove.GameMoveType.Wait);
@@ -120,9 +124,13 @@ namespace Assets.Scripts.View {
                 if (gameViewModel.CurrentPlayer != gameViewModel.ControllingPlayer) {
                     mPauseButton.interactable = false;
                     mEndTurnButton.interactable = false;
+                    tileSelector.gameObject.SetActive(false);
+                    moveSelector.gameObject.SetActive(false);
                 } else {
                     mPauseButton.interactable = true;
                     mEndTurnButton.interactable = true;
+                    tileSelector.gameObject.SetActive(true);
+                    moveSelector.gameObject.SetActive(true);
                 }
                 turnLabel.text = $"{gameViewModel.CurrentPlayer.Name} - Turn {gameViewModel.CurrentTurn}";
             }
@@ -154,7 +162,9 @@ namespace Assets.Scripts.View {
                             mIsUpdating = false;
                         });
 
-                        tileSelector.gameObject.SetActive(true);
+                        if (!gameViewModel.IsPaused && gameViewModel.CurrentPlayer == gameViewModel.ControllingPlayer) {
+                            tileSelector.gameObject.SetActive(true);
+                        }
                     }
                 } else if (gameMove.MoveType == GameMove.GameMoveType.Attack || 
                         gameMove.MoveType == GameMove.GameMoveType.Skill) {

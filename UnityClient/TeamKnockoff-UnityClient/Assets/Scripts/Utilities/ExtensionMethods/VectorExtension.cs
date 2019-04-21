@@ -16,6 +16,19 @@ namespace Assets.Scripts.Utilities.ExtensionMethods {
             return new Vector2Int(newCol, newRow);
         }
 
+        public static Vector2Int Average(this IEnumerable <Vector2Int> vectors)
+        {
+            var averageX = 0;
+            var averageY = 0;
+            foreach (var pos in vectors)
+            {
+                averageX += pos.x;
+                averageY += pos.y;
+            }
+
+            return new Vector2Int(averageX / vectors.Count(), averageY / vectors.Count());
+        }
+
         public static Vector3 ToVector3(this Vector2 vector) {
             return new Vector3(vector.x, vector.y, 0f);
         }

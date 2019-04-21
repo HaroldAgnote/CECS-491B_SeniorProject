@@ -13,6 +13,8 @@ namespace Assets.Scripts.View {
         public GameObject unitMainMenuContent;
         public GameObject unitSubMenuContent;
 
+        public Button mBackButton;
+
         private List<GameObject> mainMenu;
         private List<GameObject> subMenu;
 
@@ -63,7 +65,8 @@ namespace Assets.Scripts.View {
         public void SwitchtoSubMenu() {
             isSubMenu = true;
 
-            CreateButton("BACK").onClick.AddListener(SwitchtoMainMenu);
+            mBackButton = CreateButton("BACK");
+            mBackButton.onClick.AddListener(SwitchtoMainMenu);
             CreateButton("").interactable = false;
 
             unitMainMenuContent.SetActive(false);

@@ -28,7 +28,7 @@ namespace Assets.Scripts.View {
                     var nextPos = mPath.Peek();
                     transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * SPEED);
                     mPosition = transform.position;
-                    if (Vector3.Distance(mPosition, nextPos) < 0.00000000005f) {
+                    if (mPosition == nextPos || Vector3.Distance(mPosition, nextPos) < 0.00000000005f) {
                         mPath.Dequeue();
                     }
                 } else {

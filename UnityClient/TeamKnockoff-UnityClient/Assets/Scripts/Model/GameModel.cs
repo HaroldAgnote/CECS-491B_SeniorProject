@@ -59,6 +59,8 @@ namespace Assets.Scripts.Model {
         /// </summary>
         public Player CurrentPlayer { get; private set; }
 
+        public List<Player> Players { get { return mPlayers; } }
+
         /// <summary>
         /// Determines if the Current Player has any Units that can move
         /// </summary>
@@ -918,9 +920,11 @@ namespace Assets.Scripts.Model {
 
             foreach (var consumableItem in consumableItems)
             {
-                var itemLocations = new HashSet<Vector2Int>();
-                itemLocations.AddRange(GetUnitItemLocations(unit, consumableItem));
-                itemToLocations.Add(consumableItem, itemLocations);
+                if (!itemToLocations.Keys.Contains(consumableItem)) {
+                    var itemLocations = new HashSet<Vector2Int>();
+                    itemLocations.AddRange(GetUnitItemLocations(unit, consumableItem));
+                    itemToLocations.Add(consumableItem, itemLocations);
+                }
             }
 
             return itemToLocations;
@@ -964,11 +968,12 @@ namespace Assets.Scripts.Model {
                                     .Where(it => it is ConsumableItem)
                                     .Select(it => it as ConsumableItem);
 
-            foreach (var consumableItem in consumableItems)
-            {
-                var itemLocations = new HashSet<Vector2Int>();
-                itemLocations.AddRange(GetPossibleUnitItemLocations(unit, consumableItem));
-                itemToLocations.Add(consumableItem, itemLocations);
+            foreach (var consumableItem in consumableItems) {
+                if (!itemToLocations.Keys.Contains(consumableItem)) {
+                    var itemLocations = new HashSet<Vector2Int>();
+                    itemLocations.AddRange(GetPossibleUnitItemLocations(unit, consumableItem));
+                    itemToLocations.Add(consumableItem, itemLocations);
+                }
             }
 
             return itemToLocations;
@@ -1002,7 +1007,7 @@ namespace Assets.Scripts.Model {
         {
             if (targetUnit != null && usingUnit == targetUnit)
             {
-                return (item as ISelfConsumable).CanUse(usingUnit) && (item as ITargetConsumable).CanUseOn(usingUnit, targetUnit);
+                return (item as ISelfConsumable).CanUse(usingUnit);
             }
 
             return targetUnit != null && (item as ITargetConsumable).CanUseOn(usingUnit, targetUnit);
@@ -1022,7 +1027,7 @@ namespace Assets.Scripts.Model {
         /// Returns list of positions in a path for a Unit to move from the start location to the end location
         /// </returns>
 
-        public List<Vector2Int> GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
+        public WeightedGraph.DijkstraDistance GetShortestPath(Unit unit, Vector2Int startPoint, Vector2Int endPoint) {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);
 
@@ -1030,9 +1035,39 @@ namespace Assets.Scripts.Model {
 
             var shortestDistanceToEnd = distances.SingleOrDefault(d => d.Vertex == endPoint);
 
-            return shortestDistanceToEnd.Path;
+            return shortestDistanceToEnd;
         }
-        
+
+        public WeightedGraph.DijkstraDistance GetShortestPathAll(Unit unit, Vector2Int startPoint, Vector2Int endPoint)
+        {
+            var unitCosts = GetAllUnitMoveCosts(unit);
+            var moveGraph = new WeightedGraph(unitCosts);
+
+            var distances = moveGraph.GetShortestDistancesFrom(startPoint);
+
+            var shortestDistanceToEnd = distances.SingleOrDefault(d => d.Vertex == endPoint);
+
+            return shortestDistanceToEnd;
+        }
+
+        public Dictionary<Vector2Int, int> GetAllUnitMoveCosts(Unit unit)
+        {
+            var moveCosts = new Dictionary<Vector2Int, int>();
+
+            var moveLocations = VectorExtension.GetRectangularPositions(Columns, Rows);
+
+            foreach (var loc in moveLocations)
+            {
+                var tile = mTiles[loc.x, loc.y];
+                if (unit.CanMove(tile))
+                {
+                    moveCosts.Add(loc, unit.MoveCost(tile));
+                }
+            }
+
+            return moveCosts;
+        }
+
         /// <summary>
         /// Gets the shortest path for a Unit to move from one point to the 
         /// point closest to a position where they can attack.
@@ -1044,7 +1079,7 @@ namespace Assets.Scripts.Model {
         /// Returns list of positions in a path for a Unit to move from the start location to the end location
         /// </returns>
 
-        public List<Vector2Int> GetShortestPathToAttack(Unit unit, Vector2Int startPoint, Vector2Int targetPoint) {
+        public WeightedGraph.DijkstraDistance GetShortestPathToAttack(Unit unit, Vector2Int startPoint, Vector2Int targetPoint) {
             var unitCosts = GetUnitMoveCosts(unit);
             var moveGraph = new WeightedGraph(unitCosts);
 
@@ -1059,7 +1094,7 @@ namespace Assets.Scripts.Model {
 
             var shortestDistanceToAttack = attackDistances.Min();
 
-            return shortestDistanceToAttack.Path;
+            return shortestDistanceToAttack;
         }
 
         /// <summary>
@@ -1206,14 +1241,16 @@ namespace Assets.Scripts.Model {
 
             var usingUnit = GetUnitAtPosition(move.StartPosition);
             
-            if (item is ITargetConsumable)
+            if (item is ITargetConsumable && move.StartPosition != move.EndPosition)
             {
                 ApplyItemToTarget(move);
             }
-            else if (item is ISelfConsumable)
+            else if (item is ISelfConsumable && move.StartPosition == move.EndPosition)
             {
                 ApplyItemToSelf(move);
             }
+
+            usingUnit.UnequipItem(item);
 
             usingUnit.HasMoved = true;
         }

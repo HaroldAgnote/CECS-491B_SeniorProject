@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.Skills {
     [Serializable]
-    public class Heal : SingleSupportSkill {
-        private const string SKILL_NAME = "Heal";
-        private const int SKILL_COST = 10;
-        private const int RANGE = 1;
+    public class Physic : SingleSupportSkill {
+        private const string SKILL_NAME = "Physic";
+        private const int SKILL_COST = 20;
+        private const int RANGE = 3;
         private const bool TARGET_SELF = false;
-        private const int HEAL_AMOUNT = 30;
+        private const int HEAL_AMOUNT = 15;
 
-        public Heal() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF) { }
+        public Physic() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF) { }
 
         public override bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit) {
             return targetUnit.HealthPoints != targetUnit.MaxHealthPoints.Value;
@@ -25,7 +26,7 @@ namespace Assets.Scripts.Model.Skills {
             patient.HealthPoints += HEAL_AMOUNT;
         }
         public override Skill Generate() {
-            return new Heal();
+            return new Physic();
         }
     }
 }

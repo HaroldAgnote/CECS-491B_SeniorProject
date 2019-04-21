@@ -149,6 +149,8 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         private ObservableList<GameSquare> mGameSquares;
 
+        private ObservableList<UnitViewModel> mUnitViewModels;
+
         /// <summary>
         /// Last Move that was applied onto the Game
         /// </summary>
@@ -265,6 +267,8 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public ObservableList<GameSquare> Squares { get { return mGameSquares; } }
 
+        public ObservableList<UnitViewModel> UnitViewModels { get { return mUnitViewModels; } }
+
         /// <summary>
         /// Last Move that was applied onto the Game
         /// </summary>
@@ -305,6 +309,8 @@ namespace Assets.Scripts.ViewModel {
                 }
             }
         }
+
+        public bool IsPaused => mGamePaused;
 
         /// <summary>
         /// Determines if the Selected Unit belongs to the Player
@@ -410,6 +416,8 @@ namespace Assets.Scripts.ViewModel {
                     Tile = model.GetTileAtPosition(pos),
                 })
             );
+
+            mUnitViewModels = new ObservableList<UnitViewModel>( ControllingPlayer.Units.Select(unit => new UnitViewModel(unit)));
             CombatMode = false;
         }
 
@@ -429,7 +437,7 @@ namespace Assets.Scripts.ViewModel {
         /// Enumerable list of positions of the path to the endpoint
         /// </returns>
         public IEnumerable<Vector2Int> GetShortestPath(Vector2Int endPoint) {
-            return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+            return model.GetShortestPath(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint).Path;
         }
         
         /// <summary>
@@ -440,7 +448,7 @@ namespace Assets.Scripts.ViewModel {
         /// Enumerable list of positions of the path to the endpoint closest to the target point
         /// </returns>
         public IEnumerable<Vector2Int> GetShortestPathToAttack(Vector2Int endPoint) {
-            return model.GetShortestPathToAttack(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint);
+            return model.GetShortestPathToAttack(model.GetUnitAtPosition(SelectedSquare.Position), SelectedSquare.Position, endPoint).Path;
         }
 
         /// <summary>
@@ -607,10 +615,15 @@ namespace Assets.Scripts.ViewModel {
                 mGameSquares[i].Unit = model.GetUnitAtPosition(pos);
                 i++;
             }
-
             CurrentPlayer = model.CurrentPlayer;
             CurrentTurn = model.Turn;
             IsGameOver = model.GameHasEnded;
+
+            foreach (var unitViewModel in mUnitViewModels) {
+                unitViewModel.SyncUnit();
+            }
+
+            OnPropertyChanged(nameof(Squares));
         }
 
         public void PauseGame() {
