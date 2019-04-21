@@ -47,6 +47,7 @@ namespace Assets.Scripts.View {
                 gameView.tileSelector.gameObject.SetActive(true);
                 gameView.moveSelector.gameObject.SetActive(true);
                 gameView.UnlockCamera();
+                gameView.HasScreenOverlay = false;
                 gameViewModel.UnpauseGame();
             });
         }
@@ -54,6 +55,7 @@ namespace Assets.Scripts.View {
         private void UnitViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == "Level") {
                 this.gameObject.SetActive(true);
+                gameView.HasScreenOverlay = true;
                 gameView.mPauseButton.interactable = false;
                 gameView.tileSelector.gameObject.SetActive(false);
                 gameView.moveSelector.gameObject.SetActive(false);
