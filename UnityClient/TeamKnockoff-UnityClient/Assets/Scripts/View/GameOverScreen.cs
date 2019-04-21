@@ -42,7 +42,7 @@ namespace Assets.Scripts.View {
                 if (gameViewModel.IsGameOver) {
 
                     await Task.Run(() => {
-                        while (gameView.HasScreenOverlay) { }
+                        while (gameView.HasMoveText || gameView.IsUpdating || gameView.HasScreenOverlay) { }
                     });
 
                     this.gameObject.SetActive(true);

@@ -52,10 +52,16 @@ namespace Assets.Scripts.View {
             });
         }
 
-        private void UnitViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+        private async void UnitViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == "Level") {
-                this.gameObject.SetActive(true);
                 gameView.HasScreenOverlay = true;
+
+                await Task.Run(() => {
+                    while (gameView.HasMoveText || gameView.IsUpdating) { }
+                });
+
+                this.gameObject.SetActive(true);
+
                 gameView.mPauseButton.interactable = false;
                 gameView.tileSelector.gameObject.SetActive(false);
                 gameView.moveSelector.gameObject.SetActive(false);

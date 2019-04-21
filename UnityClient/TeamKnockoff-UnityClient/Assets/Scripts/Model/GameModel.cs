@@ -1280,7 +1280,7 @@ namespace Assets.Scripts.Model {
                 item.UseItemOn(usingUnit, targetUnit);
                 damageDealt -= targetUnit.HealthPoints;
 
-                var damageItemMoveResult = new DamageItemMoveResult(move.StartPosition, move.EndPosition, damageDealt);
+                var damageItemMoveResult = new DamageItemMoveResult(move.StartPosition, move.EndPosition, move.UsedItem, damageDealt);
                 return damageItemMoveResult;
 
             } else if (item is ISupportItem) {
@@ -1290,12 +1290,12 @@ namespace Assets.Scripts.Model {
                 item.UseItemOn(usingUnit, targetUnit);
                 if (damageHealed < targetUnit.HealthPoints) {
                     itemStatus = SupportItemMoveResult.SupportItemStatus.Heal;
-                    damageHealed -= targetUnit.HealthPoints;
+                    damageHealed = targetUnit.HealthPoints - damageHealed;
                 } else {
                     itemStatus = SupportItemMoveResult.SupportItemStatus.Buff;
                 }
 
-                var supportItemMoveResult = new SupportItemMoveResult(move.StartPosition, move.EndPosition, damageHealed, itemStatus);
+                var supportItemMoveResult = new SupportItemMoveResult(move.StartPosition, move.EndPosition, move.UsedItem, damageHealed, itemStatus);
                 return supportItemMoveResult;
 
             } else {
@@ -1321,12 +1321,12 @@ namespace Assets.Scripts.Model {
 
             if (damageHealed < unit.HealthPoints) {
                 itemStatus = SupportItemMoveResult.SupportItemStatus.Heal;
-                damageHealed -= unit.HealthPoints;
+                damageHealed = unit.HealthPoints - damageHealed;
             } else {
                 itemStatus = SupportItemMoveResult.SupportItemStatus.Buff;
             }
 
-            var itemMoveResult = new SupportItemMoveResult(move.StartPosition, move.EndPosition, damageHealed, itemStatus);
+            var itemMoveResult = new SupportItemMoveResult(move.StartPosition, move.EndPosition, move.UsedItem, damageHealed, itemStatus);
 
             Debug.Log($"{unit.Name} uses {move.UsedItem.ItemName} on self");
             Debug.Log(unit.UnitInformation);

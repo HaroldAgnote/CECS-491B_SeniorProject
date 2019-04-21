@@ -19,9 +19,12 @@ using SupportSkillResult = Assets.Scripts.Model.SupportSkillMoveResult.SupportSk
 
 namespace Assets.Scripts.View {
     public class GameView : MonoBehaviour {
-        public const int LABEL_DELAY = 500;
+        public const int LABEL_DELAY = 1000;
         public const float UNIT_LABEL_Y_OFFSET = 0.75f;
         public const float UNIT_LABEL_Z_OFFSET = 5.00f;
+
+        public static Color FADE_COLOR = Color.gray;
+        public static Color UNFADE_COLOR = Color.white;
 
         public GameViewModel gameViewModel;
 
@@ -67,6 +70,10 @@ namespace Assets.Scripts.View {
                 }
             }
         }
+
+        private bool mHasMoveText;
+
+        public bool HasMoveText => mHasMoveText;
 
         private bool mIsUpdating;
 
@@ -158,6 +165,10 @@ namespace Assets.Scripts.View {
                     mEndTurnButton.interactable = false;
                     tileSelector.gameObject.SetActive(false);
                     moveSelector.gameObject.SetActive(false);
+                    await Task.Run(() => {
+                        while (mIsUpdating) { }
+                    });
+                    UnfadeUnits();
                 } else {
                     mPauseButton.interactable = true;
                     mEndTurnButton.interactable = true;
@@ -198,7 +209,6 @@ namespace Assets.Scripts.View {
                             mIsUpdating = true;
                             while (unitMover.IsMoving) { }
                             mIsUpdating = false;
-                            Thread.Sleep(LABEL_DELAY);
                         });
 
                         if (!gameViewModel.IsPaused && gameViewModel.CurrentPlayer == gameViewModel.ControllingPlayer) {
@@ -248,6 +258,9 @@ namespace Assets.Scripts.View {
                             CheckObjectStatus(attackerPosition);
                         }
                     }
+                    if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
+                        FadeUnit(attackerPosition);
+                    }
                     mIsUpdating = false;
 
                 } else if (moveResult is SkillMoveResult) {
@@ -295,6 +308,10 @@ namespace Assets.Scripts.View {
                                 CheckObjectStatus(attackerPosition);
                             }
                         }
+                        if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
+                            FadeUnit(attackerPosition);
+                        }
+                        mIsUpdating = false;
                     } else if (skillMoveResult is SupportSkillMoveResult) {
                         var supportSkillMoveResult = skillMoveResult as SupportSkillMoveResult;
                         var supporterResult = supportSkillMoveResult.SupporterResult;
@@ -317,15 +334,77 @@ namespace Assets.Scripts.View {
                         UpdateSupportSkillLabels(supporterResult, supporterPosition, supportedPosition);
 
                         CheckObjectStatus(supportedPosition);
+
+                        if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(supporterPosition)) {
+                            FadeUnit(supporterPosition);
+                        }
                     } else {
                         throw new Exception("Error: Bad Skill Result");
                     }
 
                     mIsUpdating = false;
                 } else if (moveResult is ItemMoveResult) {
+                    var itemMoveResult = moveResult as ItemMoveResult;
+                    if (itemMoveResult is DamageItemMoveResult) {
+                        var damageItemMoveResult = itemMoveResult as DamageItemMoveResult;
 
+                        var attackerPosition = damageItemMoveResult.AttackerPosition;
+                        var defenderPosition = damageItemMoveResult.DefenderPosition;
+
+                        var attackerUnitView = mVectorToObjectViews[attackerPosition] as UnitView;
+                        var defenderObjectView = mVectorToObjectViews[defenderPosition];
+
+                        var attackerUnitMover = attackerUnitView.GameObject.GetComponent<UnitMover>();
+
+                        // TODO: Animate Attack Animation
+                        attackerUnitView.NudgeTowardsPosition(attackerPosition, defenderPosition);
+
+                        await Task.Run(() => {
+                            mIsUpdating = true;
+                            while (attackerUnitMover.IsMoving) { }
+                        });
+
+                        UpdateDamageItemLabels(damageItemMoveResult);
+
+                        CheckObjectStatus(defenderPosition);
+
+                        if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
+                            FadeUnit(attackerPosition);
+                        }
+                    } else if (itemMoveResult is SupportItemMoveResult) {
+                        var supportItemMoveResult = itemMoveResult as SupportItemMoveResult;
+
+                        var supporterPosition = supportItemMoveResult.SupporterPosition;
+                        var supportedPosition = supportItemMoveResult.SupportedPosition;
+
+                        var supporterUnitView = mVectorToObjectViews[supporterPosition] as UnitView;
+
+                        var supporterUnitMover = supporterUnitView.GameObject.GetComponent<UnitMover>();
+
+                        // TODO: Animate Attack Animation
+                        supporterUnitView.NudgeTowardsPosition(supporterPosition, supportedPosition);
+
+                        await Task.Run(() => {
+                            mIsUpdating = true;
+                            while (supporterUnitMover.IsMoving) { }
+                        });
+
+                        UpdateSupportItemLabels(supportItemMoveResult);
+
+                        CheckObjectStatus(supportedPosition);
+
+                        if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(supporterPosition)) {
+                            FadeUnit(supporterPosition);
+                        }
+                    } else {
+                        throw new Exception("Error: Bad Skill Result");
+                    }
+
+                    mIsUpdating = false;
                 } else if (moveResult is WaitMoveResult) {
-
+                    var waitMoveResult = moveResult as WaitMoveResult;
+                    FadeUnit(waitMoveResult.UnitPosition);
+                    mIsUpdating = false;
                 } else {
                     throw new Exception("Bad Move Result");
                 }
@@ -371,6 +450,7 @@ namespace Assets.Scripts.View {
                 attackerLabel.text = "";
                 defenderLabel.text = "Missed!";
             }
+            mHasMoveText = true;
             attackerLabel.gameObject.SetActive(true);
             defenderLabel.gameObject.SetActive(true);
 
@@ -380,6 +460,7 @@ namespace Assets.Scripts.View {
 
             attackerLabel.gameObject.SetActive(false);
             defenderLabel.gameObject.SetActive(false);
+            mHasMoveText = false;
         }
 
         private async void UpdateDamageSkillLabels(DamageSkillResult attackerResult, Vector2Int attackerPosition, Vector2Int defenderPosition) {
@@ -404,6 +485,7 @@ namespace Assets.Scripts.View {
                 attackerLabel.text = "";
                 defenderLabel.text = "Missed!";
             }
+            mHasMoveText = true;
             attackerLabel.gameObject.SetActive(true);
             defenderLabel.gameObject.SetActive(true);
 
@@ -413,6 +495,7 @@ namespace Assets.Scripts.View {
 
             attackerLabel.gameObject.SetActive(false);
             defenderLabel.gameObject.SetActive(false);
+            mHasMoveText = false;
         }
         
         private async void UpdateSupportSkillLabels(SupportSkillResult supporterResult, Vector2Int supporterPosition, Vector2Int supportedPosition) {
@@ -432,6 +515,7 @@ namespace Assets.Scripts.View {
                 throw new Exception("Bad Support Skill");
             }
 
+            mHasMoveText = true;
             attackerLabel.gameObject.SetActive(true);
             defenderLabel.gameObject.SetActive(true);
 
@@ -441,6 +525,84 @@ namespace Assets.Scripts.View {
 
             attackerLabel.gameObject.SetActive(false);
             defenderLabel.gameObject.SetActive(false);
+            mHasMoveText = false;
+        }
+
+        private async void UpdateDamageItemLabels(DamageItemMoveResult damageItemMoveResult) {
+            var attackerPosition = damageItemMoveResult.AttackerPosition;
+            var defenderPosition = damageItemMoveResult.DefenderPosition;
+
+            var attackerLabelPos = new Vector3(attackerPosition.x, attackerPosition.y + UNIT_LABEL_Y_OFFSET, UNIT_LABEL_Z_OFFSET);
+            attackerLabel.transform.position = attackerLabelPos;
+
+            var defenderLabelPos = new Vector3(defenderPosition.x, defenderPosition.y + UNIT_LABEL_Y_OFFSET, UNIT_LABEL_Z_OFFSET);
+            defenderLabel.transform.position = defenderLabelPos;
+
+            attackerLabel.text = $"";
+            defenderLabel.text = $"- {damageItemMoveResult.DamageDealt}";
+
+            mHasMoveText = true;
+            attackerLabel.gameObject.SetActive(true);
+            defenderLabel.gameObject.SetActive(true);
+
+            await Task.Run(() => {
+                Thread.Sleep(LABEL_DELAY);
+            });
+
+            attackerLabel.gameObject.SetActive(false);
+            defenderLabel.gameObject.SetActive(false);
+            mHasMoveText = false;
+        }
+
+        private async void UpdateSupportItemLabels(SupportItemMoveResult supportItemMoveResult) {
+            var supporterPosition = supportItemMoveResult.SupporterPosition;
+            var supportedPosition = supportItemMoveResult.SupportedPosition;
+
+            var attackerLabelPos = new Vector3(supporterPosition.x, supporterPosition.y + UNIT_LABEL_Y_OFFSET, UNIT_LABEL_Z_OFFSET);
+            attackerLabel.transform.position = attackerLabelPos;
+
+            var defenderLabelPos = new Vector3(supportedPosition.x, supportedPosition.y + UNIT_LABEL_Y_OFFSET, UNIT_LABEL_Z_OFFSET);
+            defenderLabel.transform.position = defenderLabelPos;
+
+            if (supportItemMoveResult.Result == SupportItemMoveResult.SupportItemStatus.Heal) {
+                if (attackerLabelPos == defenderLabelPos) {
+                    attackerLabelPos.y += UNIT_LABEL_Y_OFFSET;
+                    attackerLabel.transform.position = attackerLabelPos;
+                }
+                attackerLabel.text = $"{supportItemMoveResult.UsedItem.ItemName}";
+                defenderLabel.text = $"+ {supportItemMoveResult.DamageHealed}";
+            } else if (supportItemMoveResult.Result == SupportItemMoveResult.SupportItemStatus.Buff) {
+                attackerLabel.text = $"{supportItemMoveResult.UsedItem.ItemName}";
+                defenderLabel.text = "";
+            }
+
+            mHasMoveText = true;
+            attackerLabel.gameObject.SetActive(true);
+            defenderLabel.gameObject.SetActive(true);
+
+            await Task.Run(() => {
+                Thread.Sleep(LABEL_DELAY);
+            });
+
+            attackerLabel.gameObject.SetActive(false);
+            defenderLabel.gameObject.SetActive(false);
+            mHasMoveText = false;
+        }
+
+        private void FadeUnit(Vector2Int unitPosition) {
+            var unitView = mVectorToObjectViews[unitPosition];
+            var sprite = unitView.GameObject.GetComponent<SpriteRenderer>();
+            sprite.color = FADE_COLOR;
+        }
+
+        private void UnfadeUnits() {
+            var units = gameViewModel.ControllingPlayer.Units.Where(unit => unit.IsAlive);
+            foreach (var unit in units) {
+                var unitPos = gameViewModel.GetPositionOfUnit(unit);
+                var unitView = mVectorToObjectViews[unitPos] as UnitView;
+                var sprite = unitView.GameObject.GetComponent<SpriteRenderer>();
+                sprite.color = UNFADE_COLOR;
+            }
         }
     }
 }
