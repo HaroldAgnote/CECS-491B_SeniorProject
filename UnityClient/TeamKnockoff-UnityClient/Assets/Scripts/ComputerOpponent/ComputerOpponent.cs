@@ -143,7 +143,7 @@ namespace Assets.Scripts.ComputerOpponent
             if (attacking) {
                 // CPU has not moved towards closest attack position yet
                 if (!hasMoved) {
-                    Debug.Log("Moving to Attack Position!");
+                    Debug.Log($"Moving to Attack Position ({attackReadyLocation.x}, {attackReadyLocation.y})!");
                     var startPosition = model.GridForUnit(CurrentControllingUnit);
                     var path = model.GetShortestPathToAttack(CurrentControllingUnit, startPosition, attackReadyLocation).Path;
                     var movePoint = path.Last();
