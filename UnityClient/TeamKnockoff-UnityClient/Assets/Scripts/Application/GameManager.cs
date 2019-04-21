@@ -225,7 +225,7 @@ namespace Assets.Scripts.Application {
             foreach(var tile in tileData.tileData) {
 
                 // Initialize Tile Model/View
-                var newTile = tileFactory.CreateTile(tile, view.transform);
+                var newTile = tileFactory.CreateTile(tile, view.tiles.transform);
                 model.AddTile(newTile);
 
                 // If Tile contains Player data, initialize Unit Model/View
@@ -248,20 +248,20 @@ namespace Assets.Scripts.Application {
                                             campaignUnit => campaignUnit.Name == unitName);
 
                                     if (existingUnit != null) {
-                                        newUnitTuple = unitFactory.ImportUnit(tile, view.gameObject.transform, existingUnit);
+                                        newUnitTuple = unitFactory.ImportUnit(tile, view.units.transform, existingUnit);
                                     } else {
-                                        newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                                        newUnitTuple = unitFactory.CreateUnit(tile, view.units.transform);
                                     }
                                 } else {
                                     throw new NotImplementedException();
                                 }
 
                             } else {
-                                newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                                newUnitTuple = unitFactory.CreateUnit(tile, view.units.transform);
                             }
 
                         } else if (singleplayerGameType == SingleplayerGameType.Practice) {
-                            newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                            newUnitTuple = unitFactory.CreateUnit(tile, view.units.transform);
                         } else {
                             throw new Exception("Singleplayer Game Type not set");
                         }
