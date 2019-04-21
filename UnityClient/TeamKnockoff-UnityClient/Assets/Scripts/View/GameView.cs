@@ -453,7 +453,13 @@ namespace Assets.Scripts.View {
                     mIsUpdating = false;
                 } else if (moveResult is WaitMoveResult) {
                     var waitMoveResult = moveResult as WaitMoveResult;
-                    FadeUnit(waitMoveResult.UnitPosition);
+                    var unit = gameViewModel.Squares
+                                .SingleOrDefault(sq => sq.Position == waitMoveResult.UnitPosition)
+                                .Unit;
+
+                    if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(supporterPosition)) {
+                        FadeUnit(waitMoveResult.UnitPosition);
+                    }
                     mIsUpdating = false;
                 } else {
                     throw new Exception("Bad Move Result");

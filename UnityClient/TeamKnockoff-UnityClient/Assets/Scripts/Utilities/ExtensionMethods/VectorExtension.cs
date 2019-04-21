@@ -95,8 +95,7 @@ namespace Assets.Scripts.Utilities.ExtensionMethods {
         public static Vector2Int Average(this IEnumerable <Vector2Int> vectors) {
             var averageX = 0;
             var averageY = 0;
-            foreach (var pos in vectors)
-            {
+            foreach (var pos in vectors) {
                 averageX += pos.x;
                 averageY += pos.y;
             }
