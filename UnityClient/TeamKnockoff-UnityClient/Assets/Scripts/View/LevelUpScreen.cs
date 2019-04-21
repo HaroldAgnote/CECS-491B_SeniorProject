@@ -75,6 +75,8 @@ namespace Assets.Scripts.View {
                 speedLabel.text = unitViewModel.Speed.ToString();
                 skillLabel.text = unitViewModel.Skill.ToString();
                 luckLabel.text = unitViewModel.Luck.ToString();
+
+                unitViewModel.ResetStats();
             }
         }
     }

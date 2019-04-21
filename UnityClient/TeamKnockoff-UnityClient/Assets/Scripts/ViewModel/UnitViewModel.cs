@@ -46,16 +46,6 @@ namespace Assets.Scripts.ViewModel {
                     CheckStatAfterLevelUp(mSkill, mUnit.Skill);
                     CheckStatAfterLevelUp(mLuck, mUnit.Luck);
                     OnPropertyChanged(nameof(Level));
-                } else {
-                    mLevel = new Stat(mUnit.Level);
-                    mHealth = new Stat(mUnit.MaxHealthPoints.Base);
-                    mStrength = new Stat(mUnit.Strength.Base);
-                    mMagic = new Stat(mUnit.Magic.Base);
-                    mDefense = new Stat(mUnit.Defense.Base);
-                    mResistance = new Stat(mUnit.Resistance.Base);
-                    mSpeed = new Stat(mUnit.Speed.Base);
-                    mSkill = new Stat(mUnit.Skill.Base);
-                    mLuck = new Stat(mUnit.Skill.Base);
                 }
             }
         }
@@ -126,6 +116,18 @@ namespace Assets.Scripts.ViewModel {
 
         public void SyncUnit() {
             Level = new Stat(mUnit.Level);
+        }
+
+        public void ResetStats() {
+            mLevel = new Stat(mUnit.Level);
+            mHealth = new Stat(mUnit.MaxHealthPoints.Base);
+            mStrength = new Stat(mUnit.Strength.Base);
+            mMagic = new Stat(mUnit.Magic.Base);
+            mDefense = new Stat(mUnit.Defense.Base);
+            mResistance = new Stat(mUnit.Resistance.Base);
+            mSpeed = new Stat(mUnit.Speed.Base);
+            mSkill = new Stat(mUnit.Skill.Base);
+            mLuck = new Stat(mUnit.Luck.Base);
         }
 
         public void CheckStatAfterLevelUp(Stat viewModelStat, Stat unitStat) {
