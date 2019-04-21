@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 using Assets.Scripts.ViewModel;
 
 namespace Assets.Scripts.View {
     public class UnitInformation : MonoBehaviour {
         public GameView gameView;
+
+        public GameObject unitSubItemPrefab;
+
+        public Image unitInformationBackground;
 
         public TextMeshProUGUI unitNameLabel;
         public TextMeshProUGUI currentHpLabel;
@@ -25,9 +30,19 @@ namespace Assets.Scripts.View {
 
         private GameViewModel gameViewModel;
 
+        public GameObject selectedUnitSkillsContent;
+        public GameObject selectedUnitItemsContent;
+        private List<GameObject> unitSkillObjects;
+        private List<GameObject> unitItemObjects;
+
+        private static Color ALLY_COLOR = Color.green;
+        private static Color ENEMY_COLOR = Color.red;
+
         public void ConstructUnitInformation() {
             gameViewModel = gameView.gameViewModel;
             gameViewModel.PropertyChanged += GameViewModel_PropertyChanged;
+            unitSkillObjects = new List<GameObject>();
+            unitItemObjects = new List<GameObject>();
         }
 
         private void GameViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -36,6 +51,11 @@ namespace Assets.Scripts.View {
                     var unit = gameViewModel.HoveredSquare.Unit;
 
                     if (unit != null) {
+                        if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber) {
+                            unitInformationBackground.color = ALLY_COLOR;
+                        } else {
+                            unitInformationBackground.color = ENEMY_COLOR;
+                        }
                         unitNameLabel.text = unit.Name;
                         currentHpLabel.text = $"{unit.HealthPoints}";
                         maxHpLabel.text = $"{unit.MaxHealthPoints}";
@@ -49,6 +69,34 @@ namespace Assets.Scripts.View {
                         moveLabel.text = $"{unit.Movement}";
                         expLabel.text = $"{unit.ExperiencePoints}";
                         lvLabel.text = $"{unit.Level}";
+
+                        foreach (var skillObject in unitSkillObjects) {
+                            Destroy(skillObject);
+                        }
+
+                        unitSkillObjects = new List<GameObject>();
+                        var unitSkills = unit.Skills;
+
+                        foreach (var skill in unitSkills) {
+                            var skillObject = Instantiate(unitSubItemPrefab, selectedUnitSkillsContent.transform);
+                            unitSkillObjects.Add(skillObject);
+                            var skillLabel = skillObject.GetComponentInChildren<TextMeshProUGUI>();
+                            skillLabel.text = skill.SkillName;
+                        }
+
+                        foreach (var itemObject in unitItemObjects) {
+                            Destroy(itemObject);
+                        }
+
+                        unitItemObjects = new List<GameObject>();
+                        var unitItems = unit.Items;
+
+                        foreach (var item in unitItems) {
+                            var itemObject = Instantiate(unitSubItemPrefab, selectedUnitItemsContent.transform);
+                            unitItemObjects.Add(itemObject);
+                            var itemLabel = itemObject.GetComponentInChildren<TextMeshProUGUI>();
+                            itemLabel.text = item.ItemName;
+                        }
                     }
                 }
             }
