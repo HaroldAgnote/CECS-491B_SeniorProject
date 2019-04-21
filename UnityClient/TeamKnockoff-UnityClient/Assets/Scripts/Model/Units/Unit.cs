@@ -594,32 +594,32 @@ namespace Assets.Scripts.Model.Units {
             //int chance = 29;
             Debug.Log($"This is chance: {chance}");
             //I could reroll for every stat but this should technically work - Matthew
-            if(mHealthGrowthRate > chance) {
-                mMaxHealthPoints.Base += 1;
-            }
-            if (mStrenthGrowthRate > chance) {
-                mStrength.Base += 1;
-            }
-            if (mMagicGrowthRate > chance) {
-                mMagic.Base += 1;
-            }
-            if (mDefenseGrowthRate > chance) {
-                mDefense.Base += 1;
-            }
-            if (mResistanceGrowthRate > chance) {
-                mResistance.Base += 1;
-            }
-            if (mSpeedGrowthRate > chance) {
-                mSpeed.Base += 1;
-            }
-            if (mSkillGrowthRate > chance) {
-                mSkill.Base += 1;
-            }
-            if (mLuckGrowthRate > chance) {
-                mLuck.Base += 1;
+
+            List<Tuple<Stat, int>> statGrowthRateTuples = new List<Tuple<Stat, int>>() {
+                new Tuple<Stat, int>(MaxHealthPoints, mHealthGrowthRate),
+                new Tuple<Stat, int>(Strength, mStrenthGrowthRate),
+                new Tuple<Stat, int>(Magic, mMagicGrowthRate),
+                new Tuple<Stat, int>(Defense, mDefenseGrowthRate),
+                new Tuple<Stat, int>(Resistance, mResistanceGrowthRate),
+                new Tuple<Stat, int>(Speed, mSpeedGrowthRate),
+                new Tuple<Stat, int>(Skill, mSkillGrowthRate),
+                new Tuple<Stat, int>(Luck, mLuckGrowthRate),
+            };
+
+            foreach (var statGrowthRate in statGrowthRateTuples) {
+                RollForStat(statGrowthRate);
             }
 
+        }
 
+        public void RollForStat(Tuple<Stat, int> statGrowthRate) {
+            var stat = statGrowthRate.Item1;
+            var growthRate = statGrowthRate.Item2;
+
+            int chance = UnityEngine.Random.Range(0, 100);
+            if (growthRate > chance) {
+                stat.Base += 1;
+            }
         }
 
 
