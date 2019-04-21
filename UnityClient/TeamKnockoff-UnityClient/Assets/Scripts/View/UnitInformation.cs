@@ -105,10 +105,56 @@ namespace Assets.Scripts.View {
                 if (gameViewModel.CombatMode == true)
                 {
                     gameObject.SetActive(false);
-                }
-                else
-                {
+                } else {
                     gameObject.SetActive(true);
+                    var unit = gameViewModel.SelectedUnit;
+
+                    if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber) {
+                        unitInformationBackground.color = ALLY_COLOR;
+                    } else {
+                        unitInformationBackground.color = ENEMY_COLOR;
+                    }
+                    unitNameLabel.text = unit.Name;
+                    currentHpLabel.text = $"{unit.HealthPoints}";
+                    maxHpLabel.text = $"{unit.MaxHealthPoints}";
+                    strengthLabel.text = $"{unit.Strength}";
+                    magicLabel.text = $"{unit.Magic}";
+                    defenseLabel.text = $"{unit.Defense}";
+                    resistanceLabel.text = $"{unit.Resistance}";
+                    speedLabel.text = $"{unit.Speed}";
+                    skillLabel.text = $"{unit.Skill}";
+                    luckLabel.text = $"{unit.Luck}";
+                    moveLabel.text = $"{unit.Movement}";
+                    expLabel.text = $"{unit.ExperiencePoints}";
+                    lvLabel.text = $"{unit.Level}";
+
+                    foreach (var skillObject in unitSkillObjects) {
+                        Destroy(skillObject);
+                    }
+
+                    unitSkillObjects = new List<GameObject>();
+                    var unitSkills = unit.Skills;
+
+                    foreach (var skill in unitSkills) {
+                        var skillObject = Instantiate(unitSubItemPrefab, selectedUnitSkillsContent.transform);
+                        unitSkillObjects.Add(skillObject);
+                        var skillLabel = skillObject.GetComponentInChildren<TextMeshProUGUI>();
+                        skillLabel.text = skill.SkillName;
+                    }
+
+                    foreach (var itemObject in unitItemObjects) {
+                        Destroy(itemObject);
+                    }
+
+                    unitItemObjects = new List<GameObject>();
+                    var unitItems = unit.Items;
+
+                    foreach (var item in unitItems) {
+                        var itemObject = Instantiate(unitSubItemPrefab, selectedUnitItemsContent.transform);
+                        unitItemObjects.Add(itemObject);
+                        var itemLabel = itemObject.GetComponentInChildren<TextMeshProUGUI>();
+                        itemLabel.text = item.ItemName;
+                    }
                 }
             }
         }
