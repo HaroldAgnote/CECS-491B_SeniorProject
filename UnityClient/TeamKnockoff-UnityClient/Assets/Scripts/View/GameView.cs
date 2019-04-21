@@ -457,7 +457,7 @@ namespace Assets.Scripts.View {
                                 .SingleOrDefault(sq => sq.Position == waitMoveResult.UnitPosition)
                                 .Unit;
 
-                    if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(supporterPosition)) {
+                    if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(waitMoveResult.UnitPosition)) {
                         FadeUnit(waitMoveResult.UnitPosition);
                     }
                     mIsUpdating = false;
