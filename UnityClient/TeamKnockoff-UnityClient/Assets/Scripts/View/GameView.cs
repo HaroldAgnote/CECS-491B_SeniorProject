@@ -161,15 +161,18 @@ namespace Assets.Scripts.View {
         private async void GameViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == "CurrentPlayer") {
                 if (gameViewModel.CurrentPlayer != gameViewModel.ControllingPlayer) {
+                    await Task.Run(() => {
+                        while (mHasMoveText || mIsUpdating) { }
+                    });
                     mPauseButton.interactable = false;
                     mEndTurnButton.interactable = false;
                     tileSelector.gameObject.SetActive(false);
                     moveSelector.gameObject.SetActive(false);
-                    await Task.Run(() => {
-                        while (mIsUpdating) { }
-                    });
                     UnfadeUnits();
                 } else {
+                    await Task.Run(() => {
+                        while (mHasMoveText || mIsUpdating) { }
+                    });
                     mPauseButton.interactable = true;
                     mEndTurnButton.interactable = true;
                     tileSelector.gameObject.SetActive(true);
@@ -179,6 +182,9 @@ namespace Assets.Scripts.View {
             }
 
             if (e.PropertyName == "CurrentTurn") {
+                await Task.Run(() => {
+                    while (mHasMoveText || mIsUpdating) { }
+                });
                 turnLabel.text = $"{gameViewModel.CurrentPlayer.Name} - Turn {gameViewModel.CurrentTurn}";
             }
 
@@ -228,6 +234,10 @@ namespace Assets.Scripts.View {
 
                     var attackerUnitMover = attackerUnitView.GameObject.GetComponent<UnitMover>();
 
+                    var unit = gameViewModel.Squares
+                                .SingleOrDefault(sq => sq.Position == attackerPosition)
+                                .Unit;
+
                     // TODO: Animate Attack Animation
                     attackerUnitView.NudgeTowardsPosition(attackerPosition, defenderPosition);
 
@@ -237,6 +247,10 @@ namespace Assets.Scripts.View {
                     });
 
                     UpdateAttackLabels(attackerResult, attackerPosition, defenderPosition);
+
+                    await Task.Run(() => {
+                        while (mHasMoveText) { }
+                    });
 
                     CheckObjectStatus(defenderPosition);
 
@@ -255,10 +269,14 @@ namespace Assets.Scripts.View {
 
                             UpdateAttackLabels(defenderResult, defenderPosition, attackerPosition);
 
+                            await Task.Run(() => {
+                                while (mHasMoveText) { }
+                            });
+
                             CheckObjectStatus(attackerPosition);
                         }
                     }
-                    if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
+                    if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
                         FadeUnit(attackerPosition);
                     }
                     mIsUpdating = false;
@@ -272,6 +290,10 @@ namespace Assets.Scripts.View {
 
                         var attackerPosition = attackerResult.AttackerPosition;
                         var defenderPosition = attackerResult.DefenderPosition;
+
+                        var unit = gameViewModel.Squares
+                                    .SingleOrDefault(sq => sq.Position == attackerPosition)
+                                    .Unit;
 
                         var attackerUnitView = mVectorToObjectViews[attackerPosition] as UnitView;
                         var defenderObjectView = mVectorToObjectViews[defenderPosition];
@@ -287,6 +309,10 @@ namespace Assets.Scripts.View {
                         });
 
                         UpdateDamageSkillLabels(attackerResult, attackerPosition, defenderPosition);
+
+                        await Task.Run(() => {
+                            while (mHasMoveText) { }
+                        });
 
                         CheckObjectStatus(defenderPosition);
 
@@ -305,10 +331,14 @@ namespace Assets.Scripts.View {
 
                                 UpdateAttackLabels(defenderResult, defenderPosition, attackerPosition);
 
+                                await Task.Run(() => {
+                                    while (mHasMoveText) { }
+                                });
+
                                 CheckObjectStatus(attackerPosition);
                             }
                         }
-                        if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
+                        if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
                             FadeUnit(attackerPosition);
                         }
                         mIsUpdating = false;
@@ -318,6 +348,10 @@ namespace Assets.Scripts.View {
 
                         var supporterPosition = supporterResult.SupporterPosition;
                         var supportedPosition = supporterResult.SupportedPosition;
+
+                        var unit = gameViewModel.Squares
+                                    .SingleOrDefault(sq => sq.Position == supporterPosition)
+                                    .Unit;
 
                         var supporterUnitView = mVectorToObjectViews[supporterPosition] as UnitView;
 
@@ -333,9 +367,13 @@ namespace Assets.Scripts.View {
 
                         UpdateSupportSkillLabels(supporterResult, supporterPosition, supportedPosition);
 
+                        await Task.Run(() => {
+                            while (mHasMoveText) { }
+                        });
+
                         CheckObjectStatus(supportedPosition);
 
-                        if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(supporterPosition)) {
+                        if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(supporterPosition)) {
                             FadeUnit(supporterPosition);
                         }
                     } else {
@@ -366,6 +404,10 @@ namespace Assets.Scripts.View {
 
                         UpdateDamageItemLabels(damageItemMoveResult);
 
+                        await Task.Run(() => {
+                            while (mHasMoveText) { }
+                        });
+
                         CheckObjectStatus(defenderPosition);
 
                         if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
@@ -376,6 +418,10 @@ namespace Assets.Scripts.View {
 
                         var supporterPosition = supportItemMoveResult.SupporterPosition;
                         var supportedPosition = supportItemMoveResult.SupportedPosition;
+
+                        var unit = gameViewModel.Squares
+                                    .SingleOrDefault(sq => sq.Position == supporterPosition)
+                                    .Unit;
 
                         var supporterUnitView = mVectorToObjectViews[supporterPosition] as UnitView;
 
@@ -391,9 +437,13 @@ namespace Assets.Scripts.View {
 
                         UpdateSupportItemLabels(supportItemMoveResult);
 
+                        await Task.Run(() => {
+                            while (mHasMoveText) { }
+                        });
+
                         CheckObjectStatus(supportedPosition);
 
-                        if (gameViewModel.IsControllingPlayersTurn && mVectorToObjectViews.Keys.Contains(supporterPosition)) {
+                        if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(supporterPosition)) {
                             FadeUnit(supporterPosition);
                         }
                     } else {
