@@ -34,12 +34,8 @@ namespace Assets.Scripts.Model {
             StartPosition = start;
             EndPosition = end;
             Path = path;
-
-            if (StartPosition != EndPosition) {
-                MoveType = GameMoveType.Move;
-            } else {
-                MoveType = GameMoveType.Wait;
-            }
+            
+            MoveType = GameMoveType.Move;
         }
 
         public GameMove(Vector2Int start, Vector2Int end, GameMoveType moveType) {
