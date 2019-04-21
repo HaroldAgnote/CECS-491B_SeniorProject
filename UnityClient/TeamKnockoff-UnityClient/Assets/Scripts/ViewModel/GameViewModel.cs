@@ -149,6 +149,8 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         private ObservableList<GameSquare> mGameSquares;
 
+        private ObservableList<UnitViewModel> mUnitViewModels;
+
         /// <summary>
         /// Last Move that was applied onto the Game
         /// </summary>
@@ -265,6 +267,8 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public ObservableList<GameSquare> Squares { get { return mGameSquares; } }
 
+        public ObservableList<UnitViewModel> UnitViewModels { get { return mUnitViewModels; } }
+
         /// <summary>
         /// Last Move that was applied onto the Game
         /// </summary>
@@ -305,6 +309,8 @@ namespace Assets.Scripts.ViewModel {
                 }
             }
         }
+
+        public bool IsPaused => mGamePaused;
 
         /// <summary>
         /// Determines if the Selected Unit belongs to the Player
@@ -410,6 +416,8 @@ namespace Assets.Scripts.ViewModel {
                     Tile = model.GetTileAtPosition(pos),
                 })
             );
+
+            mUnitViewModels = new ObservableList<UnitViewModel>( ControllingPlayer.Units.Select(unit => new UnitViewModel(unit)));
             CombatMode = false;
         }
 
@@ -611,8 +619,11 @@ namespace Assets.Scripts.ViewModel {
             CurrentTurn = model.Turn;
             IsGameOver = model.GameHasEnded;
 
-            OnPropertyChanged(nameof(Squares));
+            foreach (var unitViewModel in mUnitViewModels) {
+                unitViewModel.SyncUnit();
+            }
 
+            OnPropertyChanged(nameof(Squares));
         }
 
         public void PauseGame() {

@@ -29,6 +29,8 @@ namespace Assets.Scripts.View {
 
         public GameOverScreen gameOverScreen;
 
+        public LevelUpScreen levelUpScreen;
+
         public PauseMenu mPauseMenu;
 
         public Button mPauseButton;
@@ -59,6 +61,8 @@ namespace Assets.Scripts.View {
             combatForecast.ConstructCombatForecast();
 
             gameOverScreen.ConstructGameOverScreen();
+
+            levelUpScreen.ConstructLevelUpScreen();
 
             mPauseMenu.ConstructPauseMenu();
 
@@ -158,7 +162,7 @@ namespace Assets.Scripts.View {
                             mIsUpdating = false;
                         });
 
-                        if (gameViewModel.CurrentPlayer == gameViewModel.ControllingPlayer) {
+                        if (!gameViewModel.IsPaused && gameViewModel.CurrentPlayer == gameViewModel.ControllingPlayer) {
                             tileSelector.gameObject.SetActive(true);
                         }
                     }
