@@ -156,6 +156,8 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         private GameMove mLastMove;
 
+        private GameMoveResult mMoveResult;
+
         private Unit mSelectedUnit;
 
         private bool mGamePaused;
@@ -281,6 +283,19 @@ namespace Assets.Scripts.ViewModel {
                 if (mLastMove != value) {
                     mLastMove = value;
                     OnPropertyChanged(nameof(LastMove));
+                }
+            }
+        }
+
+        public GameMoveResult MoveResult {
+            get {
+                return mMoveResult;
+            }
+
+            set {
+                if (mMoveResult != value) {
+                    mMoveResult = value;
+                    OnPropertyChanged(nameof(MoveResult));
                 }
             }
         }
@@ -575,8 +590,9 @@ namespace Assets.Scripts.ViewModel {
         public void ApplyMove(GameMove gameMove) {
 
             // TODO: Should check if move is possible before applying to prevent cheating?
-            model.ApplyMove(gameMove);
+            var moveResult = model.ApplyMove(gameMove);
             LastMove = gameMove;
+            MoveResult = moveResult;
             RebindState();
 
             WaitForOtherMoves();
@@ -597,8 +613,9 @@ namespace Assets.Scripts.ViewModel {
 
                     var move = await moveTask;
 
-                    model.ApplyMove(move);
+                    var moveResult = model.ApplyMove(move);
                     LastMove = move;
+                    MoveResult = moveResult;
                     RebindState();
                 }
             }
@@ -615,13 +632,14 @@ namespace Assets.Scripts.ViewModel {
                 mGameSquares[i].Unit = model.GetUnitAtPosition(pos);
                 i++;
             }
-            CurrentPlayer = model.CurrentPlayer;
-            CurrentTurn = model.Turn;
-            IsGameOver = model.GameHasEnded;
 
             foreach (var unitViewModel in mUnitViewModels) {
                 unitViewModel.SyncUnit();
             }
+
+            CurrentPlayer = model.CurrentPlayer;
+            CurrentTurn = model.Turn;
+            IsGameOver = model.GameHasEnded;
 
             OnPropertyChanged(nameof(Squares));
         }
