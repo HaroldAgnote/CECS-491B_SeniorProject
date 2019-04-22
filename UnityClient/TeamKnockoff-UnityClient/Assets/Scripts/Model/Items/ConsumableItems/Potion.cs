@@ -6,7 +6,7 @@ using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.Model.Items
 {
-    public class Potion : ConsumableItem, ITargetConsumable, ISelfConsumable
+    public class Potion : ConsumableItem, ITargetConsumable, ISelfConsumable, ISupportItem
     {
         private const string ITEM_NAME = "Potion";
         private const int RANGE = 1;

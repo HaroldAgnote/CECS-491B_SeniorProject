@@ -11,6 +11,10 @@ using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Utilities.ExtensionMethods;
 using Assets.Scripts.Utilities.WeightedGraph;
 
+using AttackResult = Assets.Scripts.Model.AttackMoveResult.AttackResult;
+using DamageSkillResult = Assets.Scripts.Model.DamageSkillMoveResult.DamageSkillResult;
+using SupportSkillResult = Assets.Scripts.Model.SupportSkillMoveResult.SupportSkillResult;
+
 namespace Assets.Scripts.Model {
 
     /// <summary>
@@ -427,25 +431,27 @@ namespace Assets.Scripts.Model {
         /// </summary>
         /// <param name="move">The GameMove that will be applied</param>
 
-        public void ApplyMove(GameMove move) {
+        public GameMoveResult ApplyMove(GameMove move) {
+
+            GameMoveResult result = null;
 
             // Check the Move Type and call the appropriate function to
             // execute move.
             switch (move.MoveType) {
                 case GameMove.GameMoveType.Move:
-                    MoveUnit(move);
+                    result = MoveUnit(move);
                     break;
                 case GameMove.GameMoveType.Attack:
-                    AttackUnit(move);
+                    result = AttackUnit(move);
                     break;
                 case GameMove.GameMoveType.Skill:
-                    SkillUnit(move);
+                    result = SkillUnit(move);
                     break;
                 case GameMove.GameMoveType.Item:
-                    ItemUnit(move);
+                    result = ItemUnit(move);
                     break;
                 case GameMove.GameMoveType.Wait:
-                    WaitUnit(move);
+                    result = WaitUnit(move);
                     break;
             }
 
@@ -453,13 +459,15 @@ namespace Assets.Scripts.Model {
             if (GameHasEnded) {
                 Debug.Log("Game Over");
                 EndGame();
-                return;
+                return result;
             }
 
             // If game hasn't ended yet, check if Current Player has no moves and switch if so
             if (CurrentPlayerHasNoMoves) {
                 SwitchPlayer();
             }
+
+            return result;
         }
 
         /// <summary>
@@ -1224,10 +1232,13 @@ namespace Assets.Scripts.Model {
         /// </summary>
         /// <param name="move">The GameMove that will be used to move the Unit</param>
 
-        private void MoveUnit(GameMove move) {
+        private PositionMoveResult MoveUnit(GameMove move) {
             var unit = GetUnitAtPosition(move.StartPosition);
             mUnits[move.StartPosition.x, move.StartPosition.y] = null;
             mUnits[move.EndPosition.x, move.EndPosition.y] = unit;
+
+            var positionMoveResult = new PositionMoveResult(move.StartPosition, move.EndPosition, move.Path);
+            return positionMoveResult;
         }
 
         /// <summary>
@@ -1235,50 +1246,92 @@ namespace Assets.Scripts.Model {
         /// </summary>
         /// <param name="move">The GameMove that will be used to have the Unit use the item</param>
 
-        private void ItemUnit(GameMove move) {
+        private ItemMoveResult ItemUnit(GameMove move) {
 
             var item = move.UsedItem;
 
             var usingUnit = GetUnitAtPosition(move.StartPosition);
+
+            ItemMoveResult itemMoveResult = null;
             
             if (item is ITargetConsumable && move.StartPosition != move.EndPosition)
             {
-                ApplyItemToTarget(move);
+                itemMoveResult = ApplyItemToTarget(move);
             }
             else if (item is ISelfConsumable && move.StartPosition == move.EndPosition)
             {
-                ApplyItemToSelf(move);
+                itemMoveResult = ApplyItemToSelf(move);
             }
 
             usingUnit.UnequipItem(item);
 
             usingUnit.HasMoved = true;
+
+            return itemMoveResult;
         }
 
-        private void ApplyItemToTarget(GameMove move)
-        {
+        private ItemMoveResult ApplyItemToTarget(GameMove move) {
             var usingUnit = GetUnitAtPosition(move.StartPosition);
             var targetUnit = GetUnitAtPosition(move.EndPosition);
 
             var item = move.UsedItem as ITargetConsumable;
-            item.UseItemOn(usingUnit, targetUnit);
+            if (item is IDamagingItem) {
+                int damageDealt = targetUnit.HealthPoints;
+                item.UseItemOn(usingUnit, targetUnit);
+                damageDealt -= targetUnit.HealthPoints;
 
-            Debug.Log($"{usingUnit.Name} uses {move.UsedItem.ItemName} on {targetUnit.Name}");
+                var damageItemMoveResult = new DamageItemMoveResult(move.StartPosition, move.EndPosition, move.UsedItem, damageDealt);
+                return damageItemMoveResult;
 
-            Debug.Log(usingUnit.UnitInformation + "\n\n");
-            Debug.Log(targetUnit.UnitInformation);
+            } else if (item is ISupportItem) {
+                var itemStatus = SupportItemMoveResult.SupportItemStatus.None;
+                int damageHealed = targetUnit.HealthPoints;
+
+                item.UseItemOn(usingUnit, targetUnit);
+                if (damageHealed < targetUnit.HealthPoints) {
+                    itemStatus = SupportItemMoveResult.SupportItemStatus.Heal;
+                    damageHealed = targetUnit.HealthPoints - damageHealed;
+                } else {
+                    itemStatus = SupportItemMoveResult.SupportItemStatus.Buff;
+                }
+
+                var supportItemMoveResult = new SupportItemMoveResult(move.StartPosition, move.EndPosition, move.UsedItem, damageHealed, itemStatus);
+                return supportItemMoveResult;
+
+            } else {
+                throw new NotImplementedException("Item missing interface (IDamage/ISupport)");
+            }
+
+            // Debug.Log($"{usingUnit.Name} uses {move.UsedItem.ItemName} on {targetUnit.Name}");
+
+            // Debug.Log(usingUnit.UnitInformation + "\n\n");
+            // Debug.Log(targetUnit.UnitInformation);
         }
 
-        private void ApplyItemToSelf(GameMove move)
-        {
+        private ItemMoveResult ApplyItemToSelf(GameMove move) {
             var unit = GetUnitAtPosition(move.StartPosition);
 
+            var itemStatus = SupportItemMoveResult.SupportItemStatus.None;
+
             var item = move.UsedItem as ISelfConsumable;
+
+            int damageHealed = unit.HealthPoints;
+
             item.UseItem(unit);
 
-            Debug.Log($"{unit.Name} uses {move.UsedItem.ItemName} on self");
+            if (damageHealed < unit.HealthPoints) {
+                itemStatus = SupportItemMoveResult.SupportItemStatus.Heal;
+                damageHealed = unit.HealthPoints - damageHealed;
+            } else {
+                itemStatus = SupportItemMoveResult.SupportItemStatus.Buff;
+            }
 
+            var itemMoveResult = new SupportItemMoveResult(move.StartPosition, move.EndPosition, move.UsedItem, damageHealed, itemStatus);
+
+            Debug.Log($"{unit.Name} uses {move.UsedItem.ItemName} on self");
             Debug.Log(unit.UnitInformation);
+
+            return itemMoveResult;
         }
 
         /// <summary>
@@ -1299,25 +1352,32 @@ namespace Assets.Scripts.Model {
         /// The GameMove that will be used to have a Unit initiate an attack another
         /// </param>
 
-        private void AttackUnit(GameMove move) {
+        private AttackMoveResult AttackUnit(GameMove move) {
             //since we attack and counterattack, 
             //Matthew feels that this is condensible into where you call another method twice
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
             // Attack Logic Here
-            AttackUnit(attackingUnit, defendingUnit);
+            AttackResult attackerResult = AttackUnit(attackingUnit, defendingUnit);
+            AttackResult defenderResult = null;
+
             var defendingUnitAttackLocations = GetSurroundingAttackLocationsAtPoint(move.EndPosition, defendingUnit.MainWeapon.Range);
-            if (defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition)) //check if unit is alive 
-                //TODO CHECK RANGE OF UNIT COUNTER
-            {
+            // check if unit is alive and within range to attack
+            if (defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition)) {
+
                 Debug.Log("COUNTERATTACKING");
-                AttackUnit(defendingUnit, attackingUnit);
+                defenderResult = AttackUnit(defendingUnit, attackingUnit);
             }
+
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
             //Debug.Log(defendingUnit.UnitInformation);
 
             attackingUnit.HasMoved = true;
+
+            var attackMoveResult = new AttackMoveResult(attackerResult, defenderResult);
+
+            return attackMoveResult;
         }
 
         /// <summary>
@@ -1326,22 +1386,34 @@ namespace Assets.Scripts.Model {
         /// <param name="attackingUnit">The attacking Unit</param>
         /// <param name="defendingUnit">The defending Unit</param>
 
-        private void AttackUnit(Unit attackingUnit, Unit defendingUnit)
-        {
+        private AttackResult AttackUnit(Unit attackingUnit, Unit defendingUnit) {
+
+            var attackerPosition = GridForUnit(attackingUnit);
+            var defenderPosition = GridForUnit(defendingUnit);
+
+            AttackResult.AttackStatus attackStatus = AttackResult.AttackStatus.None;
+
+            int damageDealt = 0;
+
             int hitChance = DamageCalculator.GetHitChance(attackingUnit, defendingUnit);
             Debug.Log("Rolling for hit");
             if (DamageCalculator.DiceRoll(hitChance)) {
                 int critChance = DamageCalculator.GetCritRate(attackingUnit, defendingUnit);
                 Debug.Log("Rolling for Crit");
                 if (DamageCalculator.DiceRoll(critChance)) {
+                    attackStatus = AttackResult.AttackStatus.Critical;
                     Debug.Log($"{attackingUnit.Name} crits {defendingUnit.Name}");
-                    defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetCritDamage(attackingUnit, defendingUnit);
+                    damageDealt = DamageCalculator.GetCritDamage(attackingUnit, defendingUnit);
+                    defendingUnit.HealthPoints -= damageDealt;
                 } else {
+                    attackStatus = AttackResult.AttackStatus.Regular;
                     Debug.Log($"{attackingUnit.Name} attacks {defendingUnit.Name}");
-                    defendingUnit.HealthPoints = defendingUnit.HealthPoints - DamageCalculator.GetDamage(attackingUnit, defendingUnit);
+                    damageDealt = DamageCalculator.GetDamage(attackingUnit, defendingUnit);
+                    defendingUnit.HealthPoints -= damageDealt;
                 }
 
                 if (!defendingUnit.IsAlive) {
+                    attackStatus = AttackResult.AttackStatus.Lethal;
                     Debug.Log($"{defendingUnit.Name} has been defeated");
                     KillUnit(defendingUnit);
                     attackingUnit.GainExperience(defendingUnit);
@@ -1350,8 +1422,12 @@ namespace Assets.Scripts.Model {
                 }
 
             } else {
+                attackStatus = AttackResult.AttackStatus.Miss;
                 Debug.Log($"{attackingUnit.Name} missed.");
             }
+
+            var attackResult = new AttackResult(attackerPosition, defenderPosition, damageDealt, attackStatus);
+            return attackResult;
         }
 
         /// <summary>
@@ -1359,21 +1435,25 @@ namespace Assets.Scripts.Model {
         /// </summary>
         /// <param name="move">The GameMove containing the Skill and position it will be used</param>
 
-        private void SkillUnit(GameMove move)
+        private SkillMoveResult SkillUnit(GameMove move)
         {
             var skill = move.UsedSkill;
+
+            SkillMoveResult skillMoveResult = null;
 
             var usingUnit = GetUnitAtPosition(move.StartPosition);
             usingUnit.HealthPoints -= skill.SkillCost;
 
             // Call appropriate methods depending on Skill Type
             if (skill is SingleDamageSkill) {
-                ApplySingleDamageSkill(move);
+                skillMoveResult = ApplySingleDamageSkill(move);
             } else if (skill is SingleSupportSkill) {
-                ApplySingleSupportSkill(move);
+                skillMoveResult = ApplySingleSupportSkill(move);
             }
 
             usingUnit.HasMoved = true;
+
+            return skillMoveResult;
         }
 
         /// <summary>
@@ -1381,7 +1461,7 @@ namespace Assets.Scripts.Model {
         /// </summary>
         /// <param name="move">The GameMove containing the Skill and position it will be used</param>
 
-        private void ApplySingleDamageSkill(GameMove move) {
+        private DamageSkillMoveResult ApplySingleDamageSkill(GameMove move) {
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
@@ -1389,7 +1469,9 @@ namespace Assets.Scripts.Model {
 
             // Attack Logic Here
             Debug.Log($"{attackingUnit.Name} attacks with {usedSkill.SkillName} on {defendingUnit.Name}");
-            ApplySingleDamageSkill(attackingUnit, defendingUnit, usedSkill);
+
+            DamageSkillResult attackerResult = ApplySingleDamageSkill(attackingUnit, defendingUnit, usedSkill);
+            AttackResult defenderResult = null;
 
             usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
 
@@ -1400,29 +1482,45 @@ namespace Assets.Scripts.Model {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
                 //instead of Skill[0] of we probably need selected skill or something
                 //attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
-                AttackUnit(defendingUnit, attackingUnit);
+                defenderResult = AttackUnit(defendingUnit, attackingUnit);
             } 
 
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
+
+            var damageSkillMoveResult = new DamageSkillMoveResult(attackerResult, defenderResult);
+            return damageSkillMoveResult;
         }
 
-        private void ApplySingleDamageSkill(Unit attackingUnit, Unit defendingUnit, SingleDamageSkill skill) {
+        private DamageSkillResult ApplySingleDamageSkill(Unit attackingUnit, Unit defendingUnit, SingleDamageSkill skill) {
+
+            var attackerPosition = GridForUnit(attackingUnit);
+            var defenderPosition = GridForUnit(defendingUnit);
+
+            DamageSkillResult.DamageSkillStatus skillStatus = DamageSkillResult.DamageSkillStatus.None;
+
+            int damageDealt = 0;
+
             int hitChance = skill.GetHitChance(attackingUnit, defendingUnit);
             Debug.Log($"Rolling for {skill.SkillName} hit");
             if (DamageCalculator.DiceRoll(hitChance)) {
                 int critChance = skill.GetCritRate(attackingUnit, defendingUnit);
                 Debug.Log($"Rolling for {skill.SkillName} Crit");
                 if (DamageCalculator.DiceRoll(critChance)) {
+                    skillStatus = DamageSkillResult.DamageSkillStatus.Critical;
                     Debug.Log($"{attackingUnit.Name} crits with {skill.SkillName} on {defendingUnit.Name}");
-                    defendingUnit.HealthPoints -= skill.GetCritDamage(attackingUnit, defendingUnit);
+                    damageDealt = skill.GetCritDamage(attackingUnit, defendingUnit);
+                    defendingUnit.HealthPoints -= damageDealt;
                 } else {
+                    skillStatus = DamageSkillResult.DamageSkillStatus.Regular;
                     Debug.Log($"{attackingUnit.Name} uses {skill.SkillName} on {defendingUnit.Name}");
-                    defendingUnit.HealthPoints -= skill.GetDamage(attackingUnit, defendingUnit);
+                    damageDealt = skill.GetDamage(attackingUnit, defendingUnit);
+                    defendingUnit.HealthPoints -= damageDealt;
 
                 }
 
                 if (!defendingUnit.IsAlive) {
+                    skillStatus = DamageSkillResult.DamageSkillStatus.Lethal;
                     Debug.Log($"{defendingUnit.Name} has been defeated");
                     KillUnit(defendingUnit);
                 }
@@ -1431,8 +1529,12 @@ namespace Assets.Scripts.Model {
 
 
             } else {
+                skillStatus = DamageSkillResult.DamageSkillStatus.Miss;
                 Debug.Log($"{attackingUnit.Name} missed {skill.SkillName}.");
             }
+
+            var damageSkillResult = new DamageSkillResult(attackerPosition, defenderPosition, skill, damageDealt, skillStatus);
+            return damageSkillResult;
         }
 
         /// <summary>
@@ -1440,19 +1542,34 @@ namespace Assets.Scripts.Model {
         /// </summary>
         /// <param name="move">The GameMove containing the Skill and position it will be used</param>
 
-        private void ApplySingleSupportSkill(GameMove move) {
+        private SupportSkillMoveResult ApplySingleSupportSkill(GameMove move) {
             var supportingUnit = GetUnitAtPosition(move.StartPosition);
             var supportedUnit = GetUnitAtPosition(move.EndPosition);
 
             var skill = move.UsedSkill as SingleSupportSkill;
+
+            int damageHealed = supportedUnit.HealthPoints;
+
+            var skillStatus = SupportSkillResult.SupportSkillStatus.None;
+
             skill.ApplySupportSkill(supportingUnit, supportedUnit);
 
+            if (damageHealed < supportedUnit.HealthPoints) {
+                skillStatus = SupportSkillResult.SupportSkillStatus.Heal;
+                damageHealed = supportedUnit.HealthPoints - damageHealed;
+            } else {
+                skillStatus = SupportSkillResult.SupportSkillStatus.Buff;
+            }
 
             // Attack Logic Here
             Debug.Log($"{supportingUnit.Name} uses {move.UsedSkill.SkillName} on {supportedUnit.Name}");
 
             Debug.Log(supportingUnit.UnitInformation + "\n\n");
             Debug.Log(supportedUnit.UnitInformation);
+
+            var supportSkillResult = new SupportSkillResult(move.StartPosition, move.EndPosition, move.UsedSkill, damageHealed, skillStatus);
+            var supportSkillMoveResult = new SupportSkillMoveResult(supportSkillResult);
+            return supportSkillMoveResult;
         }
 
         /// <summary>
@@ -1460,9 +1577,11 @@ namespace Assets.Scripts.Model {
         /// </summary>
         /// <param name="move">The GameMove for a Unit that will wait</param>
 
-        private void WaitUnit(GameMove move) {
+        private WaitMoveResult WaitUnit(GameMove move) {
             var unit = GetUnitAtPosition(move.StartPosition);
             unit.HasMoved = true;
+
+            return new WaitMoveResult(move.StartPosition);
         }
 
         #endregion 

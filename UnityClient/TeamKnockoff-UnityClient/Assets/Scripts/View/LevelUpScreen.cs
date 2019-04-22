@@ -47,13 +47,21 @@ namespace Assets.Scripts.View {
                 gameView.tileSelector.gameObject.SetActive(true);
                 gameView.moveSelector.gameObject.SetActive(true);
                 gameView.UnlockCamera();
+                gameView.HasScreenOverlay = false;
                 gameViewModel.UnpauseGame();
             });
         }
 
-        private void UnitViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+        private async void UnitViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == "Level") {
+                gameView.HasScreenOverlay = true;
+
+                await Task.Run(() => {
+                    while (gameView.HasMoveText || gameView.IsUpdating) { }
+                });
+
                 this.gameObject.SetActive(true);
+
                 gameView.mPauseButton.interactable = false;
                 gameView.tileSelector.gameObject.SetActive(false);
                 gameView.moveSelector.gameObject.SetActive(false);

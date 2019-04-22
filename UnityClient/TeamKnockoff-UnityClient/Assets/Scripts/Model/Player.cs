@@ -136,7 +136,8 @@ namespace Assets.Scripts.Model {
         }
 
         public void StartTurn() {
-            foreach(var unit in mUnits) {
+            var availableUnits = mUnits.Where(unit => unit.IsAlive);
+            foreach(var unit in availableUnits) {
                 unit.StartTurn();
             }
         }
