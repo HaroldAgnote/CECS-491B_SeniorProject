@@ -10,9 +10,10 @@ namespace Assets.Scripts.Model.Units {
     public abstract class CavalryUnit : Unit {
 
         const string UNIT_TYPE = "Cavalry";
+        const string MOVE_TYPE = "Land";
         
         public CavalryUnit(string unitName, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) 
-            : base(unitName, UNIT_TYPE, unitClass, maxHealth, strength, magic, defense, resistance, speed, skill, luck, movement)
+            : base(unitName, UNIT_TYPE, unitClass, MOVE_TYPE, maxHealth, strength, magic, defense, resistance, speed, skill, luck, movement)
             { }
 
         public CavalryUnit(UnitWrapper unitWrapper) : base (unitWrapper) { }

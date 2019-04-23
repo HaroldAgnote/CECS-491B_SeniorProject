@@ -39,20 +39,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 65;
         #endregion 
 
-        public static Cleric CreateCleric() {
+        public override Unit Generate() {
             return new Cleric();
         }
 
-        public static Cleric CreateCleric(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Cleric(unitName);
         }
 
-        public static Cleric ImportCleric(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Cleric(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Cleric.ImportCleric(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Cleric(unitWrapper);
+            return unitClone;
         }
 
         public Cleric() 

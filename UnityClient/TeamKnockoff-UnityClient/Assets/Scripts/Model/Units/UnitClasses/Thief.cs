@@ -39,20 +39,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 80;
         #endregion 
 
-        public static Thief CreateThief() {
+        public override Unit Generate() {
             return new Thief();
         }
 
-        public static Thief CreateThief(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Thief(unitName);
         }
 
-        public static Thief ImportThief(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Thief(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Thief.ImportThief(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Thief(unitWrapper);
+            return unitClone;
         }
 
         public Thief() 

@@ -1539,8 +1539,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "PegasusKnights_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 4,
@@ -1899,8 +1899,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "PegasusKnights_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 5,
@@ -1929,8 +1929,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Thieves_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 5,
@@ -2279,8 +2279,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "CampaignUnits_4_Cleric_Nomira"
         },
         {
             "Column": 6,
@@ -2289,8 +2289,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Knights_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 6,
@@ -2650,7 +2650,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Thieves_0"
+            "UnitData": "CampaignUnits_0_Cavalier_Eres"
         },
         {
             "Column": 7,
@@ -2669,8 +2669,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Archers_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 7,
@@ -3029,8 +3029,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Archers_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 8,
@@ -3165,7 +3165,7 @@
         {
             "Column": 8,
             "Row": 20,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_77_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3175,7 +3175,7 @@
         {
             "Column": 8,
             "Row": 21,
-            "FloorData": "Swamp_69",
+            "FloorData": "Swamp_77_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3185,7 +3185,7 @@
         {
             "Column": 8,
             "Row": 22,
-            "FloorData": "Swamp_106",
+            "FloorData": "Swamp_77_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3195,7 +3195,7 @@
         {
             "Column": 8,
             "Row": 23,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_77_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3205,7 +3205,7 @@
         {
             "Column": 8,
             "Row": 24,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_77_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3215,7 +3215,7 @@
         {
             "Column": 8,
             "Row": 25,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_76_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3515,7 +3515,7 @@
         {
             "Column": 9,
             "Row": 18,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_89",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3525,9 +3525,9 @@
         {
             "Column": 9,
             "Row": 19,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
-            "WallData": "Swamp_53_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -3535,8 +3535,8 @@
         {
             "Column": 9,
             "Row": 20,
-            "FloorData": "Swamp_60",
-            "ObstacleData": "Swamp_44_Obstacle",
+            "FloorData": "Swamp_69",
+            "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
             "Player": 0,
@@ -3545,7 +3545,7 @@
         {
             "Column": 9,
             "Row": 21,
-            "FloorData": "Swamp_92",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3555,7 +3555,7 @@
         {
             "Column": 9,
             "Row": 22,
-            "FloorData": "Swamp_112",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3565,7 +3565,7 @@
         {
             "Column": 9,
             "Row": 23,
-            "FloorData": "Swamp_67_Rough",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3575,7 +3575,7 @@
         {
             "Column": 9,
             "Row": 24,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3585,7 +3585,7 @@
         {
             "Column": 9,
             "Row": 25,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_77_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3665,7 +3665,7 @@
         {
             "Column": 9,
             "Row": 33,
-            "FloorData": "Swamp_28_Rough",
+            "FloorData": "Swamp_37_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3675,7 +3675,7 @@
         {
             "Column": 9,
             "Row": 34,
-            "FloorData": "Swamp_23_Wall",
+            "FloorData": "Swamp_31_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3759,8 +3759,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "CampaignUnits_3_Mage_Soinge"
         },
         {
             "Column": 10,
@@ -3875,7 +3875,7 @@
         {
             "Column": 10,
             "Row": 17,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_49",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3885,7 +3885,7 @@
         {
             "Column": 10,
             "Row": 18,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3895,7 +3895,7 @@
         {
             "Column": 10,
             "Row": 19,
-            "FloorData": "Swamp_81",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3905,7 +3905,7 @@
         {
             "Column": 10,
             "Row": 20,
-            "FloorData": "Swamp_110",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3915,7 +3915,7 @@
         {
             "Column": 10,
             "Row": 21,
-            "FloorData": "Swamp_47",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3925,7 +3925,7 @@
         {
             "Column": 10,
             "Row": 22,
-            "FloorData": "Swamp_114",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3935,7 +3935,7 @@
         {
             "Column": 10,
             "Row": 23,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3945,7 +3945,7 @@
         {
             "Column": 10,
             "Row": 24,
-            "FloorData": "Swamp_76_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -3955,7 +3955,7 @@
         {
             "Column": 10,
             "Row": 25,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_112",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4035,9 +4035,9 @@
         {
             "Column": 10,
             "Row": 33,
-            "FloorData": "Swamp_28_Rough",
+            "FloorData": "Swamp_58",
             "ObstacleData": "",
-            "WallData": "Swamp_53_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -4045,8 +4045,8 @@
         {
             "Column": 10,
             "Row": 34,
-            "FloorData": "Swamp_23_Wall",
-            "ObstacleData": "Swamp_44_Obstacle",
+            "FloorData": "Swamp_69",
+            "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
             "Player": 0,
@@ -4235,26 +4235,6 @@
         {
             "Column": 11,
             "Row": 16,
-            "FloorData": "Swamp_77_Rough",
-            "ObstacleData": "",
-            "WallData": "",
-            "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
-        },
-        {
-            "Column": 11,
-            "Row": 17,
-            "FloorData": "Swamp_76_Rough",
-            "ObstacleData": "",
-            "WallData": "",
-            "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
-        },
-        {
-            "Column": 11,
-            "Row": 18,
             "FloorData": "Swamp_80",
             "ObstacleData": "",
             "WallData": "",
@@ -4264,8 +4244,8 @@
         },
         {
             "Column": 11,
-            "Row": 19,
-            "FloorData": "Swamp_92",
+            "Row": 17,
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4274,8 +4254,28 @@
         },
         {
             "Column": 11,
+            "Row": 18,
+            "FloorData": "Swamp_51",
+            "ObstacleData": "",
+            "WallData": "",
+            "BoundaryData": "",
+            "Player": 0,
+            "UnitData": ""
+        },
+        {
+            "Column": 11,
+            "Row": 19,
+            "FloorData": "Swamp_51",
+            "ObstacleData": "",
+            "WallData": "",
+            "BoundaryData": "",
+            "Player": 2,
+            "UnitData": "GenericUnits_2_Archer"
+        },
+        {
+            "Column": 11,
             "Row": 20,
-            "FloorData": "Swamp_112",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4285,7 +4285,7 @@
         {
             "Column": 11,
             "Row": 21,
-            "FloorData": "Swamp_115",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4295,7 +4295,7 @@
         {
             "Column": 11,
             "Row": 22,
-            "FloorData": "Swamp_101",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4305,7 +4305,7 @@
         {
             "Column": 11,
             "Row": 23,
-            "FloorData": "Swamp_93",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4315,7 +4315,7 @@
         {
             "Column": 11,
             "Row": 24,
-            "FloorData": "Swamp_47",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4325,7 +4325,7 @@
         {
             "Column": 11,
             "Row": 25,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_112",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4365,7 +4365,7 @@
         {
             "Column": 11,
             "Row": 29,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_78",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4375,7 +4375,7 @@
         {
             "Column": 11,
             "Row": 30,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4385,7 +4385,7 @@
         {
             "Column": 11,
             "Row": 31,
-            "FloorData": "Swamp_32_Rough",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4395,7 +4395,7 @@
         {
             "Column": 11,
             "Row": 32,
-            "FloorData": "Swamp_32_Rough",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4405,7 +4405,7 @@
         {
             "Column": 11,
             "Row": 33,
-            "FloorData": "Swamp_37_Rough",
+            "FloorData": "Swamp_60",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4415,7 +4415,7 @@
         {
             "Column": 11,
             "Row": 34,
-            "FloorData": "Swamp_23_Wall",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4605,7 +4605,7 @@
         {
             "Column": 12,
             "Row": 16,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_80",
             "ObstacleData": "Swamp_44_Obstacle",
             "WallData": "",
             "BoundaryData": "",
@@ -4615,7 +4615,7 @@
         {
             "Column": 12,
             "Row": 17,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4625,27 +4625,27 @@
         {
             "Column": 12,
             "Row": 18,
-            "FloorData": "Swamp_115",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_4_Knight"
         },
         {
             "Column": 12,
             "Row": 19,
-            "FloorData": "Swamp_83",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_4_Knight"
         },
         {
             "Column": 12,
             "Row": 20,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4655,7 +4655,7 @@
         {
             "Column": 12,
             "Row": 21,
-            "FloorData": "Swamp_67_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4665,7 +4665,7 @@
         {
             "Column": 12,
             "Row": 22,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4675,17 +4675,17 @@
         {
             "Column": 12,
             "Row": 23,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_4_Knight"
         },
         {
             "Column": 12,
             "Row": 24,
-            "FloorData": "Swamp_79",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4695,7 +4695,7 @@
         {
             "Column": 12,
             "Row": 25,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_114",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4705,7 +4705,7 @@
         {
             "Column": 12,
             "Row": 26,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4715,7 +4715,7 @@
         {
             "Column": 12,
             "Row": 27,
-            "FloorData": "Swamp_106",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4725,7 +4725,7 @@
         {
             "Column": 12,
             "Row": 28,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4735,7 +4735,7 @@
         {
             "Column": 12,
             "Row": 29,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_60",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4745,7 +4745,7 @@
         {
             "Column": 12,
             "Row": 30,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4755,7 +4755,7 @@
         {
             "Column": 12,
             "Row": 31,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4765,7 +4765,7 @@
         {
             "Column": 12,
             "Row": 32,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4775,7 +4775,7 @@
         {
             "Column": 12,
             "Row": 33,
-            "FloorData": "Swamp_60",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4869,8 +4869,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "CampaignUnits_1_Archer_Yew"
         },
         {
             "Column": 13,
@@ -4965,7 +4965,7 @@
         {
             "Column": 13,
             "Row": 15,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4975,7 +4975,7 @@
         {
             "Column": 13,
             "Row": 16,
-            "FloorData": "Swamp_110",
+            "FloorData": "Swamp_79",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4985,7 +4985,7 @@
         {
             "Column": 13,
             "Row": 17,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -4995,7 +4995,7 @@
         {
             "Column": 13,
             "Row": 18,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5005,7 +5005,7 @@
         {
             "Column": 13,
             "Row": 19,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5015,7 +5015,7 @@
         {
             "Column": 13,
             "Row": 20,
-            "FloorData": "Swamp_76_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5025,7 +5025,7 @@
         {
             "Column": 13,
             "Row": 21,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5035,7 +5035,7 @@
         {
             "Column": 13,
             "Row": 22,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5045,7 +5045,7 @@
         {
             "Column": 13,
             "Row": 23,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5055,7 +5055,7 @@
         {
             "Column": 13,
             "Row": 24,
-            "FloorData": "Swamp_115",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5065,7 +5065,7 @@
         {
             "Column": 13,
             "Row": 25,
-            "FloorData": "Swamp_93",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5075,7 +5075,7 @@
         {
             "Column": 13,
             "Row": 26,
-            "FloorData": "Swamp_93",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5085,7 +5085,7 @@
         {
             "Column": 13,
             "Row": 27,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5095,9 +5095,9 @@
         {
             "Column": 13,
             "Row": 28,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
-            "WallData": "Swamp_102_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -5105,7 +5105,7 @@
         {
             "Column": 13,
             "Row": 29,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5115,7 +5115,7 @@
         {
             "Column": 13,
             "Row": 30,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5125,22 +5125,22 @@
         {
             "Column": 13,
             "Row": 31,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_1_Cleric"
         },
         {
             "Column": 13,
             "Row": 32,
-            "FloorData": "Swamp_60",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_2_Archer"
         },
         {
             "Column": 13,
@@ -5239,8 +5239,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "CampaignUnits_2_Knight_Bastion"
         },
         {
             "Column": 14,
@@ -5335,7 +5335,7 @@
         {
             "Column": 14,
             "Row": 15,
-            "FloorData": "Swamp_115",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5345,7 +5345,7 @@
         {
             "Column": 14,
             "Row": 16,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5355,7 +5355,7 @@
         {
             "Column": 14,
             "Row": 17,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_75",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5365,9 +5365,9 @@
         {
             "Column": 14,
             "Row": 18,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
-            "WallData": "Swamp_94_Wall",
+            "WallData": "Swamp_53_Wall",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -5375,7 +5375,7 @@
         {
             "Column": 14,
             "Row": 19,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "Swamp_44_Obstacle",
             "WallData": "",
             "BoundaryData": "",
@@ -5385,7 +5385,7 @@
         {
             "Column": 14,
             "Row": 20,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5395,7 +5395,7 @@
         {
             "Column": 14,
             "Row": 21,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5405,7 +5405,7 @@
         {
             "Column": 14,
             "Row": 22,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5415,7 +5415,7 @@
         {
             "Column": 14,
             "Row": 23,
-            "FloorData": "Swamp_68_Rough",
+            "FloorData": "Swamp_47",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5425,7 +5425,7 @@
         {
             "Column": 14,
             "Row": 24,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5435,7 +5435,7 @@
         {
             "Column": 14,
             "Row": 25,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5445,7 +5445,7 @@
         {
             "Column": 14,
             "Row": 26,
-            "FloorData": "Swamp_68_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5455,7 +5455,17 @@
         {
             "Column": 14,
             "Row": 27,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
+            "ObstacleData": "",
+            "WallData": "",
+            "BoundaryData": "",
+            "Player": 2,
+            "UnitData": "GenericUnits_4_Knight"
+        },
+        {
+            "Column": 14,
+            "Row": 28,
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5464,18 +5474,8 @@
         },
         {
             "Column": 14,
-            "Row": 28,
-            "FloorData": "Swamp_77_Rough",
-            "ObstacleData": "",
-            "WallData": "Swamp_103_Wall",
-            "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
-        },
-        {
-            "Column": 14,
             "Row": 29,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5485,7 +5485,7 @@
         {
             "Column": 14,
             "Row": 30,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5495,12 +5495,12 @@
         {
             "Column": 14,
             "Row": 31,
-            "FloorData": "Swamp_80",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_4_Knight"
         },
         {
             "Column": 14,
@@ -5715,7 +5715,7 @@
         {
             "Column": 15,
             "Row": 16,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "Swamp_102_Wall",
             "BoundaryData": "",
@@ -5725,7 +5725,7 @@
         {
             "Column": 15,
             "Row": 17,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5735,7 +5735,7 @@
         {
             "Column": 15,
             "Row": 18,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5785,7 +5785,7 @@
         {
             "Column": 15,
             "Row": 23,
-            "FloorData": "Swamp_67_Rough",
+            "FloorData": "Swamp_57_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5795,7 +5795,7 @@
         {
             "Column": 15,
             "Row": 24,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5805,7 +5805,7 @@
         {
             "Column": 15,
             "Row": 25,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5815,7 +5815,7 @@
         {
             "Column": 15,
             "Row": 26,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5825,7 +5825,7 @@
         {
             "Column": 15,
             "Row": 27,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5835,9 +5835,9 @@
         {
             "Column": 15,
             "Row": 28,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
-            "WallData": "Swamp_104_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -5845,7 +5845,7 @@
         {
             "Column": 15,
             "Row": 29,
-            "FloorData": "Swamp_76_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5855,7 +5855,7 @@
         {
             "Column": 15,
             "Row": 30,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_47",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5865,7 +5865,7 @@
         {
             "Column": 15,
             "Row": 31,
-            "FloorData": "Swamp_60",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -5995,7 +5995,7 @@
         {
             "Column": 16,
             "Row": 7,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_85",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6085,7 +6085,7 @@
         {
             "Column": 16,
             "Row": 16,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "Swamp_103_Wall",
             "BoundaryData": "",
@@ -6095,7 +6095,7 @@
         {
             "Column": 16,
             "Row": 17,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6105,7 +6105,7 @@
         {
             "Column": 16,
             "Row": 18,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6239,8 +6239,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_2_Archer"
         },
         {
             "Column": 16,
@@ -6367,7 +6367,7 @@
             "Row": 7,
             "FloorData": "Swamp_5_Rough",
             "ObstacleData": "",
-            "WallData": "Swamp_53_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -6376,7 +6376,7 @@
             "Column": 17,
             "Row": 8,
             "FloorData": "Swamp_57_Rough",
-            "ObstacleData": "Swamp_44_Obstacle",
+            "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
             "Player": 0,
@@ -6455,7 +6455,7 @@
         {
             "Column": 17,
             "Row": 16,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "Swamp_104_Wall",
             "BoundaryData": "",
@@ -6465,7 +6465,7 @@
         {
             "Column": 17,
             "Row": 17,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6475,7 +6475,7 @@
         {
             "Column": 17,
             "Row": 18,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6715,7 +6715,7 @@
         {
             "Column": 18,
             "Row": 5,
-            "FloorData": "Swamp_83",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6725,8 +6725,8 @@
         {
             "Column": 18,
             "Row": 6,
-            "FloorData": "Swamp_85",
-            "ObstacleData": "Swamp_54",
+            "FloorData": "Swamp_114",
+            "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
             "Player": 0,
@@ -6735,8 +6735,8 @@
         {
             "Column": 18,
             "Row": 7,
-            "FloorData": "Swamp_76_Rough",
-            "ObstacleData": "Swamp_45_Obstacle",
+            "FloorData": "Swamp_97",
+            "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
             "Player": 0,
@@ -6745,7 +6745,7 @@
         {
             "Column": 18,
             "Row": 8,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_97",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6755,7 +6755,7 @@
         {
             "Column": 18,
             "Row": 9,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_97",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6765,7 +6765,7 @@
         {
             "Column": 18,
             "Row": 10,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_97",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6775,7 +6775,7 @@
         {
             "Column": 18,
             "Row": 11,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6815,7 +6815,7 @@
         {
             "Column": 18,
             "Row": 15,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6825,7 +6825,7 @@
         {
             "Column": 18,
             "Row": 16,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6835,7 +6835,7 @@
         {
             "Column": 18,
             "Row": 17,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6845,7 +6845,7 @@
         {
             "Column": 18,
             "Row": 18,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6865,7 +6865,7 @@
         {
             "Column": 18,
             "Row": 20,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_57_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -6875,7 +6875,7 @@
         {
             "Column": 18,
             "Row": 21,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_57_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7085,7 +7085,7 @@
         {
             "Column": 19,
             "Row": 5,
-            "FloorData": "Swamp_112",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7095,9 +7095,9 @@
         {
             "Column": 19,
             "Row": 6,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
-            "WallData": "Swamp_55_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -7105,8 +7105,8 @@
         {
             "Column": 19,
             "Row": 7,
-            "FloorData": "Swamp_57_Rough",
-            "ObstacleData": "Swamp_46_Obstacle",
+            "FloorData": "Swamp_51",
+            "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
             "Player": 0,
@@ -7115,7 +7115,7 @@
         {
             "Column": 19,
             "Row": 8,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7125,7 +7125,7 @@
         {
             "Column": 19,
             "Row": 9,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7135,7 +7135,7 @@
         {
             "Column": 19,
             "Row": 10,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7145,7 +7145,7 @@
         {
             "Column": 19,
             "Row": 11,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7155,7 +7155,7 @@
         {
             "Column": 19,
             "Row": 12,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_114",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7195,7 +7195,7 @@
         {
             "Column": 19,
             "Row": 16,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7205,7 +7205,7 @@
         {
             "Column": 19,
             "Row": 17,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7215,7 +7215,7 @@
         {
             "Column": 19,
             "Row": 18,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7235,7 +7235,7 @@
         {
             "Column": 19,
             "Row": 20,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_57_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7245,7 +7245,7 @@
         {
             "Column": 19,
             "Row": 21,
-            "FloorData": "Swamp_106",
+            "FloorData": "Swamp_57_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7339,8 +7339,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_0_Cavalier"
         },
         {
             "Column": 19,
@@ -7445,7 +7445,7 @@
         {
             "Column": 20,
             "Row": 4,
-            "FloorData": "Swamp_83",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7455,7 +7455,7 @@
         {
             "Column": 20,
             "Row": 5,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7465,7 +7465,7 @@
         {
             "Column": 20,
             "Row": 6,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7475,7 +7475,7 @@
         {
             "Column": 20,
             "Row": 7,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7485,7 +7485,7 @@
         {
             "Column": 20,
             "Row": 8,
-            "FloorData": "Swamp_58",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7495,7 +7495,7 @@
         {
             "Column": 20,
             "Row": 9,
-            "FloorData": "Swamp_106",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7505,7 +7505,7 @@
         {
             "Column": 20,
             "Row": 10,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7515,7 +7515,7 @@
         {
             "Column": 20,
             "Row": 11,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7525,7 +7525,7 @@
         {
             "Column": 20,
             "Row": 12,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7535,7 +7535,7 @@
         {
             "Column": 20,
             "Row": 13,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_114",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7545,7 +7545,7 @@
         {
             "Column": 20,
             "Row": 14,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_97",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7555,7 +7555,7 @@
         {
             "Column": 20,
             "Row": 15,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_97",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7565,7 +7565,7 @@
         {
             "Column": 20,
             "Row": 16,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_97",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7575,7 +7575,7 @@
         {
             "Column": 20,
             "Row": 17,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_69",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7585,7 +7585,7 @@
         {
             "Column": 20,
             "Row": 18,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_86_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7605,7 +7605,7 @@
         {
             "Column": 20,
             "Row": 20,
-            "FloorData": "Swamp_110",
+            "FloorData": "Swamp_57_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7615,7 +7615,7 @@
         {
             "Column": 20,
             "Row": 21,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_57_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7805,7 +7805,7 @@
         {
             "Column": 21,
             "Row": 3,
-            "FloorData": "Swamp_83",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7815,7 +7815,7 @@
         {
             "Column": 21,
             "Row": 4,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_65",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7825,7 +7825,7 @@
         {
             "Column": 21,
             "Row": 5,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7835,7 +7835,7 @@
         {
             "Column": 21,
             "Row": 6,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7845,7 +7845,7 @@
         {
             "Column": 21,
             "Row": 7,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7855,7 +7855,7 @@
         {
             "Column": 21,
             "Row": 8,
-            "FloorData": "Swamp_115",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7865,7 +7865,7 @@
         {
             "Column": 21,
             "Row": 9,
-            "FloorData": "Swamp_93",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7885,7 +7885,7 @@
         {
             "Column": 21,
             "Row": 11,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7895,7 +7895,7 @@
         {
             "Column": 21,
             "Row": 12,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7905,7 +7905,7 @@
         {
             "Column": 21,
             "Row": 13,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7915,9 +7915,9 @@
         {
             "Column": 21,
             "Row": 14,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
-            "WallData": "Swamp_102_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -7925,7 +7925,7 @@
         {
             "Column": 21,
             "Row": 15,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7935,7 +7935,7 @@
         {
             "Column": 21,
             "Row": 16,
-            "FloorData": "Swamp_106",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7945,7 +7945,7 @@
         {
             "Column": 21,
             "Row": 17,
-            "FloorData": "Swamp_68_Rough",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7955,7 +7955,7 @@
         {
             "Column": 21,
             "Row": 18,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_113",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -7975,7 +7975,7 @@
         {
             "Column": 21,
             "Row": 20,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_57_Rough",
             "ObstacleData": "Swamp_54",
             "WallData": "",
             "BoundaryData": "",
@@ -8089,8 +8089,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_3_Mage"
         },
         {
             "Column": 21,
@@ -8245,7 +8245,7 @@
         {
             "Column": 22,
             "Row": 10,
-            "FloorData": "Swamp_80",
+            "FloorData": "Swamp_48",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8255,7 +8255,7 @@
         {
             "Column": 22,
             "Row": 11,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8265,7 +8265,7 @@
         {
             "Column": 22,
             "Row": 12,
-            "FloorData": "Swamp_67_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8275,7 +8275,7 @@
         {
             "Column": 22,
             "Row": 13,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8285,9 +8285,9 @@
         {
             "Column": 22,
             "Row": 14,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
-            "WallData": "Swamp_103_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -8295,7 +8295,7 @@
         {
             "Column": 22,
             "Row": 15,
-            "FloorData": "Swamp_80",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8305,7 +8305,7 @@
         {
             "Column": 22,
             "Row": 16,
-            "FloorData": "Swamp_114",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8315,7 +8315,7 @@
         {
             "Column": 22,
             "Row": 17,
-            "FloorData": "Swamp_106",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8325,7 +8325,7 @@
         {
             "Column": 22,
             "Row": 18,
-            "FloorData": "Swamp_68_Rough",
+            "FloorData": "Swamp_113",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8439,8 +8439,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Knights_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 22,
@@ -8449,8 +8449,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Clerics_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 22,
@@ -8459,8 +8459,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Archers_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 22,
@@ -8469,8 +8469,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Thieves_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 22,
@@ -8615,7 +8615,7 @@
         {
             "Column": 23,
             "Row": 10,
-            "FloorData": "Swamp_80",
+            "FloorData": "Swamp_48",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8625,7 +8625,7 @@
         {
             "Column": 23,
             "Row": 11,
-            "FloorData": "Swamp_57_Rough",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8635,7 +8635,7 @@
         {
             "Column": 23,
             "Row": 12,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8645,7 +8645,7 @@
         {
             "Column": 23,
             "Row": 13,
-            "FloorData": "Swamp_89",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8655,9 +8655,9 @@
         {
             "Column": 23,
             "Row": 14,
-            "FloorData": "Swamp_106",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
-            "WallData": "Swamp_104_Wall",
+            "WallData": "",
             "BoundaryData": "",
             "Player": 0,
             "UnitData": ""
@@ -8665,7 +8665,7 @@
         {
             "Column": 23,
             "Row": 15,
-            "FloorData": "Swamp_80",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8685,7 +8685,7 @@
         {
             "Column": 23,
             "Row": 17,
-            "FloorData": "Swamp_112",
+            "FloorData": "Swamp_51",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8695,7 +8695,7 @@
         {
             "Column": 23,
             "Row": 18,
-            "FloorData": "Swamp_77_Rough",
+            "FloorData": "Swamp_113",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8819,8 +8819,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_0_Cavalier"
         },
         {
             "Column": 23,
@@ -8839,8 +8839,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "PegasusKnights_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 23,
@@ -8985,7 +8985,7 @@
         {
             "Column": 24,
             "Row": 10,
-            "FloorData": "Swamp_80",
+            "FloorData": "Swamp_48",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -8995,7 +8995,7 @@
         {
             "Column": 24,
             "Row": 11,
-            "FloorData": "Swamp_78",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9005,7 +9005,7 @@
         {
             "Column": 24,
             "Row": 12,
-            "FloorData": "Swamp_81",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9015,7 +9015,7 @@
         {
             "Column": 24,
             "Row": 13,
-            "FloorData": "Swamp_92",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9025,7 +9025,7 @@
         {
             "Column": 24,
             "Row": 14,
-            "FloorData": "Swamp_114",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9035,7 +9035,7 @@
         {
             "Column": 24,
             "Row": 15,
-            "FloorData": "Swamp_60",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9045,7 +9045,7 @@
         {
             "Column": 24,
             "Row": 16,
-            "FloorData": "Swamp_83",
+            "FloorData": "Swamp_50",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9055,7 +9055,7 @@
         {
             "Column": 24,
             "Row": 17,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_110",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9065,7 +9065,7 @@
         {
             "Column": 24,
             "Row": 18,
-            "FloorData": "Swamp_27_Rough",
+            "FloorData": "Swamp_85",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9075,7 +9075,7 @@
         {
             "Column": 24,
             "Row": 19,
-            "FloorData": "Swamp_29_Rough",
+            "FloorData": "Swamp_36_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9209,8 +9209,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "PegasusKnights_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 24,
@@ -9355,7 +9355,7 @@
         {
             "Column": 25,
             "Row": 10,
-            "FloorData": "Swamp_115",
+            "FloorData": "Swamp_77_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9365,7 +9365,7 @@
         {
             "Column": 25,
             "Row": 11,
-            "FloorData": "Swamp_93",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9375,7 +9375,7 @@
         {
             "Column": 25,
             "Row": 12,
-            "FloorData": "Swamp_75",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9385,7 +9385,7 @@
         {
             "Column": 25,
             "Row": 13,
-            "FloorData": "Swamp_93",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9395,7 +9395,7 @@
         {
             "Column": 25,
             "Row": 14,
-            "FloorData": "Swamp_93",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9405,7 +9405,7 @@
         {
             "Column": 25,
             "Row": 15,
-            "FloorData": "Swamp_93",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9415,7 +9415,7 @@
         {
             "Column": 25,
             "Row": 16,
-            "FloorData": "Swamp_85",
+            "FloorData": "Swamp_56",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9425,7 +9425,7 @@
         {
             "Column": 25,
             "Row": 17,
-            "FloorData": "Swamp_5_Rough",
+            "FloorData": "Swamp_77_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9435,7 +9435,7 @@
         {
             "Column": 25,
             "Row": 18,
-            "FloorData": "Swamp_36_Rough",
+            "FloorData": "Swamp_35_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9445,7 +9445,7 @@
         {
             "Column": 25,
             "Row": 19,
-            "FloorData": "Swamp_23_Wall",
+            "FloorData": "Swamp_29_Rough",
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
@@ -9569,8 +9569,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_2_Archer"
         },
         {
             "Column": 25,
@@ -10299,8 +10299,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_1_Cleric"
         },
         {
             "Column": 27,

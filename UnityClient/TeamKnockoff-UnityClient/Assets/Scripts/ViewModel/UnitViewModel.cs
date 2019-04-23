@@ -114,8 +114,24 @@ namespace Assets.Scripts.ViewModel {
             }
         }
 
+        private bool mIsAlive;
+
+        public bool IsAlive {
+            get {
+                return mIsAlive;
+            }
+
+            private set {
+                if (mIsAlive != value) {
+                    mIsAlive = value;
+                    OnPropertyChanged(nameof(IsAlive));
+                }
+            }
+        }
+
         public void SyncUnit() {
             Level = new Stat(mUnit.Level);
+            IsAlive = mUnit.IsAlive;
         }
 
         public void ResetStats() {

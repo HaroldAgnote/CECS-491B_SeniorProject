@@ -39,22 +39,23 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 60;
         #endregion 
 
-        public static PegasusKnight CreatePegasusKnight() {
-
+        public override Unit Generate() {
             return new PegasusKnight();
         }
 
-        public static PegasusKnight CreatePegasusKnight(string unitName) {
+        public override Unit Generate(string unitName) {
 
             return new PegasusKnight(unitName);
         }
 
-        public static PegasusKnight ImportPegasusKnight(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new PegasusKnight(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return PegasusKnight.ImportPegasusKnight(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new PegasusKnight(unitWrapper);
+            return unitClone;
         }
 
         public PegasusKnight() 

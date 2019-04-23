@@ -40,20 +40,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 65;
         #endregion  
 
-        public static Mage CreateMage() {
+        public override Unit Generate() {
             return new Mage();
         }
 
-        public static Mage CreateMage(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Mage(unitName);
         }
 
-        public static Mage ImportMage(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Mage(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Mage.ImportMage(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Mage(unitWrapper);
+            return unitClone;
         }
 
         public Mage() 

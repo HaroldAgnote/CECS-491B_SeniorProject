@@ -30,7 +30,7 @@ namespace Assets.Scripts.View {
         }
 
         private void QuitGame() {
-            SceneLoader.instance.GoToMainMenu();
+            GameManager.instance.QuitGame();
         }
 
     }

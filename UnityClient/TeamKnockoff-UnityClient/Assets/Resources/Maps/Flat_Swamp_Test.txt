@@ -5039,8 +5039,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "PegasusKnights_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 13,
@@ -5309,8 +5309,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "CampaignUnits_3_Mage_Soinge"
         },
         {
             "Column": 14,
@@ -5320,7 +5320,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "PegasusKnights_0"
+            "UnitData": "CampaignUnits_0_Cavalier_Eres"
         },
         {
             "Column": 14,
@@ -5700,7 +5700,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Archers_0"
+            "UnitData": "TemporaryUnits_12_Thief"
         },
         {
             "Column": 15,
@@ -5709,8 +5709,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Cavaliers_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 15,
@@ -5780,7 +5780,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 2,
-            "UnitData": "Cavaliers_1"
+            "UnitData": "GenericUnits_0_Cavalier"
         },
         {
             "Column": 15,
@@ -5789,8 +5789,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Archers_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 15,
@@ -5799,8 +5799,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_2_Archer"
         },
         {
             "Column": 15,
@@ -6039,8 +6039,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "CampaignUnits_4_Cleric_Nomira"
         },
         {
             "Column": 16,
@@ -6049,8 +6049,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Mages_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 16,
@@ -6089,8 +6089,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Thieves_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 16,
@@ -6140,7 +6140,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 2,
-            "UnitData": "Thieves_1"
+            "UnitData": "GenericUnits_4_Knight"
         },
         {
             "Column": 16,
@@ -6159,8 +6159,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "TemporaryUnits_13_Thief"
         },
         {
             "Column": 16,
@@ -6169,8 +6169,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_3_Mage"
         },
         {
             "Column": 16,
@@ -6179,8 +6179,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Mages_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 16,
@@ -6409,8 +6409,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Clerics_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 17,
@@ -6439,8 +6439,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "CampaignUnits_2_Knight_Bastion"
         },
         {
             "Column": 17,
@@ -6469,8 +6469,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Knights_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 17,
@@ -6499,8 +6499,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Knights_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 17,
@@ -6519,8 +6519,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "TemporaryUnits_11_PegasusKnight"
         },
         {
             "Column": 17,
@@ -6539,8 +6539,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 2,
+            "UnitData": "GenericUnits_1_Cleric"
         },
         {
             "Column": 17,
@@ -6549,8 +6549,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Clerics_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 17,
@@ -6790,7 +6790,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Mages_0"
+            "UnitData": "CampaignUnits_1_Archer_Yew"
         },
         {
             "Column": 18,
@@ -6799,8 +6799,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "TemporaryUnits_10_PegasusKnight"
         },
         {
             "Column": 18,
@@ -6829,8 +6829,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Thieves_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 18,
@@ -6879,8 +6879,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Thieves_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 18,
@@ -7179,8 +7179,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Archers_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 19,
@@ -7189,8 +7189,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Cavaliers_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 19,
@@ -7259,8 +7259,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Cavaliers_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 19,
@@ -7269,8 +7269,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "Archers_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 19,
@@ -7539,8 +7539,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "PegasusKnights_0"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 20,
@@ -7999,8 +7999,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 2,
-            "UnitData": "PegasusKnights_1"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 21,

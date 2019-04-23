@@ -39,20 +39,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 50;
         #endregion 
 
-        public static Cavalier CreateCavalier() {
+        public override Unit Generate() {
             return new Cavalier();
         }
 
-        public static Cavalier CreateCavalier(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Cavalier(unitName);
         }
 
-        public static Cavalier ImportCavalier(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Cavalier(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Cavalier.ImportCavalier(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Cavalier(unitWrapper);
+            return unitClone;
         }
 
         public Cavalier() 

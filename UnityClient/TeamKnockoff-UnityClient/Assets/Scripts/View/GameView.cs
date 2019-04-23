@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 using TMPro;
 
 using Assets.Scripts.Application;
+using Assets.Scripts.Utilities.ExtensionMethods;
 using Assets.Scripts.Model;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.ViewModel;
@@ -55,7 +57,15 @@ namespace Assets.Scripts.View {
 
         public GameObject units;
 
+        public GameObject bottomPanel;
+
+        public GameObject availableUnitsContent;
+
+        public GameObject unitButtonPrefab;
+
         private Dictionary<Vector2Int, ObjectView> mVectorToObjectViews;
+
+        private Dictionary<Unit, Button> mUnitToButtons;
 
         private bool mHasScreenOverlay;
 
@@ -110,7 +120,57 @@ namespace Assets.Scripts.View {
             mPauseButton.onClick.AddListener(PauseGame);
             mEndTurnButton.onClick.AddListener(EndTurn);
 
+            var units = gameViewModel.ControllingPlayer.Units;
+            mUnitToButtons = new Dictionary<Unit, Button>();
+
+            foreach (var unit in units) {
+                var button = CreateUnitButton(unit);
+                mUnitToButtons.Add(unit, button);
+                button.onClick.AddListener(() => {
+                    // TODO: Camera move to Unit Position
+                    var position = gameViewModel.GetPositionOfUnit(unit);
+
+                    mCamera.MoveToPosition(position.ToVector3());
+
+                    unitInformation.UpdateUnitInformation(unit);
+                });
+            }
+
+            foreach (var unitViewModel in gameViewModel.UnitViewModels) {
+                unitViewModel.PropertyChanged += UnitViewModel_PropertyChanged;
+            }
+
             gameViewModel.PropertyChanged += GameViewModel_PropertyChanged;
+        }
+
+        private void UnitViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+            var unitViewModel = sender as UnitViewModel;
+            if (e.PropertyName == "IsAlive") {
+                var unit = unitViewModel.Unit;
+                if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber) {
+                    if (!unit.IsAlive) {
+                        mUnitToButtons[unit].interactable = false;
+                        var unitSprite = mUnitToButtons[unit].GetComponentInChildren<Image>();
+                        unitSprite.color = FADE_COLOR;
+                    }
+                }
+            }
+        }
+
+        private Button CreateUnitButton(Unit unit) {
+            var buttonObject = Instantiate(unitButtonPrefab, availableUnitsContent.transform);
+            var buttonLabel = buttonObject.GetComponentInChildren<TextMeshProUGUI>();
+            buttonLabel.text = unit.Name.ToUpper();
+
+
+            var buttonComponent = buttonObject.GetComponent<Button>();
+
+            var buttonSprites = buttonComponent.gameObject.GetComponentsInChildren<Image>();
+
+            var unitSprite = UnitFactory.instance.GetUnitSprite(unit.Name);
+            buttonSprites[1].sprite = unitSprite;
+
+            return buttonComponent;
         }
 
         public void EndTurn() {
@@ -164,6 +224,12 @@ namespace Assets.Scripts.View {
                     await Task.Run(() => {
                         while (mHasMoveText || mIsUpdating) { }
                     });
+
+                    bottomPanel.gameObject.SetActive(false);
+
+                    mCamera.LockMoveCamera();
+                    mCamera.LockZoomCamera();
+
                     mPauseButton.interactable = false;
                     mEndTurnButton.interactable = false;
                     tileSelector.gameObject.SetActive(false);
@@ -173,6 +239,12 @@ namespace Assets.Scripts.View {
                     await Task.Run(() => {
                         while (mHasMoveText || mIsUpdating) { }
                     });
+
+                    bottomPanel.gameObject.SetActive(true);
+
+                    mCamera.UnlockMoveCamera();
+                    mCamera.UnlockZoomCamera();
+
                     mPauseButton.interactable = true;
                     mEndTurnButton.interactable = true;
                     tileSelector.gameObject.SetActive(true);
@@ -194,6 +266,7 @@ namespace Assets.Scripts.View {
 
             if (e.PropertyName == "MoveResult") {
                 var moveResult = gameViewModel.MoveResult;
+                bottomPanel.gameObject.SetActive(false);
 
                 if (moveResult is PositionMoveResult) {
                     var positionMoveResult = moveResult as PositionMoveResult;
@@ -203,6 +276,8 @@ namespace Assets.Scripts.View {
                         var path = positionMoveResult.Path;
 
                         var objectView = mVectorToObjectViews[startPosition];
+
+                        mCamera.FollowGameObject(objectView.GameObject.transform);
 
                         tileSelector.gameObject.SetActive(false);
                         (objectView as UnitView).UpdatePosition(path);
@@ -217,9 +292,8 @@ namespace Assets.Scripts.View {
                             mIsUpdating = false;
                         });
 
-                        if (!gameViewModel.IsPaused && gameViewModel.CurrentPlayer == gameViewModel.ControllingPlayer) {
-                            tileSelector.gameObject.SetActive(true);
-                        }
+                        mCamera.StopFollowingGameObject();
+
                     }
                 } else if (moveResult is AttackMoveResult) {
                     var attackMoveResult = moveResult as AttackMoveResult;
@@ -280,7 +354,6 @@ namespace Assets.Scripts.View {
                         FadeUnit(attackerPosition);
                     }
                     mIsUpdating = false;
-
                 } else if (moveResult is SkillMoveResult) {
                     var skillMoveResult = moveResult as SkillMoveResult;
                     if (skillMoveResult is DamageSkillMoveResult) {
@@ -379,7 +452,6 @@ namespace Assets.Scripts.View {
                     } else {
                         throw new Exception("Error: Bad Skill Result");
                     }
-
                     mIsUpdating = false;
                 } else if (moveResult is ItemMoveResult) {
                     var itemMoveResult = moveResult as ItemMoveResult;
@@ -449,7 +521,6 @@ namespace Assets.Scripts.View {
                     } else {
                         throw new Exception("Error: Bad Skill Result");
                     }
-
                     mIsUpdating = false;
                 } else if (moveResult is WaitMoveResult) {
                     var waitMoveResult = moveResult as WaitMoveResult;
@@ -463,6 +534,11 @@ namespace Assets.Scripts.View {
                     mIsUpdating = false;
                 } else {
                     throw new Exception("Bad Move Result");
+                }
+
+                if (!gameViewModel.IsPaused && gameViewModel.CurrentPlayer == gameViewModel.ControllingPlayer) {
+                    tileSelector.gameObject.SetActive(true);
+                    bottomPanel.gameObject.SetActive(true);
                 }
             }
         }

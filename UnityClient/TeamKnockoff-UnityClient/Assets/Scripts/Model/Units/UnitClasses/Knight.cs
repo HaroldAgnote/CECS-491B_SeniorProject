@@ -39,20 +39,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 35;
         #endregion 
 
-        public static Knight CreateKnight() {
+        public override Unit Generate() {
             return new Knight();
         }
 
-        public static Knight CreateKnight(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Knight(unitName);
         }
 
-        public static Knight ImportKnight(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Knight(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Knight.ImportKnight(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Knight(unitWrapper);
+            return unitClone;
         }
 
         public Knight() 

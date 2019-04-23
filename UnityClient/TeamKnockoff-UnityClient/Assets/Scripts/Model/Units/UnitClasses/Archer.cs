@@ -39,21 +39,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 40;
         #endregion  
         // TODO: Set up constants for growth rate
-
-        public static Archer CreateArcher() {
+        public override Unit Generate() {
             return new Archer();
         }
 
-        public static Archer CreateArcher(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Archer(unitName);
         }
 
-        public static Archer ImportArcher(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Archer(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Archer.ImportArcher(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Archer(unitWrapper);
+            return unitClone;
         }
 
         public Archer() 
