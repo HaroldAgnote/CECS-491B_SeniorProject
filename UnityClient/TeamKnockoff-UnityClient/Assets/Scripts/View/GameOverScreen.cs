@@ -54,7 +54,7 @@ namespace Assets.Scripts.View {
                     } else {
                         gameOverLabel.text = "Game Over";
                         actionButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Back";
-                        actionButton.onClick.AddListener(GoBack);
+                        actionButton.onClick.AddListener(QuitGame);
                     }
                 }
             }
@@ -68,12 +68,8 @@ namespace Assets.Scripts.View {
             GameManager.instance.RestartGame();
         }
 
-        private void GoBack() {
-            SceneLoader.instance.GoToLastMenu();
-        }
-
         private void QuitGame() {
-            SceneLoader.instance.GoToMainMenu();
+            GameManager.instance.QuitGame();
         }
     }
 }

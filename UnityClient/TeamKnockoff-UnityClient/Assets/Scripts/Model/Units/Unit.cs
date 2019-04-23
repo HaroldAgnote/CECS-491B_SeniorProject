@@ -10,6 +10,7 @@ using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.UnitEffects;
+using Assets.Scripts.Utilities.Cloneable;
 using Assets.Scripts.Utilities.ExtensionMethods;
 using Assets.Scripts.Utilities.Generator;
 
@@ -17,7 +18,7 @@ using DamageType = Assets.Scripts.Model.DamageCalculator.DamageType;
 
 namespace Assets.Scripts.Model.Units {
     [Serializable]
-    public abstract class Unit : IMover, IEquatable<Unit> {
+    public abstract class Unit : IMover, IEquatable<Unit>, IGenerator<Unit>, ICloneable<Unit> {
 
         #region Constants
 
@@ -37,6 +38,9 @@ namespace Assets.Scripts.Model.Units {
 
         [SerializeField]
         private string mClass;
+
+        [SerializeField]
+        private string mMoveType;
 
         [SerializeField]
         private int mPlayerNumber;
@@ -131,6 +135,15 @@ namespace Assets.Scripts.Model.Units {
             set {
                 if (mClass != value) {
                     mClass = value;
+                }
+            }
+        }
+
+        public string MoveType {
+            get { return mMoveType; }
+            set {
+                if (mMoveType != value) {
+                    mMoveType = value;
                 }
             }
         }
@@ -296,6 +309,17 @@ namespace Assets.Scripts.Model.Units {
             }
         }
 
+        public int Rating =>
+            mMaxHealthPoints.Base +
+                mStrength.Base +
+                mMagic.Base +
+                mDefense.Base +
+                mResistance.Base +
+                mSpeed.Base +
+                mSkill.Base +
+                mLuck.Base;
+                //mMovement.Value;
+
         public IEnumerable<Skill> UnitSkills {
             get { return mSkills.AsReadOnly(); }
         }
@@ -362,12 +386,16 @@ namespace Assets.Scripts.Model.Units {
         public abstract bool CanMove(Tile tile);
         public abstract int MoveCost(Tile tile);
         public abstract bool CanUse(Weapon weapon);
+        public abstract Unit Clone();
+        public abstract Unit Generate();
+        public abstract Unit Generate(string unitName);
         public abstract Unit Generate(UnitWrapper unitWrapper);
 
-        public Unit(string unitName, string unitType, string unitClass, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) {
+        public Unit(string unitName, string unitType, string unitClass, string moveType, int maxHealth, int strength, int magic, int defense, int resistance, int speed, int skill, int luck, int movement) {
             mName = unitName;
             mType = unitType;
             mClass = unitClass;
+            mMoveType = moveType;
 
             mMaxHealthPoints = new Stat(maxHealth);
             mCurrentHealthPoints = mMaxHealthPoints.Value;
@@ -392,17 +420,18 @@ namespace Assets.Scripts.Model.Units {
             mName = unitWrapper.unitName;
             mType = unitWrapper.unitType;
             mClass = unitWrapper.unitClass;
+            mMoveType = unitWrapper.unitMoveType;
 
-            mMaxHealthPoints = unitWrapper.unitMaxHealthPoints;
+            mMaxHealthPoints = new Stat(unitWrapper.unitMaxHealthPoints);
             mCurrentHealthPoints = mMaxHealthPoints.Value;
-            mStrength = unitWrapper.unitStrength;
-            mMagic = unitWrapper.unitMagic;
-            mDefense = unitWrapper.unitDefense;
-            mResistance = unitWrapper.unitResistance;
-            mSpeed = unitWrapper.unitSpeed;
-            mSkill = unitWrapper.unitSkill;
-            mLuck = unitWrapper.unitLuck;
-            mMovement = unitWrapper.unitMovement;
+            mStrength = new Stat(unitWrapper.unitStrength);
+            mMagic = new Stat(unitWrapper.unitMagic);
+            mDefense = new Stat(unitWrapper.unitDefense);
+            mResistance = new Stat(unitWrapper.unitResistance);
+            mSpeed = new Stat(unitWrapper.unitSpeed);
+            mSkill = new Stat(unitWrapper.unitSkill);
+            mLuck = new Stat(unitWrapper.unitLuck);
+            mMovement = new Stat(unitWrapper.unitMovement);
 
             mLevel = unitWrapper.unitLevel;
             mExperiencePoints = unitWrapper.unitExperiencePoints;
@@ -548,7 +577,7 @@ namespace Assets.Scripts.Model.Units {
         public void GainExperience(Unit defendingUnit) {
             const int RATINGTHRESHOLD = 10;
             //if ratingDif is pos, self is stronger than defendingUnit
-            int ratingDif = Rating() - defendingUnit.Rating();
+            int ratingDif = this.Rating - defendingUnit.Rating;
 
             if (!defendingUnit.IsAlive) {
                 if(ratingDif > RATINGTHRESHOLD) {
@@ -574,18 +603,6 @@ namespace Assets.Scripts.Model.Units {
 
         public bool Equals(Unit other) {
             return this.mName == other.mName;
-        }
-
-        public int Rating() {
-            return mMaxHealthPoints.Value +
-                mStrength.Value +
-                mMagic.Value +
-                mDefense.Value +
-                mResistance.Value +
-                mSpeed.Value +
-                mSkill.Value +
-                mLuck.Value;
-                //mMovement.Value;
         }
 
         public void LevelUp() {
@@ -621,7 +638,6 @@ namespace Assets.Scripts.Model.Units {
                 stat.Base += 1;
             }
         }
-
 
         #endregion
 

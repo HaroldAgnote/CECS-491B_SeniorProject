@@ -13,6 +13,7 @@ namespace Assets.Scripts.Model.Units {
         public string unitName;
         public string unitType;
         public string unitClass;
+        public string unitMoveType;
 
         public int unitLevel;
         public int unitExperiencePoints;
@@ -38,6 +39,7 @@ namespace Assets.Scripts.Model.Units {
             unitName = unit.Name;
             unitType = unit.Type;
             unitClass = unit.Class;
+            unitMoveType = unit.MoveType;
 
             unitLevel = unit.Level;
             unitExperiencePoints = unit.ExperiencePoints;

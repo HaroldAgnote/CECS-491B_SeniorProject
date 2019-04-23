@@ -54,6 +54,11 @@ namespace Assets.Scripts.Model.Units {
                 Modifier = initialModifier;
             }
 
+            public Stat(Stat existingStat) {
+                Base = existingStat.Base;
+                Modifier = existingStat.Modifier;
+            }
+
             public int Value => Base + Modifier;
 
             public override string ToString() {
