@@ -294,7 +294,8 @@ namespace Assets.Scripts.Model.Units {
             try {
                 return spriteMapper[unitName];
             } catch {
-                throw new Exception($"Could not find sprite for {unitName}");
+                Debug.Log("Could not find sprite for unit");
+                return temporaryUnitSprites[0];
             }
         }
 

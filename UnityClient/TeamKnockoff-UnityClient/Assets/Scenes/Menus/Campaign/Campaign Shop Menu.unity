@@ -8341,7 +8341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipmentButtonPrefab: {fileID: 2933642298402760101, guid: d335e3f583426fe41a20fd719cc42c2a,
     type: 3}
-  unitEquipmentMenuPrefab: {fileID: 5822706633051838924, guid: 1b7bc98c626c5a44aafbb9118400776b,
+  unitEquipmentMenuPrefab: {fileID: 5279325577144756678, guid: 1b7bc98c626c5a44aafbb9118400776b,
     type: 3}
   unitSubItemPrefab: {fileID: 5021672318552267042, guid: 0b6f78fc9006eb243aaeca17d3057f31,
     type: 3}
