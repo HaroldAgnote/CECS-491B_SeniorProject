@@ -45,15 +45,15 @@ namespace Assets.Scripts.Model{
         }
 
         private DamageSkillResult mAttackerResult;
-        private AttackResult mDefenderCounterResult;
+        private List<AttackResult> mDefenderResults;
 
         public DamageSkillResult AttackerResult => mAttackerResult;
-        public AttackResult DefenderResult => mDefenderCounterResult;
+        public List<AttackResult> DefenderResults => mDefenderResults;
 
-        public DamageSkillMoveResult(DamageSkillResult attackerResult, AttackResult defenderResult) {
+        public DamageSkillMoveResult(DamageSkillResult attackerResult, List<AttackResult> defenderResults) {
             SkillUsed = attackerResult.SkillUsed;
             mAttackerResult = attackerResult;
-            mDefenderCounterResult = defenderResult;
+            mDefenderResults = defenderResults;
         }
     }
 }

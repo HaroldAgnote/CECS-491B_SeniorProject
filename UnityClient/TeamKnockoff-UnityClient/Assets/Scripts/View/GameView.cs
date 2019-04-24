@@ -321,71 +321,59 @@ namespace Assets.Scripts.View {
                     }
                 } else if (moveResult is AttackMoveResult) {
                     var attackMoveResult = moveResult as AttackMoveResult;
-                    var attackerResult = attackMoveResult.AttackerResult;
-                    var defenderResult = attackMoveResult.DefenderResult;
+                    var attackResults = attackMoveResult.AttackResults;
 
-                    var attackerPosition = attackerResult.AttackerPosition;
-                    var defenderPosition = attackerResult.DefenderPosition;
+                    var playerAttackPosition = attackResults.First().AttackerPosition;
 
-                    var attackerUnitView = mVectorToObjectViews[attackerPosition] as UnitView;
-                    var defenderObjectView = mVectorToObjectViews[defenderPosition];
-
-                    var attackerUnitMover = attackerUnitView.GameObject.GetComponent<UnitMover>();
-
-                    var unit = gameViewModel.Squares
-                                .SingleOrDefault(sq => sq.Position == attackerPosition)
+                    var playerUnit = gameViewModel.Squares
+                                .SingleOrDefault(sq => sq.Position == playerAttackPosition)
                                 .Unit;
 
-                    mCamera.MoveToPosition(attackerUnitView.GameObject.transform.position);
+                    foreach (var attackResult in attackResults) {
+                        var attackerPosition = attackResult.AttackerPosition;
+                        var defenderPosition = attackResult.DefenderPosition;
 
-                    // TODO: Animate Attack Animation
-                    attackerUnitView.NudgeTowardsPosition(attackerPosition, defenderPosition);
+                        var attackerUnitView = mVectorToObjectViews[attackerPosition] as UnitView;
+                        var defenderObjectView = mVectorToObjectViews[defenderPosition];
 
-                    await Task.Run(() => {
-                        mIsUpdating = true;
-                        while (attackerUnitMover.IsMoving) { }
-                    });
+                        var attackerUnitMover = attackerUnitView.GameObject.GetComponent<UnitMover>();
 
-                    UpdateAttackLabels(attackerResult, attackerPosition, defenderPosition);
+                        var unit = gameViewModel.Squares
+                                    .SingleOrDefault(sq => sq.Position == attackerPosition)
+                                    .Unit;
 
-                    await Task.Run(() => {
-                        while (mHasMoveText) { }
-                    });
+                        mCamera.MoveToPosition(attackerUnitView.GameObject.transform.position);
 
-                    CheckObjectStatus(defenderPosition);
+                        // TODO: Animate Attack Animation
+                        attackerUnitView.NudgeTowardsPosition(attackerPosition, defenderPosition);
 
-                    if (defenderResult != null) {
-                        if (defenderObjectView is UnitView) {
-                            var defenderUnitView = defenderObjectView as UnitView;
-                            var defenderUnitMover = defenderUnitView.GameObject.GetComponent<UnitMover>();
+                        await Task.Run(() => {
+                            mIsUpdating = true;
+                            while (attackerUnitMover.IsMoving) { }
+                        });
 
-                            defenderUnitView.NudgeTowardsPosition(defenderPosition, attackerPosition);
+                        UpdateAttackLabels(attackResult, attackerPosition, defenderPosition);
 
-                            // TODO: Animate Attack Animation
-                            await Task.Run(() => {
-                                mIsUpdating = true;
-                                while (attackerUnitMover.IsMoving) { }
-                            });
+                        await Task.Run(() => {
+                            while (mHasMoveText) { }
+                        });
 
-                            UpdateAttackLabels(defenderResult, defenderPosition, attackerPosition);
-
-                            await Task.Run(() => {
-                                while (mHasMoveText) { }
-                            });
-
-                            CheckObjectStatus(attackerPosition);
-                        }
                     }
-                    if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
-                        FadeUnit(attackerPosition);
+
+                    if (playerUnit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(playerAttackPosition)) {
+                        FadeUnit(playerAttackPosition);
                     }
+
+                    CheckObjectStatus(attackResults.First().AttackerPosition);
+                    CheckObjectStatus(attackResults.First().DefenderPosition);
+
                     mIsUpdating = false;
                 } else if (moveResult is SkillMoveResult) {
                     var skillMoveResult = moveResult as SkillMoveResult;
                     if (skillMoveResult is DamageSkillMoveResult) {
                         var damageSkillMoveResult = skillMoveResult as DamageSkillMoveResult;
                         var attackerResult = damageSkillMoveResult.AttackerResult;
-                        var defenderResult = damageSkillMoveResult.DefenderResult;
+                        var defenderResults = damageSkillMoveResult.DefenderResults;
 
                         var attackerPosition = attackerResult.AttackerPosition;
                         var defenderPosition = attackerResult.DefenderPosition;
@@ -415,9 +403,7 @@ namespace Assets.Scripts.View {
                             while (mHasMoveText) { }
                         });
 
-                        CheckObjectStatus(defenderPosition);
-
-                        if (defenderResult != null) {
+                        foreach (var defenderResult in defenderResults) {
                             if (defenderObjectView is UnitView) {
                                 var defenderUnitView = defenderObjectView as UnitView;
                                 var defenderUnitMover = defenderUnitView.GameObject.GetComponent<UnitMover>();
@@ -436,12 +422,15 @@ namespace Assets.Scripts.View {
                                     while (mHasMoveText) { }
                                 });
 
-                                CheckObjectStatus(attackerPosition);
                             }
                         }
                         if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && mVectorToObjectViews.Keys.Contains(attackerPosition)) {
                             FadeUnit(attackerPosition);
                         }
+
+                        CheckObjectStatus(attackerPosition);
+                        CheckObjectStatus(defenderPosition);
+
                         mIsUpdating = false;
                     } else if (skillMoveResult is SupportSkillMoveResult) {
                         var supportSkillMoveResult = skillMoveResult as SupportSkillMoveResult;

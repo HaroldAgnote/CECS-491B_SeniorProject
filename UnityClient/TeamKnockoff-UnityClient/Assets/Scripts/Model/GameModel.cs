@@ -1407,16 +1407,31 @@ namespace Assets.Scripts.Model {
             var attackingUnit = GetUnitAtPosition(move.StartPosition);
             var defendingUnit = GetUnitAtPosition(move.EndPosition);
 
+            var attackResults = new List<AttackResult>();
+
             // Attack Logic Here
-            AttackResult attackerResult = AttackUnit(attackingUnit, defendingUnit);
-            AttackResult defenderResult = null;
+            var attackerResult = AttackUnit(attackingUnit, defendingUnit);
+
+            attackResults.Add(attackerResult); 
 
             var defendingUnitAttackLocations = GetSurroundingAttackLocationsAtPoint(move.EndPosition, defendingUnit.MainWeapon.Range);
             // check if unit is alive and within range to attack
             if (defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition)) {
 
                 Debug.Log("COUNTERATTACKING");
-                defenderResult = AttackUnit(defendingUnit, attackingUnit);
+                var defenderResult = AttackUnit(defendingUnit, attackingUnit);
+                attackResults.Add(defenderResult);
+            }
+
+            if (attackingUnit.IsAlive && defendingUnit.IsAlive && attackingUnit.Speed.Value > defendingUnit.Speed.Value) {
+                Debug.Log("Attacker Doubles");
+                var attackerFollowupAttack = AttackUnit(attackingUnit, defendingUnit);
+                attackResults.Add(attackerFollowupAttack);
+
+            } else if (attackingUnit.IsAlive && defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition) && defendingUnit.Speed.Value > attackingUnit.Speed.Value) {
+                Debug.Log("Defender Doubles");
+                var defenderFollowupAttack = AttackUnit(defendingUnit, attackingUnit);
+                attackResults.Add(defenderFollowupAttack);
             }
 
             //Debug.Log(attackingUnit.UnitInformation + "\n\n");
@@ -1424,7 +1439,7 @@ namespace Assets.Scripts.Model {
 
             attackingUnit.HasMoved = true;
 
-            var attackMoveResult = new AttackMoveResult(attackerResult, defenderResult);
+            var attackMoveResult = new AttackMoveResult(attackResults);
 
             return attackMoveResult;
         }
@@ -1520,7 +1535,7 @@ namespace Assets.Scripts.Model {
             Debug.Log($"{attackingUnit.Name} attacks with {usedSkill.SkillName} on {defendingUnit.Name}");
 
             DamageSkillResult attackerResult = ApplySingleDamageSkill(attackingUnit, defendingUnit, usedSkill);
-            AttackResult defenderResult = null;
+            var defenderResults = new List<AttackResult>();
 
             usedSkill.ApplyDamageSkill(attackingUnit, defendingUnit);
 
@@ -1531,13 +1546,20 @@ namespace Assets.Scripts.Model {
                 Debug.Log($"{defendingUnit.Name} counter-attacks {attackingUnit.Name}");
                 //instead of Skill[0] of we probably need selected skill or something
                 //attackingUnit.HealthPoints = attackingUnit.HealthPoints - DamageCalculator.GetDamage(defendingUnit, attackingUnit);
-                defenderResult = AttackUnit(defendingUnit, attackingUnit);
+                var defenderResult = AttackUnit(defendingUnit, attackingUnit);
+                defenderResults.Add(defenderResult);
+
+                if (attackingUnit.IsAlive && defendingUnit.IsAlive && defendingUnitAttackLocations.Contains(move.StartPosition) && defendingUnit.Speed.Value > attackingUnit.Speed.Value) {
+                    Debug.Log("Defender Doubles");
+                    var defenderFollowupAttack = AttackUnit(defendingUnit, attackingUnit);
+                    defenderResults.Add(defenderFollowupAttack);
+                }
             } 
 
             Debug.Log(attackingUnit.UnitInformation + "\n\n");
             Debug.Log(defendingUnit.UnitInformation);
 
-            var damageSkillMoveResult = new DamageSkillMoveResult(attackerResult, defenderResult);
+            var damageSkillMoveResult = new DamageSkillMoveResult(attackerResult, defenderResults);
             return damageSkillMoveResult;
         }
 
