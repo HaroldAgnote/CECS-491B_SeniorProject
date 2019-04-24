@@ -9,7 +9,7 @@ namespace Assets.Scripts.Model.Skills {
     [Serializable]
     public class Heal : SingleSupportSkill {
         private const string SKILL_NAME = "Heal";
-        private const int SKILL_COST = 10;
+        private const int SKILL_COST = 1;
         private const int RANGE = 1;
         private const bool TARGET_SELF = false;
         private const int HEAL_AMOUNT = 30;

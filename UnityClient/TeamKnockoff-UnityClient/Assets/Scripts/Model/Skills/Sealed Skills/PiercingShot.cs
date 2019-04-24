@@ -11,13 +11,11 @@ namespace Assets.Scripts.Model.Skills {
     public class PiercingShot : SingleDamageSkill {
 
         private const string SKILL_NAME = "Piercing Shot";
-        private const int SKILL_COST = 10;
+        private const int SKILL_COST = 3;
         private const int RANGE = 3;
-        private const int STRENGTH_MODIFIER = 15;
-        private const int SPEED_MODIFIER = 5;
-        private const int SKILL_MODIFIER = 8;
-        private const int HITRATE_MODIFIER = 90;
-        private const int CRITRATE_MODIFIER = 50;
+        private const int STRENGTH_MODIFIER = 6;
+        private const int HITRATE_MODIFIER = 10;
+        private const int CRITRATE_MODIFIER = 10;
         private const bool TARGET_SELF = false;
         private const DamageType DAMAGE_TYPE = DamageType.Physical;
 

@@ -12,16 +12,16 @@ namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Mage : InfantryUnit {
         #region const Stats
-        const int MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 16;
 
-        const int INITIAL_STRENGTH = 1;
-        const int INITIAL_MAGIC = 1;
+        const int INITIAL_STRENGTH = 3;
+        const int INITIAL_MAGIC = 6;
 
-        const int INITIAL_DEFENSE = 1;
-        const int INITIAL_RESISTANCE = 1;
+        const int INITIAL_DEFENSE = 2;
+        const int INITIAL_RESISTANCE = 4;
 
-        const int INITIAL_SPEED = 1;
-        const int INITIAL_SKILL = 1;
+        const int INITIAL_SPEED = 3;
+        const int INITIAL_SKILL = 4;
 
         const int INITIAL_LUCK = 1;
         const int MOVEMENT_RANGE = 4;
