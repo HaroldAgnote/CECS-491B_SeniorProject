@@ -5730,7 +5730,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Cavaliers_0_Eres"
+            "UnitData": "CampaignUnits_0_Cavalier_Eres"
         },
         {
             "Column": 15,
@@ -6470,7 +6470,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Archers_0_Yew"
+            "UnitData": "CampaignUnits_1_Archer_Yew"
         },
         {
             "Column": 17,
@@ -6880,7 +6880,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 2,
-            "UnitData": "Thieves_1"
+            "UnitData": "GenericUnits_2_Archer"
         },
         {
             "Column": 18,
@@ -7210,7 +7210,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "Mages_0_Morgan"
+            "UnitData": "CampaignUnits_3_Mage_Soinge"
         },
         {
             "Column": 19,

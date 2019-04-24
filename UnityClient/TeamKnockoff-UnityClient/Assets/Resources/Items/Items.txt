@@ -1,0 +1,2 @@
+Potion:Heals for 30 HP of damage on a target unit or yourself.
+Golden Amulet:Increases Defense by +3, but decreases Attack by -2.

@@ -149,10 +149,14 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         private ObservableList<GameSquare> mGameSquares;
 
+        private ObservableList<UnitViewModel> mUnitViewModels;
+
         /// <summary>
         /// Last Move that was applied onto the Game
         /// </summary>
         private GameMove mLastMove;
+
+        private GameMoveResult mMoveResult;
 
         private Unit mSelectedUnit;
 
@@ -265,6 +269,8 @@ namespace Assets.Scripts.ViewModel {
         /// </summary>
         public ObservableList<GameSquare> Squares { get { return mGameSquares; } }
 
+        public ObservableList<UnitViewModel> UnitViewModels { get { return mUnitViewModels; } }
+
         /// <summary>
         /// Last Move that was applied onto the Game
         /// </summary>
@@ -277,6 +283,19 @@ namespace Assets.Scripts.ViewModel {
                 if (mLastMove != value) {
                     mLastMove = value;
                     OnPropertyChanged(nameof(LastMove));
+                }
+            }
+        }
+
+        public GameMoveResult MoveResult {
+            get {
+                return mMoveResult;
+            }
+
+            set {
+                if (mMoveResult != value) {
+                    mMoveResult = value;
+                    OnPropertyChanged(nameof(MoveResult));
                 }
             }
         }
@@ -305,6 +324,8 @@ namespace Assets.Scripts.ViewModel {
                 }
             }
         }
+
+        public bool IsPaused => mGamePaused;
 
         /// <summary>
         /// Determines if the Selected Unit belongs to the Player
@@ -410,6 +431,10 @@ namespace Assets.Scripts.ViewModel {
                     Tile = model.GetTileAtPosition(pos),
                 })
             );
+
+            mUnitViewModels = new ObservableList<UnitViewModel>( 
+                model.Players.SelectMany(player => player.Units)
+                             .Select(unit => new UnitViewModel(unit)));
             CombatMode = false;
         }
 
@@ -420,6 +445,19 @@ namespace Assets.Scripts.ViewModel {
             CurrentPlayer = model.CurrentPlayer;
             CurrentTurn = model.Turn;
         }
+
+        public IEnumerable<Vector2Int> GetDangerZoneLocations() {
+            return model.GetDangerZoneLocations();
+        }
+
+        public IEnumerable<Vector2Int> GetMoveLocations(Unit unit) {
+            return model.GetPossibleUnitMoveLocations(unit);
+        }
+
+        public IEnumerable<Vector2Int> GetAllAttackLocations(Unit unit) {
+            return model.GetUnitAttackZones(unit);
+        }
+
 
         /// <summary>
         /// Uses Model's implementation to get the Shortest Move Path of the Selected Unit to another Square
@@ -567,8 +605,9 @@ namespace Assets.Scripts.ViewModel {
         public void ApplyMove(GameMove gameMove) {
 
             // TODO: Should check if move is possible before applying to prevent cheating?
-            model.ApplyMove(gameMove);
+            var moveResult = model.ApplyMove(gameMove);
             LastMove = gameMove;
+            MoveResult = moveResult;
             RebindState();
 
             WaitForOtherMoves();
@@ -589,8 +628,9 @@ namespace Assets.Scripts.ViewModel {
 
                     var move = await moveTask;
 
-                    model.ApplyMove(move);
+                    var moveResult = model.ApplyMove(move);
                     LastMove = move;
+                    MoveResult = moveResult;
                     RebindState();
                 }
             }
@@ -607,12 +647,16 @@ namespace Assets.Scripts.ViewModel {
                 mGameSquares[i].Unit = model.GetUnitAtPosition(pos);
                 i++;
             }
+
+            foreach (var unitViewModel in mUnitViewModels) {
+                unitViewModel.SyncUnit();
+            }
+
             CurrentPlayer = model.CurrentPlayer;
             CurrentTurn = model.Turn;
             IsGameOver = model.GameHasEnded;
 
             OnPropertyChanged(nameof(Squares));
-
         }
 
         public void PauseGame() {

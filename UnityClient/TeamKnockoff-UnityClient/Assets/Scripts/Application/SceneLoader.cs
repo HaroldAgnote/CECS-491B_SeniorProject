@@ -30,6 +30,7 @@ namespace Assets.Scripts.Application {
         const int DIALOGUE_INDEX = 12;
         const int CAMPAIGN_EQUIP_MENU_INDEX = 13;
         const int CAMPAIGN_SHOP_MENU_INDEX = 14;
+        const int CREDITS_SCREEN_INDEX = 15;
 
         private Dictionary<string, string> parameters;
         private int lastMenu;
@@ -127,6 +128,10 @@ namespace Assets.Scripts.Application {
             Load(MAIN_MENU_INDEX);
         }
 
+        public void GoToStartMenu() {
+            Load(START_MENU_INDEX);
+        }
+
         public void GoToSingleplayerMenu() {
             Load(SINGLEPLAYER_MENU_INDEX);
         }
@@ -169,6 +174,10 @@ namespace Assets.Scripts.Application {
 
         public void GoToShopMenu() {
             Load(CAMPAIGN_SHOP_MENU_INDEX);
+        }
+
+        public void GoToCreditsScreen() {
+            Load(CREDITS_SCREEN_INDEX);
         }
 
         public void ReloadMap() {

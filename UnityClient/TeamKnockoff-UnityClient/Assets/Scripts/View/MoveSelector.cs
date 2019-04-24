@@ -491,11 +491,15 @@ namespace Assets.Scripts.View {
                     currentMenuOptions.Add(UnitMenuOptions.Attack);
                 }
 
-                // If a Unit has at least one Skill that is within use range of a Unit, add Skill option
+                // If a Unit has at least one Skill that is within use range of a Unit,
+                // add Skill option
                 if (selectedUnit.Skills.Count > 0
                         && selectedUnit.Skills
+                        .Where(sk => sk is SingleTargetSkill)
                         .Select(sk => sk as SingleTargetSkill)
-                        .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range))
+                        .Any(sk => 
+                        (sk.CanTargetSelf)
+                        || (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range))
                         || (sk is SingleDamageSkill && gameViewModel.EnemyWithinRange(movedPoint, sk.Range)))) {
 
                     currentMenuOptions.Add(UnitMenuOptions.Skills);
@@ -559,8 +563,11 @@ namespace Assets.Scripts.View {
                     // add Skill option
                     if (selectedUnit.Skills.Count > 0
                             && selectedUnit.Skills
+                            .Where(sk => sk is SingleTargetSkill)
                             .Select(sk => sk as SingleTargetSkill)
-                            .Any(sk => (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range))
+                            .Any(sk => 
+                            (sk.CanTargetSelf)
+                            || (sk is SingleSupportSkill && gameViewModel.AllyWithinRange(movedPoint, sk.Range))
                             || (sk is SingleDamageSkill && gameViewModel.EnemyWithinRange(movedPoint, sk.Range)))) {
 
                         // Set Skill Point to the Cursor Position
@@ -1205,6 +1212,7 @@ namespace Assets.Scripts.View {
         private void CancelMove() {
             // Maybe don't fully exit?
             ExitState();
+            tileSelector.RefreshAllyHighlighters();
         }
 
         /// <summary>

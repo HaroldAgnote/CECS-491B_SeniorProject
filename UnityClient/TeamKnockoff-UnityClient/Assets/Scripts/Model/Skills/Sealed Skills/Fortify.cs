@@ -42,7 +42,7 @@ namespace Assets.Scripts.Model.Skills {
         }
 
         private const string SKILL_NAME = "Fortify";
-        private const int SKILL_COST = 20;
+        private const int SKILL_COST = 3;
         private const int RANGE = 1;
         private const bool TARGET_SELF = true;
 

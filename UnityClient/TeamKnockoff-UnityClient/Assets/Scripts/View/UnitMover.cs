@@ -9,7 +9,7 @@ using Assets.Scripts.Utilities.ExtensionMethods;
 
 namespace Assets.Scripts.View {
     public class UnitMover : MonoBehaviour {
-        const float SPEED = 3.0f;
+        const float SPEED = 5.0f;
 
         private Vector3 mPosition;
         private Vector3 mDestination;

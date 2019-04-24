@@ -11,18 +11,18 @@ using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Knight : ArmoredUnit {
-        const int MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 22;
 
-        const int INITIAL_STRENGTH = 1;
+        const int INITIAL_STRENGTH = 8;
         const int INITIAL_MAGIC = 1;
 
-        const int INITIAL_DEFENSE = 1;
-        const int INITIAL_RESISTANCE = 1;
+        const int INITIAL_DEFENSE = 6;
+        const int INITIAL_RESISTANCE = 3;
 
-        const int INITIAL_SPEED = 1;
-        const int INITIAL_SKILL = 1;
+        const int INITIAL_SPEED = 2;
+        const int INITIAL_SKILL = 3;
 
-        const int INITIAL_LUCK = 2;
+        const int INITIAL_LUCK = 1;
         const int MOVEMENT_RANGE = 4;
 
         const string CLASS_NAME = "Knight";
@@ -39,20 +39,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 35;
         #endregion 
 
-        public static Knight CreateKnight() {
+        public override Unit Generate() {
             return new Knight();
         }
 
-        public static Knight CreateKnight(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Knight(unitName);
         }
 
-        public static Knight ImportKnight(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Knight(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Knight.ImportKnight(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Knight(unitWrapper);
+            return unitClone;
         }
 
         public Knight() 

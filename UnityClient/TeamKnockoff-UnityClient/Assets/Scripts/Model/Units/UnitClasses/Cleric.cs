@@ -11,16 +11,16 @@ using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Cleric : InfantryUnit {
-        const int MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 15;
 
-        const int INITIAL_STRENGTH = 1;
-        const int INITIAL_MAGIC = 1;
+        const int INITIAL_STRENGTH = 3;
+        const int INITIAL_MAGIC = 4;
 
-        const int INITIAL_DEFENSE = 1;
-        const int INITIAL_RESISTANCE = 1;
+        const int INITIAL_DEFENSE = 2;
+        const int INITIAL_RESISTANCE = 6;
 
-        const int INITIAL_SPEED = 1;
-        const int INITIAL_SKILL = 1;
+        const int INITIAL_SPEED = 3;
+        const int INITIAL_SKILL = 3;
 
         const int INITIAL_LUCK = 1;
         const int MOVEMENT_RANGE = 4;
@@ -39,20 +39,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 65;
         #endregion 
 
-        public static Cleric CreateCleric() {
+        public override Unit Generate() {
             return new Cleric();
         }
 
-        public static Cleric CreateCleric(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Cleric(unitName);
         }
 
-        public static Cleric ImportCleric(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Cleric(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Cleric.ImportCleric(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Cleric(unitWrapper);
+            return unitClone;
         }
 
         public Cleric() 

@@ -11,16 +11,16 @@ using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class PegasusKnight : FlyingUnit {
-        private const int MAX_HEALTH_POINTS = 100;
+        private const int MAX_HEALTH_POINTS = 17;
 
-        private const int INITIAL_STRENGTH = 1;
-        private const int INITIAL_MAGIC = 1;
+        private const int INITIAL_STRENGTH = 5;
+        private const int INITIAL_MAGIC = 3;
 
-        private const int INITIAL_DEFENSE = 1;
-        private const int INITIAL_RESISTANCE = 1;
+        private const int INITIAL_DEFENSE = 3;
+        private const int INITIAL_RESISTANCE = 4;
 
-        private const int INITIAL_SPEED = 1;
-        private const int INITIAL_SKILL = 1;
+        private const int INITIAL_SPEED = 5;
+        private const int INITIAL_SKILL = 4;
 
         private const int INITIAL_LUCK = 1;
         private const int MOVEMENT_RANGE = 7;
@@ -39,22 +39,23 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 60;
         #endregion 
 
-        public static PegasusKnight CreatePegasusKnight() {
-
+        public override Unit Generate() {
             return new PegasusKnight();
         }
 
-        public static PegasusKnight CreatePegasusKnight(string unitName) {
+        public override Unit Generate(string unitName) {
 
             return new PegasusKnight(unitName);
         }
 
-        public static PegasusKnight ImportPegasusKnight(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new PegasusKnight(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return PegasusKnight.ImportPegasusKnight(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new PegasusKnight(unitWrapper);
+            return unitClone;
         }
 
         public PegasusKnight() 

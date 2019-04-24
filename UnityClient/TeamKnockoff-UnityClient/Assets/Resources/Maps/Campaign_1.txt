@@ -6469,8 +6469,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 1,
-            "UnitData": "Archers_0_Yew"
+            "Player": 0,
+            "UnitData": ""
         },
         {
             "Column": 17,
@@ -6839,8 +6839,8 @@
             "ObstacleData": "",
             "WallData": "",
             "BoundaryData": "",
-            "Player": 0,
-            "UnitData": ""
+            "Player": 1,
+            "UnitData": "CampaignUnits_1_Archer_Yew"
         },
         {
             "Column": 18,
@@ -6880,7 +6880,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 2,
-            "UnitData": "Thieves_1"
+            "UnitData": "GenericUnits_2_Archer"
         },
         {
             "Column": 18,

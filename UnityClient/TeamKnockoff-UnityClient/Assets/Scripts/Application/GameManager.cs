@@ -11,8 +11,10 @@ using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model.Items;
 using Assets.Scripts.Model.Weapons;
+using Assets.Scripts.Utilities.ExtensionMethods;
 using Assets.Scripts.ViewModel;
 using Assets.Scripts.View;
+
 
 namespace Assets.Scripts.Application {
 
@@ -144,7 +146,6 @@ namespace Assets.Scripts.Application {
             if (selectedMap != "") {
                 mapData = MapLoader.instance.GetMapAsset(selectedMap);
             } else {
-                throw new Exception("Map not set!");
             }
 
             var gameTypeString = SceneLoader.GetParam(SceneLoader.GAME_TYPE_PARAM);
@@ -154,7 +155,6 @@ namespace Assets.Scripts.Application {
             } else if (gameTypeString == GameManager.MULTIPLAYER_GAME_TYPE) {
                 gameType = GameType.Multiplayer;
             } else {
-                throw new Exception("Game Type not set!");
             }
 
             if (gameType == GameType.Singleplayer) {
@@ -169,7 +169,6 @@ namespace Assets.Scripts.Application {
                     throw new Exception("Singleplayer Game Type not set!");
                 }
             } else if (gameType == GameType.Multiplayer) {
-                throw new NotImplementedException();
             }
 
             // Read map data from text file to get columns and rows
@@ -221,26 +220,39 @@ namespace Assets.Scripts.Application {
 
             Tuple<Unit, GameObject> newUnitTuple = null;
 
-            // Initializing Model/View component of the map with Tiles/Units
-            foreach(var tile in tileData.tileData) {
+            var boardTileData = tileData.tileData;
+            var boardUnitData = boardTileData.Where(data => data.Player != 0).Select(data =>
+                new {
+                    Player = data.Player,
+                    UnitPosition = new Vector3(data.Column, data.Row, 0f),
+                    UnitData = data.UnitData
+                }
+            );
 
+            foreach (var boardTile in boardTileData) {
                 // Initialize Tile Model/View
-                var newTile = tileFactory.CreateTile(tile, view.transform);
+                var newTile = tileFactory.CreateTile(boardTile, view.tiles.transform);
                 model.AddTile(newTile);
+            }
 
-                // If Tile contains Player data, initialize Unit Model/View
-                if (tile.Player != 0) {
-                    if (gameType == GameType.Singleplayer) {
-                        if (singleplayerGameType == SingleplayerGameType.Campaign) {
-                            if (tile.Player == 1) {
-                                const char DELIMITER = '_';
-                                const int UNIT_NAME_INDEX = 2;
+            foreach (var boardUnit in boardUnitData) {
+                var unitData = boardUnit.UnitData;
+                var unitPosition = boardUnit.UnitPosition;
+                var unitPlayer = boardUnit.Player;
 
-                                // Parse Unit Data
-                                var unitData = tile.UnitData;
+                if (gameType == GameType.Singleplayer) {
+                    if (singleplayerGameType == SingleplayerGameType.Campaign) {
+                        if (unitPlayer == 1) {
+
+                            const char DELIMITER = '_';
+                            const int UNIT_NAME_INDEX = 3;
+
+                            if (unitData == "FREE_ALLY_SQUARE") {
+
+                            } else {
                                 var split_string = unitData.Split(DELIMITER);
 
-                                if (split_string.Length == 3) {
+                                if (split_string.Length == 4) {
                                     // Named Unit
                                     var unitName = split_string[UNIT_NAME_INDEX];
                                     var existingUnit =
@@ -248,36 +260,39 @@ namespace Assets.Scripts.Application {
                                             campaignUnit => campaignUnit.Name == unitName);
 
                                     if (existingUnit != null) {
-                                        newUnitTuple = unitFactory.ImportUnit(tile, view.gameObject.transform, existingUnit);
+                                        var cloneUnit = existingUnit.Clone();
+                                        newUnitTuple = unitFactory.ImportUnitForBoard(unitPosition, view.units.transform, cloneUnit, unitData);
                                     } else {
-                                        newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
+                                        newUnitTuple = unitFactory.CreateUnitForBoard(unitPosition, view.units.transform, unitData);
                                     }
                                 } else {
                                     throw new NotImplementedException();
                                 }
-
-                            } else {
-                                newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
                             }
 
-                        } else if (singleplayerGameType == SingleplayerGameType.Practice) {
-                            newUnitTuple = unitFactory.CreateUnit(tile, view.gameObject.transform);
                         } else {
-                            throw new Exception("Singleplayer Game Type not set");
+                            newUnitTuple = unitFactory.CreateUnitForBoard(boardUnit.UnitPosition, view.units.transform, unitData);
                         }
-                    } else if (gameType == GameType.Multiplayer) {
 
+                    } else if (singleplayerGameType == SingleplayerGameType.Practice) {
+                        newUnitTuple = unitFactory.CreateUnitForBoard(boardUnit.UnitPosition, view.units.transform, unitData);
                     } else {
-                        throw new Exception("Game Type not set");
+                        throw new Exception("Singleplayer Game Type not set");
                     }
+                } else if (gameType == GameType.Multiplayer) {
 
-                    var newUnitModel = newUnitTuple.Item1;
-                    var newUnitObject = newUnitTuple.Item2;
-
-                    var newUnitView= new UnitView(newUnitObject);
-                    newObjectViews.Add(new Vector2Int(tile.Column, tile.Row), newUnitView);
-                    model.AddUnit(newUnitModel, tile.Player, tile.Column, tile.Row);
+                } else {
+                    throw new Exception("Game Type not set");
                 }
+
+                var newUnitModel = newUnitTuple.Item1;
+                var newUnitObject = newUnitTuple.Item2;
+
+                var newUnitView= new UnitView(newUnitObject);
+                var unitPos = unitPosition.ToVector2Int();
+                newObjectViews.Add(unitPos, newUnitView);
+                model.AddUnit(newUnitModel, unitPlayer, unitPos.x, unitPos.y);
+
             }
 
             // Invoke model to set up tile neighbors
@@ -293,10 +308,10 @@ namespace Assets.Scripts.Application {
         /// <summary>
         /// Starts the Game and applys other player moves if necessary for the first turn
         /// </summary>
-        private void StartGame()
-        {
+        private void StartGame() {
             model.StartGame();
             viewModel.StartGame();
+            view.StartGame();
 
             // If first player is not the Controlling Player
             // Wait for other player's to make Move's first
@@ -341,7 +356,17 @@ namespace Assets.Scripts.Application {
         }
 
         public void RestartGame() {
+            if (!model.GameHasEnded) {
+                model.EndGame();
+            }
             SceneLoader.instance.ReloadMap();
+        }
+
+        public void QuitGame() {
+            if (!model.GameHasEnded) {
+                model.EndGame();
+            }
+            SceneLoader.instance.GoToMainMenu();
         }
 
         #endregion
@@ -357,6 +382,14 @@ namespace Assets.Scripts.Application {
                 if (singleplayerGameType == SingleplayerGameType.Campaign) {
                     if (ControllingPlayer.HasAliveUnit()) {
                         var campaignUnits = CampaignManager.instance.CampaignPlayerData.CampaignUnits;
+                        for (int unitIndex = 0; unitIndex < campaignUnits.Count; unitIndex++) {
+                            foreach (var unit in ControllingPlayer.Units) {
+                                if (campaignUnits[unitIndex].Name == unit.Name) {
+                                    campaignUnits[unitIndex] = unit;
+                                }
+                            }
+                        }
+
                         var newUnits = ControllingPlayer.Units.Where(unit => !campaignUnits.Contains(unit));
                         CampaignManager.instance.CampaignPlayerData.CampaignUnits.AddRange(newUnits);
                         CampaignManager.instance.CampaignPlayerUnitData = CampaignManager.instance

@@ -79,13 +79,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableMaps:
   - {fileID: 4900000, guid: 288c3398b88262b4c960187e4effca0c, type: 3}
-  - {fileID: 4900000, guid: ec8aa71105eab004abddcfdb45d28daf, type: 3}
+  - {fileID: 4900000, guid: 7b52d9eb13fd0e54d92d73e96f4ef5de, type: 3}
   - {fileID: 4900000, guid: e11daa9dc978c9a4bb330647925fb1b3, type: 3}
   - {fileID: 4900000, guid: af1ab0eabb862904699ccd3d3e44cb96, type: 3}
   - {fileID: 4900000, guid: 6536e8d24e335164fbea19ba8b3a76f3, type: 3}
   - {fileID: 4900000, guid: c54bd6a940ba5a941ad707337ac5f019, type: 3}
   - {fileID: 4900000, guid: 276066747876d8445883a15f889b8040, type: 3}
-  - {fileID: 4900000, guid: 7b52d9eb13fd0e54d92d73e96f4ef5de, type: 3}
+  - {fileID: 4900000, guid: 1df40e272a2533f45b163176a668c018, type: 3}
 --- !u!114 &1988313781181989896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,14 +102,10 @@ MonoBehaviour:
     type: 3}
   flyingUnitPrefab: {fileID: 6827402922400584704, guid: 8d6bca0c8e4b03c42a3a6dfb4ba34fad,
     type: 3}
-  landUnitTexture: {fileID: 2800000, guid: 36a2d44615133774bb53c8ec42a966d6, type: 3}
-  thiefUnitTexture: {fileID: 2800000, guid: a907b4ec076c7dc428c97d807ddfc1fb, type: 3}
-  archerUnitTexture: {fileID: 2800000, guid: f3bbbf3410e06204ca4e2ee4dbc46b04, type: 3}
-  mageUnitTexture: {fileID: 2800000, guid: 88b5f11067a361b4f88a067de325dc57, type: 3}
-  clericUnitTexture: {fileID: 2800000, guid: 7aab6263584d56c47a8c0993b4d4b0ab, type: 3}
-  knightUnitTexture: {fileID: 2800000, guid: 23f69b2e23c68e244880925d8cacced6, type: 3}
-  cavalierUnitTexture: {fileID: 2800000, guid: 9c96f243b8c171e43a494873436bc037, type: 3}
-  pegasusKnightUnitTexture: {fileID: 2800000, guid: ecc67bd9a78812e46ba237a53d2caa90,
+  campaignUnitTextures: {fileID: 2800000, guid: 6486337f263a93144813e5d0a073a6e3,
+    type: 3}
+  genericUnitTextures: {fileID: 2800000, guid: 73175ef5e2664cf47a0aba6c31090db9, type: 3}
+  temporaryUnitTextures: {fileID: 2800000, guid: cca059d8a2db0fa4ebec6e0960d26984,
     type: 3}
 --- !u!114 &2846882811532118539
 MonoBehaviour:
@@ -132,6 +128,7 @@ MonoBehaviour:
   boundaryTilePrefab: {fileID: 1656947760461106869, guid: 20adaef1be6055e49a5ae74583f5fcbf,
     type: 3}
   swampTexture: {fileID: 2800000, guid: aad73f4c2056ec445a465cf772ee842d, type: 3}
+  villageTexture: {fileID: 2800000, guid: 109029a0551cf7442925357bcd030943, type: 3}
 --- !u!114 &5655525678105921248
 MonoBehaviour:
   m_ObjectHideFlags: 0

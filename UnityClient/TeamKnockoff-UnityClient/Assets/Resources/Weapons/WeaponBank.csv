@@ -1,7 +1,7 @@
 ﻿Weapon Name,Weapon Type,Damage Type,Range,Weight,Might,Hit Rate,Crit Rate,Rarity,Buying Price,Selling Price,Skills
-Iron Sword,Sword,Physical,1,1,20,85,10,1,1000,500,
-Iron Spear,Spear,Physical,1,1,10,90,20,1,1000,500,
-Iron Axe,Axe,Physical,1,3,30,70,5,1,1000,500,
-Iron Bow,Bow,Physical,3,1,15,80,30,1,1000,500,
-Dark Book,Book,Magical,2,1,10,85,10,1,1000,500,Gravity
-Wooden Staff,Staff,Magical,2,2,5,75,10,1,1000,500,
+Iron Sword,Sword,Physical,1,2,2,90,0,1,1000,500,
+Iron Spear,Spear,Physical,1,1,2,85,5,1,1000,500,
+Iron Axe,Axe,Physical,1,3,3,80,5,1,1000,500,
+Iron Bow,Bow,Physical,3,2,2,75,5,1,1000,500,
+Dark Book,Book,Magical,2,3,3,85,5,1,1000,500,Gravity
+Wooden Staff,Staff,Magical,2,2,1,75,10,1,1000,500,

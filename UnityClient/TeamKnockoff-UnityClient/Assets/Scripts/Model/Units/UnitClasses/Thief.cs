@@ -11,16 +11,16 @@ using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Thief : InfantryUnit {
-        const int MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 17;
 
-        const int INITIAL_STRENGTH = 1;
-        const int INITIAL_MAGIC = 1;
+        const int INITIAL_STRENGTH = 5;
+        const int INITIAL_MAGIC = 3;
 
-        const int INITIAL_DEFENSE = 1;
-        const int INITIAL_RESISTANCE = 1;
+        const int INITIAL_DEFENSE = 2;
+        const int INITIAL_RESISTANCE = 3;
 
-        const int INITIAL_SPEED = 1;
-        const int INITIAL_SKILL = 1;
+        const int INITIAL_SPEED = 6;
+        const int INITIAL_SKILL = 6;
 
         const int INITIAL_LUCK = 1;
         const int MOVEMENT_RANGE = 5;
@@ -39,20 +39,22 @@ namespace Assets.Scripts.Model.Units {
         const int GROWTH_LUCK = 80;
         #endregion 
 
-        public static Thief CreateThief() {
+        public override Unit Generate() {
             return new Thief();
         }
 
-        public static Thief CreateThief(string unitName) {
+        public override Unit Generate(string unitName) {
             return new Thief(unitName);
         }
 
-        public static Thief ImportThief(UnitWrapper unitWrapper) {
+        public override Unit Generate(UnitWrapper unitWrapper) {
             return new Thief(unitWrapper);
         }
 
-        public override Unit Generate(UnitWrapper unitWrapper) {
-            return Thief.ImportThief(unitWrapper);
+        public override Unit Clone() {
+            var unitWrapper = new UnitWrapper(this);
+            var unitClone = new Thief(unitWrapper);
+            return unitClone;
         }
 
         public Thief() 

@@ -37,9 +37,14 @@ namespace Assets.Scripts.View {
             quitButton.onClick.AddListener(QuitGame);
         }
 
-        private void GameViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+        private async void GameViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == "IsGameOver") {
                 if (gameViewModel.IsGameOver) {
+
+                    await Task.Run(() => {
+                        while (gameView.HasMoveText || gameView.IsUpdating || gameView.HasScreenOverlay) { }
+                    });
+
                     this.gameObject.SetActive(true);
                     if (gameViewModel.ControllingPlayer.HasAliveUnit()) {
                         gameOverLabel.text = "Map Cleared!";
@@ -49,7 +54,7 @@ namespace Assets.Scripts.View {
                     } else {
                         gameOverLabel.text = "Game Over";
                         actionButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Back";
-                        actionButton.onClick.AddListener(GoBack);
+                        actionButton.onClick.AddListener(QuitGame);
                     }
                 }
             }
@@ -63,12 +68,8 @@ namespace Assets.Scripts.View {
             GameManager.instance.RestartGame();
         }
 
-        private void GoBack() {
-            SceneLoader.instance.GoToLastMenu();
-        }
-
         private void QuitGame() {
-            SceneLoader.instance.GoToMainMenu();
+            GameManager.instance.QuitGame();
         }
     }
 }

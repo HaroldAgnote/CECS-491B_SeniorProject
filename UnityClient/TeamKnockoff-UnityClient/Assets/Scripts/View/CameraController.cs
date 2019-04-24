@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using Assets.Scripts.Application;
 
@@ -26,6 +27,9 @@ namespace Assets.Scripts.View {
         private float screenHeight;
         private Vector3 cameraMove;
 
+        private Transform mTarget;
+        private bool mIsFollowing;
+
         // Use this for initialization
         void Start() {
             moveLocked = false;
@@ -38,6 +42,22 @@ namespace Assets.Scripts.View {
             cameraMove.x = transform.position.x;
             cameraMove.y = transform.position.y;
             cameraMove.z = transform.position.z;
+        }
+
+        public void FollowGameObject(Transform gameObject) {
+            mIsFollowing = true;
+            mTarget = gameObject;
+        }
+
+        public void StopFollowingGameObject() {
+            mIsFollowing = false;
+            mTarget = null;
+        }
+
+        public void MoveToPosition(Vector3 position) {
+            cameraMove.x = position.x;
+            cameraMove.y = position.y;
+            transform.position = cameraMove;
         }
 
         public void LockMoveCamera() {
@@ -58,6 +78,13 @@ namespace Assets.Scripts.View {
 
         // Update is called once per frame
         void Update() {
+            if (mIsFollowing) {
+                cameraMove.x = mTarget.position.x;
+                cameraMove.y = mTarget.position.y;
+                
+                transform.position = cameraMove;
+            }
+
             if (!moveLocked) {
                 if (Input.GetKeyDown(KeyCode.LeftShift)) {
                     speed *= 2;
@@ -104,11 +131,13 @@ namespace Assets.Scripts.View {
 
             if (!zoomLocked) {
                 float scroll = Input.GetAxis("Mouse ScrollWheel");
-                if (scroll != 0.0f) {
-                    targetOrtho -= scroll * zoomSpeed;
-                    targetOrtho = Mathf.Clamp(targetOrtho, minOrtho, maxOrtho);
+                if (!EventSystem.current.IsPointerOverGameObject()) {
+                    if (scroll != 0.0f) {
+                        targetOrtho -= scroll * zoomSpeed;
+                        targetOrtho = Mathf.Clamp(targetOrtho, minOrtho, maxOrtho);
+                    }
+                    Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
                 }
-                Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
             }
         }
 
