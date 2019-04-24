@@ -312,6 +312,8 @@ namespace Assets.Scripts.View {
                                 .SingleOrDefault(sq => sq.Position == attackerPosition)
                                 .Unit;
 
+                    mCamera.MoveToPosition(attackerUnitView.GameObject.transform.position);
+
                     // TODO: Animate Attack Animation
                     attackerUnitView.NudgeTowardsPosition(attackerPosition, defenderPosition);
 
@@ -373,6 +375,8 @@ namespace Assets.Scripts.View {
 
                         var attackerUnitMover = attackerUnitView.GameObject.GetComponent<UnitMover>();
 
+                        mCamera.MoveToPosition(attackerUnitView.GameObject.transform.position);
+
                         // TODO: Animate Attack Animation
                         attackerUnitView.NudgeTowardsPosition(attackerPosition, defenderPosition);
 
@@ -430,6 +434,7 @@ namespace Assets.Scripts.View {
 
                         var supporterUnitMover = supporterUnitView.GameObject.GetComponent<UnitMover>();
 
+                        mCamera.MoveToPosition(supporterUnitView.GameObject.transform.position);
                         // TODO: Animate Attack Animation
                         supporterUnitView.NudgeTowardsPosition(supporterPosition, supportedPosition);
 
@@ -466,6 +471,7 @@ namespace Assets.Scripts.View {
 
                         var attackerUnitMover = attackerUnitView.GameObject.GetComponent<UnitMover>();
 
+                        mCamera.MoveToPosition(attackerUnitView.GameObject.transform.position);
                         // TODO: Animate Attack Animation
                         attackerUnitView.NudgeTowardsPosition(attackerPosition, defenderPosition);
 
@@ -499,6 +505,7 @@ namespace Assets.Scripts.View {
 
                         var supporterUnitMover = supporterUnitView.GameObject.GetComponent<UnitMover>();
 
+                        mCamera.MoveToPosition(supporterUnitView.GameObject.transform.position);
                         // TODO: Animate Attack Animation
                         supporterUnitView.NudgeTowardsPosition(supporterPosition, supportedPosition);
 
