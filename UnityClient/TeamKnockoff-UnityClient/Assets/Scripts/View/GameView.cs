@@ -49,6 +49,8 @@ namespace Assets.Scripts.View {
 
         public PauseMenu mPauseMenu;
 
+        public Toggle mDangerZoneToggle;
+
         public Button mPauseButton;
 
         public Button mEndTurnButton;
@@ -137,10 +139,28 @@ namespace Assets.Scripts.View {
             }
 
             foreach (var unitViewModel in gameViewModel.UnitViewModels) {
-                unitViewModel.PropertyChanged += UnitViewModel_PropertyChanged;
+                if (unitViewModel.Unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber) {
+                    unitViewModel.PropertyChanged += UnitViewModel_PropertyChanged;
+                }
             }
 
+            mDangerZoneToggle.onValueChanged.AddListener(delegate {
+                DangerZoneToggleValueChanged(mDangerZoneToggle.isOn);
+            });
+
             gameViewModel.PropertyChanged += GameViewModel_PropertyChanged;
+        }
+
+        private void DangerZoneToggleValueChanged(bool dangerZoneToggled) {
+            if (dangerZoneToggled) {
+                tileSelector.RefreshDangerZone();
+            } else {
+                tileSelector.DestroyDangerZones();
+            }
+        }
+
+        public void StartGame() {
+            tileSelector.RefreshAllyHighlighters();
         }
 
         private void UnitViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
@@ -262,6 +282,10 @@ namespace Assets.Scripts.View {
 
             if (e.PropertyName == "Squares") {
                 tileSelector.RefreshAllyHighlighters();
+                if (mDangerZoneToggle.isOn) {
+                    tileSelector.RefreshDangerZone();
+                }
+                tileSelector.RefreshToggledEnemySquares();
             }
 
             if (e.PropertyName == "MoveResult") {

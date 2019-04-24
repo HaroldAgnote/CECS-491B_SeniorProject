@@ -385,6 +385,11 @@ namespace Assets.Scripts.Model {
             return unit != null && unit.IsAlive && !CurrentPlayer.OwnsUnit(unit);
         }
 
+        public bool EnemyAtLocation(Vector2Int location, Unit thisUnit) {
+            var otherUnit = GetUnitAtPosition(location);
+            return otherUnit != null && otherUnit.IsAlive && thisUnit.PlayerNumber != otherUnit.PlayerNumber;
+        }
+
         /// <summary>
         /// Determines if there is an Ally of the Current Player at a given location.
         /// </summary>
@@ -397,6 +402,11 @@ namespace Assets.Scripts.Model {
         public bool AllyAtLocation(Vector2Int location) {
             var unit = GetUnitAtPosition(location);
             return unit != null && unit.IsAlive && CurrentPlayer.OwnsUnit(unit);
+        }
+
+        public bool AllyAtLocation(Vector2Int location, Unit thisUnit) {
+            var otherUnit = GetUnitAtPosition(location);
+            return otherUnit != null && otherUnit.IsAlive && thisUnit.PlayerNumber == otherUnit.PlayerNumber;
         }
         
 
@@ -529,7 +539,7 @@ namespace Assets.Scripts.Model {
 
                 // If there is an obstacle or enemy Unit at this tile, then we cannot pass through it.
                 // If unit can't move to this tile, check the next tile in the queue.
-                if (!unit.CanMove(current) || EnemyAtLocation(current.Position)) {
+                if (!unit.CanMove(current) || EnemyAtLocation(current.Position, unit)) {
                     continue;
                 }
 
@@ -551,6 +561,37 @@ namespace Assets.Scripts.Model {
                 }
             }
             return moveLocations;
+        }
+
+        public HashSet<Vector2Int> GetUnitAttackZones(Unit unit) {
+            var dangerZones = new HashSet<Vector2Int>();
+
+            var moveZones = GetPossibleUnitMoveLocations(unit);
+            var attackZones = GetPossibleUnitAttackLocations(unit);
+            var damageSkillZones = GetPossibleUnitDamageSkillLocations(unit);
+            var damageItemZones = unit.Items.Where(item => item is IDamagingItem)
+                                            .Select(item => item as ConsumableItem)
+                                            .SelectMany(item => GetPossibleUnitItemLocations(unit, item))
+                                            .ToHashSet();
+
+            dangerZones.AddRange(moveZones);
+            dangerZones.AddRange(attackZones);
+            dangerZones.AddRange(damageSkillZones);
+            dangerZones.AddRange(damageItemZones);
+
+            return dangerZones;
+        }
+
+        public HashSet<Vector2Int> GetDangerZoneLocations() {
+            var opposingPlayers = mPlayers.Where(player => player != CurrentPlayer);
+
+            var dangerZones = mPlayers.Where(player => player != CurrentPlayer)
+                                      .SelectMany(player => player.Units)
+                                      .Where(unit => unit.IsAlive)
+                                      .SelectMany(unit => GetUnitAttackZones(unit))
+                                      .ToHashSet();
+
+            return dangerZones;
         }
 
         /// <summary>
@@ -625,7 +666,7 @@ namespace Assets.Scripts.Model {
             attackLocations = attackLocations
                                 .Where(pos => 
                                     !TileIsOccupied(pos)
-                                    || EnemyAtLocation(pos))
+                                    || EnemyAtLocation(pos, unit))
                                 .ToHashSet();
 
             return attackLocations;

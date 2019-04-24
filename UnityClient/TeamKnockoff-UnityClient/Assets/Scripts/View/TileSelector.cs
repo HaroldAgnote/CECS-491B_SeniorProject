@@ -30,6 +30,12 @@ namespace Assets.Scripts.View {
         /// </summary>
         public GameObject tileHighlightPrefab;
 
+        public GameObject moveHighlightPrefab;
+
+        public GameObject enemyHighlightPrefab;
+
+        public GameObject dangerZoneHighlightPrefab;
+
         /// <summary>
         /// Prefab containing a highlighter for tiles with allies on them
         /// </summary>
@@ -49,10 +55,20 @@ namespace Assets.Scripts.View {
         /// </summary>
         private GameObject tileHighlight;
 
+        private List<GameObject> moveLocationHighlights;
+
+        private List<GameObject> attackLocationHighlights;
+
+        private List<GameObject> dangerZoneHighlights;
+
         /// <summary>
         /// The highlighters used for all ally locations
         /// </summary>
         private List<GameObject> allyLocationHighlights;
+
+        private Dictionary<Unit, HashSet<Vector2Int>> toggledEnemyToLocations;
+
+        private Dictionary<Unit, List<GameObject>> toggledEnemyToLocationHighlights;
 
         #endregion
 
@@ -68,7 +84,12 @@ namespace Assets.Scripts.View {
             tileHighlight = Instantiate(tileHighlightPrefab, point, Quaternion.identity, gameObject.transform);
             tileHighlight.SetActive(false);
 
+            moveLocationHighlights = new List<GameObject>();
+            attackLocationHighlights = new List<GameObject>();
+            dangerZoneHighlights = new List<GameObject>();
             allyLocationHighlights = new List<GameObject>();
+            toggledEnemyToLocations = new Dictionary<Unit, HashSet<Vector2Int>>();
+            toggledEnemyToLocationHighlights = new Dictionary<Unit, List<GameObject>>();
         }
 
         /// <summary>
@@ -86,8 +107,32 @@ namespace Assets.Scripts.View {
             }
 
             gameViewModel = gameView.gameViewModel;
-            RefreshAllyHighlighters();
+
+            foreach (var unitViewModel in gameViewModel.UnitViewModels) {
+                if (unitViewModel.Unit.PlayerNumber != gameViewModel.ControllingPlayer.PlayerNumber) {
+                    unitViewModel.PropertyChanged += UnitViewModel_PropertyChanged;
+
+                }
+            }
+
             EnterState();
+        }
+
+        private void UnitViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            if (e.PropertyName == "IsAlive") {
+                var unitViewModel = sender as UnitViewModel;
+                var unit = unitViewModel.Unit;
+                if (!unit.IsAlive) {
+                    if (toggledEnemyToLocationHighlights.Keys.Contains(unit)) {
+                        var enemyHighlights = toggledEnemyToLocationHighlights[unit];
+                        foreach (var highlight in enemyHighlights) {
+                            Destroy(highlight);
+                        }
+                        toggledEnemyToLocationHighlights.Remove(unit);
+                        // toggledEnemyToLocationHighlights[unit] = new List<GameObject>();
+                    }
+                }
+            }
         }
 
         #endregion
@@ -119,6 +164,28 @@ namespace Assets.Scripts.View {
             }
         }
 
+        public void DestroyDangerZones() {
+            foreach (var highlight in dangerZoneHighlights) {
+                Destroy(highlight);
+            }
+            dangerZoneHighlights = new List<GameObject>();
+        }
+
+        public void RefreshDangerZone() {
+            foreach (var highlight in dangerZoneHighlights) {
+                Destroy(highlight);
+            }
+            dangerZoneHighlights = new List<GameObject>();
+
+
+            var dangerZones = gameViewModel.GetDangerZoneLocations();
+            foreach (var dangerZone in dangerZones) {
+                GameObject highlight;
+                highlight = Instantiate(dangerZoneHighlightPrefab, dangerZone.ToVector3(), Quaternion.identity, gameObject.transform);
+                dangerZoneHighlights.Add(highlight);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -145,8 +212,9 @@ namespace Assets.Scripts.View {
                     gameViewModel.HoveredSquare = gameViewModel.Squares
                         .SingleOrDefault(sq => sq.Position == cursorPosition);
 
-                    if (Input.GetMouseButtonDown(0))
-                    {
+                    RefreshUnitSquares(gameViewModel.HoveredSquare.Unit);
+
+                    if (Input.GetMouseButtonDown(0)) {
                         gameViewModel.SelectedSquare = gameViewModel.Squares
                             .SingleOrDefault(sq => sq.Position == cursorPosition);
 
@@ -163,6 +231,26 @@ namespace Assets.Scripts.View {
                                 gameViewModel.SelectedUnit = selectedUnit;
 
                                 ExitState();
+                            } else if (!gameViewModel.SelectedUnitBelongsToPlayer) {
+                                var enemyDangerLocations = gameViewModel.GetAllAttackLocations(selectedUnit).ToHashSet();
+
+                                if (toggledEnemyToLocationHighlights.Keys.Contains(selectedUnit)) {
+                                    var unitEnemyHighlights = toggledEnemyToLocationHighlights[selectedUnit];
+                                    foreach (var highlight in unitEnemyHighlights) {
+                                        Destroy(highlight);
+                                    }
+                                    // toggledEnemyToLocationHighlights[selectedUnit] = new List<GameObject>();
+                                    toggledEnemyToLocations.Remove(selectedUnit);
+                                    toggledEnemyToLocationHighlights.Remove(selectedUnit);
+                                } else {
+                                    var unitEnemyHighlights = new List<GameObject>();
+                                    foreach (Vector2Int loc in enemyDangerLocations) {
+                                        var highlight = Instantiate(enemyHighlightPrefab, loc.ToVector3(), Quaternion.identity, gameObject.transform);
+                                        unitEnemyHighlights.Add(highlight);
+                                    }
+                                    toggledEnemyToLocationHighlights.Add(selectedUnit, unitEnemyHighlights);
+                                    toggledEnemyToLocations.Add(selectedUnit, enemyDangerLocations);
+                                }
                             }
                         }
                     }
@@ -176,6 +264,77 @@ namespace Assets.Scripts.View {
             }
         }
 
+        public void RefreshToggledEnemySquares() {
+            var tempToggledEnemyToHighlights = new Dictionary<Unit, List<GameObject>>();
+            foreach (var toggledEnemyToLocHighlights in toggledEnemyToLocationHighlights) {
+                var enemyUnit = toggledEnemyToLocHighlights.Key;
+                foreach (var highlight in this.toggledEnemyToLocationHighlights[enemyUnit]) {
+                    Destroy(highlight);
+                }
+                if (enemyUnit.IsAlive) {
+                    var unitEnemyHighlights = new List<GameObject>();
+                    var enemyDangerLocations = gameViewModel.GetAllAttackLocations(enemyUnit);
+                    foreach (var loc in enemyDangerLocations) {
+                        var highlight = Instantiate(enemyHighlightPrefab, loc.ToVector3(), Quaternion.identity, gameObject.transform);
+                        unitEnemyHighlights.Add(highlight);
+                    }
+                    toggledEnemyToLocations[enemyUnit] = enemyDangerLocations.ToHashSet();
+                    tempToggledEnemyToHighlights.Add(enemyUnit, unitEnemyHighlights);
+                } else {
+                    toggledEnemyToLocations.Remove(enemyUnit);
+                    toggledEnemyToLocationHighlights.Remove(enemyUnit);
+                }
+
+            }
+
+            foreach (var tempToggledEnemy in tempToggledEnemyToHighlights.Keys) {
+                toggledEnemyToLocationHighlights[tempToggledEnemy] = tempToggledEnemyToHighlights[tempToggledEnemy];
+            }
+        }
+
+        private void RefreshUnitSquares(Unit unit) {
+            foreach (var highlight in moveLocationHighlights) {
+                Destroy(highlight);
+            }
+
+            foreach (var highlight in attackLocationHighlights) {
+                Destroy(highlight);
+            }
+
+            if (unit != null) {
+                if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber && !unit.HasMoved) {
+                    var moveLocations = gameViewModel.GetMoveLocations(unit);
+                    foreach (Vector2Int loc in moveLocations) {
+                        GameObject highlight;
+                        var point = new Vector3Int(loc.x, loc.y, 0);
+                        highlight = Instantiate(moveHighlightPrefab, point, Quaternion.identity, gameObject.transform);
+                        moveLocationHighlights.Add(highlight);
+                    }
+
+                    var attackLocations = gameViewModel.GetAllAttackLocations(unit);
+                    var filteredAttackLocations = attackLocations.Where(loc => !moveLocations.Contains(loc));
+
+                    foreach (Vector2Int loc in filteredAttackLocations) {
+                        GameObject highlight;
+                        var point = new Vector3Int(loc.x, loc.y, 0);
+                        highlight = Instantiate(enemyHighlightPrefab, point, Quaternion.identity, gameObject.transform);
+                        attackLocationHighlights.Add(highlight);
+                    }
+                } else if (unit.PlayerNumber != gameViewModel.ControllingPlayer.PlayerNumber) {
+                    if (!toggledEnemyToLocationHighlights.Keys.Contains(unit)) {
+                        var enemyDangerLocations = gameViewModel.GetAllAttackLocations(unit)
+                                                                .Where(loc => !toggledEnemyToLocations.Any(enemyToLocation => enemyToLocation.Value.Contains(loc)));
+                        foreach (Vector2Int loc in enemyDangerLocations) {
+                            GameObject highlight;
+                            var point = new Vector3Int(loc.x, loc.y, 0);
+                            highlight = Instantiate(enemyHighlightPrefab, point, Quaternion.identity, gameObject.transform);
+                            attackLocationHighlights.Add(highlight);
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Exiting the Select State when the Player has selected a Unit to move
         /// </summary>
@@ -185,6 +344,14 @@ namespace Assets.Scripts.View {
 
             // Remove Highlight locations
             foreach (var highlight in allyLocationHighlights) {
+                Destroy(highlight);
+            }
+
+            foreach (var highlight in moveLocationHighlights) {
+                Destroy(highlight);
+            }
+
+            foreach (var highlight in attackLocationHighlights) {
                 Destroy(highlight);
             }
 
