@@ -714,6 +714,9 @@ namespace Assets.Scripts.Model {
 
             foreach (var singleTargetSkill in singleTargetSkills) {
                 var skillLocations = new HashSet<Vector2Int>();
+                if (singleTargetSkill.CanTargetSelf) {
+                    skillLocations.AddRange(GetUnitMoveLocations(unit));
+                }
                 skillLocations.AddRange(GetUnitSkillLocations(unit, singleTargetSkill));
                 skillToLocations.Add(singleTargetSkill, skillLocations);
             }
@@ -748,6 +751,9 @@ namespace Assets.Scripts.Model {
 
             foreach (var singleTargetSkill in singleTargetSkills) {
                 var skillLocations = new HashSet<Vector2Int>();
+                if (singleTargetSkill.CanTargetSelf) {
+                    skillLocations.AddRange(GetPossibleUnitMoveLocations(unit));
+                }
                 skillLocations.AddRange(GetPossibleUnitSkillLocations(unit, singleTargetSkill));
                 skillToLocations.Add(singleTargetSkill, skillLocations);
             }
@@ -778,8 +784,9 @@ namespace Assets.Scripts.Model {
             skillLocations = skillLocations
                                 .Where(pos => 
                                     !TileIsOccupied(pos)
-                                    || (skill is SingleDamageSkill && EnemyAtLocation(pos))
-                                    || (skill is SingleSupportSkill && AllyAtLocation(pos)))
+                                    || (skill.CanTargetSelf)
+                                    || (skill is SingleDamageSkill && EnemyAtLocation(pos, unit))
+                                    || (skill is SingleSupportSkill && AllyAtLocation(pos, unit)))
                                 .ToHashSet();
 
             return skillLocations;
@@ -799,13 +806,14 @@ namespace Assets.Scripts.Model {
             var skillLocations = GetUnitSkillLocations(unit, skill)
                                     .Where(pos =>
                                         !TileIsOccupied(pos)
+                                        || (skill.CanTargetSelf)
                                         || (TileIsOccupied(pos) && skill.IsUsableOnTarget(unit, GetUnitAtPosition(pos))));
 
             var filteredSkillLocations = new HashSet<Vector2Int>();
             foreach (var loc in skillLocations) {
                 var surroundingLocations = GetSurroundingAttackLocationsAtPoint(loc, skill.Range);
                 var skillPoints = surroundingLocations.Where(sLoc => moveLocations.Contains(sLoc));
-                if (skillPoints.Count() > 0) {
+                if (skillPoints.Count() > 0 || skill.CanTargetSelf) {
                     filteredSkillLocations.Add(loc);
                 }
             }
