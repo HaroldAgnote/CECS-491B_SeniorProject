@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using Assets.Scripts.Application;
 
@@ -130,11 +131,13 @@ namespace Assets.Scripts.View {
 
             if (!zoomLocked) {
                 float scroll = Input.GetAxis("Mouse ScrollWheel");
-                if (scroll != 0.0f) {
-                    targetOrtho -= scroll * zoomSpeed;
-                    targetOrtho = Mathf.Clamp(targetOrtho, minOrtho, maxOrtho);
+                if (!EventSystem.current.IsPointerOverGameObject()) {
+                    if (scroll != 0.0f) {
+                        targetOrtho -= scroll * zoomSpeed;
+                        targetOrtho = Mathf.Clamp(targetOrtho, minOrtho, maxOrtho);
+                    }
+                    Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
                 }
-                Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
             }
         }
 
