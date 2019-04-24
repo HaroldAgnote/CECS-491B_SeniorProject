@@ -37,7 +37,9 @@ namespace Assets.Scripts.View {
             var unitViewModels = gameViewModel.UnitViewModels;
 
             foreach (var unitViewModel in unitViewModels) {
-                unitViewModel.PropertyChanged += UnitViewModel_PropertyChanged;
+                if (unitViewModel.Unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber) {
+                    unitViewModel.PropertyChanged += UnitViewModel_PropertyChanged;
+                }
             }
 
             this.gameObject.SetActive(false);
@@ -54,37 +56,41 @@ namespace Assets.Scripts.View {
 
         private async void UnitViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == "Level") {
-                gameView.HasScreenOverlay = true;
-
-                await Task.Run(() => {
-                    while (gameView.HasMoveText || gameView.IsUpdating) { }
-                });
-
-                this.gameObject.SetActive(true);
-
-                gameView.mPauseButton.interactable = false;
-                gameView.tileSelector.gameObject.SetActive(false);
-                gameView.moveSelector.gameObject.SetActive(false);
-                gameView.LockCamera();
-                gameViewModel.PauseGame();
-
                 var unitViewModel = sender as UnitViewModel;
 
-                unitNameLabel.text = unitViewModel.Unit.Name;
+                var unit = unitViewModel.Unit;
+                if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber) {
+                    gameView.HasScreenOverlay = true;
 
-                lvLabel.text = unitViewModel.Level.ToString();
-                expLabel.text = unitViewModel.ExperiencePoints.ToString();
+                    await Task.Run(() => {
+                        while (gameView.HasMoveText || gameView.IsUpdating) { }
+                    });
 
-                maxHpLabel.text = unitViewModel.Health.ToString();
-                strengthLabel.text = unitViewModel.Strength.ToString();
-                magicLabel.text = unitViewModel.Magic.ToString();
-                defenseLabel.text = unitViewModel.Defense.ToString();
-                resistanceLabel.text = unitViewModel.Resistance.ToString();
-                speedLabel.text = unitViewModel.Speed.ToString();
-                skillLabel.text = unitViewModel.Skill.ToString();
-                luckLabel.text = unitViewModel.Luck.ToString();
+                    this.gameObject.SetActive(true);
 
-                unitViewModel.ResetStats();
+                    gameView.mPauseButton.interactable = false;
+                    gameView.tileSelector.gameObject.SetActive(false);
+                    gameView.moveSelector.gameObject.SetActive(false);
+                    gameView.LockCamera();
+                    gameViewModel.PauseGame();
+
+
+                    unitNameLabel.text = unitViewModel.Unit.Name;
+
+                    lvLabel.text = unitViewModel.Level.ToString();
+                    expLabel.text = unitViewModel.ExperiencePoints.ToString();
+
+                    maxHpLabel.text = unitViewModel.Health.ToString();
+                    strengthLabel.text = unitViewModel.Strength.ToString();
+                    magicLabel.text = unitViewModel.Magic.ToString();
+                    defenseLabel.text = unitViewModel.Defense.ToString();
+                    resistanceLabel.text = unitViewModel.Resistance.ToString();
+                    speedLabel.text = unitViewModel.Speed.ToString();
+                    skillLabel.text = unitViewModel.Skill.ToString();
+                    luckLabel.text = unitViewModel.Luck.ToString();
+
+                    unitViewModel.ResetStats();
+                }
             }
         }
     }

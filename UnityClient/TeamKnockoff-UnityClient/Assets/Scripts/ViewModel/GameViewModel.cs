@@ -432,7 +432,9 @@ namespace Assets.Scripts.ViewModel {
                 })
             );
 
-            mUnitViewModels = new ObservableList<UnitViewModel>( ControllingPlayer.Units.Select(unit => new UnitViewModel(unit)));
+            mUnitViewModels = new ObservableList<UnitViewModel>( 
+                model.Players.SelectMany(player => player.Units)
+                             .Select(unit => new UnitViewModel(unit)));
             CombatMode = false;
         }
 
@@ -443,6 +445,19 @@ namespace Assets.Scripts.ViewModel {
             CurrentPlayer = model.CurrentPlayer;
             CurrentTurn = model.Turn;
         }
+
+        public IEnumerable<Vector2Int> GetDangerZoneLocations() {
+            return model.GetDangerZoneLocations();
+        }
+
+        public IEnumerable<Vector2Int> GetMoveLocations(Unit unit) {
+            return model.GetPossibleUnitMoveLocations(unit);
+        }
+
+        public IEnumerable<Vector2Int> GetAllAttackLocations(Unit unit) {
+            return model.GetUnitAttackZones(unit);
+        }
+
 
         /// <summary>
         /// Uses Model's implementation to get the Shortest Move Path of the Selected Unit to another Square

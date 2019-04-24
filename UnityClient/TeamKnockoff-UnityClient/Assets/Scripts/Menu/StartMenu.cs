@@ -8,11 +8,13 @@ namespace Assets.Scripts.Menu {
     public class StartMenu : MonoBehaviour {
 
         public Button startButton;
+        public Button creditsButton;
         public Button quitButton;
 
         // Start is called before the first frame update
         void Start() {
             startButton.onClick.AddListener(SceneLoader.instance.GoToMainMenu);
+            creditsButton.onClick.AddListener(SceneLoader.instance.GoToCreditsScreen);
             quitButton.onClick.AddListener(SceneLoader.instance.QuitGame);
         }
 

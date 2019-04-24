@@ -42,13 +42,13 @@ namespace Assets.Scripts.Model.Skills {
         }
 
         private const string SKILL_NAME = "Gravity";
-        private const int SKILL_COST = 25;
-        private const int RANGE = 3;
+        private const int SKILL_COST = 6;
+        private const int RANGE = 2;
         private const bool TARGET_SELF = false;
         private const DamageType DAMAGE_TYPE = DamageType.Magical;
 
-        private const int DAMAGE_MODIFIER = 10;
-        private const int HIT_RATE = 75;
+        private const int DAMAGE_MODIFIER = 3;
+        private const int HIT_RATE = 5;
         private const int CRIT_RATE = 5;
 
         public Gravity() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF, DAMAGE_TYPE) { }
@@ -61,7 +61,7 @@ namespace Assets.Scripts.Model.Skills {
 
         public override int GetDamage(Unit attacker, Unit defender)
         {
-            int damageDone = (attacker.Magic.Value*DAMAGE_MODIFIER) - defender.Resistance.Value;
+            int damageDone = (attacker.Magic.Value + DAMAGE_MODIFIER) - defender.Resistance.Value;
             if (damageDone <= 0) {
                 return 1;
             }

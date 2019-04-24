@@ -11,16 +11,16 @@ using WeaponType = Assets.Scripts.Model.Weapons.Weapon.WeaponType;
 namespace Assets.Scripts.Model.Units {
     [Serializable]
     public class Archer : InfantryUnit {
-        const int MAX_HEALTH_POINTS = 100;
+        const int MAX_HEALTH_POINTS = 17;
 
-        const int INITIAL_STRENGTH = 1;
-        const int INITIAL_MAGIC = 1;
+        const int INITIAL_STRENGTH = 6;
+        const int INITIAL_MAGIC = 2;
 
-        const int INITIAL_DEFENSE = 1;
-        const int INITIAL_RESISTANCE = 1;
+        const int INITIAL_DEFENSE = 3;
+        const int INITIAL_RESISTANCE = 2;
 
-        const int INITIAL_SPEED = 1;
-        const int INITIAL_SKILL = 1;
+        const int INITIAL_SPEED = 4;
+        const int INITIAL_SKILL = 8;
 
         const int INITIAL_LUCK = 1;
         const int MOVEMENT_RANGE = 4;

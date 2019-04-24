@@ -311,6 +311,7 @@ namespace Assets.Scripts.Application {
         private void StartGame() {
             model.StartGame();
             viewModel.StartGame();
+            view.StartGame();
 
             // If first player is not the Controlling Player
             // Wait for other player's to make Move's first

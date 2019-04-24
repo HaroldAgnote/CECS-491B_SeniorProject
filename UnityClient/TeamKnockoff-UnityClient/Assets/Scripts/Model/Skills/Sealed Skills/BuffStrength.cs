@@ -12,8 +12,8 @@ namespace Assets.Scripts.Model.Skills {
     [Serializable]
     public class BuffStrength : SingleSupportSkill {
         private const string SKILL_NAME = "Buff Strength";
-        private const int SKILL_COST = 10;
-        private const int RANGE = 1;
+        private const int SKILL_COST = 1;
+        private const int RANGE = 3;
         private const bool TARGET_SELF = false;
 
         public BuffStrength() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF) { }

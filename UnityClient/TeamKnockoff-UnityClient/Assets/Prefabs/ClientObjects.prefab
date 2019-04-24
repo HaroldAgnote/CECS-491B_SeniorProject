@@ -85,6 +85,7 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 6536e8d24e335164fbea19ba8b3a76f3, type: 3}
   - {fileID: 4900000, guid: c54bd6a940ba5a941ad707337ac5f019, type: 3}
   - {fileID: 4900000, guid: 276066747876d8445883a15f889b8040, type: 3}
+  - {fileID: 4900000, guid: 1df40e272a2533f45b163176a668c018, type: 3}
 --- !u!114 &1988313781181989896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +128,7 @@ MonoBehaviour:
   boundaryTilePrefab: {fileID: 1656947760461106869, guid: 20adaef1be6055e49a5ae74583f5fcbf,
     type: 3}
   swampTexture: {fileID: 2800000, guid: aad73f4c2056ec445a465cf772ee842d, type: 3}
+  villageTexture: {fileID: 2800000, guid: 109029a0551cf7442925357bcd030943, type: 3}
 --- !u!114 &5655525678105921248
 MonoBehaviour:
   m_ObjectHideFlags: 0

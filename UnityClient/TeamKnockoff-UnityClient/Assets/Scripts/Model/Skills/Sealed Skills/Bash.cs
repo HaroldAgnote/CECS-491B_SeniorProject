@@ -11,10 +11,10 @@ namespace Assets.Scripts.Model.Skills {
     [Serializable]
     public class Bash : SingleDamageSkill {
         private const string SKILL_NAME = "Bash";
-        private const int SKILL_COST = 10;
+        private const int SKILL_COST = 5;
         private const int RANGE = 1;
-        private const int STRENGTH_MODIFIER = 1000;
-        private const int HITRATE_MODIFIER = 10;
+        private const int STRENGTH_MODIFIER = 5;
+        private const int HITRATE_MODIFIER = -15;
         private const bool TARGET_SELF = false;
         private const DamageType DAMAGE_TYPE = DamageType.Physical;
 

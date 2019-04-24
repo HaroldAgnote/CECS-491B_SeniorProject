@@ -20,6 +20,7 @@ namespace Assets.Scripts.Model.Tiles {
         public GameObject boundaryTilePrefab;
 
         public Texture2D swampTexture;
+        public Texture2D villageTexture;
 
         private Dictionary<string, TileFactoryWrapper> tileMapper;
 
@@ -53,9 +54,11 @@ namespace Assets.Scripts.Model.Tiles {
 
         public void Start() {
             var swampTilesWrapper = new TileFactoryWrapper(swampTexture);
+            var villageTileWrapper = new TileFactoryWrapper(villageTexture);
 
             tileMapper = new Dictionary<string, TileFactoryWrapper>() {
                 {"Swamp", swampTilesWrapper },
+                {"Village", villageTileWrapper},
                 // Add more themes
             };
         }
