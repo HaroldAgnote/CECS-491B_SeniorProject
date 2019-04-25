@@ -13,7 +13,9 @@ namespace Assets.Scripts.Menu {
 
         // Start is called before the first frame update
         void Start() {
-            startButton.onClick.AddListener(SceneLoader.instance.GoToMainMenu);
+            // Disabling this since only singleplayer is functioning
+            // startButton.onClick.AddListener(SceneLoader.instance.GoToMainMenu);
+            startButton.onClick.AddListener(SceneLoader.instance.GoToSingleplayerMenu);
             creditsButton.onClick.AddListener(SceneLoader.instance.GoToCreditsScreen);
             quitButton.onClick.AddListener(SceneLoader.instance.QuitGame);
         }

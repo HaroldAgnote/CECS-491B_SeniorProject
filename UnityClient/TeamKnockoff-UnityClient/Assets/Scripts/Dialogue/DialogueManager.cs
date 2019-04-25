@@ -17,9 +17,11 @@ public class DialogueManager : MonoBehaviour {
     private List<Dialogue> sentences;
     private int index;
     public float typingSpeed;
-    public GameObject autoTextButton;
-    public GameObject continueButton;
-    public GameObject prevButton;
+
+    public Button skipButton;
+    public Button autoTextButton;
+    public Button continueButton;
+    public Button prevButton;
 
     private bool isAutoText = false;
     private float lastTime;
@@ -58,6 +60,12 @@ public class DialogueManager : MonoBehaviour {
         index = 0;
         //InvokeRepeating("DisplaySentence", 3, 3);//2.0f, 2.0f);
         Debug.Log("HELLO");
+
+        skipButton.onClick.AddListener(SkipDialogue);
+        continueButton.onClick.AddListener(NextSentence);
+        prevButton.onClick.AddListener(PrevSentence);
+        autoTextButton.onClick.AddListener(AutoText);
+
         StartDialogue();
     }
 

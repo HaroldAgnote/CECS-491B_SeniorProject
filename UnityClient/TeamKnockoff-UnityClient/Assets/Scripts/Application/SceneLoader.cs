@@ -125,7 +125,10 @@ namespace Assets.Scripts.Application {
         }
 
         public void GoToMainMenu() {
-            Load(MAIN_MENU_INDEX);
+            // Since we don't have multiplayer or settings set up,
+            // we'll just disable this option for now
+            // Load(MAIN_MENU_INDEX);
+            Load(START_MENU_INDEX);
         }
 
         public void GoToStartMenu() {
