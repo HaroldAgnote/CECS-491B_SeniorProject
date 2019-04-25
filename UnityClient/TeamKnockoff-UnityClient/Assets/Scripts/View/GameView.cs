@@ -59,6 +59,8 @@ namespace Assets.Scripts.View {
 
         public GameObject units;
 
+        public GameObject topPanel;
+
         public GameObject bottomPanel;
 
         public GameObject availableUnitsContent;

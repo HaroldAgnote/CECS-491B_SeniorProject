@@ -7,11 +7,13 @@ using System.Threading;
 using TMPro;
 using Assets.Scripts.Campaign;
 using Assets.Scripts.Application;
+using Assets.Scripts.View;
 //using UnityEngine.UI;
 
-
 public class DialogueManager : MonoBehaviour {
-    public static DialogueManager instance;
+
+    public GameView gameView;
+
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
     private List<Dialogue> sentences;
@@ -28,27 +30,27 @@ public class DialogueManager : MonoBehaviour {
 
     private string path;
 
-    private void Awake() {
-        //Check if instance already exists
-        if (instance == null) {
-            //if not, set instance to this
-            instance = this;
-        }
-
-        //If instance already exists and it's not this:
-        else if (instance != this) {
-            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
-            Destroy(gameObject);
-        }
-    }
+    public bool HasDialogue;
 
     // Start is called before the first frame update
     void Start() {
         sentences = new List<Dialogue>();
+        this.gameObject.SetActive(false);
+    }
 
-        string text = SceneLoader.GetParam(SceneLoader.LOAD_DIALOGUE_PARAM);
-        
-        Debug.Log(text);
+    public void LoadDialogue(string text) {
+        sentences = new List<Dialogue>();
+        this.gameObject.SetActive(true);
+
+        HasDialogue = true;
+
+        gameView.topPanel.SetActive(false);
+        gameView.bottomPanel.SetActive(false);
+        gameView.gameOverScreen.gameObject.SetActive(false);
+        gameView.tileSelector.gameObject.SetActive(false);
+        gameView.mCamera.LockMoveCamera();
+        gameView.mCamera.LockZoomCamera();
+
         string line;
         using (StringReader reader = new StringReader(text.ToString())) {
             while ((line = reader.ReadLine()) != null) {
@@ -75,7 +77,7 @@ public class DialogueManager : MonoBehaviour {
         //}
         if((Time.time > lastTime) && isAutoText) {
             lastTime = Time.time + 3;
-            Debug.Log("I'm in time");
+            // Debug.Log("I'm in time");
             NextSentence();
         }
 
@@ -96,8 +98,16 @@ public class DialogueManager : MonoBehaviour {
     public void NextSentence() {
         //continueButton.SetActive(false);
         if (index == sentences.Count - 1) {
-            Debug.Log("about to return");
-            CampaignManager.instance.LoadNextCampaignEvent();
+            // Debug.Log("about to return");
+            // CampaignManager.instance.LoadNextCampaignEvent();
+            HasDialogue = false;
+            this.gameObject.SetActive(false);
+
+            gameView.topPanel.SetActive(true);
+            gameView.bottomPanel.SetActive(true);
+            gameView.tileSelector.gameObject.SetActive(true);
+            gameView.mCamera.UnlockMoveCamera();
+            gameView.mCamera.UnlockZoomCamera();
         }
 
         if (index < sentences.Count - 1) {

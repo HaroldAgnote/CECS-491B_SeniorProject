@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 using Assets.Scripts.Campaign;
@@ -34,6 +35,8 @@ namespace Assets.Scripts.Application {
         /// A single instance of the GameManager that is active at all times
         /// </summary>
         public static GameManager instance;
+
+        public DialogueManager dialogueManager;
 
         /// <summary>
         /// The Model of the Game System
@@ -302,7 +305,14 @@ namespace Assets.Scripts.Application {
 
             view.ConstructView(cols, rows, newObjectViews);
 
+            view.mCamera.MoveToPosition(model.GridForUnit(ControllingPlayer.Units[0]).ToVector3());
+
+            var text = SceneLoader.GetParam(SceneLoader.LOAD_OPENING_DIALOGUE_PARAM);
+
             StartGame();
+            if (text != "") {
+                dialogueManager.LoadDialogue(text);
+            } 
         }
 
         /// <summary>
@@ -373,7 +383,18 @@ namespace Assets.Scripts.Application {
 
         #region Private Methods
 
-        private void ViewModel_GameFinished(object sender, EventArgs e) {
+        private void Update() {
+            if (dialogueManager.HasDialogue) {
+                view.topPanel.SetActive(false);
+                view.bottomPanel.SetActive(false);
+                view.gameOverScreen.gameObject.SetActive(false);
+                view.tileSelector.gameObject.SetActive(false);
+                view.mCamera.LockMoveCamera();
+                view.mCamera.LockZoomCamera();
+            }
+        }
+
+        private async void ViewModel_GameFinished(object sender, EventArgs e) {
             if (gameType == GameType.Singleplayer) {
                 if (singleplayerGameType == SingleplayerGameType.Practice) {
                     SceneLoader.instance.GoToLastMenu();
@@ -398,7 +419,15 @@ namespace Assets.Scripts.Application {
                         // TODO: Make better reward system
                         CampaignManager.instance.CampaignPlayerData.Money += 1000;
 
-                        CampaignManager.instance.LoadNextCampaignEvent();
+                        var text = SceneLoader.GetParam(SceneLoader.LOAD_CLOSING_DIALOGUE_PARAM);
+                        if (text != "") {
+                            dialogueManager.LoadDialogue(text);
+                            await Task.Run(() => {
+                                while (dialogueManager.HasDialogue) { }
+                            });
+                            CampaignManager.instance.LoadNextCampaignEvent();
+                        }
+
                     } else {
                         SceneLoader.instance.GoToCampaignMenu();
                     }

@@ -126,14 +126,8 @@ namespace Assets.Scripts.Campaign {
                     //LoadOpeningDialogue();
                     break;
                 case CampaignEvent.CampaignMap:
-                    // TODO: Change to Load Closing Dialogue
-                    // and remove complete and save menu call
-
-                    // LoadClosingDialogue();
-                    // once I get Load Closing dialogue to work, comment out 2 below lines
-                    //CompleteCurrentCampaignMap();
-                    LoadClosingDialogue();
-                    //LoadCampaignSaveMenu();
+                    CompleteCurrentCampaignMap();
+                    LoadCampaignSaveMenu();
                     break;
                 case CampaignEvent.ClosingDialogue:
                     CompleteCurrentCampaignMap();
@@ -143,11 +137,7 @@ namespace Assets.Scripts.Campaign {
                     LoadCampaignChapterMenu();
                     break;
                 case CampaignEvent.ChapterMenu:
-                    if (CurrentCampaignIndex == FarthestCampaignIndex) {
-                        LoadOpeningDialogue();
-                    } else {
-                        LoadNextMap();
-                    }
+                    LoadNextMap();
                     break;
             }
         }
@@ -160,7 +150,8 @@ namespace Assets.Scripts.Campaign {
             CampaignPlayerData = new Player("Hero", 1);
 
             CurrentCampaignIsCompleted = false;
-            LoadOpeningDialogue();
+            // LoadOpeningDialogue();
+            LoadNextMap();
         }
 
         public void LoadCampaign(CampaignData data) {
@@ -205,8 +196,12 @@ namespace Assets.Scripts.Campaign {
 
         private void LoadNextMap() {
             currentCampaignEvent = CampaignEvent.CampaignMap;
+            var nextOpeningDialogue = CurrentCampaignSequence.preMapDialogueSequence[CurrentCampaignIndex].text;
+            var nextClosingDialogue = CurrentCampaignSequence.postMapDialogueSequence[CurrentCampaignIndex].text;
             var nextMap = CurrentCampaignSequence.mapSequence[CurrentCampaignIndex].name;
             CampaignPlayerData.Units = new List<Unit>();
+            SceneLoader.SetParam(SceneLoader.LOAD_OPENING_DIALOGUE_PARAM, nextOpeningDialogue);
+            SceneLoader.SetParam(SceneLoader.LOAD_CLOSING_DIALOGUE_PARAM, nextClosingDialogue);
             SceneLoader.SetParam(SceneLoader.LOAD_MAP_PARAM, nextMap);
             SceneLoader.SetParam(SceneLoader.GAME_TYPE_PARAM, GameManager.SINGLEPLAYER_GAME_TYPE);
             SceneLoader.SetParam(SceneLoader.SINGLEPLAYER_GAME_TYPE_PARAM, GameManager.CAMPAIGN_GAME_TYPE);
@@ -217,7 +212,7 @@ namespace Assets.Scripts.Campaign {
             //THIS IS WEHRE Matthews LOGIC COMES IN
             currentCampaignEvent = CampaignEvent.OpeningDialogue;
             var nextDialogue = CurrentCampaignSequence.preMapDialogueSequence[CurrentCampaignIndex].text;
-            SceneLoader.SetParam(SceneLoader.LOAD_DIALOGUE_PARAM, nextDialogue);
+            SceneLoader.SetParam(SceneLoader.LOAD_OPENING_DIALOGUE_PARAM, nextDialogue);
             SceneLoader.instance.GoToDialogue();
             //throw new NotImplementedException();
         }
@@ -225,7 +220,7 @@ namespace Assets.Scripts.Campaign {
         private void LoadClosingDialogue() {
             currentCampaignEvent = CampaignEvent.ClosingDialogue;
             var nextDialogue = CurrentCampaignSequence.postMapDialogueSequence[CurrentCampaignIndex].text;
-            SceneLoader.SetParam(SceneLoader.LOAD_DIALOGUE_PARAM, nextDialogue);
+            SceneLoader.SetParam(SceneLoader.LOAD_CLOSING_DIALOGUE_PARAM, nextDialogue);
             SceneLoader.instance.GoToDialogue();
             //throw new NotImplementedException();
         }

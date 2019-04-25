@@ -13,7 +13,8 @@ namespace Assets.Scripts.Application {
         public const string GAME_TYPE_PARAM = "GameType";
         public const string SINGLEPLAYER_GAME_TYPE_PARAM = "SinglePlayerGameType";
         public const string MULTIPLAYER_GAME_TYPE_PARAM = "MultiPlayerGameType";
-        public const string LOAD_DIALOGUE_PARAM = "LoadDialogue";
+        public const string LOAD_OPENING_DIALOGUE_PARAM = "LoadOpeningDialogue";
+        public const string LOAD_CLOSING_DIALOGUE_PARAM = "LoadClosingDialogue";
 
         const int START_MENU_INDEX = 0;
         const int MAIN_MENU_INDEX = 1;
@@ -95,8 +96,11 @@ namespace Assets.Scripts.Application {
             if (instance == null || instance.parameters == null) {
                 return "";
             }
+            if (instance.parameters.ContainsKey(paramKey)) {
+                return instance.parameters[paramKey];
+            }
+            return "";
 
-            return instance.parameters[paramKey];
         }
 
         public static void SetParam(string paramKey, string paramValue) {
