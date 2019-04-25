@@ -7,6 +7,7 @@ TextureImporter:
     21300004: GenericUnits_2_Archer
     21300006: GenericUnits_3_Mage
     21300008: GenericUnits_4_Knight
+    21300010: GenericUnits_5_Thief
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -206,6 +207,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 717ac2debd07c184caa53dcff06eb2e3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GenericUnits_5_Thief
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 55
+        width: 117
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c71a6460e63373478d5f1ca817cc5a8
       vertices: []
       indices: 
       edges: []

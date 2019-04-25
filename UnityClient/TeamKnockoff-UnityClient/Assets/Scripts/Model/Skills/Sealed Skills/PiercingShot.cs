@@ -52,11 +52,20 @@ namespace Assets.Scripts.Model.Skills {
         }
 
         public override bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit) {
-            return true;
+            return usingUnit.PlayerNumber != targetUnit.PlayerNumber;
         }
 
         public override Skill Generate() {
             return new PiercingShot();
+        }
+
+        public override int GetOffensive(Unit attacker) {
+            int damageDone = attacker.Strength.Value + STRENGTH_MODIFIER;
+            return damageDone;
+        }
+
+        public override int GetDefensive(Unit attacker, Unit defender) {
+            return defender.Defense.Value;
         }
     }
 }

@@ -41,15 +41,12 @@ namespace Assets.Scripts.Model {
             }
         }
 
-        private AttackResult mAttackerResult;
-        private AttackResult mDefenderCounterResult;
+        private List<AttackResult> mAttackResults;
 
-        public AttackResult AttackerResult => mAttackerResult;
-        public AttackResult DefenderResult => mDefenderCounterResult;
+        public List<AttackResult> AttackResults => mAttackResults;
 
-        public AttackMoveResult(AttackResult attackerResult, AttackResult defenderResult) {
-            mAttackerResult = attackerResult;
-            mDefenderCounterResult = defenderResult;
+        public AttackMoveResult(List<AttackResult> attackResults) {
+            mAttackResults = attackResults;
         }
     }
 }
