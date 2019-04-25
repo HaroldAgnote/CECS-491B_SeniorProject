@@ -42,7 +42,10 @@ public class DialogueManager : MonoBehaviour {
         sentences = new List<Dialogue>();
         this.gameObject.SetActive(true);
 
+        dialogueText.text = "";
+
         HasDialogue = true;
+        isAutoText = false;
 
         gameView.topPanel.SetActive(false);
         gameView.bottomPanel.SetActive(false);
@@ -51,14 +54,17 @@ public class DialogueManager : MonoBehaviour {
         gameView.mCamera.LockMoveCamera();
         gameView.mCamera.LockZoomCamera();
 
-        string line;
-        using (StringReader reader = new StringReader(text.ToString())) {
-            while ((line = reader.ReadLine()) != null) {
+        var reader = new StringReader(text);
+        string line = string.Empty;
+        do {
+            line = reader.ReadLine();
+            if (line != null) {
                 string[] parts = line.Split(':');
                 sentences.Add(new Dialogue(parts[0], parts[1]));
             }
-        }
 
+        } while (line != null);
+        
         index = 0;
         //InvokeRepeating("DisplaySentence", 3, 3);//2.0f, 2.0f);
         Debug.Log("HELLO");
@@ -75,7 +81,7 @@ public class DialogueManager : MonoBehaviour {
         //if (dialogueText.text == sentences[index].sentence) {
         //    continueButton.SetActive(true);
         //}
-        if((Time.time > lastTime) && isAutoText) {
+        if((Time.time > lastTime) && isAutoText && HasDialogue) {
             lastTime = Time.time + 3;
             // Debug.Log("I'm in time");
             NextSentence();
@@ -101,6 +107,8 @@ public class DialogueManager : MonoBehaviour {
             // Debug.Log("about to return");
             // CampaignManager.instance.LoadNextCampaignEvent();
             HasDialogue = false;
+            isAutoText = false;
+            sentences.Clear();
             this.gameObject.SetActive(false);
 
             gameView.topPanel.SetActive(true);

@@ -9,9 +9,9 @@ TextureImporter:
     21300008: Village_4
     21300010: Village_5
     21300012: Village_6
-    21300014: Village_7
-    21300016: Village_8
-    21300018: Village_9_Wall
+    21300014: Village_7_Obstacle
+    21300016: Village_8_Obstacle
+    21300018: Village_9_Obstacle
     21300020: Village_10
     21300022: Village_11
     21300024: Village_12
@@ -306,7 +306,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Village_7
+      name: Village_7_Obstacle
       rect:
         serializedVersion: 2
         x: 120
@@ -326,7 +326,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Village_8
+      name: Village_8_Obstacle
       rect:
         serializedVersion: 2
         x: 137
@@ -346,7 +346,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Village_9_Wall
+      name: Village_9_Obstacle
       rect:
         serializedVersion: 2
         x: 154

@@ -420,9 +420,9 @@ namespace Assets.Scripts.Application {
                         // TODO: Make better reward system
                         CampaignManager.instance.CampaignPlayerData.Money += 1000;
 
-                        var text = SceneLoader.GetParam(SceneLoader.LOAD_CLOSING_DIALOGUE_PARAM);
-                        if (text != "") {
-                            dialogueManager.LoadDialogue(text);
+                        var closingText = SceneLoader.GetParam(SceneLoader.LOAD_CLOSING_DIALOGUE_PARAM);
+                        if (closingText != "") {
+                            dialogueManager.LoadDialogue(closingText);
                             await Task.Run(() => {
                                 while (dialogueManager.HasDialogue) { }
                             });

@@ -5,8 +5,8 @@ TextureImporter:
     21300000: CampaignUnits_0_Cavalier_Eres
     21300002: CampaignUnits_1_Archer_Yew
     21300004: CampaignUnits_2_Knight_Bastion
-    21300006: CampaignUnits_3_Mage_Soinge
-    21300008: CampaignUnits_4_Cleric_Nomira
+    21300006: CampaignUnits_3_Cleric_Soinge
+    21300008: CampaignUnits_4_Mage_Morgan
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -171,11 +171,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CampaignUnits_3_Mage_Soinge
+      name: CampaignUnits_3_Cleric_Soinge
       rect:
         serializedVersion: 2
         x: 498
-        y: 309
+        y: 310
         width: 117
         height: 212
       alignment: 9
@@ -191,7 +191,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CampaignUnits_4_Cleric_Nomira
+      name: CampaignUnits_4_Mage_Morgan
       rect:
         serializedVersion: 2
         x: 657

@@ -102,7 +102,7 @@ namespace Assets.Scripts.Campaign {
 
         public static string DataToString(CampaignData data) {
             var sequence = instance.NamesToCampaignSequences[data.CampaignName];
-            var dataString = $"{sequence.campaignName}: Chapter {data.FarthestCampaignIndex + 1} - {sequence.chapterNames[data.FarthestCampaignIndex]} {data.TimeStamp}";
+            var dataString = $"{sequence.campaignName}: Chapter {data.FarthestCampaignIndex + 1} - {sequence.chapterNames[data.FarthestCampaignIndex]} - {data.Difficulty.ToString()} - {data.TimeStamp}";
             
             if (data.IsCompleted) {
                 dataString += " - COMPLETE";

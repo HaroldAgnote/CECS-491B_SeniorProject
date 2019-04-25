@@ -1,5 +1,62 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1446120422007849665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 917661887592597473}
+  - component: {fileID: 7521425071010881223}
+  m_Layer: 0
+  m_Name: Prologue Campaign Sequence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &917661887592597473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446120422007849665}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -190.6199, y: 207.39503, z: -82888.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6648202356102799855}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7521425071010881223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446120422007849665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca8701d155c108a4c936049d3bd62b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  campaignName: Prologue
+  numberOfChapters: 2
+  chapterNames:
+  - Seasons of Change
+  - New Youth
+  mapSequence:
+  - {fileID: 4900000, guid: dbefeb2828b89d341820552959fb76c7, type: 3}
+  - {fileID: 4900000, guid: fec9fef60900a36488ba9d407f62ddce, type: 3}
+  preMapDialogueSequence:
+  - {fileID: 4900000, guid: 7beb4d33a5995e549a09b983a13c6d65, type: 3}
+  - {fileID: 4900000, guid: 8f103a0fa5db45d47a66869bfe43d443, type: 3}
+  postMapDialogueSequence:
+  - {fileID: 4900000, guid: 36500e3bf1014564c99ffd70ce375c08, type: 3}
+  - {fileID: 4900000, guid: a4e96ce87076e9349a939deabc7032f3, type: 3}
 --- !u!1 &6648202356102799859
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,6 +93,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6648202356864797476}
+  - {fileID: 917661887592597473}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableCampaigns:
+  - {fileID: 7521425071010881223}
   - {fileID: 6648202356864797477}
 --- !u!114 &6648202356102799858
 MonoBehaviour:
@@ -86,6 +145,8 @@ MonoBehaviour:
   - {fileID: 4900000, guid: c54bd6a940ba5a941ad707337ac5f019, type: 3}
   - {fileID: 4900000, guid: 276066747876d8445883a15f889b8040, type: 3}
   - {fileID: 4900000, guid: 1df40e272a2533f45b163176a668c018, type: 3}
+  - {fileID: 4900000, guid: dbefeb2828b89d341820552959fb76c7, type: 3}
+  - {fileID: 4900000, guid: fec9fef60900a36488ba9d407f62ddce, type: 3}
 --- !u!114 &1988313781181989896
 MonoBehaviour:
   m_ObjectHideFlags: 0

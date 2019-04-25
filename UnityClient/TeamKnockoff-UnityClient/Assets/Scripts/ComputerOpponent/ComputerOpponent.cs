@@ -237,6 +237,10 @@ namespace Assets.Scripts.ComputerOpponent
             var direction = startPosition.GetVectorDirection(targetPoint);
             var moveVector = VectorExtension.GetVectorTowardsDirection(direction);
 
+            if (moveVector == new Vector2Int(0, 0)) {
+                return moveLocations.First();
+            }
+
             var movePosition = new Vector2Int(startPosition.x, startPosition.y);
 
             while (moveLocations.Contains(movePosition)) {

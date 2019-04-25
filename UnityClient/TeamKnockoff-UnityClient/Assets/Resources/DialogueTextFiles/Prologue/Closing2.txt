@@ -1,0 +1,17 @@
+Guard: We’re losing this battle! Pull back to base!
+Eres: Hey, get back here!
+Yew: Eres, we’re in position to pursue!
+Eres: ... Fine.
+Bastion: Yew is right. We just finished a battle. How yer all holdin up?
+Soinge: No one suffered fatal injuries. Though, it seems there are few villagers for this size of a town.
+Eres: Yeah, it seems that the soldiers managed to destroy a good amount here...
+Villagers: Thank you for saving us!
+Yew: You’re welcome, but we apologize that couldn’t make it here earlier. We maybe could have prevented the buildings from being razed.
+Villagers: These buildings? Our village looked like this before the invasion. Not much was destroyed actually, so thank you.
+Morgan: Wait, I think I see the guards with other villagers? Are they prisoners? We have to save them!
+Eres: Fath- Bastion, we need to save them.
+Soinge: Unfortunately, I will not be able to join you this time. I wish you the best. Godspeed.
+Yew: Hmm, without a healer, we cannot take any prolonged engagements. If we can rescue the prisoners without being seen, we could prevent skirmish.
+Eres: Then that’s what we do!
+Bastion: Hmm, this is a dangerous plan. Compared to a fort of guards, we’re just baby rams. We will leave if it is too difficult.
+Morgan: Let’s go!

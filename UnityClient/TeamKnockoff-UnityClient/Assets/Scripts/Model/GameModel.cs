@@ -1186,6 +1186,10 @@ namespace Assets.Scripts.Model {
 
             var shortestDistanceToAttack = attackDistances.Min();
 
+            if (shortestDistanceToAttack == null || shortestDistanceToAttack.Path == null) {
+                return new List<Vector2Int>();
+            }
+
             return shortestDistanceToAttack.Path;
         }
 

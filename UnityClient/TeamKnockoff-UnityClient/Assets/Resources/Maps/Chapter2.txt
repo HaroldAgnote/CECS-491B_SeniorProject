@@ -12990,7 +12990,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "CampaignUnits_3_Mage_Soinge"
+            "UnitData": "CampaignUnits_3_Cleric_Soinge"
         },
         {
             "Column": 30,
@@ -15140,7 +15140,7 @@
             "WallData": "",
             "BoundaryData": "",
             "Player": 1,
-            "UnitData": "CampaignUnits_4_Cleric_Nomira"
+            "UnitData": "CampaignUnits_4_Mage_Morgan"
         },
         {
             "Column": 35,
