@@ -251,7 +251,7 @@ namespace Assets.Scripts.Application {
                             const int UNIT_NAME_INDEX = 3;
 
                             if (unitData == "FREE_ALLY_SQUARE") {
-
+                                // TODO: Make Free allies
                             } else {
                                 var split_string = unitData.Split(DELIMITER);
 
@@ -275,6 +275,7 @@ namespace Assets.Scripts.Application {
 
                         } else {
                             newUnitTuple = unitFactory.CreateUnitForBoard(boardUnit.UnitPosition, view.units.transform, unitData);
+                            CampaignManager.instance.ModifyUnitStats(newUnitTuple.Item1);
                         }
 
                     } else if (singleplayerGameType == SingleplayerGameType.Practice) {

@@ -24,6 +24,9 @@ namespace Assets.Scripts.Model.Units {
                 if (mBase != value) {
                     mBase = value;
                 }
+                if (mBase <= 0) {
+                    mBase = 1;
+                }
             }
         }
 

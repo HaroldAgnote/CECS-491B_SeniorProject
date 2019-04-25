@@ -14,11 +14,23 @@ using Assets.Scripts.Model.Items;
 
 namespace Assets.Scripts.Campaign {
     public class CampaignManager : MonoBehaviour {
+        const float EASY_MODIFIER = 0.50f;
+
+        const float NORMAL_MODIFIER = 0.70f;
+
+        const float HARD_MODIFIER = 1.00f;
+
+        const float LUNATIC_MODIFIER = 1.20f;
+
         public static CampaignManager instance;
+
+        public static Dictionary<CampaignDifficulty, float> DifficultyToModifier;
 
         public List<CampaignSequence> availableCampaigns;
 
         public CampaignSequence CurrentCampaignSequence { get; private set; }
+
+        public CampaignDifficulty CurrentCampaignDifficulty { get; private set; }
 
         private bool mCurrentCampaignIsCompleted;
 
@@ -71,6 +83,13 @@ namespace Assets.Scripts.Campaign {
             ChapterMenu
         }
 
+        public enum CampaignDifficulty {
+            Easy,
+            Normal,
+            Hard,
+            Lunatic
+        }
+
         private CampaignEvent currentCampaignEvent;
 
         public Player CampaignPlayerData { get; set; }
@@ -109,6 +128,13 @@ namespace Assets.Scripts.Campaign {
         }
 
         public void Start() {
+            DifficultyToModifier = new Dictionary<CampaignDifficulty, float>() {
+                { CampaignDifficulty.Easy,  EASY_MODIFIER},
+                { CampaignDifficulty.Normal,  NORMAL_MODIFIER},
+                { CampaignDifficulty.Hard, HARD_MODIFIER },
+                { CampaignDifficulty.Lunatic, LUNATIC_MODIFIER }
+            };
+
             NamesToCampaignSequences = new SortedDictionary<string, CampaignSequence>();
             foreach (var availableCampaign in availableCampaigns) {
                 NamesToCampaignSequences.Add(availableCampaign.campaignName, availableCampaign);
@@ -142,12 +168,13 @@ namespace Assets.Scripts.Campaign {
             }
         }
 
-        public void StartNewCampaign(CampaignSequence newSequence) {
+        public void StartNewCampaign(CampaignSequence newSequence, CampaignDifficulty campaignDifficulty) {
             CurrentCampaignSequence = newSequence;
             CurrentCampaignIndex = 0;
             FarthestCampaignIndex = 0;
 
             CampaignPlayerData = new Player("Hero", 1);
+            CurrentCampaignDifficulty = campaignDifficulty;
 
             CurrentCampaignIsCompleted = false;
             // LoadOpeningDialogue();
@@ -160,6 +187,7 @@ namespace Assets.Scripts.Campaign {
             FarthestCampaignIndex = data.FarthestCampaignIndex;
             CurrentCampaignIsCompleted = data.IsCompleted;
             CampaignPlayerData = data.PlayerData.Clone();
+            CurrentCampaignDifficulty = data.Difficulty;
 
             // Regenerate Units with Skills
             CampaignPlayerData.CampaignUnits = new List<Unit>();
@@ -257,6 +285,7 @@ namespace Assets.Scripts.Campaign {
             data.FarthestCampaignIndex = FarthestCampaignIndex;
             data.IsCompleted = CurrentCampaignIsCompleted;
             data.PlayerData = CampaignPlayerData;
+            data.Difficulty = CurrentCampaignDifficulty;
             data.UnitWrapperData = CampaignPlayerData.CampaignUnits.Select(unit => new UnitWrapper(unit)).ToList();
             data.WeaponWrapperData = CampaignPlayerData.Weapons.Select(weapon => new WeaponWrapper(weapon)).ToList();
             data.ItemWrapperData = CampaignPlayerData.Items.Select(item => new ItemWrapper(item)).ToList();
@@ -270,6 +299,21 @@ namespace Assets.Scripts.Campaign {
         private void CompleteCurrentCampaignMap() {
             CurrentCampaignSaved = false;
             CurrentCampaignIndex++;
+        }
+
+        public void ModifyUnitStats(Unit unit) {
+            var modifier = DifficultyToModifier[CurrentCampaignDifficulty];
+
+            unit.Strength.Base = (int) (unit.Strength.Base * modifier);
+            unit.Magic.Base = (int) (unit.Magic.Base * modifier);
+            unit.Speed.Base = (int) (unit.Speed.Base * modifier);
+            unit.Skill.Base = (int) (unit.Skill.Base * modifier);
+            unit.Luck.Base = (int) (unit.Luck.Base * modifier);
+
+            if (CurrentCampaignDifficulty != CampaignDifficulty.Lunatic) {
+                unit.Defense.Base = (int) (unit.Defense.Base * modifier);
+                unit.Resistance.Base = (int) (unit.Resistance.Base * modifier);
+            }
         }
     }
 }

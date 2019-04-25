@@ -11,11 +11,25 @@ using Assets.Scripts.Model.Weapons;
 using Assets.Scripts.Utilities.DateTime;
 using Assets.Scripts.Model.Items;
 
+using CampaignDifficulty = Assets.Scripts.Campaign.CampaignManager.CampaignDifficulty;
+
 namespace Assets.Scripts.Campaign {
 
     [Serializable]
     public class CampaignData : IComparable<CampaignData> {
-        
+
+        [SerializeField]
+        private CampaignDifficulty mDifficulty;
+
+        public CampaignDifficulty Difficulty {
+            get { return mDifficulty; }
+            set {
+                if (mDifficulty != value) {
+                    mDifficulty = value;
+                }
+            }
+        }
+
         [SerializeField]
         private string mCampaignName;
 
