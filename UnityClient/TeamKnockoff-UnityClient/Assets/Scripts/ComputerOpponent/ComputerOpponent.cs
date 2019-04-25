@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Units;
 using Assets.Scripts.Model.Tiles;
 using Assets.Scripts.Model;
@@ -69,44 +70,53 @@ namespace Assets.Scripts.ComputerOpponent
                 CurrentControllingUnit = PlayerUnits[currentUnitIndex];
 
                 
-                //Determine whether supporting or attacking
-                //Prioritize supporting (healing or buff)
-                foreach (var skill in CurrentControllingUnit.Skills)
-                {
-                    if(skill.SkillName == "Heal")
-                    {
-                        //check and select whether a unit can be healed
-                        var allAllyUnits = CurrentPlayer.Units
-                            .Where(un => un.IsAlive)
-                            .Where(un => un != CurrentControllingUnit);
+                if (CurrentControllingUnit.Class == "Cleric") {
+                    //Determine whether supporting or attacking
+                    //Prioritize supporting (healing or buff)
+                    foreach (var skill in CurrentControllingUnit.Skills) {
+                        if(skill.SkillName == "Heal") {
+                            var targetSkill = skill as SingleTargetSkill;
 
-                        var lowestHealth = int.MaxValue;
-                        //select unit missing the most health
-                        foreach (var unit in allAllyUnits)
-                        {
-                            if ((unit.MaxHealthPoints.Value > unit.HealthPoints) && (unit.HealthPoints < lowestHealth))
-                            {
-                                lowestHealth = unit.HealthPoints;
-                                healReadyLocation = model.GridForUnit(unit);
-                                healing = true;
-                                skillToBeUsed = skill; 
+                            var healLocations = model.GetPossibleUnitSkillLocations(CurrentControllingUnit, targetSkill);
+
+                            // Get all the allies that are close to the Cleric
+                            var allAllyUnits = healLocations.Where(loc => model.AllyAtLocation(loc))
+                                                            .Select(loc => model.GetUnitAtPosition(loc));
+
+                            if (allAllyUnits.Count() > 0) {
+                                int lowestHealth = Int32.MaxValue;
+
+                                //select unit missing the most health
+                                foreach (var unit in allAllyUnits) {
+                                    if ((unit.MaxHealthPoints.Value > unit.HealthPoints) && (unit.HealthPoints < lowestHealth)) {
+                                        lowestHealth = unit.HealthPoints;
+                                        healReadyLocation = model.GridForUnit(unit);
+                                        healing = true;
+                                        attacking = false;
+                                        skillToBeUsed = skill; 
+                                    }
+                                }
+                            } else {
+                                healReadyLocation = NULL_VECTOR;
+                                healing = false;
                             }
                         }
                     }
+                } else {
+                    // Determine if there is a location for the Controlling Unit to attack
+                    var attackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit);
+                    attacking = attackLocations.Any(loc => model.EnemyAtLocation(loc));
+                    healing = false;
 
+                    // Initialize attack location and hasMoved
+                    attackReadyLocation = NULL_VECTOR;
+                    hasMoved = false;
+
+                    Debug.Log("Thinking of move...");
                 }
 
-                // Determine if there is a location for the Controlling Unit to attack
-                var attackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit);
-                attacking = attackLocations.Any(loc => model.EnemyAtLocation(loc));
 
-                // Initialize attack location and hasMoved
-                attackReadyLocation = NULL_VECTOR;
-                hasMoved = false;
-
-                Debug.Log("Thinking of move...");
-
-                if (attacking && !healing) {
+                if (attacking) {
                     // CPU has not found an attack location
                     if (attackReadyLocation == NULL_VECTOR) {
                         var possibleAttackLocations = model.GetPossibleUnitAttackLocations(CurrentControllingUnit)
@@ -172,11 +182,8 @@ namespace Assets.Scripts.ComputerOpponent
                     var startPoint = model.GridForUnit(CurrentControllingUnit);
                     return new GameMove(startPoint, attackReadyLocation, GameMove.GameMoveType.Attack);
                 }
-            }
-            else if (healing)
-            {
-                if (!hasMoved)
-                {
+            } else if (healing) {
+                if (!hasMoved) {
                     Debug.Log($"Moving to Heal Position ({healReadyLocation.x}, {healReadyLocation.y})!");
                     // CPU has not moved towards closest attack position yet
                     var startPosition = model.GridForUnit(CurrentControllingUnit);
@@ -184,19 +191,16 @@ namespace Assets.Scripts.ComputerOpponent
                     var movePoint = path.Last();
                     hasMoved = true;
                     return new GameMove(startPosition, movePoint, path);
-                }
-                else
-                {
+                } else {
                     Debug.Log("Executing Heal!");
                     // CPU has moved and is now ready to attack Unit at target position
                     hasDecidedMove = false;
                     currentUnitIndex++;
                     Debug.Log("Done Healing!");
                     var startPoint = model.GridForUnit(CurrentControllingUnit);
-                    return new GameMove(startPoint, healReadyLocation, skillToBeUsed as Model.Skills.ActiveSkill);
+                    return new GameMove(startPoint, healReadyLocation, skillToBeUsed as ActiveSkill);
                 }
-            }
-            else {
+            } else {
                 // Unit was not able to find an attack location or support location
                 // Unit moves towards enemy or ally unit depending on type
                 // Unit has not moved to the closest enemy unit 
