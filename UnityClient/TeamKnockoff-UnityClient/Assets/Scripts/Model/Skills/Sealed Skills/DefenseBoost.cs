@@ -13,13 +13,13 @@ namespace Assets.Scripts.Model.Skills
 
         public DefenseBoost() : base(SKILL_NAME) { }
 
-        public override void ApplyFieldSkill(Unit unit)
-        {
+        public override void ApplyFieldSkill(Unit unit) {
+            IsApplied = true;
             unit.Defense.Modifier += STAT_BOOST;
         }
 
-        public override void RevertFieldSkill(Unit unit)
-        {
+        public override void RevertFieldSkill(Unit unit) {
+            IsApplied = false;
             unit.Defense.Modifier -= STAT_BOOST;
         }
 

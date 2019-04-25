@@ -11,6 +11,8 @@ namespace Assets.Scripts.Model.Skills {
     public abstract class FieldSkill : PassiveSkill {
         public FieldSkill(string skillName) : base(skillName) { }
 
+        public bool IsApplied { get; protected set; }
+
         public abstract void ApplyFieldSkill(Unit unit);
 
         public abstract void RevertFieldSkill(Unit unit);

@@ -15,11 +15,13 @@ namespace Assets.Scripts.Model.Skills {
         public SmallSpeedBoost() : base(SKILL_NAME) { }
 
         public override void ApplyFieldSkill(Unit unit) {
+            IsApplied = true;
             unit.Speed.Modifier += STAT_BOOST;
         }
 
         public override void RevertFieldSkill(Unit unit)
         {
+            IsApplied = false;
             unit.Speed.Modifier -= STAT_BOOST;
         }
         
@@ -38,11 +40,12 @@ namespace Assets.Scripts.Model.Skills {
         public MediumSpeedBoost() : base(SKILL_NAME) { }
 
         public override void ApplyFieldSkill(Unit unit) {
+            IsApplied = true;
             unit.Speed.Modifier += STAT_BOOST;
         }
 
-        public override void RevertFieldSkill(Unit unit)
-        {
+        public override void RevertFieldSkill(Unit unit) {
+            IsApplied = false;
             unit.Speed.Modifier -= STAT_BOOST;
         }
 
@@ -59,11 +62,13 @@ namespace Assets.Scripts.Model.Skills {
         public LargeSpeedBoost() : base(SKILL_NAME) { }
 
         public override void ApplyFieldSkill(Unit unit) {
+            IsApplied = true;
             unit.Speed.Modifier += STAT_BOOST;
         }
 
         public override void RevertFieldSkill(Unit unit)
         {
+            IsApplied = false;
             unit.Speed.Modifier -= STAT_BOOST;
         }
 

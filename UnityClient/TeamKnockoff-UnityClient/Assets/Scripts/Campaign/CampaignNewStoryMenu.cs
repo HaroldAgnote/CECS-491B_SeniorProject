@@ -42,6 +42,7 @@ namespace Assets.Scripts.Campaign {
 
             campaignDifficultyDropdown.ClearOptions();
             campaignDifficultyDropdown.AddOptions(Enum.GetNames(typeof(CampaignDifficulty)).ToList());
+            campaignDifficultyDropdown.value = 1;
 
             campaignDifficultyDropdown.onValueChanged.AddListener(delegate {
                 UpdateSelectedDifficulty();

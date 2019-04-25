@@ -498,6 +498,15 @@ namespace Assets.Scripts.Model.Units {
             }
 
             mUnitEffects.RemoveRange(removeList);
+
+            var fieldSkills = Skills.Where(skill => skill is FieldSkill)
+                                    .Select(skill => skill as FieldSkill)
+                                    .Where(skill => !skill.IsApplied);
+
+            foreach (var skill in fieldSkills) {
+                skill.ApplyFieldSkill(this);
+            }
+
         }
 
         public void EquipWeapon(Weapon newWeapon) {
