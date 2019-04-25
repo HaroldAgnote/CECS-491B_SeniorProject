@@ -71,6 +71,8 @@ namespace Assets.Scripts.View {
         /// </summary>
         public UnitMenu unitMenu;
 
+        public CombatForecast combatForecast;
+
         #endregion
 
         #region Private Fields
@@ -280,6 +282,9 @@ namespace Assets.Scripts.View {
             gameViewModel.CombatMode = false;
             gameViewModel.TargetSquare = null;
 
+            combatForecast.ResetLabels();
+            combatForecast.DisableCombatForecast();
+
             // Initialize fields in Action State
             waitingForMove = false;
             waitingForAttack = false;
@@ -399,6 +404,12 @@ namespace Assets.Scripts.View {
                     if (attackLocations.Contains(cursorPosition)) {
                         gameViewModel.TargetSquare = gameViewModel.Squares
                                 .SingleOrDefault(sq => sq.Position == cursorPosition);
+
+                        var enemyUnit = gameViewModel.TargetSquare.Unit;
+                        if (enemyUnit != null) {
+                            combatForecast.EnableCombatForecast();
+                            combatForecast.UpdateForecast(movedPoint, selectedUnit, enemyUnit);
+                        }
                     }
                 }
 
@@ -407,6 +418,13 @@ namespace Assets.Scripts.View {
                     if (currentSkillLocations.Contains(cursorPosition)) {
                         gameViewModel.TargetSquare = gameViewModel.Squares
                                 .SingleOrDefault(sq => sq.Position == cursorPosition);
+
+                        var targetUnit = gameViewModel.TargetSquare.Unit;
+                        if (targetUnit != null && selectedSkill != null && selectedSkill is SingleTargetSkill) {
+                            combatForecast.EnableCombatForecast();
+                            combatForecast.UpdateForecastWithSkill(movedPoint, selectedUnit, targetUnit, selectedSkill as SingleTargetSkill);
+                        }
+
                     }
                 }
 
@@ -549,6 +567,11 @@ namespace Assets.Scripts.View {
                     startPoint = gameViewModel.SelectedSquare.Position;
                     pathLocations = gameViewModel.GetShortestPathToAttack(cursorPosition);
                     movedPoint = pathLocations.Last();
+
+                    var enemyUnit = gameViewModel.TargetSquare.Unit;
+
+                    combatForecast.EnableCombatForecast();
+                    combatForecast.UpdateForecast(movedPoint, selectedUnit, enemyUnit);
 
                     // TODO: Phantom movement to tile of MINIMUM valid
                     // Attack Range to attack point
@@ -806,6 +829,22 @@ namespace Assets.Scripts.View {
                     selectedSkill = skill;
                     CheckSkillOptions();
                 });
+
+                if (skill is SingleTargetSkill) {
+                    var targetSkill = skill as SingleTargetSkill;
+                    var trigger = skillButton.gameObject.AddComponent<EventTrigger>();
+                    var pointerEnter = new EventTrigger.Entry();
+                    pointerEnter.eventID = EventTriggerType.PointerEnter;
+                    pointerEnter.callback.AddListener((e) => {
+                        if (skillPoint != NULL_VECTOR) {
+                            var enemyUnit = gameViewModel.Squares.SingleOrDefault(sq => sq.Position == skillPoint).Unit;
+                            if (enemyUnit != null) {
+                                combatForecast.UpdateForecastWithSkill(movedPoint, selectedUnit, enemyUnit, targetSkill);
+                            }
+                        }
+                    });
+                }
+
 
                 // Disable button if Unit does not have enough HP to use Skill
                 if (!skill.CanUse(selectedUnit)) {
@@ -1220,6 +1259,9 @@ namespace Assets.Scripts.View {
         /// </summary>
         private void ExitState() {
             this.enabled = false;
+
+            combatForecast.ResetLabels();
+            combatForecast.DisableCombatForecast();
 
             // Disable UI elements for Action State
             tileHighlight.SetActive(false);

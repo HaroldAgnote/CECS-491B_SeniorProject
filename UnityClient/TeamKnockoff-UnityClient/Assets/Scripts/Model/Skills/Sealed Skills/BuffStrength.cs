@@ -19,7 +19,7 @@ namespace Assets.Scripts.Model.Skills {
         public BuffStrength() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF) { }
 
         public override bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit) {
-            return !targetUnit.UnitEffects.Contains(new StrengthBoost());
+            return usingUnit.PlayerNumber == targetUnit.PlayerNumber && !targetUnit.UnitEffects.Contains(new StrengthBoost());
         }
 
         public override void ApplySupportSkill(Unit user, Unit target) {

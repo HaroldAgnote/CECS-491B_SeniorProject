@@ -21,6 +21,8 @@ namespace Assets.Scripts.Model.Skills {
         }
         public int CRIT_MULTIPLIER = 3;
         public abstract int GetDamage(Unit attacker, Unit defender);
+        public abstract int GetOffensive(Unit attacker);
+        public abstract int GetDefensive(Unit attacker, Unit defender);
         public abstract int GetCritDamage(Unit attacker, Unit defender);
         public abstract int GetHitChance(Unit attacker, Unit defender);
         public abstract int GetCritRate(Unit attacker, Unit defender);

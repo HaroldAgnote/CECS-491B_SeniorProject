@@ -18,7 +18,7 @@ namespace Assets.Scripts.Model.Skills {
         public Physic() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF) { }
 
         public override bool IsUsableOnTarget(Unit usingUnit, Unit targetUnit) {
-            return targetUnit.HealthPoints != targetUnit.MaxHealthPoints.Value;
+            return usingUnit.PlayerNumber == targetUnit.PlayerNumber && targetUnit.HealthPoints != targetUnit.MaxHealthPoints.Value;
         }
 
         public override void ApplySupportSkill(Unit healer, Unit patient) {
