@@ -292,6 +292,7 @@ namespace Assets.Scripts.View {
 
             if (e.PropertyName == "MoveResult") {
                 var moveResult = gameViewModel.MoveResult;
+
                 bottomPanel.gameObject.SetActive(false);
 
                 if (moveResult is PositionMoveResult) {

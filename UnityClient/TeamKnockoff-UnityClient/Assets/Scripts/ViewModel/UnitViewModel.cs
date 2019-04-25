@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 
+using Assets.Scripts.Model.Skills;
 using Assets.Scripts.Model.Units;
 
 namespace Assets.Scripts.ViewModel {
@@ -22,7 +24,10 @@ namespace Assets.Scripts.ViewModel {
             mResistance = new Stat(mUnit.Resistance.Base);
             mSpeed = new Stat(mUnit.Speed.Base);
             mSkill = new Stat(mUnit.Skill.Base);
-            mLuck = new Stat(mUnit.Skill.Base);
+            mLuck = new Stat(mUnit.Luck.Base);
+
+            mNewSkills = new List<Skill>();
+            mNewSkills.AddRange(unit.UnitSkills);
         }
 
         public int ExperiencePoints => mUnit.ExperiencePoints;
@@ -45,6 +50,9 @@ namespace Assets.Scripts.ViewModel {
                     CheckStatAfterLevelUp(mSpeed, mUnit.Speed);
                     CheckStatAfterLevelUp(mSkill, mUnit.Skill);
                     CheckStatAfterLevelUp(mLuck, mUnit.Luck);
+                    var newSkills = mUnit.UnitSkills.Where(skill => !mNewSkills.Contains(skill));
+                    mNewSkills = new List<Skill>();
+                    mNewSkills.AddRange(newSkills);
                     OnPropertyChanged(nameof(Level));
                 }
             }
@@ -65,6 +73,8 @@ namespace Assets.Scripts.ViewModel {
         private Stat mSkill;
         
         private Stat mLuck;
+
+        private List<Skill> mNewSkills;
 
         public Stat Health {
             get {
@@ -114,6 +124,12 @@ namespace Assets.Scripts.ViewModel {
             }
         }
 
+        public List<Skill> NewSkills {
+            get {
+                return mNewSkills;
+            }
+        }
+
         private bool mIsAlive;
 
         public bool IsAlive {
@@ -144,6 +160,8 @@ namespace Assets.Scripts.ViewModel {
             mSpeed = new Stat(mUnit.Speed.Base);
             mSkill = new Stat(mUnit.Skill.Base);
             mLuck = new Stat(mUnit.Luck.Base);
+            mNewSkills = new List<Skill>();
+            mNewSkills.AddRange(mUnit.UnitSkills);
         }
 
         public void CheckStatAfterLevelUp(Stat viewModelStat, Stat unitStat) {

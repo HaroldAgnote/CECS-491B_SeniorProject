@@ -70,11 +70,9 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) {
 
             InitGrowthRates();
+            InitLevelToSkills();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
-
-            LearnSkill(new PiercingShot());
-            LearnSkill(new MediumSpeedBoost());
         }
 
         public Archer(string unitName) 
@@ -90,15 +88,15 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) {
 
             InitGrowthRates();
+            InitLevelToSkills();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
 
             EquipWeapon(defaultWeapon);
-            LearnSkill(new PiercingShot());
-            LearnSkill(new MediumSpeedBoost());
         }
 
         public Archer(UnitWrapper wrapper) : base(wrapper) {
             InitGrowthRates();
+            InitLevelToSkills();
         }
 
         public override bool CanUse(Weapon weapon) {
@@ -119,6 +117,10 @@ namespace Assets.Scripts.Model.Units {
                 default:
                     return false;
             }
+        }
+
+        public void InitLevelToSkills() {
+            mLevelToSkills.Add(2, new List<Skill>() { new PiercingShot(), new MediumSpeedBoost() });
         }
 
         public void InitGrowthRates() {

@@ -89,6 +89,16 @@ namespace Assets.Scripts.View {
                     skillLabel.text = unitViewModel.Skill.ToString();
                     luckLabel.text = unitViewModel.Luck.ToString();
 
+                    var newSkills = unitViewModel.NewSkills;
+                    if (newSkills.Count > 0) {
+                        levelUpMessage.text = $"{unit.Name} learned new Skills.";
+                        foreach (var skill in newSkills) {
+                            levelUpMessage.text += $"\n-{skill.SkillName}";
+                        }
+                    } else {
+                        levelUpMessage.text = "";
+                    }
+
                     unitViewModel.ResetStats();
                 }
             }

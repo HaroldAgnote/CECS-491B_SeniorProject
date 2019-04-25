@@ -92,6 +92,8 @@ namespace Assets.Scripts.Model.Units {
 
         private HashSet<UnitEffect> mUnitEffects;
 
+        protected Dictionary<int, List<Skill>> mLevelToSkills;
+
         [SerializeField]
         protected int mHealthGrowthRate;
         [SerializeField]
@@ -414,6 +416,7 @@ namespace Assets.Scripts.Model.Units {
             mUnitEffects = new HashSet<UnitEffect>();
             mSkills = new List<Skill>();
             mConsumableItems = new ConsumableItem[CONSUMABLE_ITEM_LIMIT];
+            mLevelToSkills = new Dictionary<int, List<Skill>>();
         }
 
         public Unit(UnitWrapper unitWrapper) {
@@ -460,6 +463,7 @@ namespace Assets.Scripts.Model.Units {
                 var item = ItemFactory.instance.GenerateItem(itemName);
                 EquipItem(item);
             }
+            mLevelToSkills = new Dictionary<int, List<Skill>>();
         }
 
         public void StartGame() {
@@ -581,17 +585,17 @@ namespace Assets.Scripts.Model.Units {
 
             if (!defendingUnit.IsAlive) {
                 if(ratingDif > RATINGTHRESHOLD) {
-                    mExperiencePoints += 7;
+                    mExperiencePoints += 27;
                 }
                 else if(ratingDif < -(RATINGTHRESHOLD)) {
                     mExperiencePoints += 110;
                 }
                 else { //threshold -20 <= x <= 20
-                    mExperiencePoints += 20;
+                    mExperiencePoints += 40;
                 }
                 
             } else {
-                mExperiencePoints += 3;
+                mExperiencePoints += 13;
             }
 
             if (ExperiencePoints >= 100) {
@@ -605,12 +609,31 @@ namespace Assets.Scripts.Model.Units {
             return this.mName == other.mName;
         }
 
+        public void SetLevel(int level) {
+            for (int currentLevel = 1; currentLevel <= level; currentLevel++) {
+                LevelUp();
+            }
+        }
+
+        public void SetLevelRange(int lowLevel, int highLevel) {
+            var randomLevel = UnityEngine.Random.Range(lowLevel, highLevel);
+            SetLevel(randomLevel);
+        }
+
         public void LevelUp() {
             mLevel += 1;
+
+            if (mLevelToSkills.Keys.Contains(mLevel)) {
+                var newSKills = mLevelToSkills[mLevel];
+                foreach (var skill in newSKills) {
+                    LearnSkill(skill);
+                }
+            }
+
+            // Stat Boosts
             int chance = UnityEngine.Random.Range(0, 100);
             //int chance = 29;
-            Debug.Log($"This is chance: {chance}");
-            //I could reroll for every stat but this should technically work - Matthew
+            // Debug.Log($"This is chance: {chance}");
 
             List<Tuple<Stat, int>> statGrowthRateTuples = new List<Tuple<Stat, int>>() {
                 new Tuple<Stat, int>(MaxHealthPoints, mHealthGrowthRate),

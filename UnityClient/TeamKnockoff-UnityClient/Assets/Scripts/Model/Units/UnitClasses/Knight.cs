@@ -70,11 +70,9 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) {
 
             InitGrowthRates();
+            InitLevelToSkills();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
-
-            LearnSkill(new Bash());
-            LearnSkill(new Fortify());
         }
 
         public Knight(string unitName) 
@@ -90,15 +88,14 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) {
 
             InitGrowthRates();
+            InitLevelToSkills();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
-
-            LearnSkill(new Bash());
-            LearnSkill(new Fortify());
         }
 
         public Knight(UnitWrapper unitWrapper) : base(unitWrapper) {
             InitGrowthRates();
+            InitLevelToSkills();
         }
 
         public override bool CanUse(Weapon weapon) {
@@ -120,6 +117,12 @@ namespace Assets.Scripts.Model.Units {
                     return false;
             }
         }
+
+        public void InitLevelToSkills() {
+            mLevelToSkills.Add(2, new List<Skill>() { new Bash() });
+            mLevelToSkills.Add(3, new List<Skill>() { new Fortify() });
+        }
+
         public void InitGrowthRates() {
             mHealthGrowthRate = GROWTH_HEALTH;
             mStrenthGrowthRate = GROWTH_STRENGTH;

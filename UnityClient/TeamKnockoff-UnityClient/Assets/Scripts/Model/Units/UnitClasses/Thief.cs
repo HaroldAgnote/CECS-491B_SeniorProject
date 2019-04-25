@@ -70,6 +70,7 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) {
 
             InitGrowthRates();
+            InitLevelToSkills();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
 
@@ -89,14 +90,15 @@ namespace Assets.Scripts.Model.Units {
                   MOVEMENT_RANGE) {
 
             InitGrowthRates();
+            InitLevelToSkills();
             var defaultWeapon = WeaponFactory.instance.GenerateWeapon(DEFAULT_WEAPON);
             EquipWeapon(defaultWeapon);
-
             LearnSkill(new MediumSpeedBoost());
         }
 
         public Thief(UnitWrapper unitWrapper) : base(unitWrapper) {
             InitGrowthRates();
+            InitLevelToSkills();
         }
 
         public override bool CanUse(Weapon weapon) {
@@ -118,6 +120,10 @@ namespace Assets.Scripts.Model.Units {
                     return false;
             }
         }
+
+        public void InitLevelToSkills() {
+        }
+
         public void InitGrowthRates() {
             mHealthGrowthRate = GROWTH_HEALTH;
             mStrenthGrowthRate = GROWTH_STRENGTH;

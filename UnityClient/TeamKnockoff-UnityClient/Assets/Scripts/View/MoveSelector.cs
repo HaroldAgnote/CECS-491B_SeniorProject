@@ -948,7 +948,7 @@ namespace Assets.Scripts.View {
             if (skillPoint == NULL_VECTOR) {
 
                 waitingForSkillMove = true;
-
+                gameViewModel.CombatMode = true;
                 waitingForSkillChoice = false;
                 waitingForAttack = false;
                 unitMenu.SetActive(false);
