@@ -304,6 +304,7 @@ namespace Assets.Scripts.Campaign {
         public void ModifyUnitStats(Unit unit) {
             var modifier = DifficultyToModifier[CurrentCampaignDifficulty];
 
+            unit.MaxHealthPoints.Base = (int) (unit.MaxHealthPoints.Base * modifier);
             unit.Strength.Base = (int) (unit.Strength.Base * modifier);
             unit.Magic.Base = (int) (unit.Magic.Base * modifier);
             unit.Speed.Base = (int) (unit.Speed.Base * modifier);

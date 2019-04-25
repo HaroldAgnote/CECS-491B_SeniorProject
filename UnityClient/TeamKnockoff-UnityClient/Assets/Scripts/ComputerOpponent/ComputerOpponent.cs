@@ -88,11 +88,13 @@ namespace Assets.Scripts.ComputerOpponent
                             if (allAllyUnits.Count() > 0) {
                                 healing = true;
                                 attacking = false;
+                                hasMoved = false;
                                 skillToBeUsed = skill;
                                 Debug.Log("I can heal a unit");
                             } else {
                                 Debug.Log("I cannot heal a unit");
                                 healReadyLocation = NULL_VECTOR;
+                                hasMoved = false;
                                 healing = false;
                             }
                         }
@@ -162,9 +164,11 @@ namespace Assets.Scripts.ComputerOpponent
                     if (attackReadyLocation != NULL_VECTOR) {
                         Debug.Log("Attack location decided!");
                         Debug.Log($"Attacking Unit at ({attackReadyLocation.x}, {attackReadyLocation.y})");
+                        hasMoved = false;
                     } else {
                         Debug.Log("Could not find optimal attack location...");
                         attacking = false;
+                        hasMoved = false;
                     }
                 } else if (healing) {
                     //Determine whether supporting or attacking
@@ -198,8 +202,10 @@ namespace Assets.Scripts.ComputerOpponent
                     if (healReadyLocation != NULL_VECTOR) {
                         Debug.Log("Heal location decided!");
                         Debug.Log($"Healing Unit at ({healReadyLocation.x}, {healReadyLocation.y})");
+                        hasMoved = false;
                     } else {
                         Debug.Log("Could not find optimal heal location...");
+                        hasMoved = false;
                         healing = false;
                     }
                 }
