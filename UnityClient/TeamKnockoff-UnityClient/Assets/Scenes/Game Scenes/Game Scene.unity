@@ -3540,6 +3540,7 @@ MonoBehaviour:
   skillLabel: {fileID: 1457089634}
   luckLabel: {fileID: 327449724}
   moveLabel: {fileID: 1120612822}
+  expHeader: {fileID: 267755279}
   expLabel: {fileID: 49821538}
   lvLabel: {fileID: 993836105}
   selectedUnitSkillsContent: {fileID: 356260042}
@@ -4048,7 +4049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000011899531}
+  m_AnchoredPosition: {x: 0, y: 0.0000070934625}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &356260044
@@ -6734,7 +6735,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000013591871}
+  m_AnchoredPosition: {x: 0, y: 0.000006665811}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &537793000
@@ -26496,6 +26497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 784e983b03799e744b05ef31ba20e97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetUnitInformationBackground: {fileID: 1414811135}
   playerNameLabel: {fileID: 1439301249}
   playerAttackMethodLabel: {fileID: 1372970599}
   playerCurrentHpLabel: {fileID: 1065444655}

@@ -24,6 +24,11 @@ namespace Assets.Scripts.Model.Skills {
             // Change this later
             patient.HealthPoints += HEAL_AMOUNT;
         }
+
+        public override int GetHealAmount(Unit usingUnit, Unit targetUnit) {
+            return HEAL_AMOUNT;
+        }
+
         public override Skill Generate() {
             return new Heal();
         }

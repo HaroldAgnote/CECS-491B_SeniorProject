@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using Assets.Scripts.Model;
@@ -15,6 +16,11 @@ using Assets.Scripts.Model.Units;
 namespace Assets.Scripts.View
 {
     public class CombatForecast : MonoBehaviour {
+        private static Color ALLY_COLOR = Color.green;
+        private static Color ENEMY_COLOR = Color.red;
+        
+        public Image targetUnitInformationBackground;
+
         public TextMeshProUGUI playerNameLabel;
         public TextMeshProUGUI playerAttackMethodLabel;
         public TextMeshProUGUI playerCurrentHpLabel;
@@ -59,6 +65,8 @@ namespace Assets.Scripts.View
             playerPotentialHpLabel.gameObject.SetActive(false);
             playerFollowupPossibleLabel.gameObject.SetActive(false);
 
+            targetUnitInformationBackground.color = ENEMY_COLOR;
+
             enemyNameLabel.text = "";
             enemyAttackMethodLabel.text = "";
             enemyCurrentHpLabel.text = "";
@@ -75,6 +83,8 @@ namespace Assets.Scripts.View
         public void UpdateForecast(Vector2Int attackingUnitNewPosition, Unit playerUnit, Unit enemyUnit) {
             if (playerUnit.PlayerNumber != enemyUnit.PlayerNumber) {
 
+                targetUnitInformationBackground.color = ENEMY_COLOR;
+
                 var defenderPosition = gameViewModel.GetPositionOfUnit(enemyUnit);
                 var defenderAttackPositions = gameViewModel.GetSurroundingLocationsAtPoint(defenderPosition, enemyUnit.MainWeapon.Range);
 
@@ -89,13 +99,22 @@ namespace Assets.Scripts.View
                 enemyDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(playerUnit, enemyUnit)}";
 
                 enemyPotentialHpLabel.gameObject.SetActive(true);
+
+                int enemyHealthLost = 0;
                 if (playerUnit.Speed.Value > enemyUnit.Speed.Value) {
-                    enemyPotentialHpLabel.text = $"{enemyUnit.HealthPoints - (2 * DamageCalculator.GetDamage(playerUnit, enemyUnit))}";
+                    enemyHealthLost = 2 * DamageCalculator.GetDamage(playerUnit, enemyUnit);
                     playerFollowupPossibleLabel.gameObject.SetActive(true);
                 } else {
-                    enemyPotentialHpLabel.text = $"{enemyUnit.HealthPoints - DamageCalculator.GetDamage(playerUnit, enemyUnit)}";
+                    enemyHealthLost = DamageCalculator.GetDamage(playerUnit, enemyUnit);
                     playerFollowupPossibleLabel.gameObject.SetActive(false);
                 }
+
+                if (enemyUnit.HealthPoints - enemyHealthLost <= 0) {
+                    enemyPotentialHpLabel.text = $"0";
+                } else {
+                    enemyPotentialHpLabel.text = $"{enemyUnit.HealthPoints - enemyHealthLost}";
+                }
+
                 playerDefensiveLabel.text = $"DEF {DamageCalculator.GetDefensive(enemyUnit, playerUnit)}";
                 playerCritLabel.text = $"CRT {DamageCalculator.GetCritRate(playerUnit, enemyUnit)}";
 
@@ -105,13 +124,21 @@ namespace Assets.Scripts.View
 
                 playerPotentialHpLabel.gameObject.SetActive(true);
                 if (defenderAttackPositions.Contains(attackingUnitNewPosition)) {
+                    var playerHealthLost = 0;
                     if (enemyUnit.Speed.Value > playerUnit.Speed.Value) {
-                        playerPotentialHpLabel.text = $"{playerUnit.HealthPoints - (2 *DamageCalculator.GetDamage(enemyUnit, playerUnit))}";
+                        playerHealthLost = 2 * DamageCalculator.GetDamage(enemyUnit, playerUnit);
                         enemyFollowupPossibleLabel.gameObject.SetActive(true);
                     } else {
-                        playerPotentialHpLabel.text = $"{playerUnit.HealthPoints - DamageCalculator.GetDamage(enemyUnit, playerUnit)}";
+                        playerHealthLost = DamageCalculator.GetDamage(enemyUnit, playerUnit);
                         enemyFollowupPossibleLabel.gameObject.SetActive(false);
                     }
+
+                    if (playerUnit.HealthPoints - playerHealthLost <= 0) {
+                        playerPotentialHpLabel.text = "0";
+                    } else {
+                        playerPotentialHpLabel.text = $"{playerUnit.HealthPoints - playerHealthLost}";
+                    }
+
                     enemyAttackMethodLabel.text = playerUnit.MainWeapon.Name;
 
                     enemyHitLabel.text = $"HIT {DamageCalculator.GetHitChance(enemyUnit, playerUnit)}";
@@ -133,6 +160,8 @@ namespace Assets.Scripts.View
         public void UpdateForecastWithSkill(Vector2Int attackingUnitNewPosition, Unit playerUnit, Unit targetUnit, SingleTargetSkill skill) {
             if (playerUnit.PlayerNumber != targetUnit.PlayerNumber) {
 
+                targetUnitInformationBackground.color = ENEMY_COLOR;
+
                 var defenderPosition = gameViewModel.GetPositionOfUnit(targetUnit);
                 var defenderAttackPositions = gameViewModel.GetSurroundingLocationsAtPoint(defenderPosition, targetUnit.MainWeapon.Range);
                 var damageSkill = skill as SingleDamageSkill;
@@ -149,14 +178,22 @@ namespace Assets.Scripts.View
 
                 playerPotentialHpLabel.gameObject.SetActive(true);
                 if (defenderAttackPositions.Contains(attackingUnitNewPosition)) {
+                    var playerHealthLost = 0;
                     if (targetUnit.Speed.Value > playerUnit.Speed.Value) {
-                        playerPotentialHpLabel.text = $"{playerUnit.HealthPoints - skill.SkillCost - (2 *DamageCalculator.GetDamage(targetUnit, playerUnit))}";
+                        playerHealthLost = damageSkill.SkillCost + (2 * DamageCalculator.GetDamage(targetUnit, playerUnit));
                         enemyFollowupPossibleLabel.gameObject.SetActive(true);
                     } else {
-                        playerPotentialHpLabel.text = $"{playerUnit.HealthPoints - skill.SkillCost - DamageCalculator.GetDamage(targetUnit, playerUnit)}";
+                        playerHealthLost = damageSkill.SkillCost + DamageCalculator.GetDamage(targetUnit, playerUnit);
                         enemyFollowupPossibleLabel.gameObject.SetActive(false);
                     }
-                    enemyAttackMethodLabel.text = playerUnit.MainWeapon.Name;
+
+                    if (playerUnit.HealthPoints - playerHealthLost <= 0) {
+                        playerPotentialHpLabel.text = "0";
+                    } else {
+                        playerPotentialHpLabel.text = $"{playerUnit.HealthPoints - playerHealthLost}";
+                    }
+
+                    enemyAttackMethodLabel.text = targetUnit.MainWeapon.Name;
 
                     enemyHitLabel.text = $"HIT {DamageCalculator.GetHitChance(targetUnit, playerUnit)}";
                     enemyOffensiveLabel.text = $"OFF {DamageCalculator.GetOffensive(targetUnit)}";
@@ -171,14 +208,59 @@ namespace Assets.Scripts.View
                 }
 
                 enemyNameLabel.text = targetUnit.Name;
-                enemyAttackMethodLabel.text = targetUnit.MainWeapon.Name;
                 enemyCurrentHpLabel.text = $"CUR {targetUnit.HealthPoints}";
 
                 enemyPotentialHpLabel.gameObject.SetActive(true);
-                enemyPotentialHpLabel.text = $"{targetUnit.HealthPoints - damageSkill.GetDamage(playerUnit, targetUnit)}";
+                var enemyHealthLost = damageSkill.GetDamage(playerUnit, targetUnit);
+                if (targetUnit.HealthPoints - enemyHealthLost <= 0) {
+                    enemyPotentialHpLabel.text = $"0";
+                } else {
+                    enemyPotentialHpLabel.text = $"{targetUnit.HealthPoints - damageSkill.GetDamage(playerUnit, targetUnit)}";
+                }
 
                 enemyMaxHpLabel.text = $"MAX {targetUnit.MaxHealthPoints}";
                 enemyDefensiveLabel.text = $"DEF {damageSkill.GetDefensive(playerUnit, targetUnit)}";
+            } else {
+                targetUnitInformationBackground.color = ALLY_COLOR;
+
+                var defenderPosition = gameViewModel.GetPositionOfUnit(targetUnit);
+                var defenderAttackPositions = gameViewModel.GetSurroundingLocationsAtPoint(defenderPosition, targetUnit.MainWeapon.Range);
+                var supportSkill = skill as SingleSupportSkill;
+
+                playerNameLabel.text = playerUnit.Name;
+                playerAttackMethodLabel.text = $"{supportSkill.SkillName}";
+                playerCurrentHpLabel.text = $"CUR {playerUnit.HealthPoints}";
+                playerMaxHpLabel.text = $"MAX {playerUnit.MaxHealthPoints}";
+
+                playerHitLabel.text = $"HIT ";
+                playerOffensiveLabel.text = $"OFF ";
+                playerDefensiveLabel.text = $"DEF ";
+                playerCritLabel.text = $"CRT ";
+
+                playerPotentialHpLabel.gameObject.SetActive(true);
+                playerPotentialHpLabel.text = $"{playerUnit.HealthPoints - skill.SkillCost}";
+
+                enemyNameLabel.text = targetUnit.Name;
+                enemyAttackMethodLabel.text = "";
+                enemyCurrentHpLabel.text = $"CUR {targetUnit.HealthPoints}";
+
+                enemyPotentialHpLabel.gameObject.SetActive(true);
+
+                var targetUnitHealthGain = supportSkill.GetHealAmount(playerUnit, targetUnit);
+                if (targetUnitHealthGain == 0) {
+                    enemyPotentialHpLabel.gameObject.SetActive(false);
+                    enemyPotentialHpLabel.text = $"0";
+                } else {
+                    enemyPotentialHpLabel.gameObject.SetActive(true);
+                    if (targetUnit.HealthPoints + targetUnitHealthGain > targetUnit.MaxHealthPoints.Value) {
+                        enemyPotentialHpLabel.text = $"{targetUnit.MaxHealthPoints.Value}";
+                    } else {
+                        enemyPotentialHpLabel.text = $"{targetUnit.HealthPoints + targetUnitHealthGain}";
+                    }
+                }
+
+                enemyMaxHpLabel.text = $"MAX {targetUnit.MaxHealthPoints}";
+                enemyDefensiveLabel.text = $"DEF ";
             }
         }
 

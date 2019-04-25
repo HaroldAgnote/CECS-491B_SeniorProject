@@ -212,7 +212,9 @@ namespace Assets.Scripts.View {
                     gameViewModel.HoveredSquare = gameViewModel.Squares
                         .SingleOrDefault(sq => sq.Position == cursorPosition);
 
-                    RefreshUnitSquares(gameViewModel.HoveredSquare.Unit);
+                    if (gameViewModel.HoveredSquare != null) {
+                        RefreshUnitSquares(gameViewModel.HoveredSquare.Unit);
+                    }
 
                     if (Input.GetMouseButtonDown(0)) {
                         gameViewModel.SelectedSquare = gameViewModel.Squares

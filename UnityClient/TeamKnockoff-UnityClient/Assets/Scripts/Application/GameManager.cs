@@ -193,7 +193,7 @@ namespace Assets.Scripts.Application {
                             newPlayer = CampaignManager.instance.CampaignPlayerData;
                             newPlayer.Units.Clear();
                         } else {
-                            newPlayer = new Player($"Player {playerNum}", playerNum);
+                            newPlayer = new Player($"Enemy Faction", playerNum);
                         }
                     } else {
                         throw new Exception($"Error setting up Player {playerNum}");
@@ -345,7 +345,7 @@ namespace Assets.Scripts.Application {
         public GameMove GetOtherPlayerMove() {
             while (true) {
 
-                while (view.IsUpdating) { }
+                while (view.IsUpdating || view.HasScreenOverlay) { }
 
                 // Call and return AI Best Move
                 if (gameType == GameType.Singleplayer) {

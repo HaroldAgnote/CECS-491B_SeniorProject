@@ -27,6 +27,7 @@ namespace Assets.Scripts.View {
         public TextMeshProUGUI skillLabel;
         public TextMeshProUGUI luckLabel;
         public TextMeshProUGUI moveLabel;
+        public TextMeshProUGUI expHeader;
         public TextMeshProUGUI expLabel;
         public TextMeshProUGUI lvLabel;
 
@@ -50,8 +51,12 @@ namespace Assets.Scripts.View {
         public void UpdateUnitInformation(Unit unit) {
             if (unit.PlayerNumber == gameViewModel.ControllingPlayer.PlayerNumber) {
                 unitInformationBackground.color = ALLY_COLOR;
+                expHeader.gameObject.SetActive(true);
+                expLabel.gameObject.SetActive(true);
             } else {
                 unitInformationBackground.color = ENEMY_COLOR;
+                expHeader.gameObject.SetActive(false);
+                expLabel.gameObject.SetActive(false);
             }
             unitNameLabel.text = unit.Name;
             unitClassLabel.text = unit.Class;

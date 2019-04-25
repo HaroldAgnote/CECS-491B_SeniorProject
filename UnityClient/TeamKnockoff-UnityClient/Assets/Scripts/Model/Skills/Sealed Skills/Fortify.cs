@@ -60,6 +60,10 @@ namespace Assets.Scripts.Model.Skills {
             return usingUnit.PlayerNumber == targetUnit.PlayerNumber && !targetUnit.UnitEffects.Any(effect => effect.EffectName == FortifyEffect.EFFECT_NAME);
         }
 
+        public override int GetHealAmount(Unit usingUnit, Unit targetUnit) {
+            return 0;
+        }
+
         public override Skill Generate() {
             return new Fortify();
         }

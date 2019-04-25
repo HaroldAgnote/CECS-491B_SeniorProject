@@ -578,6 +578,15 @@ namespace Assets.Scripts.Model.Units {
             mSkills.Add(newSkill);
         }
 
+        public void GainExperience(int flatValue) {
+            mExperiencePoints += flatValue;
+
+            if (ExperiencePoints >= 100) {
+                mExperiencePoints -= 100;
+                LevelUp();
+            }
+        }
+
         public void GainExperience(Unit defendingUnit) {
             const int RATINGTHRESHOLD = 10;
             //if ratingDif is pos, self is stronger than defendingUnit

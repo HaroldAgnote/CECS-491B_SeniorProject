@@ -13,7 +13,7 @@ namespace Assets.Scripts.Model.Skills {
     public class BuffStrength : SingleSupportSkill {
         private const string SKILL_NAME = "Buff Strength";
         private const int SKILL_COST = 1;
-        private const int RANGE = 3;
+        private const int RANGE = 1;
         private const bool TARGET_SELF = false;
 
         public BuffStrength() : base(SKILL_NAME, SKILL_COST, RANGE, TARGET_SELF) { }
@@ -26,6 +26,10 @@ namespace Assets.Scripts.Model.Skills {
             var strengthBoost = new StrengthBoost();
             strengthBoost.ApplyEffect(target);
             target.UnitEffects.Add(strengthBoost);
+        }
+
+        public override int GetHealAmount(Unit usingUnit, Unit targetUnit) {
+            return 0;
         }
 
         public override Skill Generate() {

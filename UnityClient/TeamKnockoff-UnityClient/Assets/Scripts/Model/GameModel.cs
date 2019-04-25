@@ -1618,6 +1618,9 @@ namespace Assets.Scripts.Model {
         /// <param name="move">The GameMove containing the Skill and position it will be used</param>
 
         private SupportSkillMoveResult ApplySingleSupportSkill(GameMove move) {
+
+            const int FLAT_VALUE_EXP_GAIN = 20;
+
             var supportingUnit = GetUnitAtPosition(move.StartPosition);
             var supportedUnit = GetUnitAtPosition(move.EndPosition);
 
@@ -1635,6 +1638,8 @@ namespace Assets.Scripts.Model {
             } else {
                 skillStatus = SupportSkillResult.SupportSkillStatus.Buff;
             }
+
+            supportingUnit.GainExperience(FLAT_VALUE_EXP_GAIN);
 
             // Attack Logic Here
             Debug.Log($"{supportingUnit.Name} uses {move.UsedSkill.SkillName} on {supportedUnit.Name}");
