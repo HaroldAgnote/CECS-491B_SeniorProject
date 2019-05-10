@@ -38,6 +38,10 @@ public class DialogueManager : MonoBehaviour {
         this.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// loads dialogue from text into Dialogue array
+    /// </summary>
+    /// <param name="text"> text to be placed into Dialogue array </param>
     public void LoadDialogue(string text) {
         sentences = new List<Dialogue>();
         this.gameObject.SetActive(true);
@@ -77,6 +81,10 @@ public class DialogueManager : MonoBehaviour {
         StartDialogue();
     }
 
+    /// <summary>
+    /// called every frame during Dialogue Manager's activity
+    /// Right now, it is used to check if AutoText is enabled
+    /// </summary>
     void Update() {
         //if (dialogueText.text == sentences[index].sentence) {
         //    continueButton.SetActive(true);
@@ -89,11 +97,17 @@ public class DialogueManager : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// starts dialogue
+    /// </summary>
     public void StartDialogue() {  
         StopAllCoroutines();
         StartCoroutine(DisplaySentence());
     }
 
+    /// <summary>
+    /// goes to the previous sentence of dialogue array
+    /// </summary>
     public void PrevSentence() {
         if(index > 0) {
             index--;
@@ -101,6 +115,10 @@ public class DialogueManager : MonoBehaviour {
             StartCoroutine(DisplaySentence());
         }
     }
+
+    /// <summary>
+    /// goes to the next sentence of dialogue array
+    /// </summary>
     public void NextSentence() {
         //continueButton.SetActive(false);
         if (index == sentences.Count - 1) {
@@ -126,11 +144,20 @@ public class DialogueManager : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// enables autoText
+    /// TODO: does disable Autotext work?
+    /// </summary>
     public void AutoText() {
         Debug.Log("AutoText clicked");
         isAutoText = true;
     }
 
+    /// <summary>
+    /// displays sentence in a character by character
+    /// needs to return IEnumerator because of asynch in c#
+    /// </summary>
+    /// <returns></returns>
     IEnumerator DisplaySentence() {
         dialogueText.text = "";
         Debug.Log(sentences[index].sentence);
@@ -141,6 +168,9 @@ public class DialogueManager : MonoBehaviour {
         }
     }
     
+    /// <summary>
+    /// skips dialogue scene
+    /// </summary>
     public void SkipDialogue() {
         index = sentences.Count - 1;
         NextSentence();
