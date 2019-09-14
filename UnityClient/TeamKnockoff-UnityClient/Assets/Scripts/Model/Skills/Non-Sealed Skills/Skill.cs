@@ -13,6 +13,9 @@ namespace Assets.Scripts.Model.Skills {
 
         public Skill(string skillName) {
             mSkillName = skillName;
+            // TODO: Matthew
+            // Process Skills.resx resource file and use the name of the skill
+            // to instantiate the description of the skill
         }
 
         public abstract Skill Generate(); 

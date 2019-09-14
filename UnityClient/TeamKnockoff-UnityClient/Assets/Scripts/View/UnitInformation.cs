@@ -85,6 +85,15 @@ namespace Assets.Scripts.View {
                 unitSkillObjects.Add(skillObject);
                 var skillLabel = skillObject.GetComponentInChildren<TextMeshProUGUI>();
                 skillLabel.text = skill.SkillName;
+
+                // TODO: Matthew
+                // Add listener that calls ToolTipView.ShowToolTip
+                // when the mouse hovers over the skill button Game Object
+                // The function call should pass in the skill's description
+
+                // TODO: Matthew
+                // Add listener that calls ToolTipView.HideToolTip
+                // when the mouse exits the area of the skill button Game Object
             }
 
             foreach (var itemObject in unitItemObjects) {
