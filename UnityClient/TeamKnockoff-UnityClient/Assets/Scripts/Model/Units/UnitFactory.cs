@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEngine;
 
 using Assets.Scripts.Model.Tiles;
+using Resources = UnityEngine.Resources;
 
 namespace Assets.Scripts.Model.Units {
     public class UnitFactory : MonoBehaviour {
@@ -88,9 +89,9 @@ namespace Assets.Scripts.Model.Units {
             var genericUnitSpritesResourcePath = $"{RESOURCE_PATH}{genericUnitTextures.name}";
             var temporaryUnitSpritesResourcePath = $"{RESOURCE_PATH}{temporaryUnitTextures.name}";
 
-            campaignUnitSprites = Resources.LoadAll<Sprite>(campaignUnitSpritesResourcePath).ToList();
-            genericUnitSprites = Resources.LoadAll<Sprite>(genericUnitSpritesResourcePath).ToList();
-            temporaryUnitSprites = Resources.LoadAll<Sprite>(temporaryUnitSpritesResourcePath).ToList();
+            campaignUnitSprites = UnityEngine.Resources.LoadAll<Sprite>(campaignUnitSpritesResourcePath).ToList();
+            genericUnitSprites = UnityEngine.Resources.LoadAll<Sprite>(genericUnitSpritesResourcePath).ToList();
+            temporaryUnitSprites = UnityEngine.Resources.LoadAll<Sprite>(temporaryUnitSpritesResourcePath).ToList();
 
             spriteMapper = new Dictionary<string, Sprite>();
 

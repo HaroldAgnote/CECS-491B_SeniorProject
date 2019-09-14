@@ -32,7 +32,7 @@ namespace Assets.Scripts.Model.Tiles {
             public TileFactoryWrapper(Texture2D spriteTexture) {
                 SpriteTexture = spriteTexture;
                 SpriteResourcePath = $"{RESOURCE_PATH}{SpriteTexture.name}";
-                TileSprites = Resources.LoadAll<Sprite>(SpriteResourcePath);
+                TileSprites = UnityEngine.Resources.LoadAll<Sprite>(SpriteResourcePath);
             }
         }
 
